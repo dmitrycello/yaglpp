@@ -31,7 +31,7 @@ using these names. Some of the API functions such as **glDisable**,
 **glEnable**, **glGet**, **glIsEnabled**, and **glPixelStore** are taking the names
 of their constant values. For example:
 
-'''
+```
 	glDepthFunc(func)
 	glDisable(GL_SAMPLE_COVERAGE)
 	glEnable(GL_SCISSOR_TEST)
@@ -39,7 +39,7 @@ of their constant values. For example:
 	glIsEnabled(GL_POLYGON_SMOOTH)
 	glPixelStoref(GL_UNPACK_ROW_LENGTH, length)
 	glfwWindowHint(GLFW_VISIBLE, visible)
-'''
+```
 
 in glpp library become:
 
