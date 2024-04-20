@@ -96,9 +96,7 @@ and 3/3 to represent the OpenGL versions from 2.0 to 3.3 respectively;
 	- The last 3 switches contain the key file paths. You don't have to
 touch them, unless you really need to recalibrate the library path layout.
 
-+------------------+
-|   INSTALLATION   |
-+------------------+
+# INSTALLATION
 
 The installation of glpp library isn't much more complicated than the setup
 of original OpenGL API components. It actually includes those, while
@@ -239,9 +237,7 @@ Note that using Dlls decreases the application file size, and saves the
 computer RAM while running several applications using that Dll, but the
 appropriate Dll must be distributed with the application.
 
-+-----------+
-|   USAGE   |
-+-----------+
+# USAGE
 
 1. To add the application project to the solution, use the same way as for
     the glpp library: in the Solution Explorer right-click the solution
