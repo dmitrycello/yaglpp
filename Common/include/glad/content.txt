@@ -1,0 +1,7 @@
+# Common/include/glad content:
+glad.h
+glad20.h
+glad21.h
+glad30.h
+glad31.h
+glad32.h
