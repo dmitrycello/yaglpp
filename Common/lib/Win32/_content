@@ -1,0 +1,6 @@
+# Common/lib/Win32 content:
+glpp output Win32 Release files
+glfw3.lib: GLWF 3.4 32-bit version
+glfw3_mt.lib: GLWF 3.4 32-bit version
+glfw3dll.lib: GLWF 3.4 32-bit version
+FreeImage.lib: FreeImage 32-bit version
