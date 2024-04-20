@@ -142,18 +142,18 @@ Debug mode, and Windows application in Release mode.
     $(SolutionDir)\Common\src\glad.c <- Source file from GLAD 3.3 archive
 ```
 
-5. From the Solution explorer, right-click the solution name (1st line):
+4. From the Solution explorer, right-click the solution name (1st line):
     Add -> New project..., select <Static Library (C++)>, press Next,
 	choose the name <glpp>, which must be exactly so, press Create.
 	
-6. In the Solution Explorer remove all header and source files (Del).
+5. In the Solution Explorer remove all header and source files (Del).
 	Right-click Header Files: Add -> Existing Item (Shift+Alt+A),
 	Navigate to $(SolutionDir)\Common\include\glpp, select THIS <glpp.h>.
 	Right-click Source Files, navigate the same way and select all .cpp
 	files in the $(SolutionDir)\Common\src\glpp folder. Finally, add the
 	same way to Source Files the $(SolutionDir)\Common\src\glad.c
 
-7. Right-click glpp project name and press Proprties (Alt+Enter). In the
+6. Right-click glpp project name and press Proprties (Alt+Enter). In the
     Properties window set Configuration and Platform to Debug / x64. In
 	the left frame under Configuration Properties set the following options
 	and hit Apply after setting up any of 4 following configurations.
@@ -199,7 +199,7 @@ Debug mode, and Windows application in Release mode.
 		    'Not Using Precompiled Headers'
 ```
 
-8. Close the Properties window. Now open any of library's source files,
+7. Close the Properties window. Now open any of library's source files,
    so the IDA focuses on glpp project within the solution. Select any of
    the 4 configurations on the top of IDE. Build the library.
 
