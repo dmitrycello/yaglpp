@@ -1,2 +1,3 @@
 # Common/bin content:
-under development
+FreeImage.dll: 64-bit version of FreeImage library from "FreeImage3180Win32Win64.zip"
+glfw3.dll: 64-bit version of GLFW library from "glfw-3.4.bin.WIN64.zip"
