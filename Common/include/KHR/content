@@ -1,2 +1,2 @@
 # Common/include/KHR content:
-khrplatform.h
+khrplatform.h: --profile="core" --api="gl=3.3" --generator="c" --spec="gl" --extensions=""
