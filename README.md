@@ -6,8 +6,8 @@ allowing to develop the OpenGL applications in less complicated manner with
 minimal overhead. It requires the C++ 11 compiler or later, it also
 impliments the concept of SAL (Microsoft Source Code Annotation Language)
 in Debug build only, any warnings in the Release mode should be ignored. At
-the moment, it is developped for Windows OS using Visual Studio 2019. The
-library works with GLAD version from 2.0 to 3.3, and GLFW version 3.4.
+the moment, it is developped for Windows OS using Visual Studio 2019+. The
+library works with GLAD version from 2.0 to 3.3, and GLFW version 3.4+.
 The used GLAD version affects the build, hiding the unsupported API procs.
 C++ allows to use the overloaded functions, which is much easier than to
 find the every exact API function, such as <glUniform3fv>. Usage of C++
