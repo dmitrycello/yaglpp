@@ -10,7 +10,7 @@ the moment, it is developped for Windows OS using Visual Studio 2019+. The
 library works with GLAD version from 2.0 to 3.3, and GLFW version 3.4+.
 The used GLAD version affects the build, hiding the unsupported API procs.
 C++ allows to use the overloaded functions, which is much easier than to
-find the every exact API function, such as [glUniform3fv]. Usage of C++
+find the every exact API function, such as **glUniform3fv**. Usage of C++
 classes makes the OpenGL programming more compact, clear and stable. Every
 call to the API function in the library is provided with the appropriate
 error checking, which has an effect only in Debug build. The Release build
@@ -18,17 +18,17 @@ attempts to impliment the inline calls, depending on the compiler setting.
 
 The library functions are defined within gl:: and glfw:: namespaces for
 GLAD and GLFW API functions respectively. The few helper classes, such as
-<StbImage>, reside in the global namespace. The API functions are grouped
+**StbImage**, reside in the global namespace. The API functions are grouped
 around the objects, and the API constants are grouped around the enum
 classes. The original API names are carefully preserved, except very rare
-cases (e.g. <BufferTexture> is a texture, but <TextureBuffer> is a buffer).
+cases (e.g. **BufferTexture** is a texture, but **TextureBuffer** is a buffer).
 The API name prefixes gl and glwf are stripped, and the camil-case roule is
 applied. For the constant names, every underscore symbol is used as a word
 delimiter. Such an approach helps learning the original API symbols for
 potential future back switching to OpenGL C programming. The underscore at
 the beginning of the name means a private assignment, you should NOT be
-using these names. Some of the API functions such as <glDisable>,
-<glEnable>, <glGet>, <glIsEnabled>, and <glPixelStore> are taking the names
+using these names. Some of the API functions such as **glDisable**,
+**glEnable**, **glGet**, **glIsEnabled**, and **glPixelStore** are taking the names
 of their constant values. For example:
 
 	glDepthFunc(func)
@@ -49,11 +49,11 @@ in glpp library become:
 	gl::setUnpackRowLength(length)
 	glfw::setVisible(visible)
 
-If you place using namespace <..> directives, you can bypass the gl:: and
+If you place **using namespace** directives, you can bypass the gl:: and
 glfw:: prefixes, but keeping them is helpful while managing large projects.
 Some of the functions are duplicated as a static members of the classes, it
 helps to find them on the context basis. The global symbols starting with
-<GLPP_> are preserved by the library. The most valuable library's feature
+**GLPP_** are preserved by the library. The most valuable library's feature
 is the "lasy" creation and binding concept. It means, the OpenGL object is
 created and binded only when it is required. The creation of glpp class
 object does not mean the OpenGL object immediate creation or binding. The
@@ -76,33 +76,33 @@ and this is the 18's overloaded member.
 
 The swithes following #pragma once directive affect the build of the
 library. The first six could be commented, the others may only be altered:
-	- Switches <GLPP_COCOA_CHDIR_RESOURCES>, <GLPP_COCOA_MENUBAR> and
-<GLPP_JOYSTICK_HAT_BUTTONS> are the GLFW flags set at the initialization,
+	- Switches **GLPP_COCOA_CHDIR_RESOURCES**, **GLPP_COCOA_MENUBAR** and
+**GLPP_JOYSTICK_HAT_BUTTONS** are the GLFW flags set at the initialization,
 they are on by default;
-	- Commenting the <GLPP_NO_AFX_LAYOUT> switch will transform the glpp
+	- Commenting the **GLPP_NO_AFX_LAYOUT** switch will transform the glpp
 into the AFX-like environment, without the main function. Instead, you have
 to inherit a class from ThreadWnd, and overwrite its virtual functions.
 Otherwise, classical layout with the main function is preserved;
-	- Commenting the <GLPP_NO_GLFW_LEGACY> switch allows to build glpp
+	- Commenting the **GLPP_NO_GLFW_LEGACY** switch allows to build glpp
 with GLFW v3.3.10, the latest supporting Windows XP. In this case, some
 functions and constants of the recent GLFW library become unavailable;
-	- When commenting the <GLPP_FREEIMAGE_LIB> switch, the FreeImage
+	- When commenting the **GLPP_FREEIMAGE_LIB** switch, the FreeImage
 class won't be included in the build. This library is no longer maintained,
 but can deal with more formats compared to included StbImage;
-	- The <GLPP_CONTEXT_VERSION_MAJOR> and <GLPP_CONTEXT_VERSION_MINOR>
+	- The **GLPP_CONTEXT_VERSION_MAJOR** and **GLPP_CONTEXT_VERSION_MINOR**
 switches indicate the minimum supporeted OpenGL context verion of the
 library. Accepted combination of these values are: 2/0, 2/1, 3/0, 3/1, 3/2
 and 3/3 to represent the OpenGL versions from 2.0 to 3.3 respectively;
 	- The last 3 switches contain the key file paths. You don't have to
 touch them, unless you really need to recalibrate the library path layout.
 
-# INSTALLATION
+## INSTALLATION
 
 The installation of glpp library isn't much more complicated than the setup
 of original OpenGL API components. It actually includes those, while
 #pragma comments sets the linking of all libraries. Once installation is
 complete, the user no longer has to set it up in project proprieties, just
-include THIS header <glpp.h> in the source file. The library must be built
+include THIS header **glpp.h** in the source file. The library must be built
 within the application project's solution, it helps understanding the way
 the library works. The path layout can be different, but it is advised to
 use all suggested paths (at least for the first time). The offered setup
@@ -111,28 +111,27 @@ Debug mode, and Windows application in Release mode.
 
 1. Download the required OpenGL components from the Internet:	
     A. GLAD archive generated on https://glad.dav1d.de
-	Choose Specification <OpenGL>, Profile <Core>, API: <gl> set to
-		<Version 3.3>, Keep <gles1>, <gles2> and <glsc2> as <None>,
+	Choose Specification OpenGL, Profile Core, API: gl set to Version 3.3, Keep gles1, gles2 and glsc2 as None,
 		Do not select any extension!
     B. GLFW archives v3.4 or later from https://www.glfw.org/download
 	    64-bit Windows binaries, 32-bit Windows binaries
 		Older versions are here: https://github.com/glfw/glfw/releases
     C. GLM header pack v1.0.1 or later from https://github.com/g-truc/glm
-	The header files (.hpp/.h) from <glm> subfolder
+	The header files (.hpp/.h) from glm subfolder
     D. stb_image library from https://github.com/nothings/stb/tree/master
 	It is important to use the specific versions of files. Every newer
 		version of a file requires additional testings. If there is no such
 		version, try using newer version (it usually works), or get the one
-		preserved in distributed <Common.7z> archive:
-		<stb_image.h> v2.29
-		<stb_image_resize2.h> v2.06
-		<stb_image_write.h> v1.16
+		preserved in Common subfolders:
+		**stb_image.h** v2.29
+		**stb_image_resize2.h** v2.06
+		**stb_image_write.h** v1.16
     E. FreeImage library (optional) from https://freeimage.sourceforge.io
 	The only DLL distribution is supported [WIN32/WIN64]
 	
 2. Create a new solution for the main project:
     File -> New -> Project... (Ctrl+Shift+N)
-    Choose any name and path, e.g. <OpenGL> on the appropriate drive.
+    Choose any name and path, e.g. OpenGL on the appropriate drive.
 
 3. Within the solution directory create a folder named 'Common'. Put all
     unpacked components of the library in following sub-directories:
@@ -213,15 +212,15 @@ Debug mode, and Windows application in Release mode.
    the 4 configurations on the top of IDE. Build the library.
 
 The library supports OpenGL versions 2.0 to 3.3. To downgrade the default
-version (3.3), you must generate a new GLAD archive, rename its <glad.h>
-file to <gladXX.h> and move it into <glad> directory, do not use other
+version (3.3), you must generate a new GLAD archive, rename its **glad.h**
+file to **gladXX.h** and move it into <glad> directory, do not use other
 files from the downgraded archives, keep the files from v3.3. The XX is
 the number of GLAD version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2.
 The context version control could be great for compatible coding. It is
-recommended to generate all earlier versions of <glad.h> from 2.0 to 3.2
-with <Core> profile, no extension selected, and to place them into <glad>
-directory. Then you just need to change the <GLPP_CONTEXT_VERSION_MAJOR>
-and <GLPP_CONTEXT_VERSION_MINOR> switches. Remember to rebuild the libeary
+recommended to generate all earlier versions of **glad.h** from 2.0 to 3.2
+with **Core** profile, no extension selected, and to place them into **glad**
+directory. Then you just need to change the **GLPP_CONTEXT_VERSION_MAJOR**
+and **GLPP_CONTEXT_VERSION_MINOR** switches. Remember to rebuild the libeary
 to make any changes come into effect. But to learn OpenGL, always stick to
 default version 3.3!
 
@@ -232,12 +231,12 @@ Step Into the function, you will get an unpleasant screen '.pdb not found',
 it is because the .lib file does not have the right path of the source
 files. While using Dll version, the function is simply stepped out. When
 compiling the final version of your project, you may switch to the Static
-GLFW build by setting the <GLPP_GLFW_LIB> switch to glfw3.lib/glfw3_mt.lib.
+GLFW build by setting the **GLPP_GLFW_LIB** switch to glfw3.lib/glfw3_mt.lib.
 Note that using Dlls decreases the application file size, and saves the
 computer RAM while running several applications using that Dll, but the
 appropriate Dll must be distributed with the application.
 
-# USAGE
+## USAGE
 
 1. To add the application project to the solution, use the same way as for
     the glpp library: in the Solution Explorer right-click the solution
@@ -264,7 +263,7 @@ appropriate Dll must be distributed with the application.
 		    'Console (/SUBSYSTEM:CONSOLE)'
 	
 	Release / x64 (EXE):
-	Debugging -> Environment -> <Edit...>
+	Debugging -> Environment -> **Edit...**
 			In the first edit box enter the line and hit Ok:
 			path=%path%;$(SolutionDir)\Common\bin\
 	    VC++ Directories -> Include Directories
@@ -277,7 +276,7 @@ appropriate Dll must be distributed with the application.
 		    mainCRTStartup
 
 	Debug / Win32 (EXE):
-	Debugging -> Environment -> <Edit...>
+	Debugging -> Environment -> **Edit...**
 			In the first edit box enter the line and hit Ok:
 			path=%path%;$(SolutionDir)\Common\bin\Win32\
 	    VC++ Directories -> Include Directories
@@ -288,7 +287,7 @@ appropriate Dll must be distributed with the application.
 		    'Console (/SUBSYSTEM:CONSOLE)'
 
 	Release / Win32 (EXE):
-	Debugging -> Environment -> <Edit...>
+	Debugging -> Environment -> **Edit...**
 			In the first edit box enter the line and hit Ok:
 			path=%path%;$(SolutionDir)\Common\bin\Win32\
 	    VC++ Directories -> Include Directories
