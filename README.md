@@ -31,6 +31,7 @@ using these names. Some of the API functions such as **glDisable**,
 **glEnable**, **glGet**, **glIsEnabled**, and **glPixelStore** are taking the names
 of their constant values. For example:
 
+'''
 	glDepthFunc(func)
 	glDisable(GL_SAMPLE_COVERAGE)
 	glEnable(GL_SCISSOR_TEST)
@@ -38,9 +39,11 @@ of their constant values. For example:
 	glIsEnabled(GL_POLYGON_SMOOTH)
 	glPixelStoref(GL_UNPACK_ROW_LENGTH, length)
 	glfwWindowHint(GLFW_VISIBLE, visible)
+'''
 
 in glpp library become:
 
+'''
 	gl::depthFunc(func)
 	gl::disableSampleCoverage()
 	gl::enableScissorTest()
@@ -48,6 +51,7 @@ in glpp library become:
 	gl::isPolygonSmooth()
 	gl::setUnpackRowLength(length)
 	glfw::setVisible(visible)
+'''
 
 If you place **using namespace** directives, you can bypass the gl:: and
 glfw:: prefixes, but keeping them is helpful while managing large projects.
@@ -304,6 +308,7 @@ appropriate Dll must be distributed with the application.
 	name it as 'main.cpp' or other, press Add
 	
 5. In opened file type the minimal glpp application code:
+'''
 	// main.cpp
 	#include <glpp/glpp.h>
 	int main(int argc, char** argv)
@@ -319,8 +324,9 @@ appropriate Dll must be distributed with the application.
 		}
 		return 0;
 	}
-
-6. To overload window events, create new window class before main function:
+'''
+7. To overload window events, create new window class before main function:
+'''
 	// main.cpp
 	class LearnOpenGL : public glfw::Window
 	{
@@ -330,8 +336,9 @@ appropriate Dll must be distributed with the application.
 			gl::viewport(0, 0, width, height);
 		}
 	};
-
-7. And lastly, the example of the library usage in AFX-like layout:
+'''
+9. And lastly, the example of the library usage in AFX-like layout:
+'''
 	// main.cpp
 	class GLApplication : public glfw::ThreadWnd
 	{
@@ -347,3 +354,4 @@ appropriate Dll must be distributed with the application.
 		}
 	};
 	GLApplication glApplication;
+'''
