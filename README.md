@@ -10,7 +10,7 @@ the moment, it is developped for Windows OS using Visual Studio 2019+. The
 library works with GLAD version from 2.0 to 3.3, and GLFW version 3.4+.
 The used GLAD version affects the build, hiding the unsupported API procs.
 C++ allows to use the overloaded functions, which is much easier than to
-find the every exact API function, such as <glUniform3fv>. Usage of C++
+find the every exact API function, such as [glUniform3fv]. Usage of C++
 classes makes the OpenGL programming more compact, clear and stable. Every
 call to the API function in the library is provided with the appropriate
 error checking, which has an effect only in Debug build. The Release build
