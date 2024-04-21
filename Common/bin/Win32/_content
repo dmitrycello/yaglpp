@@ -1,3 +1,0 @@
-# Common/bin/Win32 content:
-FreeImage.dll: 32-bit version of FreeImage library from "FreeImage3180Win32Win64.zip"
-glfw3.dll: 32-bit version of GLFW library from "glfw-3.4.bin.WIN32.zip"
