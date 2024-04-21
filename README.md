@@ -63,15 +63,15 @@ The installation of glpp library isn't much more complicated than the setup of o
 
 2. Create a new solution for the main project: **`File -> New -> Project... (Ctrl+Shift+N)`**:
 
-![01.png](assets/01.png)
+![01.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/01.png)
 
 Select **`Blanc Solution`**, hit **`Next`**:
 
-![02.png](assets/02.png)
+![02.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/02.png)
 
 Choose any name and path to solution, e.g. OpenGL on the appropriate drive, hit **`Create`**:
 
-![03.png](assets/03.png)
+![03.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/03.png)
 
 3. Within the solution directory create a folder named 'Common'. Put all unpacked components of the library in following sub-directories:
 ```
