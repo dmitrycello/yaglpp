@@ -60,9 +60,15 @@ The installation of glpp library isn't much more complicated than the setup of o
 		+ **stb_image_write.h** v1.16
 	- [FreeImage](https://freeimage.sourceforge.io) library (optional). The only DLL distribution is supported [WIN32/WIN64].
 	
-2. Create a new solution for the main project: **`File -> New -> Project... (Ctrl+Shift+N)`**. ![01.png](assets/01.png) Choose any name and path, e.g. OpenGL on the appropriate drive. ![02.png](assets/02.png)
+2. Create a new solution for the main project: **`File -> New -> Project... (Ctrl+Shift+N)`**.
 
-5. Within the solution directory create a folder named 'Common'. Put all
+![01.png](assets/01.png)
+
+Choose any name and path, e.g. OpenGL on the appropriate drive.
+
+![02.png](assets/02.png)
+
+3. Within the solution directory create a folder named 'Common'. Put all
     unpacked components of the library in following sub-directories:
 ```
     $(SolutionDir)\Common\bin <- GLFW and FreeImage 64-bit Dlls
