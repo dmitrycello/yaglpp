@@ -6,10 +6,9 @@ It requires the C++ 11 compiler or later, it also impliments the concept of SAL 
 
 The library works with GLAD version from 2.0 to 3.3, and GLFW version 3.4+. The used GLAD version affects the build, hiding the unsupported API functions. C++ allows to use the overloaded functions, which is much easier than to find the every exact API function, such as **`glUniform3fv`**. Usage of C++ classes makes the OpenGL programming more compact, clear and stable. Every call to the API function in the library is provided with the appropriate error checking, which has an effect only in Debug build. The Release build attempts to impliment the inline calls, depending on the compiler setting.
 
-The library functions are defined within ***gl::*** and ***glfw::*** namespaces for GLAD and GLFW API functions respectively. The few helper classes, such as ***StbImage***, reside in the global namespace. The API functions are grouped around the objects, and the API constants are grouped around the enum classes. The original API names are carefully preserved, except very rare cases (e.g. ***BufferTexture*** is a texture, but ***TextureBuffer*** is a buffer).
+The library functions are defined within **`gl::`** and **`glfw::`** namespaces for GLAD and GLFW API functions respectively. The few helper classes, such as **`StbImage`**, reside in the global namespace. The API functions are grouped around the objects, and the API constants are grouped around the enum classes. The original API names are carefully preserved, except very rare cases (e.g. **`BufferTexture`** is a texture, but **`TextureBuffer`** is a buffer).
 
-The API name prefixes gl and glwf are stripped, and the camil-case roule is applied. For the constant names, every underscore symbol is used as a word delimiter. Such an approach helps learning the original API symbols for potential switching to OpenGL C programming. The underscore at the beginning of the name means a private assignment, you should NOT be using these names. Some of the API functions such as ***glDisable***, ***glEnable***, ***glGet***, ***glIsEnabled***, and ***glPixelStore*** are used with the names of their constant values. For example:
-
+The API name prefixes gl and glwf are stripped, and the camil-case roule is applied. For the constant names, every underscore symbol is used as a word delimiter. Such an approach helps learning the original API symbols for potential switching to OpenGL C programming. The underscore at the beginning of the name means a private assignment, you should NOT be using these names. Some of the API functions such as **`glDisable`**, **`glEnable`**, **`glGet`**, **`glIsEnabled`**, and **`glPixelStore`** are used with the names of their constant values. For example:
 ```
 glDepthFunc(func)
 glDisable(GL_SAMPLE_COVERAGE)
@@ -31,7 +30,7 @@ gl::setUnpackRowLength(length)
 glfw::setVisible(visible)
 ```
 
-You can bypass the **gl::** and **glfw::** prefixes with **using namespace** directives, but it is advised to keep them at least while learning the API. The prefixes will also prevent name conflict while managing large projects. Some of the functions are duplicated as a static members of a class, it helps to find them on the context basis. The global symbols starting with **GLPP_** are preserved by the library.
+You can bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them at least while learning the API. The prefixes will also prevent name conflict while managing large projects. Some of the functions are duplicated as a static members of a class, it helps to find them on the context basis. The global symbols starting with **`GLPP_`** are preserved by the library.
 
 The most valuable library's feature is the ***"lasy" creation and binding concept***. It means, the OpenGL object is created and binded only when it is required. The creation of glpp class object does not mean the OpenGL object immediate creation or binding. The appropriate functions for creation and bindind are no longer needed, but still preserved to allow the programmer to create or bind the OpenGL object at anytime. The object status is saved in thread local memory, which makes the library thread safe.
 
