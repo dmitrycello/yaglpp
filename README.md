@@ -50,7 +50,7 @@ The swithes following **`#pragma once`** directive in the **`glpp.h`** file affe
 
 The installation of glpp library isn't much more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** sets the linking of all libraries. Once installation is complete, the user no longer has to set it up in project proprieties, just include the **`glpp.h`** file in your source. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is advised to use all suggested paths (at least for the first time). The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
-1. Download the required OpenGL components from the Internet:	
+**`1`**. Download the required OpenGL components from the Internet. You may skip this step, if you decide to use the files from this repository, in which case you only need to download ZIP archive (big green **`Code`** button on the main repository page) and extract the whole **`Common`** subdirectory, create solution (step 2), move this subdirectory into solution directory, and proceed to step 4. But it is still recommended to download all components from the Internet to get  the most up to date versions:	
 	- ***GLAD*** archive generated on [https://glad.dav1d.de](https://glad.dav1d.de). Choose Specification **`OpenGL`**, Profile **`Core`**, API **`gl`** set to **`Version 3.3`**, Keep gles1, gles2 and glsc2 as **`None`**. Do not select any extension!
 	- ***GLFW*** archives v3.4 or later from [https://www.glfw.org/download](https://www.glfw.org/download) the 64-bit and 32-bit Windows binaries. Older versions are here: [https://github.com/glfw/glfw/releases](https://github.com/glfw/glfw/releases).
 	- ***GLM*** pack v1.0.1 or later from [https://github.com/g-truc/glm](https://github.com/g-truc/glm).
@@ -60,9 +60,7 @@ The installation of glpp library isn't much more complicated than the setup of o
 		+ **stb_image_write.h** v1.16
 	- ***FreeImage*** library (optional) from [https://freeimage.sourceforge.io](https://freeimage.sourceforge.io). The only DLL distribution is supported [WIN32/WIN64].
 	
-2. Create a new solution for the main project:
-    File -> New -> Project... (Ctrl+Shift+N)
-    Choose any name and path, e.g. OpenGL on the appropriate drive.
+**`2`**. Create a new solution for the main project: **`File -> New -> Project... (Ctrl+Shift+N)`**. Choose any name and path, e.g. OpenGL on the appropriate drive.
 
 3. Within the solution directory create a folder named 'Common'. Put all
     unpacked components of the library in following sub-directories:
