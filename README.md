@@ -36,9 +36,9 @@ The most valuable library's feature is the **`"lasy" creation and binding concep
 
 Every methode or enum member in the library is provided with the comment shown by the IntelliSense with the description, parameter list and return value. So it could be a nice way to briefly recap what the function does, instead of going online time after time. All information is taken from [Khronos website](https://registry.khronos.org/OpenGL-Refpages/gl4/).
 
-If you don't know the function, you should visit this website to read the whole dedicated info. If the comment starts with the number in parentheses, it means either the minimum supported OpenGL version (2.1-3.3), or the number of overloaded method (1-x). If the version is missing, OpenGL 2.0 support is assumed. For example, **`(3.0) (18)`** means OpenGL 3.0 is required, and this is the 18's overloaded member.
+If you don't know the function, you should visit this website to read the whole dedicated info. If the comment starts with the number in parentheses, it means either the minimum supported OpenGL version (2.1-3.3), or the number of overloaded method (1-x). If the version is missing, OpenGL 2.0 support is assumed. For example, if the comment starts with **`(3.0) (18)`** , it means that OpenGL 3.0 is required, and this is the 18's overloaded member.
 
-The swithes following #pragma once directive affect the build of the library. The first six could be commented, the others may only be altered:
+The swithes following **`#pragma once`** directive in the **`glpp.h`** file affect the build of the library. The first six could be commented, the others may only be altered:
 - Switches **`GLPP_COCOA_CHDIR_RESOURCES`**, **`GLPP_COCOA_MENUBAR`** and **`GLPP_JOYSTICK_HAT_BUTTONS`** are the GLFW flags set at the initialization, they are on by default;
 - Commenting the **`GLPP_NO_AFX_LAYOUT`** switch will transform the glpp into the AFX-like environment, without the main function. Instead, you have to inherit a class from ThreadWnd, and overwrite its virtual functions. Otherwise, classical layout with the main function is preserved;
 - Commenting the **`GLPP_NO_GLFW_LEGACY`** switch allows to build glpp with GLFW v3.3.10, the latest version supporting Windows XP. In this case, some functions and constants of the recent GLFW library become unavailable;
@@ -48,16 +48,7 @@ The swithes following #pragma once directive affect the build of the library. Th
 
 ## INSTALLATION
 
-The installation of glpp library isn't much more complicated than the setup
-of original OpenGL API components. It actually includes those, while
-#pragma comments sets the linking of all libraries. Once installation is
-complete, the user no longer has to set it up in project proprieties, just
-include THIS header **glpp.h** in the source file. The library must be built
-within the application project's solution, it helps understanding the way
-the library works. The path layout can be different, but it is advised to
-use all suggested paths (at least for the first time). The offered setup
-supports x64 and Win32 platforms, producing the console application in
-Debug mode, and Windows application in Release mode.
+The installation of glpp library isn't much more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** sets the linking of all libraries. Once installation is complete, the user no longer has to set it up in project proprieties, just include the **`glpp.h`** file in your source. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is advised to use all suggested paths (at least for the first time). The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
 1. Download the required OpenGL components from the Internet:	
     A. GLAD archive generated on https://glad.dav1d.de
