@@ -73,7 +73,7 @@ Choose any name and path to solution, e.g. OpenGL on the appropriate drive, hit 
 
 ![03.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/03.png)
 
-3. Within the solution directory create a folder named 'Common'. Put all unpacked components of the library in following sub-directories:
+3. Within the solution directory create a folder named 'Common'. Put all unpacked components of the library in following subdirectories:
 ```
     $(SolutionDir)\Common\bin <- GLFW and FreeImage 64-bit Dlls
     $(SolutionDir)\Common\bin\Win32 <- GLFW and FreeImage 32-bit Dlls
