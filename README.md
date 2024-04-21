@@ -58,8 +58,8 @@ The installation of glpp library isn't much more complicated than the setup of o
 		+ **stb_image.h** v2.29
 		+ **stb_image_resize2.h** v2.06
 		+ **stb_image_write.h** v1.16
-	- [FreeImage](https://freeimage.sourceforge.io) library (optional). The only DLL distribution is supported [WIN32/WIN64].
-	
+	- [FreeImage](https://freeimage.sourceforge.io) library (optional). The only DLL distribution is supported [WIN32/WIN64]. The project is not being updated since 2015, so if you decide not to include it, make sure you comment the **`GLPP_FREEIMAGE_LIB`** switch in the **`glpp.h`** file.
+
 2. Create a new solution for the main project: **`File -> New -> Project... (Ctrl+Shift+N)`**:
 
 ![01.png](assets/01.png)
@@ -77,10 +77,10 @@ Choose any name and path to solution, e.g. OpenGL on the appropriate drive, hit 
     $(SolutionDir)\Common\bin <- GLFW and FreeImage 64-bit Dlls
     $(SolutionDir)\Common\bin\Win32 <- GLFW and FreeImage 32-bit Dlls
     $(SolutionDir)\Common\include\glpp <- glpp include folder
-    $(SolutionDir)\Common\include\glad <- Subfolder from GLAD 3.3 archive
+    $(SolutionDir)\Common\include\glad <- Subfolder from GLAD archive
     $(SolutionDir)\Common\include\GLFW <- 2 GLFW include headers
     $(SolutionDir)\Common\include\glm <- The whole <glm> subfolder
-    $(SolutionDir)\Common\include\KHR <- Subfolder from GLAD 3.3 archive
+    $(SolutionDir)\Common\include\KHR <- Subfolder from GLAD archive
     $(SolutionDir)\Common\include\stb <- 3 stb_image headers
     $(SolutionDir)\Common\include\FreeImage.h <- Single FreeImage header
     $(SolutionDir)\Common\lib <- GLFW, FreeImage 64-bit Libs
@@ -88,7 +88,7 @@ Choose any name and path to solution, e.g. OpenGL on the appropriate drive, hit 
     $(SolutionDir)\Common\lib\Win32 <- GLFW, FreeImage 32-bit Libs
     $(SolutionDir)\Common\lib\Win32\Debug <- Empty, glpp 32-bit Dbg output
     $(SolutionDir)\Common\src\glpp <- glpp source folder
-    $(SolutionDir)\Common\src\glad.c <- Source file from GLAD 3.3 archive
+    $(SolutionDir)\Common\src\glad.c <- Source file from GLAD archive
 ```
 
 4. From the Solution explorer, right-click the solution name (1st line):
