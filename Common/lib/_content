@@ -1,6 +1,0 @@
-# Common/lib content:
-glpp output Win64 Release .lib files
-FreeImage.lib: FreeImage 64-bit version
-glfw3.lib: GLFW 3.4 64-bit version
-glfw3_mt.lib: GLFW 3.4 64-bit version
-glfw3dll.lib: GLFW 3.4 64-bit version
