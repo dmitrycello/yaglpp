@@ -1,25 +1,14 @@
 # glpp: OpenGL C++ extension library 24.4.1
 
-This project is an attempt to develop a C++ OpenGL library, which could combine the API calls around the C++ objects.  Initially, its main goal was to help learning GLAD/GLFW API, but it definatelly could to be used as an efficient tool, allowing to develop the OpenGL applications in less complicated manner with minimal overhead.
+This project is an attempt to develop a C++ OpenGL library, combining the API calls around the C++ objects. Initially, its main goal was to help learning GLAD/GLFW API, but it definatelly could to be used as an efficient tool, allowing to develop the OpenGL applications in less complicated manner with minimal overhead.
 
-It requires the C++ 11 compiler or later, it also impliments the concept of SAL (Microsoft Source Code Annotation Language) in Debug build only, any warnings in the Release mode should be ignored. At the moment, it is developped for Windows OS using Visual Studio 2019+. The library works with GLAD version from 2.0 to 3.3, and GLFW version 3.4+. The used GLAD version affects the build, hiding the unsupported API procs. C++ allows to use the overloaded functions, which is much easier than to find the every exact API function, such as **glUniform3fv**.
+It requires the C++ 11 compiler or later, it also impliments the concept of SAL (Microsoft Source Code Annotation Language) in Debug build only, any warnings in the Release mode should be ignored. At the moment, it is developped for Windows OS only using Visual Studio 2019+.
 
-Usage of C++ classes makes the OpenGL programming more compact, clear and stable. Every call to the API function in the library is provided with the appropriate error checking, which has an effect only in Debug build. The Release build attempts to impliment the inline calls, depending on the compiler setting.
+The library works with GLAD version from 2.0 to 3.3, and GLFW version 3.4+. The used GLAD version affects the build, hiding the unsupported API functions. C++ allows to use the overloaded functions, which is much easier than to find the every exact API function, such as **glUniform3fv**. Usage of C++ classes makes the OpenGL programming more compact, clear and stable. Every call to the API function in the library is provided with the appropriate error checking, which has an effect only in Debug build. The Release build attempts to impliment the inline calls, depending on the compiler setting.
 
-The library functions are defined within **gl::** and **glfw::** namespaces for
-GLAD and GLFW API functions respectively. The few helper classes, such as
-**StbImage**, reside in the global namespace. The API functions are grouped
-around the objects, and the API constants are grouped around the enum
-classes. The original API names are carefully preserved, except very rare
-cases (e.g. **BufferTexture** is a texture, but **TextureBuffer** is a buffer).
-The API name prefixes gl and glwf are stripped, and the camil-case roule is
-applied. For the constant names, every underscore symbol is used as a word
-delimiter. Such an approach helps learning the original API symbols for
-potential future back switching to OpenGL C programming. The underscore at
-the beginning of the name means a private assignment, you should NOT be
-using these names. Some of the API functions such as **glDisable**,
-**glEnable**, **glGet**, **glIsEnabled**, and **glPixelStore** are used with the names
-of their constant values. For example:
+The library functions are defined within **gl::** and **glfw::** namespaces for GLAD and GLFW API functions respectively. The few helper classes, such as **StbImage**, reside in the global namespace. The API functions are grouped around the objects, and the API constants are grouped around the enum classes. The original API names are carefully preserved, except very rare cases (e.g. **BufferTexture** is a texture, but **TextureBuffer** is a buffer).
+
+The API name prefixes gl and glwf are stripped, and the camil-case roule is applied. For the constant names, every underscore symbol is used as a word delimiter. Such an approach helps learning the original API symbols for potential switching to OpenGL C programming. The underscore at the beginning of the name means a private assignment, you should NOT be using these names. Some of the API functions such as **glDisable**, **glEnable**, **glGet**, **glIsEnabled**, and **glPixelStore** are used with the names of their constant values. For example:
 
 ```
 	glDepthFunc(func)
