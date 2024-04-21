@@ -1,5 +1,5 @@
 # glpp: OpenGL C++ extension library 24.4.1
-## (still under development, currently solving formatting issues, adding pics etc.)
+## (manual under development, currently solving formatting issues, adding pics etc.)
 
 This project is an attempt to develop a C++ OpenGL library, combining the API calls within the C++ objects. Initially, its main goal was to help learning GLAD/GLFW API, but it definatelly could to be used as an efficient tool, allowing to develop the OpenGL applications in less complicated manner with minimal overhead.
 
