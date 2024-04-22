@@ -69,7 +69,7 @@ The installation of glpp library isn't much more complicated than the setup of o
 - Finally, the **`include.7z`** and **`src.7z`** archives from the [latest release of glpp library](https://github.com/dmitrycello/glpp/releases). The **`dependencies.txt`** file lists all component's versions tested with current release.
 
 ### 2. Prepare the components's folder
-Create the new folder anywhere on your PC, and name it **`Common`**. Extract all downloaded OpenGL and glpp components, and move them into its following subdirectories:
+Create the new folder anywhere on your PC, and name it **`Common`**. Extract all downloaded OpenGL and glpp components, and move them into the following subdirectories:
 ```
 Common\bin\ <- GLFW and FreeImage 64-bit Dlls
 Common\bin\Win32\ <- GLFW and FreeImage 32-bit Dlls
