@@ -1,9 +1,7 @@
 # glpp: OpenGL C++ library 24.4.1
 # (README under development)
 
-This project is an attempt to develop a C++ variant of the OpenGL API, combining its calls among the C++ objects. Its main goal was initially to help learning GLAD/GLFW API, but it definatelly could to be used as an efficient tool, allowing to develop the OpenGL applications in less complicated manner with minimal overhead.
-
-It requires the C++ 11 compiler or later, it also impliments the concept of [SAL](https://learn.microsoft.com/en-us/cpp/code-quality/using-sal-annotations-to-reduce-c-cpp-code-defects) (Microsoft Source Code Annotation Language) in Debug build only, any warnings in the Release mode should be ignored. At the moment, it is developped for Windows OS only using Visual Studio 2019+.
+This project is an attempt to develop a C++ variant of the OpenGL API, combining its calls among the C++ objects. Its main goal was initially to help learning GLAD/GLFW API, but it definatelly could to be used as an efficient tool, allowing to develop the OpenGL applications in less complicated manner with minimal overhead. It requires the C++ 11 compiler or later, it also impliments the concept of [SAL](https://learn.microsoft.com/en-us/cpp/code-quality/using-sal-annotations-to-reduce-c-cpp-code-defects) (Microsoft Source Code Annotation Language) in Debug build only, any warnings in the Release mode should be ignored. At the moment, it is developped for Windows OS only using Visual Studio 2019+.
 
 The library works with GLAD version from 2.0 to 3.3, and GLFW version 3.4+. The used GLAD version affects the build, hiding the unsupported API functions. C++ allows to use the overloaded functions, which is much easier than to find the every exact API function, such as **`glUniform3fv`**. Usage of C++ classes makes the OpenGL programming more compact, clear and stable. Every call to the API function in the library is provided with the appropriate error checking, which has an effect only in Debug build. The Release build attempts to impliment the inline calls, depending on the compiler setting.
 
