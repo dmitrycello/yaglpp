@@ -41,7 +41,8 @@ Every methode or enum member in the library is provided with the comment shown b
 
 If you don't know the function, you should visit this website to read the whole dedicated info. If the comment starts with the number in parentheses, it means either the minimum supported OpenGL version (2.1-3.3), or the number of overloaded method (1-x). If the version is missing, OpenGL 2.0 support is assumed. For example, if the comment starts with **`(3.0) (18)`** , it means that OpenGL 3.0 is required, and this is the 18's overloaded member.
 
-The swithes following **`#pragma once`** directive in the **`glpp.h`** file affect the build of the library. The first six could be commented, the others may only be altered:
+### The main switches
+The symbols defined right after **`#pragma once`** directive in the **`glpp.h`** file affect the build of the library. The first six could be commented, the others may only be altered:
 - Switches **`GLPP_COCOA_CHDIR_RESOURCES`**, **`GLPP_COCOA_MENUBAR`** and **`GLPP_JOYSTICK_HAT_BUTTONS`** are the GLFW flags set at the initialization, they are on by default;
 - Commenting the **`GLPP_NO_AFX_LAYOUT`** switch will transform the glpp into the AFX-like environment, without the **`main`** function. Instead, you have to inherit a class from **`ThreadWnd`**, and overwrite its virtual functions. Otherwise, classical layout with the **`main`** function is preserved;
 - Commenting the **`GLPP_NO_GLFW_LEGACY`** switch allows to build glpp with GLFW v3.3.10, the latest version supporting Windows XP. In this case, some functions and constants of the recent GLFW libraries become unavailable;
