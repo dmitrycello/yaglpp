@@ -62,7 +62,7 @@ The installation of glpp library isn't much more complicated than the setup of o
 		+ **stb_image_write.h** v1.16
 	- [FreeImage](https://freeimage.sourceforge.io) library (optional). The only DLL distribution is supported [WIN32/WIN64]. The project is not being updated since 2015, so if you decide not to include it, make sure to comment the **`GLPP_FREEIMAGE_LIB`** switch in the **`glpp.h`** file.
 
-2. <ins>Prepare the OpenGL component folder</ins>. Create the new folder anywhere on your PC, and name it **`Common`**. Extract all downloaded OpenGL components, and move them into its following subdirectories:
+2. <ins>Prepare the OpenGL components's folder</ins>. Create the new folder anywhere on your PC, and name it **`Common`**. Extract all downloaded OpenGL components, and move them into its following subdirectories:
 ```
 Common\bin\ <- GLFW and FreeImage 64-bit Dlls
 Common\bin\Win32\ <- GLFW and FreeImage 32-bit Dlls
