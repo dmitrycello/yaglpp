@@ -59,7 +59,7 @@ The installation of glpp library isn't much more complicated than the setup of o
 		+ **stb_image_write.h** v1.16
 	- [FreeImage](https://freeimage.sourceforge.io) library (optional). The only DLL distribution is supported [WIN32/WIN64]. The project is not being updated since 2015, so if you decide not to include it, make sure to comment the **`GLPP_FREEIMAGE_LIB`** switch in the **`glpp.h`** file.
 
-2. <ins>Create the folder named **`Common`** anywhere on your PC</ins>. Extract all downloaded OpenGL components, and move them into the following subdirectories:
+2. <ins>Prepare the component folder</ins>. Create the new folder anywhere on your PC, and name it **`Common`**. Extract all downloaded OpenGL components, and move them into its following subdirectories:
 ```
 Common\bin <- GLFW and FreeImage 64-bit Dlls
 Common\bin\Win32 <- GLFW and FreeImage 32-bit Dlls
@@ -91,7 +91,7 @@ Choose any name and path to solution, e.g. OpenGL on the appropriate drive, hit 
 
 Finally, move the previously created **`Common`** directory into the solution directory.
 
-4. <ins>Create new static library project under the newly created solution</ins>. In the Solution explorer, right-click the solution name (1st line). Click **`Add -> New project...`**:
+4. <ins>Create new static library project under the newly created solution</ins>. In the Solution explorer, right-click the solution name bar (1st line). Click **`Add -> New project...`**:
 
 ![04.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/04.png)
 
@@ -103,42 +103,43 @@ Type the static library project name, which must be exactly **`glpp`**, check th
 
 ![06.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/06.png)
 
-6. <ins>Add files to the glpp library project</ins>. In the Solution Explorer remove all header and source files (Del):
+6. <ins>Add files to the glpp library project</ins>. In the Solution Explorer remove all header and source files **`(Del)`**. These files no longer needed, so they could be deleted permanently:
 
 ![07.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/07.png)
 
-Right-click **`Header Files`**, click **`Add -> Existing Item (Shift+Alt+A)`**:
+Right-click **`Header Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\include\glpp`** directory, select **`glpp.h`** file, it has to be here just to toggle the swithces:
 
 ![08.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/08.png)
 
-Navigate to **`$(SolutionDir)\Common\include\glpp`** directory, select **`glpp.h`** file. This file has to be here to toggle the swithces. Next, right-click **`Source Files`**, click **`Add -> Existing Item (Shift+Alt+A)`**:
+Next, right-click **`Source Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\src\glpp`** directory, and select all **`.cpp`** files:
 
 ![09.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/09.png)
 
-Navigate to **`$(SolutionDir)\Common\src\glpp`** directory, and select all **`.cpp`** files. Finally, add the same way to **`Source Files`** the **`$(SolutionDir)\Common\src\glad.c`** file. The Solution Explorer should now look like this:
+Finally, add the same way the **`$(SolutionDir)\Common\src\glad.c`** file to **`Source Files`** filter. The Solution Explorer should now look like this:
 
 ![10.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/10.png)
 
-5. <ins>Setup the project proprties</ins>. Right-click glpp project name and press **`Proprties (Alt+Enter)`**:
+5. <ins>Setup the project proprties</ins>. Right-click glpp project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![11.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/11.png)
 
-In the
-    Properties window set Configuration and Platform to Debug / x64. In
-	the left frame under Configuration Properties set the following options
-	and hit Apply after setting up any of 4 following configurations.
-```
-	Debug / x64 (LIB):
-	    General -> Output Directory:
-		    $(SolutionDir)\Common\lib\Debug\
-	    VC++ Directories -> Include Directories
-		    $(SolutionDir)\Common\include\;$(IncludePath)
-	    VC++ Directories -> Library Directories
-		    $(SolutionDir)\Common\lib\;$(LibraryPath)
-	    C/C++ -> Precompiled Headers -> Precompiled Header
-		    'Not Using Precompiled Headers'
+In the Properties window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be our first platform configuration to set up:
 
-	Release / x64 (LIB):
+![12.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/12.png)
+
+Now we need to set up 4 configuration options for that platform configuration and hit the **`Apply`** button. To set up an option, select the category at the left-hand side, then select the option at the right-hand side, click the drop-down menu at the right, and hit **`\<Edit...\>`**, or set the available option:
+
+![13.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/13.png)
+
+There are 4 available platform configurations: Debug / x64, Release / x64, Debug / Win32, Release / Win32. You may never use the last two. But it is recommended to set up everything now, to avoid the mess later. Here is the list of the required options under each of the 4 platform configurations with their categories and values:
+
+- **`Debug / x64 (LIB)`**:
+	+ General -> Output Directory: $(SolutionDir)\Common\lib\Debug\
+	+ VC\+\+ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
+	+ VC\+\+ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
+	+ C/C\+\+ -> Precompiled Headers -> Precompiled Header -> 'Not Using Precompiled Headers'
+
+- **Release / x64 (LIB)**:
 	    General -> Output Directory:
 		    $(SolutionDir)\Common\lib\
 	    VC++ Directories -> Include Directories
@@ -148,7 +149,7 @@ In the
 	    C/C++ -> Precompiled Headers -> Precompiled Header
 		    'Not Using Precompiled Headers'
 
-	Debug / Win32 (LIB):
+- **`Debug / Win32 (LIB)`**:
 	    General -> Output Directory:
 		    $(SolutionDir)\Common\lib\Win32\Debug\
 	    VC++ Directories -> Include Directories
@@ -158,7 +159,7 @@ In the
 	    C/C++ -> Precompiled Headers -> Precompiled Header
 		    'Not Using Precompiled Headers'
 
-	Release / Win32 (LIB):
+- **`Debug / Win32 (LIB)`**:
 	    General -> Output Directory:
 		    $(SolutionDir)\Common\lib\Win32\
 	    VC++ Directories -> Include Directories
