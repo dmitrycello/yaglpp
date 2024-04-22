@@ -51,7 +51,7 @@ The swithes following **`#pragma once`** directive in the **`glpp.h`** file affe
 
 The installation of glpp library isn't much more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** sets the linking of all libraries. Once installation is complete, the user no longer has to set it up in project proprieties, just to include the **`glpp.h`** file in the source. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is advised to use all suggested paths (at least for the first time). The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
-1. <ins>Download the required OpenGL components from the Internet</ins>. You may skip this step, if you decide to use the files from the repository, in which case you only need to download ZIP archive (big green **`Code`** button on the main repository page), extract the whole **`Common`** subdirectory, and proceed to step 3. However, it is still recommended to get all components from the Internet: this is the way the most programmers do, to ensure that the versions are up to date:
+1. <ins>Download the required OpenGL components from the Internet</ins>. You may skip this step, if you decide to use the files from the repository, in which case you only need to download ZIP archive (big green **`Code`** button on the main repository page), extract the whole **`Common`** subdirectory, and proceed to step 3. However, it is still recommended to get all components from the Internet, at least for the first time to feel the process. This is also the way the most programmers do, to ensure that the versions are up to date:
 	- [GLAD](https://glad.dav1d.de) archive generated with Specification set to **`OpenGL`**, Profile set to **`Core`**, API **`gl`** set to **`Version 3.3`**. Keep gles1, gles2 and glsc2 as **`None`**. Do not select any extension!
 	- [GLFW](https://www.glfw.org/download) archives v3.4 or later from  the 64-bit and 32-bit Windows binaries. Older versions are [here](https://github.com/glfw/glfw/releases).
 	- [GLM](https://github.com/g-truc/glm) pack v1.0.1 or later.
@@ -93,20 +93,39 @@ Choose any name and path to solution, e.g. OpenGL on the appropriate drive, hit 
 
 Finally, move the previously created **`Common`** directory into the solution directory.
 
-3. Within the solution directory create a folder named 'Common'. Put all unpacked components of the library in following subdirectories:
+4. <ins>Create new static library project under the newly created solution</ins>. In the Solution explorer, right-click the solution name (1st line). Click **`Add -> New project...`**:
 
-5. From the Solution explorer, right-click the solution name (1st line):
-    Add -> New project..., select <Static Library (C++)>, press Next,
-	choose the name <glpp>, which must be exactly so, press Create.
-	
-6. In the Solution Explorer remove all header and source files (Del).
-	Right-click Header Files: Add -> Existing Item (Shift+Alt+A),
-	Navigate to $(SolutionDir)\Common\include\glpp, select THIS <glpp.h>.
-	Right-click Source Files, navigate the same way and select all .cpp
-	files in the $(SolutionDir)\Common\src\glpp folder. Finally, add the
-	same way to Source Files the $(SolutionDir)\Common\src\glad.c
+![04.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/04.png)
 
-7. Right-click glpp project name and press Proprties (Alt+Enter). In the
+Select **`Static Library (C++)`**, hit **`Next`**:
+
+![05.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/05.png)
+
+Type the static library project name, which must be exactly **`glpp`**, check the path to the solution, and hit **`Create`**:
+
+![06.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/06.png)
+
+6. <ins>Add files to the glpp library project</ins>. In the Solution Explorer remove all header and source files (Del):
+
+![07.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/07.png)
+
+Right-click **`Header Files`**, click **`Add -> Existing Item (Shift+Alt+A)`**:
+
+![08.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/08.png)
+
+Navigate to **`$(SolutionDir)\Common\include\glpp`** directory, select **`glpp.h`** file. This file has to be here to toggle the swithces. Next, right-click **`Source Files`**, click **`Add -> Existing Item (Shift+Alt+A)`**:
+
+![09.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/09.png)
+
+Navigate to **`$(SolutionDir)\Common\src\glpp`** directory, and select all **`.cpp`** files. Finally, add the same way to **`Source Files`** the **`$(SolutionDir)\Common\src\glad.c`** file. The Solution Explorer should now look like this:
+
+![10.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/10.png)
+
+5. <ins>Setup the project proprties</ins>. Right-click glpp project name and press **`Proprties (Alt+Enter)`**:
+
+![11.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/11.png)
+
+In the
     Properties window set Configuration and Platform to Debug / x64. In
 	the left frame under Configuration Properties set the following options
 	and hit Apply after setting up any of 4 following configurations.
