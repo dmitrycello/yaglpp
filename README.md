@@ -131,14 +131,15 @@ Now we need to set up 4 configuration options for that platform configuration an
 
 ![13.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/13.png)
 
-There are 4 available platform configurations: Debug / x64, Release / x64, Debug / Win32, Release / Win32. You may never use the last two. But it is recommended to set up everything now, to avoid the mess later. Here is the list of the required options under each of the 4 platform configurations in form **`category \-\> name: value`**
+There are 4 available platform configurations: Debug / x64, Release / x64, Debug / Win32, Release / Win32. You may never use the last two. But it is recommended to set up everything now, to avoid the mess later. Here is the list of the required options under each of the 4 platform configurations in form **`category -> name: value`**
 
 - **`Debug / x64 (LIB)`**:
-	+ General -> Output Directory: $(SolutionDir)\Common\lib\Debug\
-	+ VC\+\+ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
-	+ VC\+\+ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
-	+ C/C\+\+ -> Precompiled Headers -> Precompiled Header -> 'Not Using Precompiled Headers'
-
+```
+General -> Output Directory: **`$(SolutionDir)\Common\lib\Debug\`**
+VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
+VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
+C/C++ -> Precompiled Headers -> Precompiled Header -> 'Not Using Precompiled Headers'
+```
 - **Release / x64 (LIB)**:
 	    General -> Output Directory:
 		    $(SolutionDir)\Common\lib\
