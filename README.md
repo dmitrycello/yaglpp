@@ -7,7 +7,7 @@ The library works with GLAD version from 2.0 to 3.3, and GLFW version 3.4+. The 
 ```
 void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value)
 {
-	glUniform3fv(_location(), count, (GLfloat*)value); // API call
+	glUniform3fv(_location(), count, (GLfloat*)value); // GLAD API call
 	GLPP_GLAD_ERROR; // Error checking macro
 }
 ```
