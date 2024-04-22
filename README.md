@@ -1,7 +1,7 @@
 # glpp: OpenGL C++ extension library 24.4.1
 ## (README under development, currently solving formatting issues, adding pics etc.)
 
-This project is an attempt to develop a C++ OpenGL library, combining the API calls within the C++ objects. Initially, its main goal was to help learning GLAD/GLFW API, but it definatelly could to be used as an efficient tool, allowing to develop the OpenGL applications in less complicated manner with minimal overhead.
+This project is an attempt to develop a C++ variant of the OpenGL API, combining its calls among the C++ objects. Its main goal was initially to help learning GLAD/GLFW API, but it definatelly could to be used as an efficient tool, allowing to develop the OpenGL applications in less complicated manner with minimal overhead.
 
 It requires the C++ 11 compiler or later, it also impliments the concept of [SAL](https://learn.microsoft.com/en-us/cpp/code-quality/using-sal-annotations-to-reduce-c-cpp-code-defects) (Microsoft Source Code Annotation Language) in Debug build only, any warnings in the Release mode should be ignored. At the moment, it is developped for Windows OS only using Visual Studio 2019+.
 
@@ -140,15 +140,15 @@ Right-click glpp project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![11.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/11.png)
 
-In the Properties window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be our first platform configuration to set up:
+In the Properties window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
 
 ![12.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/12.png)
 
-Now we need to set up 4 configuration options for that platform configuration and hit the **`Apply`** button. To set up an option, select the category at the left-hand side, then select the option at the right-hand side, click the drop-down menu at the right, and hit **`<Edit...>`**, or set the available option:
+The glpp needs to set 4 configuration options for each platform configuration. To set an option, select the category at the left-hand side, then select the option at the right-hand side. Click the drop-down menu at the right, then hit **`<Edit...>`**, or select the available option:
 
 ![13.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/13.png)
 
-The library supports 4 platform configurations: **`Debug / x64`**, **`Release / x64`**, **`Debug / Win32`**, **`Release / Win32`**. Here is the list of the required options under each of the 4 platform configurations in form **`category -> name: value`**:
+The glpp library supports 4 platform configurations: **`Debug / x64`**, **`Release / x64`**, **`Debug / Win32`**, **`Release / Win32`**. Here is the list of the required options under each of the 4 platform configurations in form **`category -> name: value`**:
 
 > [!IMPORTANT]
 > You may never use the last two configurations. But it is recommended to set it up now, to avoid the mess later.
@@ -182,7 +182,7 @@ VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\Win32\;$(Libr
 C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Headers'
 ```
 > [!WARNING]
-> Do not forget to hit the **`Apply`** button after setting up the options for each platform configuration.
+> Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 ### 7. Build the library
 Now close the Properties window. In the Solution Explorer open **`glpp.h`** file, so the IDA focuses on glpp project within the solution. Select any of the 4 configurations on the top of IDE:
