@@ -135,7 +135,7 @@ In the Properties window set **`Configuration`** and **`Platform`** drop-down me
 
 ![12.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/12.png)
 
-Now we need to set up 4 configuration options for that platform configuration and hit the **`Apply`** button. To set up an option, select the category at the left-hand side, then select the option at the right-hand side, click the drop-down menu at the right, and hit **`\<Edit...\>`**, or set the available option:
+Now we need to set up 4 configuration options for that platform configuration and hit the **`Apply`** button. To set up an option, select the category at the left-hand side, then select the option at the right-hand side, click the drop-down menu at the right, and hit **`<Edit...>`**, or set the available option:
 
 ![13.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/13.png)
 
