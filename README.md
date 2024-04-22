@@ -12,7 +12,7 @@ The most valuable library's feature is the **`"lasy" creation and binding concep
 ### Naming concept
 The original API names are carefully preserved, except very rare cases (e.g. **`BufferTexture`** is a texture, but **`TextureBuffer`** is a buffer). As the API functions are grouped around the C++ classes, the API constants are grouped around the enum classes. Some of the functions are duplicated as a static members of a class, it helps to find them on the context basis.
 
-The library functions are defined within **`gl::`** and **`glfw::`** namespaces for GLAD and GLFW API functions respectively. The few helper classes, such as **`StbImage`**, reside in the global namespace. You can bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them at least while learning the API. The prefixes will also prevent name conflict while managing large projects. 
+The library assets are defined within **`gl::`** and **`glfw::`** namespaces for GLAD and GLFW API respectively. The few helper classes, such as **`StbImage`**, reside in the global namespace. You may bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them at least while learning the API. The prefixes will also prevent name conflict while managing large projects. 
 
 The names in glpp library are obtained by stripping gl and glwf prefixes of the original API names, and by applying the camil-case roule for the rest. For the constant names, every underscore symbol is used as a word delimiter. Such an approach helps learning the original API symbols for potential switching to OpenGL C programming. Some of the API functions such as **`glDisable`**, **`glEnable`**, **`glGet`**, **`glIsEnabled`**, and **`glPixelStore`** are used with the names of their constant values. For example:
 ```
@@ -38,9 +38,10 @@ glfw::setVisible(visible)
 > The underscore at the beginning of a name means a private assignment, you should NOT be using these names. The global symbols starting with **`GLPP_`** are also preserved by the library.
 
 ### IntelliSense
-Every methode or enum member in the library is provided with the comment shown in Visual Studio by the [IntelliSense](https://learn.microsoft.com/en-us/visualstudio/ide/using-intellisense) with the description, parameter list and return value. So it could be a nice way to briefly recap what the function does, instead of going online time after time. All information is taken from [Khronos website](https://registry.khronos.org/OpenGL-Refpages/gl4/).
+Every methode or enum member in the library is provided with the comment shown in Visual Studio by the [IntelliSense](https://learn.microsoft.com/en-us/visualstudio/ide/using-intellisense) with the description, parameter list and return value. So it could be a nice way to briefly recap what the function does, instead of going online time after time. All information is taken from [Khronos website](https://registry.khronos.org/OpenGL-Refpages/gl4/). If the comment starts with the number in parentheses, it means either the minimum supported OpenGL version (2.1-3.3), or the number of overloaded method (1-x). If the version is missing, OpenGL 2.0 support is assumed. For example, if the comment starts with **`(3.0) (18)`** , it means that OpenGL 3.0 is required, and this is the 18's overloaded member.
 
-If you don't know the function, you should visit this website to read the whole dedicated info. If the comment starts with the number in parentheses, it means either the minimum supported OpenGL version (2.1-3.3), or the number of overloaded method (1-x). If the version is missing, OpenGL 2.0 support is assumed. For example, if the comment starts with **`(3.0) (18)`** , it means that OpenGL 3.0 is required, and this is the 18's overloaded member.
+> [!IMPORTANT]
+> If you don't know the function, you should visit Khronos website to read the whole dedicated info
 
 ### The main switches
 The symbols defined right after **`#pragma once`** directive in the **`glpp.h`** file affect the build of the library. The first six could be commented, the others may only be altered:
