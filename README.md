@@ -249,6 +249,9 @@ It is recommended to generate all earlier versions of **`glad.h`** from 2.0 to 3
 
 By default glpp uses Dll version of GLFW library. It is much easier to use pre-compiled .lib files of GLFW, rather than build them from sratch. But when using Static GLFW build, while Debugging, if you by some accident Step Into the function, you will get an unpleasant screen '.pdb not found', it is because the .lib file does not have the right path of the source file. While using Dll version, the function is simply stepped out. When compiling the final version of your project, you may switch to the Static GLFW build by setting the **`GLPP_GLFW_LIB`** switch to **`glfw3.lib/glfw3_mt.lib`**. Note that using Dlls decreases the application file size, and saves the computer RAM while running several applications using that Dll, but the appropriate Dll must be distributed with the application.
 
+> [!NOTE]
+> After installation is complete, it is always possible to code with the original names of the API. The only interaction with the glpp objects is limited.
+
 ## USAGE
 
 1. To add the application project to the solution, use the same way as for
