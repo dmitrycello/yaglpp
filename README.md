@@ -174,6 +174,9 @@ VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(Includ
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
 C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Headers'
 ```
+> [!WARNING]
+> Do not forget to hit the **`Apply`** button after setting up the options for each platform configuration.
+
 7. <ins>Build the library</ins>. Now close the Properties window. In the Solution Explorer open **`glpp.h`** file, so the IDA focuses on glpp project within the solution. Select any of the 4 configurations on the top of IDE:
 
 ![14.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/14.png)
