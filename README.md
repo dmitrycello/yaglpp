@@ -65,22 +65,21 @@ The installation of glpp library isn't much more complicated than the setup of o
 ```
 Common\bin <- GLFW and FreeImage 64-bit Dlls
 Common\bin\Win32 <- GLFW and FreeImage 32-bit Dlls
-Common\include\glpp <- glpp include folder
+Common\include\glpp <- glpp include folder content
 Common\include\glad <- Subfolder from GLAD archive
 Common\include\GLFW <- 2 GLFW include headers
 Common\include\glm <- The whole <glm> subfolder
 Common\include\KHR <- Subfolder from GLAD archive
-Common\include\stb <- 3 stb_image headers
-Common\include\FreeImage.h <- Single FreeImage header
+Common\include\stb <- 3 stb_image above mentionned headers
+Common\include\FreeImage.h <- FreeImage header
 Common\lib <- GLFW, FreeImage 64-bit Libs
-Common\lib\Debug <- Empty, the glpp Dbg output
+Common\lib\Debug <- Empty, the glpp Debug output
 Common\lib\Win32 <- GLFW, FreeImage 32-bit Libs
-Common\lib\Win32\Debug <- Empty, glpp 32-bit Dbg output
-Common\src\glpp <- glpp source folder
+Common\lib\Win32\Debug <- Empty, glpp 32-bit Debug output
+Common\src\glpp <- glpp source folder content
 Common\src\glad.c <- Source file from GLAD archive
 ```
-
-3. <ins>Create a new solution for the main project</ins>: **`File -> New -> Project... (Ctrl+Shift+N)`**:
+3. <ins>Create a new solution for the glpp library and the main project</ins>. You can later create mutiple projects under the same solution. On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
 
 ![01.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/01.png)
 
@@ -92,19 +91,22 @@ Choose any name and path to solution, e.g. OpenGL on the appropriate drive, hit 
 
 ![03.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/03.png)
 
+Finally, move the previously created **`Common`** directory into the solution directory.
+
 3. Within the solution directory create a folder named 'Common'. Put all unpacked components of the library in following subdirectories:
-4. From the Solution explorer, right-click the solution name (1st line):
+
+5. From the Solution explorer, right-click the solution name (1st line):
     Add -> New project..., select <Static Library (C++)>, press Next,
 	choose the name <glpp>, which must be exactly so, press Create.
 	
-5. In the Solution Explorer remove all header and source files (Del).
+6. In the Solution Explorer remove all header and source files (Del).
 	Right-click Header Files: Add -> Existing Item (Shift+Alt+A),
 	Navigate to $(SolutionDir)\Common\include\glpp, select THIS <glpp.h>.
 	Right-click Source Files, navigate the same way and select all .cpp
 	files in the $(SolutionDir)\Common\src\glpp folder. Finally, add the
 	same way to Source Files the $(SolutionDir)\Common\src\glad.c
 
-6. Right-click glpp project name and press Proprties (Alt+Enter). In the
+7. Right-click glpp project name and press Proprties (Alt+Enter). In the
     Properties window set Configuration and Platform to Debug / x64. In
 	the left frame under Configuration Properties set the following options
 	and hit Apply after setting up any of 4 following configurations.
