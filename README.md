@@ -19,7 +19,6 @@ glIsEnabled(GL_POLYGON_SMOOTH)
 glPixelStoref(GL_UNPACK_ROW_LENGTH, length)
 glfwWindowHint(GLFW_VISIBLE, visible)
 ```
-
 in glpp library become:
 ```
 gl::depthFunc(func)
@@ -30,7 +29,6 @@ gl::isPolygonSmooth()
 gl::setUnpackRowLength(length)
 glfw::setVisible(visible)
 ```
-
 You can bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them at least while learning the API. The prefixes will also prevent name conflict while managing large projects. Some of the functions are duplicated as a static members of a class, it helps to find them on the context basis. The global symbols starting with **`GLPP_`** are preserved by the library.
 
 The most valuable library's feature is the **`"lasy" creation and binding concept`**. It means, the OpenGL object is created and binded only when it is required. The creation of glpp class object does not mean the OpenGL object immediate creation or binding. The appropriate functions for creation and bindind are no longer needed, but still preserved to allow the programmer to create or bind the OpenGL object at anytime. The object status is saved in thread local memory, which makes the library thread safe.
