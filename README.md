@@ -31,7 +31,7 @@ glfw::setVisible(visible)
 ```
 
 > [!CAUTION]
-> The underscore at the beginning of the name means a private assignment, you should NOT be using these names.
+> The underscore at the beginning of a name means a private assignment, you should NOT be using these names.
 
 You can bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them at least while learning the API. The prefixes will also prevent name conflict while managing large projects. Some of the functions are duplicated as a static members of a class, it helps to find them on the context basis. The global symbols starting with **`GLPP_`** are preserved by the library.
 
