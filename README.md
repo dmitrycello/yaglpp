@@ -139,7 +139,12 @@ Now we need to set up 4 configuration options for that platform configuration an
 
 ![13.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/13.png)
 
-The library supports 4 platform configurations: **`Debug / x64`**, **`Release / x64`**, **`Debug / Win32`**, **`Release / Win32`**. You may never use the last two. But it is recommended to set up everything now, to avoid the mess later. Here is the list of the required options under each of the 4 platform configurations in form **`category -> name: value`**:
+The library supports 4 platform configurations: **`Debug / x64`**, **`Release / x64`**, **`Debug / Win32`**, **`Release / Win32`**.
+
+> [!IMPORTANT]
+> You may never use the last two platform configurations. But it is recommended to set everything up now, to avoid the mess later.
+
+Here is the list of the required options under each of the 4 platform configurations in form **`category -> name: value`**:
 
 - **`Debug / x64 (LIB)`**:
 ```
