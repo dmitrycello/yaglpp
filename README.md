@@ -37,7 +37,8 @@ glfw::setVisible(visible)
 
 The most valuable library's feature is the **`"lasy" creation and binding concept`**. It means, the OpenGL object is created and binded only when it is required. The creation of glpp class object does not mean the OpenGL object immediate creation or binding. The appropriate functions for creation and bindind are no longer needed, but still preserved to allow the programmer to create or bind the OpenGL object at anytime. The object status is saved in [thread local memory](https://learn.microsoft.com/en-us/cpp/c-language/thread-local-storage), which makes the library thread safe.
 
-Every methode or enum member in the library is provided with the comment shown by the IntelliSense with the description, parameter list and return value. So it could be a nice way to briefly recap what the function does, instead of going online time after time. All information is taken from [Khronos website](https://registry.khronos.org/OpenGL-Refpages/gl4/).
+### IntelliSense
+Every methode or enum member in the library is provided with the comment shown in Visual Studio by the [IntelliSense](https://learn.microsoft.com/en-us/visualstudio/ide/using-intellisense) with the description, parameter list and return value. So it could be a nice way to briefly recap what the function does, instead of going online time after time. All information is taken from [Khronos website](https://registry.khronos.org/OpenGL-Refpages/gl4/).
 
 If you don't know the function, you should visit this website to read the whole dedicated info. If the comment starts with the number in parentheses, it means either the minimum supported OpenGL version (2.1-3.3), or the number of overloaded method (1-x). If the version is missing, OpenGL 2.0 support is assumed. For example, if the comment starts with **`(3.0) (18)`** , it means that OpenGL 3.0 is required, and this is the 18's overloaded member.
 
