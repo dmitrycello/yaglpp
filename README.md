@@ -67,7 +67,7 @@ The symbols defined right after **`#pragma once`** directive in the **`glpp.h`**
 The installation of glpp library isn't much more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** sets the linking of all libraries. Once installation is complete, there is no need to set them all in project proprieties, just to include the **`glpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths (at least for the first time). The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
 > [!TIP]
-> For the purpose of the quick testing of the library, the steps 1 and 2 of the installation process may be skipped, while using the repository files. In this case download ZIP archive using **`Code`** button on the main [repository page](https://github.com/dmitrycello/glpp/tree/main) or the **`Source Code`** link on the [release page](https://github.com/dmitrycello/glpp/releases), extract the **`Common`** folder from the downloaded archive, and proceed to step 3. However, it is still recommended to get all components from the Internet, at least for the first time to feel the process. This is also the way the most programmers do, to ensure that the versions are up to date.
+> For the quick testing purpose, the steps 1 and 2 of the installation process may be skipped, while using the repository files. In this case download ZIP archive using **`Code`** button on the [repository page](https://github.com/dmitrycello/glpp/tree/main) or the **`Source Code`** link on the [release page](https://github.com/dmitrycello/glpp/releases), extract the **`Common`** folder from the downloaded archive, and proceed to step 3. However, it is still recommended to get all components from the Internet, at least for the first time to feel the process. This is also the way the most programmers do, to ensure that the versions are up to date.
 
 ### 1. Download the required OpenGL components from the Internet
 - [GLAD](https://glad.dav1d.de) archive generated with Specification set to **`OpenGL`**, Profile set to **`Core`**, API **`gl`** set to **`Version 3.3`**. Keep gles1, gles2 and glsc2 as **`None`**. Do not select any extension!
@@ -78,7 +78,7 @@ The installation of glpp library isn't much more complicated than the setup of o
 	+ **stb_image_resize2.h** v2.06
 	+ **stb_image_write.h** v1.16
 - [FreeImage](https://freeimage.sourceforge.io) library (optional). The only DLL distribution is supported [WIN32/WIN64]. The project is not being updated since 2015, so if you decide not to include it, make sure to comment the **`GLPP_FREEIMAGE_LIB`** switch in the **`glpp.h`** file.
-- Finally, the **`include.7z`** and **`src.7z`** archives from the [latest release of glpp library](https://github.com/dmitrycello/glpp/releases). The **`dependencies.txt`** file lists all component's versions tested with current release.
+- [Latest release](https://github.com/dmitrycello/glpp/releases) of glpp library, namely the **`include.7z`** and **`src.7z`** archives. The **`dependencies.txt`** file lists all component's versions tested with current release.
 
 ### 2. Prepare the components's folder
 Create the new folder anywhere on your PC, and name it **`Common`**. Extract all downloaded OpenGL and glpp components, and move them into the following subdirectories:
@@ -250,7 +250,7 @@ It is recommended to generate all earlier versions of **`glad.h`** from 2.0 to 3
 By default glpp uses Dll version of GLFW library. It is much easier to use pre-compiled .lib files of GLFW, rather than build them from sratch. But when using Static GLFW build, while Debugging, if you by some accident Step Into the function, you will get an unpleasant screen '.pdb not found', it is because the .lib file does not have the right path of the source file. While using Dll version, the function is simply stepped out. When compiling the final version of your project, you may switch to the Static GLFW build by setting the **`GLPP_GLFW_LIB`** switch to **`glfw3.lib/glfw3_mt.lib`**. Note that using Dlls decreases the application file size, and saves the computer RAM while running several applications using that Dll, but the appropriate Dll must be distributed with the application.
 
 > [!NOTE]
-> After installation is complete, it is always possible to code with the original names of the API. The only interaction with the glpp objects is limited.
+> After installation is complete, the original API names are always available, so it is possible to combine C++ and C programming in the same source, but the only interaction with the glpp objects will be very limited.
 
 ## USAGE
 
