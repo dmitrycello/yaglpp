@@ -52,17 +52,18 @@ The installation of glpp library isn't much more complicated than the setup of o
 > [!TIP]
 > You may skip step 1 and 2, if you decide to use the files from the repository, in which case you only need to download ZIP archive (big green **`Code`** button on the main repository page), extract the whole **`Common`** subdirectory, and proceed to step 3. However, it is still recommended to get all components from the Internet, at least for the first time to feel the process. This is also the way the most programmers do, to ensure that the versions are up to date.
 
-1. <ins>Download the required OpenGL components from the Internet</ins>:
-	- [GLAD](https://glad.dav1d.de) archive generated with Specification set to **`OpenGL`**, Profile set to **`Core`**, API **`gl`** set to **`Version 3.3`**. Keep gles1, gles2 and glsc2 as **`None`**. Do not select any extension!
-	- [GLFW](https://www.glfw.org/download) archives v3.4 or later from  the 64-bit and 32-bit Windows binaries. Older versions are [here](https://github.com/glfw/glfw/releases).
-	- [GLM](https://github.com/g-truc/glm) pack v1.0.1 or later.
-	- [stb_image](https://github.com/nothings/stb/tree/master) library. It is important to use the specific versions of its files. Every newer version of a file requires additional testings. If there is no such version, try using newer version (it usually works), or get the one preserved in this repository. The required files are:
-		+ **stb_image.h** v2.29
-		+ **stb_image_resize2.h** v2.06
-		+ **stb_image_write.h** v1.16
-	- [FreeImage](https://freeimage.sourceforge.io) library (optional). The only DLL distribution is supported [WIN32/WIN64]. The project is not being updated since 2015, so if you decide not to include it, make sure to comment the **`GLPP_FREEIMAGE_LIB`** switch in the **`glpp.h`** file.
+### 1. Download the required OpenGL components from the Internet
+- [GLAD](https://glad.dav1d.de) archive generated with Specification set to **`OpenGL`**, Profile set to **`Core`**, API **`gl`** set to **`Version 3.3`**. Keep gles1, gles2 and glsc2 as **`None`**. Do not select any extension!
+- [GLFW](https://www.glfw.org/download) archives v3.4 or later from  the 64-bit and 32-bit Windows binaries. Older versions are [here](https://github.com/glfw/glfw/releases).
+- [GLM](https://github.com/g-truc/glm) pack v1.0.1 or later.
+- [stb_image](https://github.com/nothings/stb/tree/master) library. It is important to use the specific versions of its files. Every newer version of a file requires additional testings. If there is no such version, try using newer version (it usually works), or get the one preserved in this repository. The required files are:
+	+ **stb_image.h** v2.29
+	+ **stb_image_resize2.h** v2.06
+	+ **stb_image_write.h** v1.16
+- [FreeImage](https://freeimage.sourceforge.io) library (optional). The only DLL distribution is supported [WIN32/WIN64]. The project is not being updated since 2015, so if you decide not to include it, make sure to comment the **`GLPP_FREEIMAGE_LIB`** switch in the **`glpp.h`** file.
 
-2. <ins>Prepare the OpenGL components's folder</ins>. Create the new folder anywhere on your PC, and name it **`Common`**. Extract all downloaded OpenGL components, and move them into its following subdirectories:
+### 2. Prepare the OpenGL components's folder
+Create the new folder anywhere on your PC, and name it **`Common`**. Extract all downloaded OpenGL components, and move them into its following subdirectories:
 ```
 Common\bin\ <- GLFW and FreeImage 64-bit Dlls
 Common\bin\Win32\ <- GLFW and FreeImage 32-bit Dlls
@@ -80,12 +81,11 @@ Common\lib\Win32\Debug\ <- Empty (glpp 32-bit Debug output)
 Common\src\glpp\ <- glpp source files
 Common\src\glad.c <- Source file from GLAD archive
 ```
-3. <ins>Create a new solution for the glpp library and the main project</ins>.
+### 3. Create a new solution for the library and the main project
+On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
 
 > [!NOTE]
 > You can later create mutiple projects under the same solution, so the reinstallation of the library in not required.
-
-On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
 
 ![01.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/01.png)
 
@@ -99,7 +99,8 @@ Choose any name and path to solution, e.g. OpenGL on the appropriate drive, hit 
 
 Finally, move the previously created **`Common`** directory into the solution directory.
 
-4. <ins>Create new static library project under the newly created solution</ins>. In the Solution explorer, right-click the solution name bar (1st line). Click **`Add -> New project...`**:
+### 4. Create new static library project under the newly created solution
+In the Solution explorer, right-click the solution name bar (1st line). Click **`Add -> New project...`**:
 
 ![04.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/04.png)
 
@@ -111,7 +112,8 @@ Type the static library project name, which must be exactly **`glpp`**, check th
 
 ![06.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/06.png)
 
-5. <ins>Add files to the glpp library project</ins>. In the Solution Explorer remove all header and source files **`(Del)`**. These files no longer needed, so they could be deleted permanently:
+### 5. Add files to the glpp library project
+In the Solution Explorer remove all header and source files **`(Del)`**. These files no longer needed, so they could be deleted permanently:
 
 ![07.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/07.png)
 
@@ -127,7 +129,8 @@ Finally, add the same way the **`$(SolutionDir)\Common\src\glad.c`** file to **`
 
 ![10.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/10.png)
 
-6. <ins>Set the project proprties</ins>. Right-click glpp project name bar and press **`Proprties (Alt+Enter)`**:
+### 6. Set the project proprties
+Right-click glpp project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![11.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/11.png)
 
@@ -175,7 +178,8 @@ C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Heade
 > [!WARNING]
 > Do not forget to hit the **`Apply`** button after setting up the options for each platform configuration.
 
-7. <ins>Build the library</ins>. Now close the Properties window. In the Solution Explorer open **`glpp.h`** file, so the IDA focuses on glpp project within the solution. Select any of the 4 configurations on the top of IDE:
+### 7. Build the library
+Now close the Properties window. In the Solution Explorer open **`glpp.h`** file, so the IDA focuses on glpp project within the solution. Select any of the 4 configurations on the top of IDE:
 
 ![14.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/14.png)
 
