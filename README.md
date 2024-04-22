@@ -35,7 +35,7 @@ glfw::setVisible(visible)
 > [!CAUTION]
 > The underscore at the beginning of a name means a private assignment, you should NOT be using these names. The global symbols starting with **`GLPP_`** are also preserved by the library.
 
-The most valuable library's feature is the **`"lasy" creation and binding concept`**. It means, the OpenGL object is created and binded only when it is required. The creation of glpp class object does not mean the OpenGL object immediate creation or binding. The appropriate functions for creation and bindind are no longer needed, but still preserved to allow the programmer to create or bind the OpenGL object at anytime. The object status is saved in thread local memory, which makes the library thread safe.
+The most valuable library's feature is the **`"lasy" creation and binding concept`**. It means, the OpenGL object is created and binded only when it is required. The creation of glpp class object does not mean the OpenGL object immediate creation or binding. The appropriate functions for creation and bindind are no longer needed, but still preserved to allow the programmer to create or bind the OpenGL object at anytime. The object status is saved in [thread local memory](https://learn.microsoft.com/en-us/cpp/c-language/thread-local-storage), which makes the library thread safe.
 
 Every methode or enum member in the library is provided with the comment shown by the IntelliSense with the description, parameter list and return value. So it could be a nice way to briefly recap what the function does, instead of going online time after time. All information is taken from [Khronos website](https://registry.khronos.org/OpenGL-Refpages/gl4/).
 
