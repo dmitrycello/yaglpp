@@ -44,10 +44,10 @@ glfw::setVisible(visible)
 ### IntelliSense
 Every methode or enum member in the library is provided with the comment shown in Visual Studio by the [IntelliSense](https://learn.microsoft.com/en-us/visualstudio/ide/using-intellisense) with the description, parameter list and return value. So it could be a nice way to briefly recap what the function does, instead of going online time after time. All information is taken from [Khronos website](https://registry.khronos.org/OpenGL-Refpages/gl4/).
 
-If the description starts with the number in parentheses, it means either the minimum supported OpenGL version (as floating point number), or the number of overloaded function (as integer number). If the version number is missing, OpenGL 2.0 support is assumed. For example, the description starting with **`(3.0) (18)`** , means OpenGL 3.0 is required, and that this is the 18's overloaded member.
+If the description starts with the number in parentheses, it means either the minimum supported OpenGL version (as floating point number), or the number of overloaded function (as integer number). If the version number is missing, OpenGL 2.0 support is assumed. For example, the description starting with **`(3.0) (18)`**, means OpenGL 3.0 is required, and that this is the 18's overloaded member.
 
 > [!IMPORTANT]
-> If you don't know the function, you should visit Khronos website to read the whole dedicated info
+> If you don't know the function, you should visit Khronos website to read its whole dedicated info.
 
 ### The main switches
 The symbols defined right after **`#pragma once`** directive in the **`glpp.h`** file affect the build of the library. The first six could be commented, the others may only be altered:
