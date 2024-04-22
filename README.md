@@ -56,7 +56,10 @@ The symbols defined right after **`#pragma once`** directive in the **`glpp.h`**
 - Commenting the **`GLPP_NO_GLFW_LEGACY`** switch allows to build glpp with GLFW v3.3.10, the latest version supporting Windows XP. In this case, some functions and constants of the recent GLFW libraries become unavailable;
 - When commenting the **`GLPP_FREEIMAGE_LIB`** switch, the **`FreeImage`** class won't be included in the build. This library is no longer maintained, but can deal with more formats compared to included **`StbImage`**;
 - The **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches indicate the minimum supporeted OpenGL context verion of the library. Accepted combination of these values are: 2/0, 2/1, 3/0, 3/1, 3/2 and 3/3 to represent the OpenGL versions from 2.0 to 3.3 respectively;
-- The last 3 switches contain the key file paths. You don't have to touch them, unless you really need to recalibrate the library path layout.
+- The last 3 switches contain the key file paths.
+
+> [!WARNING]
+> Do not touch the last 3 switches, unless you really need to recalibrate the library path layout.
 
 ## INSTALLATION
 
