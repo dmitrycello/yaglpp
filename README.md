@@ -51,7 +51,7 @@ The swithes following **`#pragma once`** directive in the **`glpp.h`** file affe
 
 The installation of glpp library isn't much more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** sets the linking of all libraries. Once installation is complete, the user no longer has to set it up in project proprieties, just to include the **`glpp.h`** file in the source. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is advised to use all suggested paths (at least for the first time). The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
-<ins>1. Download the required OpenGL components from the Internet.</ins> You may skip this step, if you decide to use the files from this repository, in which case you only need to download ZIP archive (big green **`Code`** button on the main repository page) and extract the whole **`Common`** subdirectory, create solution (step 2), move this subdirectory into solution directory, and proceed to step 4. But it is still recommended to download all components from the Internet to ensure that the versions are up to date:	
+1. <ins>Download the required OpenGL components from the Internet</ins>. You may skip this step, if you decide to use the files from the repository, in which case you only need to download ZIP archive (big green **`Code`** button on the main repository page), extract the whole **`Common`** subdirectory, and proceed to step 3. However, it is still recommended to get all components from the Internet: this is the way the most programmers do, to ensure that the versions are up to date:
 	- [GLAD](https://glad.dav1d.de) archive generated with Specification set to **`OpenGL`**, Profile set to **`Core`**, API **`gl`** set to **`Version 3.3`**. Keep gles1, gles2 and glsc2 as **`None`**. Do not select any extension!
 	- [GLFW](https://www.glfw.org/download) archives v3.4 or later from  the 64-bit and 32-bit Windows binaries. Older versions are [here](https://github.com/glfw/glfw/releases).
 	- [GLM](https://github.com/g-truc/glm) pack v1.0.1 or later.
@@ -59,9 +59,28 @@ The installation of glpp library isn't much more complicated than the setup of o
 		+ **stb_image.h** v2.29
 		+ **stb_image_resize2.h** v2.06
 		+ **stb_image_write.h** v1.16
-	- [FreeImage](https://freeimage.sourceforge.io) library (optional). The only DLL distribution is supported [WIN32/WIN64]. The project is not being updated since 2015, so if you decide not to include it, make sure you comment the **`GLPP_FREEIMAGE_LIB`** switch in the **`glpp.h`** file.
+	- [FreeImage](https://freeimage.sourceforge.io) library (optional). The only DLL distribution is supported [WIN32/WIN64]. The project is not being updated since 2015, so if you decide not to include it, make sure to comment the **`GLPP_FREEIMAGE_LIB`** switch in the **`glpp.h`** file.
 
-2. Create a new solution for the main project: **`File -> New -> Project... (Ctrl+Shift+N)`**:
+2. <ins>Create the folder named **`Common`** anywhere on your PC</ins>. Extract all downloaded OpenGL components, and move them into the following subdirectories:
+```
+Common\bin <- GLFW and FreeImage 64-bit Dlls
+Common\bin\Win32 <- GLFW and FreeImage 32-bit Dlls
+Common\include\glpp <- glpp include folder
+Common\include\glad <- Subfolder from GLAD archive
+Common\include\GLFW <- 2 GLFW include headers
+Common\include\glm <- The whole <glm> subfolder
+Common\include\KHR <- Subfolder from GLAD archive
+Common\include\stb <- 3 stb_image headers
+Common\include\FreeImage.h <- Single FreeImage header
+Common\lib <- GLFW, FreeImage 64-bit Libs
+Common\lib\Debug <- Empty, the glpp Dbg output
+Common\lib\Win32 <- GLFW, FreeImage 32-bit Libs
+Common\lib\Win32\Debug <- Empty, glpp 32-bit Dbg output
+Common\src\glpp <- glpp source folder
+Common\src\glad.c <- Source file from GLAD archive
+```
+
+3. <ins>Create a new solution for the main project</ins>: **`File -> New -> Project... (Ctrl+Shift+N)`**:
 
 ![01.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/01.png)
 
@@ -74,24 +93,6 @@ Choose any name and path to solution, e.g. OpenGL on the appropriate drive, hit 
 ![03.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/03.png)
 
 3. Within the solution directory create a folder named 'Common'. Put all unpacked components of the library in following subdirectories:
-```
-    $(SolutionDir)\Common\bin <- GLFW and FreeImage 64-bit Dlls
-    $(SolutionDir)\Common\bin\Win32 <- GLFW and FreeImage 32-bit Dlls
-    $(SolutionDir)\Common\include\glpp <- glpp include folder
-    $(SolutionDir)\Common\include\glad <- Subfolder from GLAD archive
-    $(SolutionDir)\Common\include\GLFW <- 2 GLFW include headers
-    $(SolutionDir)\Common\include\glm <- The whole <glm> subfolder
-    $(SolutionDir)\Common\include\KHR <- Subfolder from GLAD archive
-    $(SolutionDir)\Common\include\stb <- 3 stb_image headers
-    $(SolutionDir)\Common\include\FreeImage.h <- Single FreeImage header
-    $(SolutionDir)\Common\lib <- GLFW, FreeImage 64-bit Libs
-    $(SolutionDir)\Common\lib\Debug <- Empty, the glpp Dbg output
-    $(SolutionDir)\Common\lib\Win32 <- GLFW, FreeImage 32-bit Libs
-    $(SolutionDir)\Common\lib\Win32\Debug <- Empty, glpp 32-bit Dbg output
-    $(SolutionDir)\Common\src\glpp <- glpp source folder
-    $(SolutionDir)\Common\src\glad.c <- Source file from GLAD archive
-```
-
 4. From the Solution explorer, right-click the solution name (1st line):
     Add -> New project..., select <Static Library (C++)>, press Next,
 	choose the name <glpp>, which must be exactly so, press Create.
