@@ -80,7 +80,12 @@ Common\lib\Win32\Debug\ <- Empty (glpp 32-bit Debug output)
 Common\src\glpp\ <- glpp source files
 Common\src\glad.c <- Source file from GLAD archive
 ```
-3. <ins>Create a new solution for the glpp library and the main project</ins>. You can later create mutiple projects under the same solution. On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
+3. <ins>Create a new solution for the glpp library and the main project</ins>.
+
+> [!NOTE]
+> You can later create mutiple projects under the same solution, so the reinstallation of the library in not required.
+
+On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
 
 ![01.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/01.png)
 
