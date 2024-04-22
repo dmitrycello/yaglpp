@@ -103,7 +103,7 @@ Type the static library project name, which must be exactly **`glpp`**, check th
 
 ![06.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/06.png)
 
-6. <ins>Add files to the glpp library project</ins>. In the Solution Explorer remove all header and source files **`(Del)`**. These files no longer needed, so they could be deleted permanently:
+5. <ins>Add files to the glpp library project</ins>. In the Solution Explorer remove all header and source files **`(Del)`**. These files no longer needed, so they could be deleted permanently:
 
 ![07.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/07.png)
 
@@ -119,7 +119,7 @@ Finally, add the same way the **`$(SolutionDir)\Common\src\glad.c`** file to **`
 
 ![10.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/10.png)
 
-5. <ins>Setup the project proprties</ins>. Right-click glpp project name bar and press **`Proprties (Alt+Enter)`**:
+6. <ins>Setup the project proprties</ins>. Right-click glpp project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![11.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/11.png)
 
@@ -131,46 +131,36 @@ Now we need to set up 4 configuration options for that platform configuration an
 
 ![13.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/13.png)
 
-There are 4 available platform configurations: Debug / x64, Release / x64, Debug / Win32, Release / Win32. You may never use the last two. But it is recommended to set up everything now, to avoid the mess later. Here is the list of the required options under each of the 4 platform configurations in form **`category -> name: value`**
+The library supports 4 platform configurations: **`Debug / x64`**, **`Release / x64`**, **`Debug / Win32`**, **`Release / Win32`**. You may never use the last two. But it is recommended to set up everything now, to avoid the mess later. Here is the list of the required options under each of the 4 platform configurations in form **`category -> name: value`**:
 
 - **`Debug / x64 (LIB)`**:
 ```
-General -> Output Directory: **`$(SolutionDir)\Common\lib\Debug\`**
+General -> Output Directory: $(SolutionDir)\Common\lib\Debug\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
-C/C++ -> Precompiled Headers -> Precompiled Header -> 'Not Using Precompiled Headers'
+C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Headers'
 ```
 - **Release / x64 (LIB)**:
-	    General -> Output Directory:
-		    $(SolutionDir)\Common\lib\
-	    VC++ Directories -> Include Directories
-		    $(SolutionDir)\Common\include\;$(IncludePath)
-	    VC++ Directories -> Library Directories
-		    $(SolutionDir)\Common\lib\;$(LibraryPath)
-	    C/C++ -> Precompiled Headers -> Precompiled Header
-		    'Not Using Precompiled Headers'
-
-- **`Debug / Win32 (LIB)`**:
-	    General -> Output Directory:
-		    $(SolutionDir)\Common\lib\Win32\Debug\
-	    VC++ Directories -> Include Directories
-		    $(SolutionDir)\Common\include\;$(IncludePath)
-	    VC++ Directories -> Library Directories
-		    $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
-	    C/C++ -> Precompiled Headers -> Precompiled Header
-		    'Not Using Precompiled Headers'
-
-- **`Debug / Win32 (LIB)`**:
-	    General -> Output Directory:
-		    $(SolutionDir)\Common\lib\Win32\
-	    VC++ Directories -> Include Directories
-		    $(SolutionDir)\Common\include\;$(IncludePath)
-	    VC++ Directories -> Library Directories
-		    $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
-	    C/C++ -> Precompiled Headers -> Precompiled Header
-		    'Not Using Precompiled Headers'
 ```
-
+General -> Output Directory: $(SolutionDir)\Common\lib\
+VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
+VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
+C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Headers'
+```
+- **`Debug / Win32 (LIB)`**:
+```
+General -> Output Directory: $(SolutionDir)\Common\lib\Win32\Debug\
+VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
+VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
+C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Headers'
+```
+- **`Release / Win32 (LIB)`**:
+```
+General -> Output Directory: $(SolutionDir)\Common\lib\Win32\
+VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
+VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
+C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Headers'
+```
 7. Close the Properties window. Now open any of library's source files,
    so the IDA focuses on glpp project within the solution. Select any of
    the 4 configurations on the top of IDE. Build the library.
