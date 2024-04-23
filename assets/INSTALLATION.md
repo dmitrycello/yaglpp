@@ -42,56 +42,56 @@ Create the solution for the library and the main project. On the Visual Studio c
 
 Select **`Blanc Solution`**, hit **`Next`**:
 
-![02.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/02.png)
+![02.png](02.png)
 
 Choose any name and path to solution, e.g. OpenGL on the appropriate drive, hit **`Create`**:
 
-![03.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/03.png)
+![03.png](03.png)
 
 Finally, move the **`Common`** directory created earlier into the solution directory.
 
 ### 4. Add the static library project
 In the Solution explorer, right-click the solution name bar (1st line). Click **`Add -> New project...`**:
 
-![04.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/04.png)
+![04.png](04.png)
 
 Select **`Static Library (C++)`**, hit **`Next`**:
 
-![05.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/05.png)
+![05.png](05.png)
 
 Type the static library project name, which must be exactly **`glpp`**, check the path to the solution, and hit **`Create`**:
 
-![06.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/06.png)
+![06.png](06.png)
 
 ### 5. Add files to the library project
 In the Solution Explorer remove all header and source files **`(Del)`**. These files no longer needed, so they could be deleted permanently:
 
-![07.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/07.png)
+![07.png](07.png)
 
 Right-click **`Header Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\include\glpp`** directory, select **`glpp.h`** file, which has to be here just to toggle the switches:
 
-![08.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/08.png)
+![08.png](08.png)
 
 Next, right-click **`Source Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\src\glpp`** directory, and select all **`.cpp`** files:
 
-![09.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/09.png)
+![09.png](09.png)
 
 Finally, add the same way the **`$(SolutionDir)\Common\src\glad.c`** file to **`Source Files`** filter. The Solution Explorer should now look like this:
 
-![10.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/10.png)
+![10.png](10.png)
 
 ### 6. Set the library project proprties
 Right-click glpp project name bar and press **`Proprties (Alt+Enter)`**:
 
-![11.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/11.png)
+![11.png](11.png)
 
 In the Properties window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
 
-![12.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/12.png)
+![12.png](12.png)
 
 The glpp needs to set 4 configuration options for each platform configuration. To set an option, select a category at the left-hand side, then select an option at the right-hand side. Click the drop-down menu at the right, then hit **`<Edit...>`**, or select the available option:
 
-![13.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/13.png)
+![13.png](13.png)
 
 The glpp library supports 4 platform configurations: **`Debug / x64`**, **`Release / x64`**, **`Debug / Win32`**, **`Release / Win32`**. Here is the list of the required options under each of the 4 platform configurations in form **`category -> name: value`**:
 
@@ -133,11 +133,11 @@ C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Heade
 ### 7. Build the library
 Now close the Properties window. In the Solution Explorer open **`glpp.h`** file, so the IDE focuses on glpp project within the solution. Select any of the 4 platform configuration on the top of IDE:
 
-![14.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/14.png)
+![14.png](14.png)
 
 Click **`Build -> Rebuild glpp`**:
 
-![15.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/15.png)
+![15.png](15.png)
 
 The output should look like this:
 ```
