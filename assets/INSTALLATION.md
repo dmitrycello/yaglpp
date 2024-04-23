@@ -178,7 +178,7 @@ Rebuild started...
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
 > [!TIP]
-> Rebuild ensures to process every source from scratch. Use **`Build glpp (Ctrl+B)`** to update the build.
+> Rebuild ensures to process the every source file from scratch. Use **`Build glpp (Ctrl+B)`** to update the build.
 
 The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive, rename its **`glad.h`** file to **`gladXX.h`** and move it into **`glad`** directory, do not use other files from the downgraded archives. The XX is the number of GLAD version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control could be great for backward compatible coding.
 
