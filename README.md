@@ -332,7 +332,7 @@ Select **`C++ File (.cpp)`**, type any name, check the path, and hit **`Add`**
 ![22.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/22.png)
 
 ### 5. Type the code
-In opened file type the minimal glpp application code:
+In the editor window type the minimal glpp application code:
 ```
 // Source.cpp
 #include <glpp/glpp.h>
