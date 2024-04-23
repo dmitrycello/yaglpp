@@ -94,6 +94,12 @@ int main(int argc, char** argv)
 	return 0;
 }
 ```
+
+> [!NOTE]
+> If there is no error, the IntelliSense shows the description of every library member:
+
+![24.png](24.png)
+
 The build output should look like this:
 ```
 Rebuild started...
@@ -105,11 +111,6 @@ Rebuild started...
 Now to run the application, hit **`F5`**:
 
 ![23.png](23.png)
-
-> [!NOTE]
-> The Visual Studio's IntelliSense now shows the description of any library member:
-
-![24.png](24.png)
 
 To overload window events, use the new window class derived from **`glfw::Window`**:
 ```
