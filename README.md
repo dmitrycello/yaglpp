@@ -287,7 +287,7 @@ In the Properties window set **`Configuration`** and **`Platform`** drop-down me
 
 ![20.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/20.png)
 
-As the library project, the application project may be used in one of the 4 platform configurations. To change the platform configuration, it is necessary to rebuild the library for that configuration. Debug platform configuration requires to set 4 configuration options, the Release platform configuration requires an extra option to set the entry point.
+As the library project, the application project may be used in one of the 4 platform configurations. In order to change the application platform configuration, it is necessary to build the library under that configuration. The application Debug platform configuration requires to set 4 configuration options, the application Release platform configuration requires an extra option to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol).
 
 - **`Debug / x64 (EXE)`**:
 ```
