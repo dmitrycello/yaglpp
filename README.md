@@ -166,19 +166,11 @@ The glpp library supports 4 platform configurations: **`Debug / x64`**, **`Relea
 > You may never use the last two configurations. But it is recommended to set it up now, to avoid the mess later.
 
 - **`Debug / x64 (LIB)`**:
-	+ General -> Output Directory:
 ```
-$(SolutionDir)\Common\lib\Debug\
-```
-	+ VC++ Directories -> Include Directories:
-```
-$(SolutionDir)\Common\include\;$(IncludePath
-```
-	+ VC++ Directories -> Library Directories:
-```
-$(SolutionDir)\Common\lib\;$(LibraryPath)
-```
-	+ C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Headers'
+General -> Output Directory: $(SolutionDir)\Common\lib\Debug\
+VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath
+VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
+C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Headers'
 ```
 - **Release / x64 (LIB)**:
 ```
