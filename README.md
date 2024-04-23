@@ -56,7 +56,7 @@ The symbols defined right after **`#pragma once`** directive in the **`glpp.h`**
 - Commenting the **`GLPP_NO_GLFW_LEGACY`** switch allows to build glpp with GLFW v3.3.10, the latest version supporting Windows XP. In this case, some functions and constants of the recent GLFW libraries become unavailable;
 - When commenting the **`GLPP_FREEIMAGE_LIB`** switch, the **`FreeImage`** class won't be included in the build. This library is no longer maintained, but can deal with more formats compared to included **`StbImage`**;
 - The **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches indicate the minimum supporeted OpenGL context verion of the library. Accepted combination of these values are: 2/0, 2/1, 3/0, 3/1, 3/2 and 3/3 to represent the OpenGL versions from 2.0 to 3.3 respectively;
-- The **`GLPP_GLFW_LIB`** selects the GLFW library file used in the build. It could be **`"glfw3.lib`"**, **`"glfw3_mt.lib`"** or **`"glfw3dll.lib`"** (default);
+- The **`GLPP_GLFW_LIB`** selects the GLFW library file used in the build. It could be **`"glfw3dll.lib`"** (default), **`"glfw3.lib`"**, or **`"glfw3_mt.lib`"**;
 - The last 2 switches contain the library output paths.
 
 > [!WARNING]
@@ -166,11 +166,19 @@ The glpp library supports 4 platform configurations: **`Debug / x64`**, **`Relea
 > You may never use the last two configurations. But it is recommended to set it up now, to avoid the mess later.
 
 - **`Debug / x64 (LIB)`**:
+	+ General -> Output Directory:
 ```
-General -> Output Directory: $(SolutionDir)\Common\lib\Debug\
-VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
-VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
-C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Headers'
+$(SolutionDir)\Common\lib\Debug\
+```
+	+ VC++ Directories -> Include Directories:
+```
+$(SolutionDir)\Common\include\;$(IncludePath
+```
+	+ VC++ Directories -> Library Directories:
+```
+$(SolutionDir)\Common\lib\;$(LibraryPath)
+```
+	+ C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Headers'
 ```
 - **Release / x64 (LIB)**:
 ```
