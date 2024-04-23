@@ -358,7 +358,7 @@ Rebuild started...
 1>Project1.vcxproj -> D:\Path_to_solution\OpenGL\x64\Debug\Project1.exe
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
-Noe to run the application, hit **`F5`**:
+Now to run the application, hit **`F5`**:
 
 ![23.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/23.png)
 
