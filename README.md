@@ -370,7 +370,7 @@ int main(int argc, char** argv)
 Lastly, the example of the library usage in AFX-alike layout. The application class must be derived from **`glfw::Thread`** or **`glfw::ThreadWnd`** class. The second has more options
 
 > [!NOTE]
-> AFX-alike layout is rather experimental, and at the moment has only two classes. But it could be the perspective direction for development in the future.
+> AFX-alike layout is rather experimental, and at the moment it has only two classes. But it could become very promising direction for development in the future.
 
 ```
 // Source.cpp
