@@ -55,7 +55,7 @@ The symbols defined right after **`#pragma once`** directive in the **`glpp.h`**
 - Commenting the **`GLPP_NO_AFX_LAYOUT`** switch will transform the glpp into the AFX-like environment, without the **`main`** function. Instead, you have to inherit a class from **`ThreadWnd`**, and overwrite its virtual functions. Otherwise, classical layout with the **`main`** function is preserved;
 - Commenting the **`GLPP_NO_GLFW_LEGACY`** switch allows to build glpp with GLFW v3.3.10, the latest version supporting Windows XP. In this case, some functions and constants of the recent GLFW libraries become unavailable;
 - When commenting the **`GLPP_FREEIMAGE_LIB`** switch, the **`FreeImage`** class won't be included in the build. This library is no longer maintained, but can deal with more formats compared to included **`StbImage`**;
-- The **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches indicate the minimum supporeted OpenGL context verion of the library. Accepted combination of these values are: 2/0, 2/1, 3/0, 3/1, 3/2 and 3/3 to represent the OpenGL versions from 2.0 to 3.3 respectively;
+- The **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches indicate the minimum supporeted OpenGL context verion of the library. Accepted combination of these values are: 2/0, 2/1, 3/0, 3/1, 3/2 and 3/3 to represent the OpenGL versions from 2.0 to 3.3 respectively. To change these switches, it is necessary to add other versions of the GLAD header file to **`glad`** folder, as described below;
 - The **`GLPP_GLFW_LIB`** selects the GLFW library file used in the build. It could be **`"glfw3dll.lib`"** (default), **`"glfw3.lib`"**, or **`"glfw3_mt.lib`"**;
 - The last 2 switches contain the library output paths.
 
@@ -99,11 +99,8 @@ Common\lib\Win32\Debug\ <- Empty (glpp 32-bit Debug output)
 Common\src\glpp\ <- glpp source files
 Common\src\glad.c <- Source file from GLAD archive
 ```
-### 3. Create a new solution for the library and the main project
-On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
-
-> [!NOTE]
-> You can later create mutiple projects under the same solution, so the reinstallation of the library in not required.
+### 3. Create a new solution
+Create the solution for the library and the main project. On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
 
 ![01.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/01.png)
 
@@ -115,9 +112,9 @@ Choose any name and path to solution, e.g. OpenGL on the appropriate drive, hit 
 
 ![03.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/03.png)
 
-Finally, move the previously created **`Common`** directory into the solution directory.
+Finally, move the **`Common`** directory created earlier into the solution directory.
 
-### 4. Create new static library project under the newly created solution
+### 4. Add the static library project
 In the Solution explorer, right-click the solution name bar (1st line). Click **`Add -> New project...`**:
 
 ![04.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/04.png)
@@ -130,12 +127,12 @@ Type the static library project name, which must be exactly **`glpp`**, check th
 
 ![06.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/06.png)
 
-### 5. Add files to the glpp library project
+### 5. Add files to the library project
 In the Solution Explorer remove all header and source files **`(Del)`**. These files no longer needed, so they could be deleted permanently:
 
 ![07.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/07.png)
 
-Right-click **`Header Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\include\glpp`** directory, select **`glpp.h`** file, it has to be here just to toggle the switches:
+Right-click **`Header Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\include\glpp`** directory, select **`glpp.h`** file, which has to be here just to toggle the switches:
 
 ![08.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/08.png)
 
@@ -147,7 +144,7 @@ Finally, add the same way the **`$(SolutionDir)\Common\src\glad.c`** file to **`
 
 ![10.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/10.png)
 
-### 6. Set the project proprties
+### 6. Set the library project proprties
 Right-click glpp project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![11.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/11.png)
@@ -156,14 +153,14 @@ In the Properties window set **`Configuration`** and **`Platform`** drop-down me
 
 ![12.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/12.png)
 
-The glpp needs to set 4 configuration options for each platform configuration. To set an option, select the category at the left-hand side, then select the option at the right-hand side. Click the drop-down menu at the right, then hit **`<Edit...>`**, or select the available option:
+The glpp needs to set 4 configuration options for each platform configuration. To set an option, select a category at the left-hand side, then select an option at the right-hand side. Click the drop-down menu at the right, then hit **`<Edit...>`**, or select the available option:
 
 ![13.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/13.png)
 
 The glpp library supports 4 platform configurations: **`Debug / x64`**, **`Release / x64`**, **`Debug / Win32`**, **`Release / Win32`**. Here is the list of the required options under each of the 4 platform configurations in form **`category -> name: value`**:
 
 > [!IMPORTANT]
-> You may never use the last two configurations. But it is recommended to set it up now, to avoid the mess later.
+> Some platform configurations may be never used. But it is recommended to set them all, to avoid the mess later.
 
 - **`Debug / x64 (LIB)`**:
 ```
@@ -172,7 +169,7 @@ VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(Includ
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
 C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Headers'
 ```
-- **Release / x64 (LIB)**:
+- **`Release / x64 (LIB)`**:
 ```
 General -> Output Directory: $(SolutionDir)\Common\lib\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
@@ -193,11 +190,12 @@ VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(Includ
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
 C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Headers'
 ```
+
 > [!WARNING]
 > Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 ### 7. Build the library
-Now close the Properties window. In the Solution Explorer open **`glpp.h`** file, so the IDA focuses on glpp project within the solution. Select any of the 4 configurations on the top of IDE:
+Now close the Properties window. In the Solution Explorer open **`glpp.h`** file, so the IDE focuses on glpp project within the solution. Select any of the 4 platform configuration on the top of IDE:
 
 ![14.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/14.png)
 
@@ -205,7 +203,7 @@ Click **`Build -> Rebuild glpp`**:
 
 ![15.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/15.png)
 
-The rebuild ensures to process every source from scratch. The outpud should look like this:
+The output should look like this:
 ```
 Rebuild started...
 1>------ Rebuild All started: Project: glpp, Configuration: Debug x64 ------
@@ -243,130 +241,152 @@ Rebuild started...
 1>glpp.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\Debug\glpp.lib
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
+> [!TIP]
+> Rebuild ensures to process every source from scratch. Use **`Build glpp (Ctrl+B)`** to update the build.
+
 The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive, rename its **`glad.h`** file to **`gladXX.h`** and move it into **`glad`** directory, do not use other files from the downgraded archives. The XX is the number of GLAD version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control could be great for backward compatible coding.
 
-It is recommended to generate all earlier versions of **`glad.h`** from 2.0 to 3.2 with **`Core`** profile, no extension selected, and to place them into **`glad`** directory. Now you just need to change the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches, and rebuild the libeary. But to learn OpenGL, always stick to default version 3.3!
+> [!TIP]
+> It is recommended to generate all earlier versions of **`glad.h`** from 2.0 to 3.2 with **`Core`** profile, with no extension selected, rename them to **`gladXX.h`** as described above, and place them into **`glad`** directory. Now you just need to change the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches to select desired OpenGL version, and rebuild the libeary. But to learn OpenGL, always stick to default version 3.3!
 
 By default glpp uses Dll version of GLFW library. It is much easier to use pre-compiled .lib files of GLFW, rather than build them from sratch. But when using Static GLFW build, while Debugging, if you by some accident Step Into the function, you will get an unpleasant screen '.pdb not found', it is because the .lib file does not have the right path of the source file. While using Dll version, the function is simply stepped out. When compiling the final version of your project, you may switch to the Static GLFW build by setting the **`GLPP_GLFW_LIB`** switch to **`glfw3.lib/glfw3_mt.lib`**. Note that using Dlls decreases the application file size, and saves the computer RAM while running several applications using that Dll, but the appropriate Dll must be distributed with the application.
 
-> [!NOTE]
-> After installation is complete, the original API names are always available, so it is possible to combine C++ and C programming in the same source, but the only interaction with the glpp objects will be very limited.
+> [!TIP]
+> After installation is complete, the original API assets will be still available, so it is possible to combine C++ and C programming in the same source, but the only interaction of C code with the glpp objects will be very limited.
 
 ## USAGE
 
-1. To add the application project to the solution, use the same way as for
-    the glpp library: in the Solution Explorer right-click the solution
-	name (1st line), Add -> New project..., select <Empty Project (C++)>,
-	press Next, choose any name, press Create
+The described above library installation setup requires the OpenGL application project to be added to the same solution.
 
-2. In the Solution Explorer, right-click the project's name and press
-    Set as Startup Project, to set default running output application
+> [!NOTE]
+> It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
-3. Right-click the project's name and press Proprties (Alt+Enter). In the
-    Properties window set Configuration and Platform to Debug / x64. In
-	the left frame under Configuration Properties set the following options
-	and hit Apply after setting up any of 4 following configurations.
+### 1. Add the application project
+To add the application project to the solution, use the same way as for the static library: in the Solution Explorer right-click the solution name bar (1st line), Click **`Add -> New project...`**:
+
+![04.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/04.png)
+
+Select **`Empty Project (C++)`**, press **`Next`**:
+
+![16.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/16.png)
+
+Choose any project name, check the path to the solution, and hit **`Create`**:
+
+![17.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/17.png)
+
+In the Solution Explorer, right-click the project's name and click **`Set as Startup Project`**, to set default running output application:
+
+![18.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/18.png)
+
+### 2. Set the application project properties
+Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to Debug / x64:
+
+![19.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/19.png)
+
+In the Properties window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
+
+![20.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/20.png)
+
+As the library project, the application project may be used in one of the 4 platform configurations. To change the platform configuration, it is necessary to rebuild the library for that configuration. Debug platform configuration requires to set 4 configuration options, the Release platform configuration requires an extra option to set the entry point.
+
+- **`Debug / x64 (EXE)`**:
 ```
-	Debug / x64 (EXE):
-	Debugging -> Environment -> <Edit...>
-			In the first edit box enter the line and hit Ok:
-		path=%path%;$(SolutionDir)\Common\bin\
-	    VC++ Directories -> Include Directories
-	    $(SolutionDir)\Common\include\;$(IncludePath)
-	VC++ Directories -> Library Directories
-	    $(SolutionDir)\Common\lib\;$(LibraryPath)
-	Linker -> System -> SubSystem
-		    'Console (/SUBSYSTEM:CONSOLE)'
-	
-	Release / x64 (EXE):
-	Debugging -> Environment -> **Edit...**
-			In the first edit box enter the line and hit Ok:
-			path=%path%;$(SolutionDir)\Common\bin\
-	    VC++ Directories -> Include Directories
-	    $(SolutionDir)\Common\include\;$(IncludePath)
-	VC++ Directories -> Library Directories
-	    $(SolutionDir)\Common\lib\;$(LibraryPath)
-	Linker -> System -> SubSystem,
-		    'Windows (/SUBSYSTEM:WINDOWS)'
-		Linker -> Advanced -> Entry Point
-		    mainCRTStartup
-
-	Debug / Win32 (EXE):
-	Debugging -> Environment -> **Edit...**
-			In the first edit box enter the line and hit Ok:
-			path=%path%;$(SolutionDir)\Common\bin\Win32\
-	    VC++ Directories -> Include Directories
-	    $(SolutionDir)\Common\include\;$(IncludePath)
-	VC++ Directories -> Library Directories
-	    $(SolutionDir)\Common\lib\;$(LibraryPath)
-	Linker -> System -> SubSystem,
-		    'Console (/SUBSYSTEM:CONSOLE)'
-
-	Release / Win32 (EXE):
-	Debugging -> Environment -> **Edit...**
-			In the first edit box enter the line and hit Ok:
-			path=%path%;$(SolutionDir)\Common\bin\Win32\
-	    VC++ Directories -> Include Directories
-	    $(SolutionDir)\Common\include\;$(IncludePath)
-	VC++ Directories -> Library Directories
-	    $(SolutionDir)\Common\lib\;$(LibraryPath)
-	Linker -> System -> SubSystem,
-		    'Windows (/SUBSYSTEM:WINDOWS)'
-		Linker -> Advanced -> Entry Point
-		    mainCRTStartup
+Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\
+VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
+VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
+Linker -> System -> SubSystem: 'Console (/SUBSYSTEM:CONSOLE)'
+```
+- **`Release / x64 (EXE)`**:
+```
+Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\
+VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
+VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
+Linker -> System -> SubSystem: 'Windows (/SUBSYSTEM:WINDOWS)'
+Linker -> Advanced -> Entry Point: mainCRTStartup
+```
+- **`Debug / Win32 (EXE)`**:
+```
+Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\Win32\
+VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
+VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
+Linker -> System -> SubSystem: 'Console (/SUBSYSTEM:CONSOLE)'
+```
+- **`Release / Win32 (EXE)`**:
+```
+Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\Win32\
+VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
+VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
+Linker -> System -> SubSystem: 'Windows (/SUBSYSTEM:WINDOWS)'
+Linker -> Advanced -> Entry Point: mainCRTStartup
 ```
 
-4. In the Solution Explorer, right-click the project's Source Files folder:
-    Add -> New Item... (Ctrl+Shift+A), select C++ File (.cpp), type any
-	name it as 'main.cpp' or other, press Add
-	
-5. In opened file type the minimal glpp application code:
+> [!WARNING]
+> Make sure to hit the **`Apply`** button after setting up each platform configuration.
+
+### 4. Add the source file to the application project
+In the Solution Explorer, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+
+![21.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/21.png)
+
+Select **`C++ File (.cpp)`**, type any name, check the path, and hit **`Add`**
+
+![22.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/22.png)
+
+### 5. Type the code
+In opened file type the minimal glpp application code:
 ```
-	// main.cpp
-	#include <glpp/glpp.h>
-	int main(int argc, char** argv)
+// Source.cpp
+#include <glpp/glpp.h>
+int main(int argc, char** argv)
+{
+	glfw::Window glWindow(800, 600, "LearnOpenGL");
+	glWindow.makeContextCurrent();
+	while (!glWindow.windowShouldClose())
 	{
-		glfw::Window glWindow(800, 600, "LearnOpenGL");
-		glWindow.makeContextCurrent();
-		while (!glWindow.windowShouldClose())
-		{
-			gl::clearColor(0.2f, 0.3f, 0.3f, 1.0f);
-			gl::clear(gl::BufferBitMask::ColorBufferBit);
-			glWindow.swapBuffers();
-			glfw::pollEvents();
-		}
-		return 0;
+		gl::clearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		gl::clear(gl::BufferBitMask::ColorBufferBit);
+		glWindow.swapBuffers();
+		glfw::pollEvents();
 	}
+	return 0;
+}
+```
+To overload window events, use the new window class derived from **`glfw::Window`**:
+```
+// Source.cpp
+#include <glpp/glpp.h>
+class LearnOpenGL : public glfw::Window
+{
+	using Window::Window; // Base constructors
+	void onFramebuffer(int width, int height)
+	{
+		gl::viewport(0, 0, width, height);
+	}
+};
+int main(int argc, char** argv)
+{
+	LearnOpenGL glWindow(800, 600, "LearnOpenGL");
+	//...
+```
+Lastly, the example of the library usage in AFX-like layout:
+```
+// Source.cpp
+#include <glpp/glpp.h>
+class GLApplication : public glfw::ThreadWnd
+{
+	void onInitThread()
+	{
+		m_pWindow = new LearnOpenGL(1280, 720, "LearnOpenGL");
+		m_pWindow->makeContextCurrent(this);
+	}
+	void onRenderWindow()
+	{
+		gl::clearColor(0.3f, 0.2f, 0.2f, 1.0f);
+		gl::clear(gl::BufferBitMask::ColorBufferBit);
+	}
+};
+GLApplication glApplication;
 ```
 
-6. To overload window events, create new window class before main function:
-```
-	// main.cpp
-	class LearnOpenGL : public glfw::Window
-	{
-		using Window::Window; // Base constructors
-		void onFramebuffer(int width, int height)
-		{
-			gl::viewport(0, 0, width, height);
-		}
-	};
-```
-
-7. And lastly, the example of the library usage in AFX-like layout:
-```
-	// main.cpp
-	class GLApplication : public glfw::ThreadWnd
-	{
-		void onInitThread()
-		{
-			m_pWindow = new LearnOpenGL(1280, 720, "LearnOpenGL");
-			m_pWindow->makeContextCurrent(this);
-		}
-		void onRenderWindow()
-		{
-			gl::clearColor(0.3f, 0.2f, 0.2f, 1.0f);
-			gl::clear(gl::BufferBitMask::ColorBufferBit);
-		}
-	};
-	GLApplication glApplication;
-```
+> [!WARNING]
+> In order to use AFX-like layout, do not forget to comment the **`GLPP_NO_AFX_LAYOUT`** switch in the **`glpp.h`** library header, and rebuild glpp.
