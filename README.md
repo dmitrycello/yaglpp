@@ -19,7 +19,6 @@ The library assets are defined within **`gl::`** and **`glfw::`** namespaces for
 
 The names in glpp library are obtained by stripping gl and glwf prefixes of the original API names, and by applying the camil-case roule for the rest. For the constant names, every underscore symbol is used as a word delimiter. Such an approach helps learning the original API symbols for potential switching to OpenGL C programming. Some of the API functions such as **`glDisable`**, **`glEnable`**, **`glGet`**, **`glIsEnabled`**, and **`glPixelStore`** are used with the names of their constant values. For example:
 ```
-glDepthFunc(func)
 glDisable(GL_SAMPLE_COVERAGE)
 glEnable(GL_SCISSOR_TEST)
 glGetIntegerv(GL_COLOR_CLEAR_VALUE, color)
@@ -29,7 +28,6 @@ glfwWindowHint(GLFW_VISIBLE, visible)
 ```
 in glpp library become:
 ```
-gl::depthFunc(func)
 gl::disableSampleCoverage()
 gl::enableScissorTest()
 gl::getColorClearValue(color)
