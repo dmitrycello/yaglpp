@@ -38,7 +38,7 @@ Common\src\glad.c <- Source file from GLAD archive
 ### 3. Create a new solution
 Create the solution for the library and the main project. On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
 
-![01.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/01.png)
+![01.png](00.png)
 
 Select **`Blanc Solution`**, hit **`Next`**:
 
