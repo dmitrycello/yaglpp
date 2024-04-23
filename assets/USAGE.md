@@ -128,11 +128,7 @@ int main(int argc, char** argv)
 	LearnOpenGL glWindow(800, 600, "LearnOpenGL");
 	//...
 ```
-Lastly, the example of the library usage in AFX-alike layout. The application class must be derived from **`glfw::Thread`** or **`glfw::ThreadWnd`** class. The second has more options
-
-> [!NOTE]
-> AFX-alike layout is rather experimental, and at the moment it has only two classes. But it could become very promising direction for development in the future.
-
+Lastly, the example of the library usage in AFX-alike layout. The application class must be derived from **`glfw::Thread`** or **`glfw::ThreadWnd`** class. The second has more options:
 ```
 // Source.cpp
 #include <glpp/glpp.h>
@@ -152,6 +148,8 @@ class GLApplication : public glfw::ThreadWnd
 GLApplication glApplication;
 ```
 
+> [!NOTE]
+> AFX-alike layout is rather experimental, and at the moment it has only two classes. But it could become very promising direction for development in the future.
+
 > [!WARNING]
 > In order to use AFX-alike layout, do not forget to comment the **`GLPP_NO_AFX_LAYOUT`** switch in the **`glpp.h`** library header, and rebuild glpp.
-
