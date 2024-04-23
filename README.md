@@ -368,6 +368,10 @@ int main(int argc, char** argv)
 	//...
 ```
 Lastly, the example of the library usage in AFX-like layout:
+
+> [!WARNING]
+> In order to use AFX-like layout, do not forget to comment the **`GLPP_NO_AFX_LAYOUT`** switch in the **`glpp.h`** library header, and rebuild glpp.
+
 ```
 // Source.cpp
 #include <glpp/glpp.h>
@@ -386,6 +390,3 @@ class GLApplication : public glfw::ThreadWnd
 };
 GLApplication glApplication;
 ```
-
-> [!WARNING]
-> In order to use AFX-like layout, do not forget to comment the **`GLPP_NO_AFX_LAYOUT`** switch in the **`glpp.h`** library header, and rebuild glpp.
