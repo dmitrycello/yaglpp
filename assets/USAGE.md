@@ -129,7 +129,7 @@ int main(int argc, char** argv)
 	LearnOpenGL glWindow(800, 600, "LearnOpenGL");
 	//...
 ```
-Lastly, the example of the library usage in AFX-alike layout. The application class must be derived from **`glfw::Thread`** or **`glfw::ThreadWnd`** class. The second has more options:
+Lastly, the example of the library usage in AFX-alike layout. The application class must be derived from **`glfw::Thread`** or **`glfw::ThreadWnd`** class:
 ```
 // Source.cpp
 #include <glpp/glpp.h>
