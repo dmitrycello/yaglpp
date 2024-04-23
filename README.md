@@ -350,6 +350,23 @@ int main(int argc, char** argv)
 	return 0;
 }
 ```
+The build output should look like this:
+```
+Rebuild started...
+1>------ Rebuild All started: Project: Project1, Configuration: Debug x64 ------
+1>Source.cpp
+1>Project1.vcxproj -> D:\Path_to_solution\OpenGL\x64\Debug\Project1.exe
+========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
+```
+Noe to run the application, hit **`F5`**:
+
+![23.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/23.png)
+
+> [!NOTE]
+> The Visual Studio's IntelliSense now shows the description of any library member:
+
+![24.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/24.png)
+
 To overload window events, use the new window class derived from **`glfw::Window`**:
 ```
 // Source.cpp
