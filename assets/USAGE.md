@@ -7,28 +7,28 @@ The described above library installation setup requires the OpenGL application p
 ### 1. Add the application project
 To add the application project to the solution, use the same way as for the static library: in the Solution Explorer right-click the solution name bar (1st line), Click **`Add -> New project...`**:
 
-![04.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/04.png)
+![04.png](04.png)
 
 Select **`Empty Project (C++)`**, press **`Next`**:
 
-![16.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/16.png)
+![16.png](16.png)
 
 Choose any project name, check the path to the solution, and hit **`Create`**:
 
-![17.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/17.png)
+![17.png](17.png)
 
 In the Solution Explorer, right-click the project's name and click **`Set as Startup Project`**, to set default running output application:
 
-![18.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/18.png)
+![18.png](18.png)
 
 ### 2. Set the application project properties
 Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to Debug / x64:
 
-![19.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/19.png)
+![19.png](19.png)
 
 In the Properties window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
 
-![20.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/20.png)
+![20.png](20.png)
 
 As the library project, the application project may be used in one of the 4 platform configurations. In order to change the application platform configuration, it is necessary to build the library under that configuration. The application Debug platform configuration requires to set 4 configuration options, the application Release platform configuration requires an extra option to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol).
 
@@ -69,11 +69,11 @@ Linker -> Advanced -> Entry Point: mainCRTStartup
 ### 4. Add the source file to the application project
 In the Solution Explorer, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
-![21.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/21.png)
+![21.png](21.png)
 
 Select **`C++ File (.cpp)`**, type any name, check the path, and hit **`Add`**
 
-![22.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/22.png)
+![22.png](22.png)
 
 ### 5. Type the code
 In the editor window type the minimal glpp application code:
@@ -104,12 +104,12 @@ Rebuild started...
 ```
 Now to run the application, hit **`F5`**:
 
-![23.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/23.png)
+![23.png](23.png)
 
 > [!NOTE]
 > The Visual Studio's IntelliSense now shows the description of any library member:
 
-![24.png](https://github.com/dmitrycello/dmitrycello/blob/main/glpp/24.png)
+![24.png](24.png)
 
 To overload window events, use the new window class derived from **`glfw::Window`**:
 ```
