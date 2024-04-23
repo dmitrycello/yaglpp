@@ -61,5 +61,5 @@ The symbols defined right after **`#pragma once`** directive in the **`glpp.h`**
 > [!WARNING]
 > Do not touch the last 2 switches, unless you really need to recalibrate the whole library path layout.
 
-## [INSTALLATION](assets/INSTALLATION.md)
-## [USAGE](assets/USAGE.md)
+- [INSTALLATION](assets/INSTALLATION.md)
+- [USAGE](assets/USAGE.md)
