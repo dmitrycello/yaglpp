@@ -66,7 +66,7 @@ Linker -> Advanced -> Entry Point: mainCRTStartup
 > [!WARNING]
 > Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
-### 4. Add the source file to the application project
+### 3. Add the source file to the application project
 In the Solution Explorer, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
 ![21.png](21.png)
@@ -75,7 +75,7 @@ Select **`C++ File (.cpp)`**, type any name, check the path, and hit **`Add`**
 
 ![22.png](22.png)
 
-### 5. Type the code
+### 4. Type the code
 In the editor window type the minimal glpp application code:
 ```
 // Source.cpp
