@@ -137,7 +137,7 @@ class GLApplication : public glfw::ThreadWnd
 {
 	void onInitThread()
 	{
-		m_pWindow = new glfw::Window(1280, 720, "LearnOpenGL");
+		m_pWindow = new glfw::Window(800, 600, "LearnOpenGL");
 		m_pWindow->makeContextCurrent(this);
 	}
 	void onRenderWindow()
