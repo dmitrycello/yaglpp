@@ -153,4 +153,4 @@ GLApplication glApplication;
 > In order to use AFX-alike layout, do not forget to comment the **`GLPP_NO_AFX_LAYOUT`** switch in the **`glpp.h`** library header, and rebuild glpp.
 
 > [!NOTE]
-> AFX-alike layout is rather experimental, and at the moment it has only two classes. But it could become very promising direction for development in the future.
+> AFX-alike layout is rather experimental, and at the moment has only two classes. But it could become very promising direction for development in the future.
