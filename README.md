@@ -12,8 +12,11 @@ void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value)
 ```
 The most valuable library's feature is the **`"lasy" creation and binding concept`**. It means, the OpenGL object is created and binded only when required. The creation of a class object does not mean the OpenGL object immediate creation or binding. The appropriate functions for creation and bindind are no longer needed, but still preserved to allow the programmer to create or bind the OpenGL object at anytime. The object status is saved in [thread local memory](https://learn.microsoft.com/en-us/cpp/c-language/thread-local-storage), which makes the library thread safe.
 
+> [!NOTE]
+> Not all glpp objects follow this roule. The **`gl::VertexArray`** (VAO) must be binded explicitly, and **`glfw::Window`**, must be created with specific parameters.
+
 ### Naming concept
-The original API names are carefully preserved, except very rare cases (e.g. **`BufferTexture`** is a texture, but **`TextureBuffer`** is a buffer). As the API functions are grouped around the C++ classes, the API constants are grouped around the enum classes. Some of the functions are duplicated as a static members of a class, it helps to find them on the context basis.
+The original API names are carefully preserved, except very rare cases (e.g. **gl::BufferTexture`** is a texture, but **`gl::TextureBuffer`** is a buffer). As the API functions are grouped around the C++ classes, the API constants are grouped around the enum classes. Some of the functions are duplicated as a static members of a class, it helps to find them on the context basis.
 
 The library assets are defined within **`gl::`** and **`glfw::`** namespaces for GLAD and GLFW APIs respectively. The few helper classes, such as **`StbImage`**, reside in the global namespace. You may bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them at least while learning the API. The prefixes will also prevent name conflict while managing large projects. 
 
