@@ -72,7 +72,8 @@ Right-click **`Header Files`** filter icon, click **`Add -> Existing Item (Shift
 
 ![08.png](08.png)
 
-> [!NOTE] The header files here are irrelevant for the build, and may not be included at all. The **`glpp.h`** file is added just to toggle the switches.
+> [!NOTE]
+> The header files here are irrelevant for the build, and may not be included at all. The **`glpp.h`** file is added just to toggle the switches.
 
 Next, right-click **`Source Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\src\glpp`** directory, and select all **`.cpp`** files:
 
