@@ -68,9 +68,11 @@ In the Solution Explorer remove all header and source files **`(Del)`**. These f
 
 ![07.png](07.png)
 
-Right-click **`Header Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\include\glpp`** directory, select **`glpp.h`** file, which has to be here just to toggle the switches:
+Right-click **`Header Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\include\glpp`** directory, select **`glpp.h`** file:
 
 ![08.png](08.png)
+
+> [!NOTE] The header files here are irrelevant for the build, and may not be included at all. The **`glpp.h`** file is added just to toggle the switches.
 
 Next, right-click **`Source Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\src\glpp`** directory, and select all **`.cpp`** files:
 
