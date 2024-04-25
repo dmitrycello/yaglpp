@@ -13,7 +13,7 @@ void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value)
 The most valuable library's feature is the **`"lasy" creation and binding concept`**. It means, the OpenGL object is created and binded only when required. The creation of a class object does not mean the OpenGL object immediate creation or binding. The appropriate functions for creation and bindind are no longer needed, but still preserved to allow the programmer to create or bind the OpenGL object at anytime. The object status is saved in [thread local memory](https://learn.microsoft.com/en-us/cpp/c-language/thread-local-storage), which makes the library thread safe.
 
 > [!NOTE]
-> Not all of glpp objects follow this roule. The **`gl::VertexArray`** and **`gl::Sampler`** objects must be binded explicitly, where as **`glfw::Window`** and **`glfw::Thread`** objects have to be created with specific parameters.
+> Not every glpp object follows this roule. The **`gl::VertexArray`** and **`gl::Sampler`** objects must be binded explicitly, where as **`glfw::Window`** and **`glfw::Thread`** objects have to be created with specific parameters.
 
 ### Naming concept
 The original API names are carefully preserved, except very rare cases (e.g. **`gl::BufferTexture`** is a texture, but **`gl::TextureBuffer`** is a buffer). As the API functions are grouped around the C++ classes, the API constants are grouped around the enum classes. Some of the functions are duplicated as a static members of a class, it helps to find them on the context basis.
