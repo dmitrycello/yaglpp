@@ -1,5 +1,5 @@
 ## USAGE
-[Back to README](../README.md)
+[&nwarr; Back to README](../README.md)
 
 The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
