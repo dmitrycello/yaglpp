@@ -1,4 +1,6 @@
 ## USAGE
+[Back to README](../README.md)
+
 The described above library installation setup requires the OpenGL application project to be added to the same solution.
 
 > [!NOTE]
