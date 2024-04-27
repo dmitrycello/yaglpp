@@ -1,8 +1,7 @@
 ## USAGE
 [Back to README](../README.md)
 
-> [!NOTE]
-> The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
+The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
 ### 1. Add the application project
 To add the application project to the solution, use the same way as for the static library: in the Solution Explorer right-click the solution name bar (1st line), Click **`Add -> New project...`**:
