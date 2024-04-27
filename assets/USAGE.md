@@ -1,5 +1,5 @@
 ## USAGE
-[&nwarr; Back to README](../README.md)
+[&nwarr; README](../README.md)
 
 The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
@@ -154,4 +154,4 @@ GLApplication glApplication;
 > [!NOTE]
 > AFX-alike layout is rather experimental, and at the moment has only two classes. But it could become very promising direction for development in the future.
 
-[&uarr; Back to top](USAGE.md#usage)
+[&uarr; TOP](USAGE.md#usage)
