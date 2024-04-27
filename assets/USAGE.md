@@ -153,3 +153,5 @@ GLApplication glApplication;
 
 > [!NOTE]
 > AFX-alike layout is rather experimental, and at the moment has only two classes. But it could become very promising direction for development in the future.
+
+[Back to top](USAGE.md#usage)
