@@ -5,9 +5,9 @@ This section outlines specific traits of glpp library. As it was mentionned befo
 ```
 void glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 ```
-Does the same as:
+With the location being a class member does the same:
 ```
-void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value)
+void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value);
 ```
 
 [&uarr; TOP](DETAILS.md#details)
