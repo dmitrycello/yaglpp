@@ -3,7 +3,7 @@
 The installation of glpp library isn't much more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** sets the linking of all libraries. Once installation is complete, there is no need to set them all in project proprieties, just to include the **`glpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths (at least for the first time). The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
 > [!TIP]
-> For the quick testing purpose, the steps 1 and 2 of the installation process may be skipped, while using the repository files. In this case download ZIP archive using **`Code`** button on the [repository page](https://github.com/dmitrycello/glpp/tree/main) or the **`Source Code`** link on the [release page](https://github.com/dmitrycello/glpp/releases), extract the **`Common`** folder from the downloaded archive, and proceed to step 3. However, it is still recommended to get all components from the Internet, at least for the first time to feel the process. This is also the way the most programmers do, to ensure that the versions are up to date.
+> For the quick testing purpose, the steps 1 and 2 of the installation process may be skipped, while using the repository files. In this case download ZIP archive using **`Code`** button on the [repository page](https://github.com/dmitrycello/glpp/tree/main) or the **`Source Code`** link on the [release page](https://github.com/dmitrycello/glpp/releases), extract the **`Common`** folder from the downloaded archive, replace GLFW binary files according to used IDE (see step2), and proceed to step 3. However, it is still recommended to get all components from the Internet, at least for the first time to feel the process. This is also the way the most programmers do, to ensure that the versions are up to date.
 
 ### 1. Download the required OpenGL components from the Internet
 - [GLAD](https://glad.dav1d.de) archive generated with Specification set to **`OpenGL`**, Profile set to **`Core`**, API **`gl`** set to **`Version 3.3`**. Keep gles1, gles2 and glsc2 as **`None`**. Do not select any extension!
@@ -17,7 +17,7 @@ The installation of glpp library isn't much more complicated than the setup of o
 - [Latest release](https://github.com/dmitrycello/glpp/releases) of glpp library, namely the **`include.7z`** and **`src.7z`** archives. The **`dependencies.txt`** file lists all component's versions tested with current release.
 
 ### 2. Prepare the components's folder
-Create the new folder anywhere on your PC, and name it **`Common`**. Extract all downloaded OpenGL and glpp components, and move them into the following subdirectories:
+Create the new folder anywhere on your PC, and name it **`Common`**. Extract all downloaded OpenGL and glpp components, extract GLFW components according to used IDE, and move them into the following subdirectories:
 ```
 Common\bin\ <- GLFW and FreeImage 64-bit Dlls
 Common\bin\Win32\ <- GLFW and FreeImage 32-bit Dlls
