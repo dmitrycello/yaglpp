@@ -194,4 +194,4 @@ By default glpp uses Dll version of GLFW library. It is much easier to use pre-c
 > [!TIP]
 > After installation is complete, the original API assets will be still available, so it is possible to combine C++ and C programming in the same source, but the only interaction of C code with the glpp objects will be very limited.
 
-[&uarr; TOP](USAGE.md#usage)
+[&uarr; TOP](INSTALLATION.md#installation)
