@@ -107,7 +107,7 @@ Rebuild started...
 1>Project1.vcxproj -> D:\Path_to_solution\OpenGL\x64\Debug\Project1.exe
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
-Now to run the application, hit **`F5`**:
+Now hit **`F5`** to run the application:
 
 ![23.png](23.png)
 
