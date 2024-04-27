@@ -99,9 +99,6 @@ The glpp needs to set 4 configuration options for each platform configuration. T
 
 The glpp library supports 4 platform configurations: **`Debug / x64`**, **`Release / x64`**, **`Debug / Win32`**, **`Release / Win32`**. Here is the list of the required options under each of the 4 platform configurations in form **`category -> name: value`**:
 
-> [!IMPORTANT]
-> Some platform configurations may be never used. But it is recommended to set them all, to avoid the mess later.
-
 - **`Debug / x64 (LIB)`**:
 ```
 General -> Output Directory: $(SolutionDir)\Common\lib\Debug\
@@ -130,6 +127,9 @@ VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(Includ
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
 C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Headers'
 ```
+
+> [!IMPORTANT]
+> Some platform configurations may be never used. But it is recommended to set them all, to avoid the mess later.
 
 > [!WARNING]
 > Make sure to hit the **`Apply`** button after setting up each platform configuration.
