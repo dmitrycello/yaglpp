@@ -1,7 +1,7 @@
 ## DETAILS
 [&nwarr; README](../README.md)
 
-This section outlines specific traits of glpp library. As it was mentionned before, glpp is a C++ gear for the OpenGL API, and most of its assets do the same as API assets:
+This section outlines specific traits of glpp library. As it was mentionned before, glpp is a C++ gear for the OpenGL API, and most of its assets do the same as the API assets:
 ```
 void glUniform3fv(GLint location, GLsizei count, const GLfloat *value);
 ```
