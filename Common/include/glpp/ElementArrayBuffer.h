@@ -9,13 +9,19 @@ public:
 	/*(1) Constructs an empty buffer object*/
 	ElementArrayBuffer() : _Buffer() {}
 
-	/*(2) Constucts a buffer object with <assignBuffer>*/
+	/*(2) Constucts a buffer object with <shareBuffer>*/
+	ElementArrayBuffer(ElementArrayBuffer& buffer)
+	{
+		shareBuffer(buffer);
+	}
+
+	/*(3) Constucts a buffer object with <assignBuffer>*/
 	ElementArrayBuffer(Buffers& buffers, GLuint index)
 	{
 		assignBuffer(buffers, index);
 	}
 
-	/*Assigns an empty buffer object with the object name from the buffer multi-object
+	/*Set an empty buffer object as a reference to an element of the buffer multi-object
 	@param The buffer multi-object
 	@param The index of the object name*/
 	void assignBuffer(Buffers& buffers, GLuint index)
@@ -125,7 +131,7 @@ public:
 	@return True if buffer object currently bound to its target, or false otherwise*/
 	GLboolean isElementArrayBufferBinding()
 	{
-		return _buffer_id() == _getInteger(GL_ELEMENT_ARRAY_BUFFER_BINDING);
+		return _object_id() == _getInteger(GL_ELEMENT_ARRAY_BUFFER_BINDING);
 	}
 
 	/*Maps all of a buffer object's data store into the client's address space
@@ -134,6 +140,13 @@ public:
 	_Ret_maybenull_ void* mapBuffer(BufferAccess access)
 	{
 		return _mapBuffer(_tlsElementArrayBuffer(), GL_ELEMENT_ARRAY_BUFFER, (GLenum)access);
+	}
+
+	/*Set an empty buffer object as a reference to the buffer object from another context
+	@param The buffer object to share, must not be empty*/
+	void shareBuffer(ElementArrayBuffer& buffer)
+	{
+		_object_share((_Object&)buffer);
 	}
 
 	/*Unbinds any previously bound buffer object, and restores client memory usage for that buffer object target. Does nothing if no such buffer is bound*/

@@ -13,7 +13,7 @@ class _Objects
 private:
 	friend class _Object;
 	typedef struct {
-		GLuint num;		// Object number
+		GLsizei n;		// Object count
 #pragma warning(push)
 #pragma warning(disable : 4200)
 		GLuint ids[0];	// Zero data array
@@ -33,14 +33,15 @@ protected:
 		m_lpData = nullptr;
 	}
 
-	void _objects_append(GLPP_GLAD_PFNGEN pfnGen, GLuint num);
 	void _objects_delete(GLPP_GLAD_PFNDELETE pfnDelete);
-	void _objects_gen(GLPP_GLAD_PFNGEN pfnGen, GLuint num);
+	void _objects_gen(GLPP_GLAD_PFNGEN pfnGen, GLsizei n);
+	void _objects_insert(GLPP_GLAD_PFNGEN pfnGen, GLsizei n, GLint pos);
+	void _objects_remove(GLPP_GLAD_PFNDELETE pfnDelete, GLsizei n, GLint pos);
 
 public:
 	/*Returns the number of allocated OpenGL names in the multi-object
 	@return The number of elements in the multi-object*/
-	GLuint getObjectNum();
+	GLsizei getObjectCount();
 
 	/*Checks if valid OpenGL multi-object
 	@return True if not an empty OpenGL multi-object, false otherwise*/
@@ -56,9 +57,9 @@ inline GLuint _Objects::_objects_assign(GLuint index)
 	return m_lpData->ids[index];
 }
 
-inline GLuint _Objects::getObjectNum()
+inline GLsizei _Objects::getObjectCount()
 {
-	return m_lpData->num;
+	return m_lpData->n;
 }
 #endif // #ifndef _DEBUG
 } // namespace gl
@@ -86,9 +87,15 @@ protected:
 		m_iId = 0;
 	}
 
+	GLuint _object_id()
+	{
+		return (m_iId < 0) ? -(m_iId) : m_iId;
+	}
+
 	void _object_delete(GLPP_GLAD_PFNDELETE pfnDelete);
-	void _object_gen(GLPP_GLAD_PFNGEN pfnGen);
-	GLuint _object_id(GLPP_GLAD_PFNGEN pfnGen);
+	void _object_gen(GLPP_GLAD_PFNGEN pfnGen, GLenum param = 1);
+	GLuint _object_id(GLPP_GLAD_PFNGEN pfnGen, GLenum param = 1);
+	void _object_share(_Object& object);
 
 #ifdef _DEBUG
 	void _object_assign(_Objects& objects, GLuint index, GLenum target);
@@ -116,6 +123,11 @@ public:
 inline void _Object::_object_assign(_Objects& objects, GLuint index)
 {
 	m_iId = objects._objects_assign(index);
+}
+
+inline void _Object::_object_share(_Object& object)
+{
+	GLuint u = object.m_iId; m_iId = (u < 0) ? -u : u;
 }
 #endif // #ifndef _DEBUG
 } // namespace gl

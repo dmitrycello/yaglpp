@@ -62,14 +62,14 @@ public:
 	@return True if active vertex array object, false otherwise*/
 	GLboolean isVertexArray()
 	{
-		return glIsVertexArray(_array_id());
+		return glIsVertexArray(_object_id());
 	}
 
 	/*(3.0) Determines via API if the vertex array object is currently bound to its target
 	@return True if vertex array object currently bound to its target, or false otherwise*/
 	GLboolean isVertexArrayBinding()
 	{
-		return _array_id() == _getInteger(GL_VERTEX_ARRAY_BINDING);
+		return _object_id() == _getInteger(GL_VERTEX_ARRAY_BINDING);
 	}
 
 	/*(3.0) Breaks the existing vertex array object binding*/

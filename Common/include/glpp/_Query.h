@@ -85,7 +85,7 @@ public:
 	@return True if valid query object, false otherwise*/
 	GLboolean isQuery()
 	{
-		return glIsQuery(_query_id());
+		return glIsQuery(_object_id());
 	}
 
 #ifdef GL_VERSION_3_3

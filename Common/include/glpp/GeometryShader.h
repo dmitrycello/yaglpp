@@ -10,19 +10,25 @@ public:
 	/*(3.2) (1) Construct an empty shader object*/
 	GeometryShader() : _Shader() {}
 
-	/*(3.2) (2) Construct shader object with <shaderSource>*/
+	/*(3.2) (2) Constucts a shader object with <shareShader>*/
+	GeometryShader(GeometryShader& shader)
+	{
+		shareShader(shader);
+	}
+
+	/*(3.2) (3) Construct shader object with <shaderSource>*/
 	GeometryShader(int rcid)
 	{
 		shaderSource(rcid);
 	}
 
-	/*(3.2) (3) Construct shader object with <shaderSource>*/
+	/*(3.2) (4) Construct shader object with <shaderSource>*/
 	GeometryShader(_In_z_ const char* filepath)
 	{
 		shaderSource(filepath);
 	}
 
-	/*(3.2) (4) Construct shader object with <shaderSource>*/
+	/*(3.2) (5) Construct shader object with <shaderSource>*/
 	GeometryShader(GLsizei count, _In_reads_(count) const GLchar** string, _In_reads_(count) const GLint* length)
 	{
 		shaderSource(count, string, length);
@@ -53,13 +59,7 @@ public:
 	/*(3.2) Creates a shader object that was previously empty*/
 	void createShader()
 	{
-		_createShader(GL_GEOMETRY_SHADER);
-	}
-
-	/*(3.2) Deletes the shader object that was previously created*/
-	void deleteShader()
-	{
-		_deleteShader(GL_GEOMETRY_SHADER);
+		_object_gen(&_glCreateShader, GL_GEOMETRY_SHADER);
 	}
 
 	/*(3.2) Detaches a shader object from a program object to which it is attached
@@ -176,6 +176,13 @@ public:
 	void shaderSource(GLsizei count, _In_reads_(count) const GLchar** string, _In_reads_(count) const GLint* length)
 	{
 		_shaderSource(GL_GEOMETRY_SHADER, count, string, length);
+	}
+
+	/*(3.2) Set an empty shader object as a reference to the shader object from another context
+	@param The shader object to share, must not be empty*/
+	void shareShader(GeometryShader& shader)
+	{
+		_object_share((_Object&)shader);
 	}
 }; // class GeometryShader : public _Shader
 } // namespace gl

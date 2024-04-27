@@ -51,7 +51,7 @@ public:
 	@return True if the query object is currently active query, false otherwise*/
 	GLboolean isCurrentQuery()
 	{
-		return _query_id() == (GLuint)_getQuery(GL_TIME_ELAPSED, GL_CURRENT_QUERY);
+		return _object_id() == (GLuint)_getQuery(GL_TIME_ELAPSED, GL_CURRENT_QUERY);
 	}
 
 	/*(3.3) Records the GL time into an elapsed time query object after all previous commands have reached the GL server, but have not yet necessarily executed*/

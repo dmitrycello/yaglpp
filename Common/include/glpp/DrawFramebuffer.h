@@ -157,7 +157,7 @@ public:
 	@return True if framebuffer object currently bound to its target, or false otherwise*/
 	GLboolean isDrawFramebufferBinding()
 	{
-		GLuint uId = _framebuffer_id();
+		GLuint uId = _object_id();
 		return (uId == _getInteger(GL_DRAW_FRAMEBUFFER_BINDING)) && (uId != _getInteger(GL_READ_FRAMEBUFFER_BINDING));
 	}
 

@@ -10,7 +10,13 @@ public:
 	/*(3.1) (1) Constructs an empty texture object*/
 	TextureRectangle() : _Texture() {}
 
-	/*(3.1) (2) Constucts a texture object with <assignTexture>*/
+	/*(3.1) (2) Constucts a texture object with <shareTexture>*/
+	TextureRectangle(TextureRectangle& texture)
+	{
+		shareTexture(texture);
+	}
+
+	/*(3.1) (3) Constucts a texture object with <assignTexture>*/
 	TextureRectangle(Textures& textures, GLuint index)
 	{
 		assignTexture(textures, index);
@@ -23,7 +29,7 @@ public:
 		_activeTexture(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, index);
 	}
 
-	/*(3.1) Assigns an empty texture object with the object name from the texture multi-object
+	/*(3.1) Set an empty texture object as a reference to an element of the texture multi-object
 	@param The texture multi-object
 	@param The index of the object name*/
 	void assignTexture(Textures& textures, GLuint index)
@@ -334,7 +340,7 @@ public:
 	@return True if texture object currently bound to its target, or false otherwise*/
 	GLboolean isTextureBindingRectangle()
 	{
-		return _texture_id() == _getInteger(GL_TEXTURE_BINDING_RECTANGLE);
+		return _object_id() == _getInteger(GL_TEXTURE_BINDING_RECTANGLE);
 	}
 
 	/*(3.1) (1) Specifies four integer values that should be used for border texels
@@ -398,6 +404,13 @@ public:
 	void setTextureWrapT(TextureWrapMode wrap)
 	{
 		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, (GLint)wrap);
+	}
+
+	/*(3.1) Set an empty texture object as a reference to the texture object from another context
+	@param The texture object to share, must not be empty*/
+	void shareTexture(TextureRectangle& texture)
+	{
+		_object_share((_Object&)texture);
 	}
 
 	/*(3.1) (1) Specifies a two-dimensional rectangle texture image initialized from the StbImage object. (2.1) Unbinds pixel unpack buffer from its target

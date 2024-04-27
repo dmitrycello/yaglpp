@@ -113,7 +113,13 @@ public:
 	/*(3.1) (1) Constructs an empty texture object*/
 	BufferTexture() : _Texture() {}
 
-	/*(3.1) (2) Constucts a texture object with <assignTexture>*/
+	/*(3.1) (2) Constucts a texture object with <shareTexture>*/
+	BufferTexture(BufferTexture& texture)
+	{
+		shareTexture(texture);
+	}
+
+	/*(3.1) (3) Constucts a texture object with <assignTexture>*/
 	BufferTexture(Textures& textures, GLuint index)
 	{
 		assignTexture(textures, index);
@@ -126,7 +132,7 @@ public:
 		_activeTexture(_tlsBufferTexture(), GL_TEXTURE_BUFFER, index);
 	}
 
-	/*(3.1) Assigns an empty texture object with the object name from the texture multi-object
+	/*(3.1) Set an empty texture object as a reference to an element of the texture multi-object
 	@param The texture multi-object
 	@param The index of the object name*/
 	void assignTexture(Textures& textures, GLuint index)
@@ -244,7 +250,14 @@ public:
 	@return True if texture object currently bound to its target, or false otherwise*/
 	GLboolean isTextureBindingBuffer()
 	{
-		return _texture_id() == _getInteger(GL_TEXTURE_BINDING_BUFFER);
+		return _object_id() == _getInteger(GL_TEXTURE_BINDING_BUFFER);
+	}
+
+	/*(3.1) Set an empty texture object as a reference to the texture object from another context
+	@param The texture object to share, must not be empty*/
+	void shareTexture(BufferTexture& texture)
+	{
+		_object_share((_Object&)texture);
 	}
 
 	/*(3.1) Attach a texture buffer (buffer) object's data store to an active buffer texture (texture) object

@@ -260,7 +260,7 @@ public:
 	@return True if active buffer object, false otherwise*/
 	GLboolean isBuffer()
 	{
-		return glIsBuffer(_buffer_id());
+		return glIsBuffer(_object_id());
 	}
 
 #ifdef GL_VERSION_3_1
@@ -268,14 +268,14 @@ public:
 	@return True if buffer object currently bound to copy read buffer target, or false otherwise*/
 	GLboolean isCopyReadBufferBinding()
 	{
-		return _buffer_id() == _getInteger(GL_COPY_READ_BUFFER_BINDING);
+		return _object_id() == _getInteger(GL_COPY_READ_BUFFER_BINDING);
 	}
 
 	/*(3.1) Determines via API if the buffer object is currently bound to copy write buffer target
 	@return True if buffer object currently bound to copy write buffer target, or false otherwise*/
 	GLboolean isCopyWriteBufferBinding()
 	{
-		return _buffer_id() == _getInteger(GL_COPY_WRITE_BUFFER_BINDING);
+		return _object_id() == _getInteger(GL_COPY_WRITE_BUFFER_BINDING);
 	}
 #endif // #ifdef GL_VERSION_3_1
 }; // class _Buffer : public _Object

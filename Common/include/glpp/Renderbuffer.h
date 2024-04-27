@@ -35,7 +35,13 @@ public:
 	/*(3.0) (1) Constructs an empty renderbuffer object*/
 	Renderbuffer() : _Object() {}
 
-	/*(3.0) (2) Constucts a renderbuffer object with <assignBuffer>*/
+	/*(3.0) (2) Constucts a renderbuffer object with <shareRenderbuffer>*/
+	Renderbuffer(Renderbuffer& renderbuffer)
+	{
+		shareRenderbuffer(renderbuffer);
+	}
+
+	/*(3.0) (3) Constucts a renderbuffer object with <assignRenderbuffer>*/
 	Renderbuffer(Renderbuffers& renderbuffers, GLuint index)
 	{
 		assignRenderbuffer(renderbuffers, index);
@@ -50,7 +56,7 @@ public:
 		}
 	}
 
-	/*(3.0) Assigns an empty renderbuffer object with the object name from the renderbuffer multi-object
+	/*(3.0) Set an empty renderbuffer object as a reference to an element of the renderbuffer multi-object
 	@param The renderbuffer multi-object
 	@param The index of the object name*/
 	void assignRenderbuffer(Renderbuffers& renderbuffers, GLuint index)
@@ -112,14 +118,14 @@ public:
 	@return True if active renderbuffer object, false otherwise*/
 	GLboolean isRenderbuffer()
 	{
-		return glIsRenderbuffer(_renderbuffer_id());
+		return glIsRenderbuffer(_object_id());
 	}
 
 	/*(3.0) Determines via API if the renderbuffer object is currently bound to its target
 	@return True if renderbuffer object currently bound to its target, or false otherwise*/
 	GLboolean isRenderbufferBinding()
 	{
-		return _renderbuffer_id() == _getInteger(GL_RENDERBUFFER_BINDING);
+		return _object_id() == _getInteger(GL_RENDERBUFFER_BINDING);
 	}
 
 	/*(3.0) Establishes data storage, format and dimensions of a renderbuffer object's image
@@ -134,6 +140,13 @@ public:
 	@param Specifies the width of the renderbuffer, in pixels
 	@param Specifies the height of the renderbuffer, in pixels*/
 	void renderbufferStorageMultisample(GLsizei samples, ColorDepthStencilFormat internalformat, GLsizei width, GLsizei height);
+
+	/*(3.0) Set an empty renderbuffer object as a reference to the renderbuffer object from another context
+	@param The renderbuffer object to share, must not be empty*/
+	void shareRenderbuffer(Renderbuffer& renderbuffer)
+	{
+		_object_share((_Object&)renderbuffer);
+	}
 
 	/*(3.0) Unbinds any previously bound renderbuffer object from its target. Does nothing if no renderbuffer is bound*/
 	static void unbindRenderbuffer()

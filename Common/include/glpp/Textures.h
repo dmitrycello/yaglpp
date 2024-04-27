@@ -9,9 +9,9 @@ public:
 	Textures() : _Objects() {}
 
 	/*(2) Constucts a texture multi-object with <genTextures>*/
-	Textures(GLuint num)
+	Textures(GLsizei n)
 	{
-		genTextures(num);
+		genTextures(n);
 	}
 
 	/*Cleans up the valid texture multi-object*/
@@ -29,11 +29,27 @@ public:
 		_objects_delete(glDeleteTextures);
 	}
 
-	/*Generates one or more texture object names in an empty multi-object
-	@param Specifies the number of texture object names to be generated*/
-	void genTextures(GLuint num)
+	/*Generates one or more texture object names in the empty multi-object
+	@param Specifies the number of object names to be generated*/
+	void genTextures(GLsizei n)
 	{
-		_objects_gen(glGenTextures, num);
+		_objects_gen(glGenTextures, n);
+	}
+
+	/*Insert one or more texture object names at specified position in the valid multi-object
+	@param Specifies the number of object names to be inserted
+	@param Specifies the position index where to insert created object names*/
+	void insertTextures(GLsizei n, GLint pos)
+	{
+		_objects_insert(glGenTextures, n, pos);
+	}
+
+	/*Remove one or more texture object names from specified position in the valid multi-object
+	@param Specifies the number of object names to be removed
+	@param Specifies the position index from where to remove object names*/
+	void removeTextures(GLsizei n, GLint pos)
+	{
+		_objects_remove(glDeleteTextures, n, pos);
 	}
 }; // class Textures : public _Objects
 } // namespace gl

@@ -21,10 +21,16 @@ public:
 	/*(3.3) (1) Constructs an empty sampler object*/
 	Sampler() : _Object() {}
 
-	/*(3.3) (2) Constucts a buffer object with <assignBuffer>*/
-	Sampler(Samplers& buffers, GLuint index)
+	/*(3.3) (2) Constucts a sampler object with <shareSampler>*/
+	Sampler(Sampler& sampler)
 	{
-		assignSampler(buffers, index);
+		shareSampler(sampler);
+	}
+
+	/*(3.3) (3) Constucts a sampler object with <assignSampler>*/
+	Sampler(Samplers& samplers, GLuint index)
+	{
+		assignSampler(samplers, index);
 	}
 
 	/*(3.3) Cleans up the valid sampler object*/
@@ -36,8 +42,8 @@ public:
 		}
 	}
 
-	/*Assigns an empty sampler object with the object name from the sampler multi-object
-	@param The sampler multi-object
+	/*(3.3) Set an empty buffer object as a reference to an element of the buffer multi-object
+	@param The buffer multi-object
 	@param The index of the object name*/
 	void assignSampler(Samplers& samplers, GLuint index)
 	{
@@ -154,14 +160,14 @@ public:
 	@return True if valid sampler object, false otherwise*/
 	GLboolean isSampler()
 	{
-		return glIsSampler(_sampler_id());
+		return glIsSampler(_object_id());
 	}
 
 	/*(3.3) Determines via API if the sampler object is currently bound to the active texture unit
 	@return True if the sampler object is bound, false otherwise*/
 	GLboolean isSamplerBinding()
 	{
-		return _sampler_id() == _getInteger(GL_SAMPLER_BINDING);
+		return _object_id() == _getInteger(GL_SAMPLER_BINDING);
 	}
 
 	/*(3.3) (1) Specifies four integer values that should be used for border texels
@@ -240,6 +246,13 @@ public:
 	void setTextureWrapT(TextureWrapMode wrap)
 	{
 		_samplerParameter(GL_TEXTURE_WRAP_T, (GLint)wrap);
+	}
+
+	/*(3.3) Set an empty sampler object as a reference to the sampler object from another context
+	@param The sampler object to share, must not be empty*/
+	void shareSampler(Sampler& sampler)
+	{
+		_object_share((_Object&)sampler);
 	}
 
 	/*(3.3) Restores the internal state of a texture unit specified by an index value ranging from 0 to the value returned by <getMaxCombinedTextureImageUnits> minus 1

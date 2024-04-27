@@ -10,13 +10,19 @@ public:
 	/*(2.1) (1) Constructs an empty buffer object*/
 	PixelUnpackBuffer() : _Buffer() {}
 
-	/*(2.1) (2) Constucts a buffer object with <assignBuffer>*/
+	/*(2.1) (2) Constucts a buffer object with <shareBuffer>*/
+	PixelUnpackBuffer(PixelUnpackBuffer& buffer)
+	{
+		shareBuffer(buffer);
+	}
+
+	/*(2.1) (3) Constucts a buffer object with <assignBuffer>*/
 	PixelUnpackBuffer(Buffers& buffers, GLuint index)
 	{
 		assignBuffer(buffers, index);
 	}
 
-	/*(2.1) Assigns an empty buffer object with the object name from the buffer multi-object
+	/*(2.1) Set an empty buffer object as a reference to an element of the buffer multi-object
 	@param The buffer multi-object
 	@param The index of the object name*/
 	void assignBuffer(Buffers& buffers, GLuint index)
@@ -126,7 +132,7 @@ public:
 	@return True if buffer object currently bound to its target, or false otherwise*/
 	GLboolean isPixelUnpackBufferBinding()
 	{
-		return _buffer_id() == _getInteger(GL_PIXEL_UNPACK_BUFFER_BINDING);
+		return _object_id() == _getInteger(GL_PIXEL_UNPACK_BUFFER_BINDING);
 	}
 
 	/*(2.1) Maps all of a buffer object's data store into the client's address space
@@ -135,6 +141,13 @@ public:
 	_Ret_maybenull_ void* mapBuffer(BufferAccess access)
 	{
 		return _mapBuffer(_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER, (GLenum)access);
+	}
+
+	/*(2.1) Set an empty buffer object as a reference to the buffer object from another context
+	@param The buffer object to share, must not be empty*/
+	void shareBuffer(PixelUnpackBuffer& buffer)
+	{
+		_object_share((_Object&)buffer);
 	}
 
 	/*(2.1) Unbinds any previously bound buffer object, and restores client memory usage for that buffer object target. Does nothing if no such buffer is bound*/

@@ -10,9 +10,9 @@ public:
 	Framebuffers() : _Objects() {}
 
 	/*(3.0) (2) Constucts a framebuffer multi-object with <genFramebuffers>*/
-	Framebuffers(GLuint num)
+	Framebuffers(GLsizei n)
 	{
-		genFramebuffers(num);
+		genFramebuffers(n);
 	}
 
 	/*(3.0) Cleans up the valid framebuffer multi-object*/
@@ -30,11 +30,27 @@ public:
 		_objects_delete(glDeleteFramebuffers);
 	}
 
-	/*(3.0) Generates one or more framebuffer object names in an empty multi-object
-	@param Specifies the number of framebuffer object names to be generated*/
-	void genFramebuffers(GLuint num)
+	/*(3.0) Generates one or more framebuffer object names in the empty multi-object
+	@param Specifies the number of object names to be generated*/
+	void genFramebuffers(GLsizei n)
 	{
-		_objects_gen(glGenFramebuffers, num);
+		_objects_gen(glGenFramebuffers, n);
+	}
+
+	/*(3.0) Insert one or more framebuffer object names at specified position in the valid multi-object
+	@param Specifies the number of object names to be inserted
+	@param Specifies the position index where to insert created object names*/
+	void insertFramebuffers(GLsizei n, GLint pos)
+	{
+		_objects_insert(glGenFramebuffers, n, pos);
+	}
+
+	/*(3.0) Remove one or more framebuffer object names from specified position in the valid multi-object
+	@param Specifies the number of object names to be removed
+	@param Specifies the position index from where to remove object names*/
+	void removeFramebuffers(GLsizei n, GLint pos)
+	{
+		_objects_remove(glDeleteFramebuffers, n, pos);
 	}
 }; // class Framebuffers : public _Objects
 } // namespace gl

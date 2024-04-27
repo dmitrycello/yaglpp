@@ -979,7 +979,7 @@ public:
 	@return True if active texture object, false otherwise*/
 	GLboolean isTexture()
 	{
-		return glIsTexture(_texture_id());
+		return glIsTexture(_object_id());
 	}
 
 #ifdef GL_VERSION_3_0

@@ -10,9 +10,9 @@ public:
 	Samplers() : _Objects() {}
 
 	/*(3.3) (2) Constucts a sampler multi-object with <genSamplers>*/
-	Samplers(GLuint num)
+	Samplers(GLsizei n)
 	{
-		genSamplers(num);
+		genSamplers(n);
 	}
 
 	/*(3.3) Cleans up the valid sampler multi-object*/
@@ -30,12 +30,28 @@ public:
 		_objects_delete(glDeleteSamplers);
 	}
 
-	/*(3.3) Generates one or more sampler object names in an empty multi-object
-	@param Specifies the number of sampler object names to be generated*/
-	void genSamplers(GLuint num)
+	/*(3.3) Generates one or more sampler object names in the empty multi-object
+	@param Specifies the number of object names to be generated*/
+	void genSamplers(GLsizei n)
 	{
-		_objects_gen(glGenSamplers, num);
+		_objects_gen(glGenSamplers, n);
 	}
-}; // class Renderbuffers : public _Objects
+
+	/*(3.3) Insert one or more sampler object names at specified position in the valid multi-object
+	@param Specifies the number of object names to be inserted
+	@param Specifies the position index where to insert created object names*/
+	void insertSamplers(GLsizei n, GLint pos)
+	{
+		_objects_insert(glGenSamplers, n, pos);
+	}
+
+	/*(3.3) Remove one or more sampler object names from specified position in the valid multi-object
+	@param Specifies the number of object names to be removed
+	@param Specifies the position index from where to remove object names*/
+	void removeSamplers(GLsizei n, GLint pos)
+	{
+		_objects_remove(glDeleteSamplers, n, pos);
+	}
+}; // class Samplers : public _Objects
 } // namespace gl
 #endif // #ifdef GL_VERSION_3_3

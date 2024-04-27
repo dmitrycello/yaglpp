@@ -1,5 +1,6 @@
 #pragma once
 #include "gladpp.h"
+#include "_Object.h"
 namespace gl {
 /*GLAD active attribute info structure used by <getActiveAttrib>*/
 struct ActiveAttribInfo
@@ -68,36 +69,36 @@ struct ActiveUniformBlockInfo
 };
 #endif // #ifdef GL_VERSION_3_1
 
-/*OpenGL shader program object root class*/
-class Program
+/*OpenGL shader program object class derived from <_Object>*/
+class Program : public _Object
 {
 private:
 	friend class _Shader;
 	friend class Uniform;
 	friend class UniformBlock;
 	friend class VertexAttrib;
-	GLuint m_uProgram; // Program id
 	GLint _getProgram(GLenum pname);
+	static void _glCreateProgram(GLsizei unused, GLuint* id);
+	static void _glDeleteProgram(GLsizei unused, const GLuint* id);
+
 	GLuint _program_id()
 	{
-		if (m_uProgram == 0)
-		{
-			createProgram();
-		}
-		return m_uProgram;
+		return _object_id(&_glCreateProgram);
 	}
 
 public:
 	/*(1) Constructs an empty program object*/
-	Program()
+	Program() : _Object() {}
+
+	/*(2) Constucts a program object with <shareShader>*/
+	Program(Program& program)
 	{
-		m_uProgram = 0;
+		shareProgram(program);
 	}
 
-	/*(2) Constructs program object with <attachShaders>*/
+	/*(3) Constructs program object with <attachShaders>*/
 	Program(VertexShader& vs, FragmentShader& fs)
 	{
-		m_uProgram = 0;
 		attachShaders(vs, fs);
 	}
 
@@ -116,10 +117,16 @@ public:
 	void attachShaders(VertexShader& vs, FragmentShader& fs);
 
 	/*Creates a program object that was previously empty*/
-	void createProgram();
+	void createProgram()
+	{
+		_object_gen(&_glCreateProgram);
+	}
 
 	/*Deletes the program object that was previously created*/
-	void deleteProgram();
+	void deleteProgram()
+	{
+		_object_delete(&_glDeleteProgram);
+	}
 
 	/*Detaches all attached shader objects from specified program*/
 	void detachShaders();
@@ -211,18 +218,25 @@ public:
 	@return True if currently active program object, false otherwise*/
 	GLboolean isCurrentProgram()
 	{
-		return _program_id() == _getInteger(GL_CURRENT_PROGRAM);
+		return _object_id() == _getInteger(GL_CURRENT_PROGRAM);
 	}
 
 	/*Determines via API if the name of a program object previously created with <createProgram> and not yet deleted with <deleteProgram>
 	@return True if valid program object, false otherwise*/
 	GLboolean isProgram()
 	{
-		return glIsProgram(m_uProgram);
+		return glIsProgram(_object_id());
 	}
 
 	/*Links a program object. The status of the link operation will be stored as part of the program object's state*/
 	void linkProgram();
+
+	/*Set an empty program object as a reference to the program object from another context
+	@param The program object to share, must not be empty*/
+	void shareProgram(Program& program)
+	{
+		_object_share((_Object&)program);
+	}
 
 	/*Installs a program object as part of current rendering state*/
 	void useProgram();
@@ -323,7 +337,7 @@ public:
 #endif // #ifdef GL_VERSION_3_1
 
 #ifdef GL_VERSION_3_2
-	/*(3.2) (3) Constructs program object with <attachShaders>*/
+	/*(3.2) (4) Constructs program object with <attachShaders>*/
 	Program(VertexShader& vs, GeometryShader& gs, FragmentShader& fs)
 	{
 		attachShaders(vs, gs, fs);

@@ -10,13 +10,19 @@ public:
 	/*(3.1) (1) Constructs an empty buffer object*/
 	TextureBuffer() : _Buffer() {}
 
-	/*(3.1) (2) Constucts a buffer object with <assignBuffer>*/
+	/*(3.1) (2) Constucts a buffer object with <shareBuffer>*/
+	TextureBuffer(TextureBuffer& buffer)
+	{
+		shareBuffer(buffer);
+	}
+
+	/*(3.1) (3) Constucts a buffer object with <assignBuffer>*/
 	TextureBuffer(Buffers& buffers, GLuint index)
 	{
 		assignBuffer(buffers, index);
 	}
 
-	/*(3.1) Assigns an empty buffer object with the object name from the buffer multi-object
+	/*(3.1) Set an empty buffer object as a reference to an element of the buffer multi-object
 	@param The buffer multi-object
 	@param The index of the object name*/
 	void assignBuffer(Buffers& buffers, GLuint index)
@@ -248,7 +254,7 @@ public:
 	@return True if buffer object currently bound to its target, or false otherwise*/
 	GLboolean isTextureBufferBinding()
 	{
-		return _buffer_id() == _getInteger(GL_TEXTURE_BUFFER_BINDING);
+		return _object_id() == _getInteger(GL_TEXTURE_BUFFER_BINDING);
 	}
 
 	/*(3.1) Maps all of a buffer object's data store into the client's address space
@@ -266,6 +272,13 @@ public:
 	_Ret_maybenull_ void* mapBufferRange(GLintptr offset, GLsizeiptr length, BufferFlags access)
 	{
 		return _mapBufferRange(_tlsTextureBuffer(), GL_TEXTURE_BUFFER, offset, length, (GLbitfield)access);
+	}
+
+	/*(3.1) Set an empty buffer object as a reference to the buffer object from another context
+	@param The buffer object to share, must not be empty*/
+	void shareBuffer(TextureBuffer& buffer)
+	{
+		_object_share((_Object&)buffer);
 	}
 
 	/*(3.1) Unbinds any previously bound buffer object, and restores client memory usage for that buffer object target. Does nothing if no such buffer is bound*/

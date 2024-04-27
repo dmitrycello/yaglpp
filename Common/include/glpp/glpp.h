@@ -1,7 +1,7 @@
 /*
-	+-----------------------------------------+
-	|   glpp: OpenGL C++ extension library    |
-	+-----------------------------------------+
+	+-------------------------------+
+	|   glpp: OpenGL C++ library    |
+	+-------------------------------+
 
 	All information/instructions can be found here:
 	https://github.com/dmitrycello/glpp/blob/main/README.md

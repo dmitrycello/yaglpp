@@ -1,5 +1,6 @@
 #pragma once
 #include "gladpp.h"
+#include "_Object.h"
 namespace gl {
 /*GLAD basic shader type enumerator*/
 enum class ShaderType : GLenum
@@ -16,45 +17,41 @@ enum class ShaderType : GLenum
 #endif // #ifdef GL_VERSION_3_2
 };
 
-/*OpenGL shader object abstract root class*/
-class _Shader
+/*OpenGL shader object abstract class derived from <_Object>*/
+class _Shader : public _Object
 {
-private:
-	GLuint m_uShader;
-
 protected:
-	_Shader()
-	{
-		m_uShader = 0;
-	}
+	_Shader() : _Object() {}
 
 	GLuint _shader_id(GLenum shaderType)
 	{
-		if (m_uShader == 0)
-		{
-			_createShader(shaderType);
-		}
-		return m_uShader;
+		return _object_id(&_glCreateShader, shaderType);
 	}
 
 	void _attachShader(GLenum shaderType, Program& program);
 	void _compileShader(GLenum shaderType);
-	void _createShader(GLenum shaderType);
-	void _deleteShader(GLenum shaderType);
 	void _detachShader(GLenum shaderType, Program& program);
 	GLint _getShader(GLenum shaderType, GLenum pname);
 	GLchar* _getShaderSource(GLenum shaderType);
 	void _getShaderSource(GLenum shaderType, GLsizei bufSize, GLsizei* length, GLchar* source);
+	static void _glCreateShader(GLsizei shaderType, GLuint* id);
+	static void _glDeleteShader(GLsizei unused, const GLuint* id);
 	void _shaderSource(GLenum shaderType, int rcid);
 	void _shaderSource(GLenum shaderType, const char* filepath);
 	void _shaderSource(GLenum shaderType, GLsizei count, const GLchar** string, const GLint* length);
 
 public:
+	/*Explicitly deletes previously generated shader object*/
+	void deleteShader()
+	{
+		_object_delete(&_glDeleteShader);
+	}
+
 	/*Determines via API if the name of a shader object previously created with <createShader> and not yet deleted with <deleteShader>
 	@return True if valid shader object, false otherwise*/
 	GLboolean isShader()
 	{
-		return glIsShader(m_uShader);
+		return glIsShader(_object_id());
 	}
 }; // class _Shader
 

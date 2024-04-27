@@ -51,7 +51,7 @@ public:
 	@return True if the query object is currently active query, false otherwise*/
 	GLboolean isCurrentQuery()
 	{
-		return _query_id() == (GLuint)_getQuery(GL_PRIMITIVES_GENERATED, GL_CURRENT_QUERY);
+		return _object_id() == (GLuint)_getQuery(GL_PRIMITIVES_GENERATED, GL_CURRENT_QUERY);
 	}
 }; // class PrimitivesGenerated : public _Query
 #endif // #ifdef GL_VERSION_3_0

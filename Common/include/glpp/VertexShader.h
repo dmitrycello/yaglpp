@@ -9,19 +9,25 @@ public:
 	/*(1) Construct an empty shader object*/
 	VertexShader() : _Shader() {}
 
-	/*(2) Construct shader object with <shaderSource>*/
+	/*(2) Constucts a shader object with <shareShader>*/
+	VertexShader(VertexShader& shader)
+	{
+		shareShader(shader);
+	}
+
+	/*(3) Construct shader object with <shaderSource>*/
 	VertexShader(int rcid)
 	{
 		shaderSource(rcid);
 	}
 
-	/*(3) Construct shader object with <shaderSource>*/
+	/*(4) Construct shader object with <shaderSource>*/
 	VertexShader(_In_z_ const char* filepath)
 	{
 		shaderSource(filepath);
 	}
 
-	/*(4) Construct shader object with <shaderSource>*/
+	/*(5) Construct shader object with <shaderSource>*/
 	VertexShader(GLsizei count, _In_reads_(count) const GLchar** string, _In_reads_(count) const GLint* length)
 	{
 		shaderSource(count, string, length);
@@ -52,13 +58,7 @@ public:
 	/*Creates a shader object that was previously empty*/
 	void createShader()
 	{
-		_createShader(GL_VERTEX_SHADER);
-	}
-
-	/*Deletes the shader object that was previously created*/
-	void deleteShader()
-	{
-		_deleteShader(GL_VERTEX_SHADER);
+		_object_gen(&_glCreateShader, GL_VERTEX_SHADER);
 	}
 
 	/*Detaches a shader object from a program object to which it is attached
@@ -163,6 +163,12 @@ public:
 		_shaderSource(GL_VERTEX_SHADER, count, string, length);
 	}
 
+	/*Set an empty shader object as a reference to the shader object from another context
+	@param The shader object to share, must not be empty*/
+	void shareShader(VertexShader& shader)
+	{
+		_object_share((_Object&)shader);
+	}
 #ifdef GL_VERSION_3_1
 	/*(3.1) Returns the maximum number of uniform blocks per vertex shader
 	@return The maximum vertex uniform components. The value must be at least 12*/

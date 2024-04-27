@@ -148,7 +148,7 @@ public:
 	@return True if active framebuffer object, false otherwise*/
 	GLboolean isFramebuffer()
 	{
-		return glIsFramebuffer(_framebuffer_id());
+		return glIsFramebuffer(_object_id());
 	}
 
 	/*(3.0) Check if framebuffer SRGB server-side GL capability is enabled, initially disabled. If enabled and the value of <FramebufferAttachmentColorEncoding> for the framebuffer attachment corresponding to the destination buffer is <Srgb>, the R, G, and B destination color values (after conversion from fixed-point to floating-point) are considered to be encoded for the sRGB color space and hence are linearized prior to their use in blending

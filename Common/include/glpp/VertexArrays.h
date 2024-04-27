@@ -10,9 +10,9 @@ public:
 	VertexArrays() : _Objects() {}
 
 	/*(3.0) (2) Constucts a vertex array multi-object with <genVertexArrays>*/
-	VertexArrays(GLuint num)
+	VertexArrays(GLsizei n)
 	{
-		genVertexArrays(num);
+		genVertexArrays(n);
 	}
 
 	/*(3.0) Cleans up the valid vertex array multi-object*/
@@ -30,11 +30,27 @@ public:
 		_objects_delete(glDeleteVertexArrays);
 	}
 
-	/*(3.0) Generates one or more vertex array object names in an empty multi-object
-	@param Specifies the number of vertex array object names to be generated*/
-	void genVertexArrays(GLuint num)
+	/*(3.0) Generates one or more vertex array object names in the empty multi-object
+	@param Specifies the number of object names to be generated*/
+	void genVertexArrays(GLsizei n)
 	{
-		_objects_gen(glGenVertexArrays, num);
+		_objects_gen(glGenVertexArrays, n);
+	}
+
+	/*(3.0) Insert one or more vertex array object names at specified position in the valid multi-object
+	@param Specifies the number of object names to be inserted
+	@param Specifies the position index where to insert created object names*/
+	void insertVertexArrays(GLsizei n, GLint pos)
+	{
+		_objects_insert(glGenVertexArrays, n, pos);
+	}
+
+	/*(3.0) Remove one or more vertex array object names from specified position in the valid multi-object
+	@param Specifies the number of object names to be removed
+	@param Specifies the position index from where to remove object names*/
+	void removeVertexArrays(GLsizei n, GLint pos)
+	{
+		_objects_remove(glDeleteVertexArrays, n, pos);
 	}
 }; // class VertexArrays : public _Objects
 } // namespace gl

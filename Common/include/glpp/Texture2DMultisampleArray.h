@@ -10,7 +10,13 @@ public:
 	/*(3.2) (1) Constructs an empty texture object*/
 	Texture2DMultisampleArray() : _Texture() {}
 
-	/*(3.2) (2) Constucts a texture object with <assignTexture>*/
+	/*(3.2) (2) Constucts a texture object with <shareTexture>*/
+	Texture2DMultisampleArray(Texture2DMultisampleArray& texture)
+	{
+		shareTexture(texture);
+	}
+
+	/*(3.2) (3) Constucts a texture object with <assignTexture>*/
 	Texture2DMultisampleArray(Textures& textures, GLuint index)
 	{
 		assignTexture(textures, index);
@@ -23,7 +29,7 @@ public:
 		_activeTexture(_tlsTexture2DMultisampleArray(), GL_TEXTURE_2D_MULTISAMPLE_ARRAY, index);
 	}
 
-	/*(3.2) Assigns an empty texture object with the object name from the texture multi-object
+	/*(3.2) Set an empty texture object as a reference to an element of the texture multi-object
 	@param The texture multi-object
 	@param The index of the object name*/
 	void assignTexture(Textures& textures, GLuint index)
@@ -338,7 +344,7 @@ public:
 	@return True if texture object currently bound to its target, or false otherwise*/
 	GLboolean isTextureBinding2DMultisampleArray()
 	{
-		return _texture_id() == _getInteger(GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY);
+		return _object_id() == _getInteger(GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY);
 	}
 
 	/*(3.2) (1) Specifies four integer values that should be used for border texels
@@ -402,6 +408,13 @@ public:
 	void setTextureWrapT(TextureWrapMode wrap)
 	{
 		_texParameter(_tlsTexture2DMultisampleArray(), GL_TEXTURE_2D_MULTISAMPLE_ARRAY, GL_TEXTURE_WRAP_T, (GLint)wrap);
+	}
+
+	/*(3.2) Set an empty texture object as a reference to the texture object from another context
+	@param The texture object to share, must not be empty*/
+	void shareTexture(Texture2DMultisampleArray& texture)
+	{
+		_object_share((_Object&)texture);
 	}
 
 	/*(3.2) Establish the data storage, format, dimensions, and number of samples of a multisample texture's image
