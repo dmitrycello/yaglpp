@@ -19,6 +19,16 @@ GLchar* _Shader::_getShaderSource(GLenum shaderType)
 	return pBuffer;
 }
 
+void _Shader::_glCreateShader(GLsizei shaderType, GLuint* id)
+{
+	*id = glCreateShader((GLenum)shaderType);
+}
+
+void _Shader::_glDeleteShader(GLsizei unused, const GLuint* id)
+{
+	glDeleteShader(*id);
+}
+
 void _Shader::_shaderSource(GLenum shaderType, int rcid)
 {
 	int iSize;
@@ -58,21 +68,6 @@ void _Shader::_compileShader(GLenum shaderType)
 		GLPP_FREE(pBuffer); // SHADER COMPILATION FAILED
 		GLPP_ASSERT(false);
 	}
-	GLPP_GLAD_ERROR;
-}
-
-void _Shader::_createShader(GLenum shaderType)
-{
-	GLPP_ASSERT(m_uShader == 0); // OPENGL SHADER OBJECT MUST BE EMPTY
-	m_uShader = glCreateShader(shaderType);
-	GLPP_GLAD_ERROR;
-}
-
-void _Shader::_deleteShader(GLenum shaderType)
-{
-	GLPP_ASSERT(m_uShader != 0); // OPENGL SHADER OBJECT IS EMPTY
-	glDeleteShader(m_uShader);
-	m_uShader = 0;
 	GLPP_GLAD_ERROR;
 }
 

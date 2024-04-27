@@ -2,6 +2,16 @@
 #include <glpp/Program.h>
 #pragma comment(lib, "opengl32.lib")
 namespace gl {
+void Program::_glCreateProgram(GLsizei unused, GLuint* id)
+{
+	*id = glCreateProgram();
+}
+
+void Program::_glDeleteProgram(GLsizei unused, const GLuint* id)
+{
+	glDeleteProgram(*id);
+}
+
 void Program::detachShaders()
 {
 	GLint iCount; GLuint uId = _program_id();
@@ -26,21 +36,6 @@ GLint Program::_getProgram(GLenum pname)
 	glGetProgramiv(_program_id(), pname, &iResult);
 	GLPP_GLAD_ERROR;
 	return iResult;
-}
-
-void Program::createProgram()
-{
-	GLPP_ASSERT(m_uProgram == 0); // OPENGL PROGRAM OBJECT MUST BE EMPTY
-	m_uProgram = glCreateProgram();
-	GLPP_GLAD_ERROR;
-}
-
-void Program::deleteProgram()
-{
-	GLPP_ASSERT(m_uProgram != 0); // OPENGL PROGRAM OBJECT IS EMPTY
-	glDeleteProgram(m_uProgram);
-	m_uProgram = 0;
-	GLPP_GLAD_ERROR;
 }
 
 void Program::getActiveAttrib(GLuint index, _Out_ ActiveAttribInfo* info)
