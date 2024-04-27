@@ -1,7 +1,7 @@
 # glpp: OpenGL C++ library v24.4.1
 
 - [INSTALLATION](assets/INSTALLATION.md)
-- [BASIC USAGE](assets/USAGE.md)
+- [USAGE](assets/USAGE.md)
 
 This project is an attempt to develop a C++ gear for the OpenGL API, merging its assets into the C++ objects. Its main goal was initially to help learning GLAD/GLFW API, but it definatelly could to be used as an efficient tool, allowing to develop the OpenGL application in less complicated manner with minimal overhead. It requires the C++ 11 compiler or later. The library also impliments the concept of [SAL](https://learn.microsoft.com/en-us/cpp/code-quality/using-sal-annotations-to-reduce-c-cpp-code-defects) (Microsoft Source Code Annotation Language) only in Debug mode, any warnings in the Release mode should be ignored. At the moment, it is developped for Windows OS only using Visual Studio 2019+.
 
