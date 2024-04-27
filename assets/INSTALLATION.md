@@ -1,5 +1,4 @@
 ## INSTALLATION
-
 [Back to README](../README.md)
 
 The installation of glpp library isn't much more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** sets the linking of all libraries. Once installation is complete, there is no need to set them all in project proprieties, just to include the **`glpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths (at least for the first time). The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
