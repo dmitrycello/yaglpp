@@ -1,3 +1,6 @@
-# DETAILS
+## DETAILS
+[&nwarr; README](../README.md)
 
-This chapter describes the particularities of some parts of glpp library
+This chapter exposes specific traits of glpp library.
+
+[&uarr; TOP](INSTALLATION.md#installation)
