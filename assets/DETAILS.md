@@ -6,6 +6,9 @@ This section outlines specific traits of glpp library. As it was mentionned befo
 void glUniform3fv(GLint location, GLsizei count, const GLfloat *value); // Original API
 void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value); // glpp class member
 ```
-In addition glpp has an error checking procedure after every API call, which is not the case for Release build.
+In addition, glpp library has an error checking procedure after every API call, which is not the case for the Release build. Of corse, there are many gems whose purpose is to save programmer's time. Let's begin with basic.
+
+### Objects
+
 
 [&uarr; TOP](DETAILS.md#details)
