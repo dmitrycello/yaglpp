@@ -75,14 +75,13 @@ uniform BlobSetting
 };
 
 // Setup code
-struct BlobSettingMap
+struct
 {
     GLint* value1;
     GLfloat* value2;
     GLdouble* value3;
-};
+} map; // Offset map
 
-BlobSettingMap map; // Offset map
 gl::UniformBlock block(program, "BlobSetting"); // Uniform block
 block.uniformBlockBinding(0); // Binding point 0
 
