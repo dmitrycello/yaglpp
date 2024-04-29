@@ -14,7 +14,7 @@ All classes of the glpp library have the default constructor creating an empty c
 gl::Renderbuffer rb; // Single object before being created
 rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created and binded
 ```
-The _reference object_ could be created from another valid object with **`share..`**, or from a multi-object with **`assing..`** method:
+The _reference object_ could be created from another valid object with **`share..`**, or from a **`multi-object`** with **`assing..`** method:
 ```
 gl::Renderbuffers rbs; // Multi-object before being created
 rbs.genRenderbuffers(10);
