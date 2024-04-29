@@ -11,15 +11,15 @@ In addition, glpp library has an error checking procedure after every API call, 
 ### Objects
 All classes of the glpp library have the default constructor creating an empty class object. This allows to create class objects even before OpenGL initialization. Every class has minimum data members, such as an _id_. This allows to easily combine them into a stucture or another class. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The glpp class created as a **`single object`** does destroy the OpenGL object, where as **`reference object`** doesn't. The _single object_ is just a usual one creating its own OpenGL object as following:
 ```
-gl::Renderbuffer rb; // Single object before being created
-rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created and binded
+gl::Renderbuffer rb; // Empty object before being created
+rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created and binded single object
 ```
 The _reference object_ could be created from another valid object with **`share..`**, or from a _multi-object_ with **`assing..`** method:
 ```
-gl::Renderbuffers rbs; // Multi-object before being created
+gl::Renderbuffers rbs; // Empty multi-object before being created
 rbs.genRenderbuffers(10);
 
-gl::Renderbuffer rb1, rb2; // Reference objects before being created
+gl::Renderbuffer rb1, rb2; // Empty objects before copying reference
 rb1.shareRenderbuffer(rb); // Same id as rb, will be destroyed by rb
 rb2.assignRenderbuffer(rbs, 0); // Same id as rbs[0], will be destroyed by rbs
 ```
