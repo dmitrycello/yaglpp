@@ -73,7 +73,8 @@ uniform BlobSetting
     float value2;
     double value3;
 };
-
+```
+```
 // Setup code
 struct
 {
