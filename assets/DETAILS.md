@@ -27,7 +27,7 @@ rb2.assignRenderbuffer(rbs, 0); // Same id as rbs[0], will be destroyed by rbs
 > [!TIP]
 > The classes can be shared or assigned directly in a constructor, and the last three lines of the above example may be merged into one:  **`gl::Renderbuffer rb1(rb), rb2(rbs, 0);`**
 
-The **`multi-object`** creates and destroys many OpenGL objects at once. In addition to its original pair of **`gen..`** and **`delete..`** methods, muti-object possesses as well **`insert..`** and **`remove..`** methods allowing more flexible array manipulation. To find out whether or not the class has an OpenGL object, use the **`isObject()`** method, and to find out whether or not the class is a single object, use the **`isSingle()`** method. The single object is automatically created as soon as it undergo an OpenGL operation, the reference object must be created only from already valid object. The **`is..`** methods of child classes do not automatically create an OpenGL object, they work exactly as their API counterpart:
+The **`multi-object`** creates and destroys many OpenGL objects at once. It has the size of a pointer, creating the required array dynamically in the client memory. In addition to its original pair of **`gen..`** and **`delete..`** methods creating and deleting this array, muti-object possesses as well **`insert..`** and **`remove..`** methods modifying the array, allowing more flexible array manipulation. To find out whether or not the class has an OpenGL object, use the **`isObject()`** method, and to find out whether or not the class is a single object, use the **`isSingle()`** method. The single object is automatically created as soon as it undergo an OpenGL operation, the reference object must be created only from already valid object. The **`is..`** methods of child classes do not automatically create an OpenGL object, they work exactly as their API counterpart:
 ```
 GLboolean b1 = rb.isRenderbuffer(); // glIsRenderbuffer(id)
 GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BINDING..) == id
@@ -39,8 +39,8 @@ GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BIND
 ### The class tree
 ```
 _Object *-> _Buffer  - - -> ArrayBuffer, ElementArrayBuffer,
-        |                   PixelPackBuffer, PixelUnpackBuffer,
-        |                   TransformFeedbackBuffer, TextureBuffer, UniformBuffer
+4 bytes |                   PixelPackBuffer, PixelUnpackBuffer,
+(id)    |                   TransformFeedbackBuffer, TextureBuffer, UniformBuffer
         *-> _Framebuffer -> DrawFramebuffer, Framebuffer, ReadFramebuffer
         *-> _Query - - - -> AnySamplesPassed, PrimitivesGenerated, SamplesPassed,
         |                   TimeElapsed, TransformFeedbackPrimitivesWritten
@@ -51,6 +51,11 @@ _Object *-> _Buffer  - - -> ArrayBuffer, ElementArrayBuffer,
         *-> Program, Sampler, Renderbuffer, VertexArray
 
 _Objects -> Queries, Textures, Buffers, Framebuffers, Samplers, Renderbuffers, VertexArrays
+            8 bytes (ptr)
+Uniform, VertexAttrib
+            4 bytes (location)
+Sync, UniformBlock
+            8 bytes (ptr)
 ```
 
 [&uarr; TOP](DETAILS.md#details)
