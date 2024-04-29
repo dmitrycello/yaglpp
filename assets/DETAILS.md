@@ -63,7 +63,7 @@ The _Uniform_ and _VertexAttrib_ classes have no destructors, they operate the l
 The _Sync_ class operates the OpenGL synchronization object, which is athe 8-byte pointer to an opaque API object. It must be created at the specific point of a program with **`fenceSync`** method, or with the appropriate constructor. Its methods **`clientWaitSync`**, **`getSync`** and **`waitSync`** automatically create the synchronization object.
 
 > [!NOTE]
-> The pointers in Win32 application will be 4-byte long.
+> The pointers in Win32 application are 4-byte long. So the size of the classes using pointers will be so.
 
 
 [&uarr; TOP](DETAILS.md#details)
