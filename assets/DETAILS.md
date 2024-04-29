@@ -23,13 +23,13 @@ gl::Renderbuffer rb1, rb2; // Reference objects before being created
 rb1.shareRenderbuffer(rb); // Same id as rb, will be destroyed by rb
 rb2.assignRenderbuffer(rbs, 0); // Same id as rbs[0], will be destroyed by rbs
 ```
-> [!TIP]
-> The classes can be shared or assigned directly in a constructor. The last two lines of the above example may look like this:  **`gl::Renderbuffer rb1(rb);`** **`gl::Renderbuffer rb2(rbs, 0);`**
-
 To find out whether or not the class has an OpenGL object, use the **`isObject()`** method, and to find out whether or not the class is a single object, use the **`isSingle()`** method. The single object is automatically created as soon as it undergo an OpenGL operation, the reference object must be created only from an already valid object.
 
 > [!NOTE]
 > This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are those derived from **`gl::_Objects`**, they cannot be referenced as a whole, so they don't have their **`share..`** method. The framebuffer, query and vertex array objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method either.
+
+> [!TIP]
+> The classes can be shared or assigned directly in a constructor. The last two lines of the above example may look like this:  **`gl::Renderbuffer rb1(rb);`** **`gl::Renderbuffer rb2(rbs, 0);`**
 
 ### The classes tree
 ```
