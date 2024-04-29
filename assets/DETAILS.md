@@ -8,8 +8,8 @@ void gl::Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* valu
 ```
 In addition, glpp library has an error checking procedure after every API call, which is not the case for the Release build. Of corse, there are many gems whose purpose is to save programmer's time. Let's begin with basic.
 
-### ::gl objects
-All classes in _::gl_ namespace of the glpp library are counterpart of GLAD API. They have the default constructor creating an empty class object. This allows to create class objects even before OpenGL initialization. Every class has minimum data members, such as an _id_. This allows to easily combine them into a stucture or another class. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The class created as a **`single object`** does destroy the OpenGL object, where as **`reference object`** doesn't. The **`multi-object`** creates and destroys many OpenGL objects at once. The _single object_ is the one creating its own OpenGL object as following:
+### GLAD objects
+All classes in _::gl_ namespace of the glpp library are counterpart of GLAD API. They have the default constructor creating an empty class object. This allows to create class objects even before OpenGL initialization. Every class has minimum data members, such as an _id_, the 4-byte unsigned integer. This allows to easily combine them into a stucture or another class. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The class created as a **`single object`** does destroy the OpenGL object, where as **`reference object`** doesn't. The **`multi-object`** creates and destroys many OpenGL objects at once. The _single object_ is the one creating its own OpenGL object as following:
 ```
 gl::Renderbuffer rb; // Empty object before creation
 rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created single object
@@ -36,7 +36,8 @@ GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BIND
 > [!NOTE]
 > This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are childs of **`gl::_Objects`**, they cannot be referenced as a whole, so they don't have their **`share..`** method. The framebuffer, query and vertex array objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method either.
 
-### The ::gl classes tree
+### The GLAD classes tree
+The following classes tree exposes the classes inheritance, as well as their data size.
 ```
 _Object *-> _Buffer  - - -> ArrayBuffer, ElementArrayBuffer,
 4 bytes |                   PixelPackBuffer, PixelUnpackBuffer,
@@ -51,11 +52,18 @@ _Object *-> _Buffer  - - -> ArrayBuffer, ElementArrayBuffer,
         *-> Program, Sampler, Renderbuffer, VertexArray
 
 _Objects -> Queries, Textures, Buffers, Framebuffers, Samplers, Renderbuffers, VertexArrays
-            8 bytes (ptr)
+            8 bytes (ptr64)
 Uniform, VertexAttrib
             4 bytes (location)
 Sync, UniformBlock
-            8 bytes (ptr)
+            8 bytes (ptr64)
 ```
+The _Uniform_ and _VertexAttrib_ classes have no destructors, they operate the location index value as the 4-byte signed integer, which remains valid as long as the _Program_ object remains linked. Since the location value must be set, they cannot be created automatically, the **`getUniformLocation`**, **`setUniformLocation`**, **`getAttribLocation`** and **`setAttribLocation`** methods are used to set it up. The appropriate constructors exist as well. To find out if the location value was set successfully, use **`isUniform`** and **`isVertexAttrib`** methods.
+
+The _Sync_ class operates the OpenGL synchronization object, which is athe 8-byte pointer to an opaque API object. It must be created at the specific point of a program with **`fenceSync`** method, or with the appropriate constructor. Its methods **`clientWaitSync`**, **`getSync`** and **`waitSync`** automatically create the synchronization object.
+
+> [!NOTE]
+> The pointers in Win32 application will be 4-byte long.
+
 
 [&uarr; TOP](DETAILS.md#details)
