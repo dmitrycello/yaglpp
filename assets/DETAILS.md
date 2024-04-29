@@ -99,6 +99,6 @@ ubo.bindBufferBase(0); // Binding point 0
 ubo.bufferSubData(data, 0, data.getSize());
 ```
 > [!NOTE]
-> The pointers in Win32 application are 4-byte long. So will be the size of the classes using them as the data.
+> The pointers in Win32 application are 4-byte long. So will be the size of the class object using a pointer as its data.
 
 [&uarr; TOP](DETAILS.md#details)
