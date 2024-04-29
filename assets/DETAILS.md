@@ -87,6 +87,7 @@ gl::UniformBlock block(program, "BlobSetting"); // Uniform block
 block.uniformBlockBinding(0); // Binding point 0
 DataStore data(block.getUniformBlockDataSize(), true); // Zeroed memory block
 block.setUniformOffsetMap(&map, data); // Set the map
+
 gl::UniformBuffer ubo; // Uniform buffer object
 ubo.bufferData(data, gl::BufferUsage::DynamicDraw); // Associate with data
 ubo.bindBufferBase(0); // Binding point 0
