@@ -23,6 +23,8 @@ gl::Renderbuffer rb1, rb2; // Reference objects before being created
 rb1.shareRenderbuffer(rb); // Same id as rbuff, will be destroyed by rbuff
 rb2.assignRenderbuffer(rbs, 0); // Same id as rbuffs[0], will be destroyed by rbuffs
 ```
+> [!TIP]
+> The classes can be assigned and shared directly in a constructor: **`gl::Renderbuffer rb2(rbs, 0);`**
 To find out whether or not the class has an OpenGL object, use the **`isObject()`** method, and to find out whether or not the class is a single object, use the **`isSingle()`** method. The single object is automatically created as soon as it undergo an OpenGL operation, the reference object must be created from an already valid object.
 
 > [!NOTE]
