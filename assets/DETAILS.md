@@ -11,22 +11,22 @@ In addition, glpp library has an error checking procedure after every API call, 
 ### Objects
 All classes of the glpp library have the default constructor creating an empty class object. This allows to create class object even before OpenGL initialization. Every class has minimum data members, such as an _id_. This allows to easily combine them into a stucture or another class. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The glpp class created as a **`single object`** does destroy the OpenGL object, where as **`reference object`** doesn't. There are also **`multi-objects`**, they create and destroy many OpenGL objects at once. The _single object_ is just a usual one creating its own OpenGL object as following:
 ```
-gl::VertexArray varr;
-varr.bindVertexArray(); // Single object
+gl::Renderbuffer rbuff;
+rbuff.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Single object
 ```
 The _reference object_ could be created from another object with **`share..`**, or from a multi-object with **`assing..`** method:
 ```
-gl::VertexArrays arrays; // Multi-object
-arrays.genVertexArrays(10);
+gl::Renderbuffers rbuffs; // Multi-object
+arrays.genRenderbuffers(10);
 
-gl::VertexArray varr2, varr3;
-varr2.shareVertexArray(varr); // Destroyed by varr
-varr3.assignVertexArray(arrays, 0); // Destroyed by arrays
+gl::Renderbuffer rbuff1, rbuff2;
+rbuff1.shareRenderbuffer(rbuff); // Destroyed by rbuff
+varr3.assignRenderbuffer(arrays, 0); // Destroyed by rbuffs
 ```
 To find out whether or not the class has an OpenGL object, use the **`isObject()`** method, and to find out whether or not the class is a single object, use the **`isSingle()`** method.
 
 > [!NOTE]
-> This behavior is implemented in every class derived from **`gl::_Object`**, all multi-object classes are those derived from **`gl::_Objects`**.
+> This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are those derived from **`gl::_Objects`**, they cannot be referenced as a whole
 
 ```
 _Object -> _Query       -> AnySamplesPassed, PrimitivesGenerated, SamplesPassed, TimeElapsed, TransformFeedbackPrimitivesWritten
