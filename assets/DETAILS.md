@@ -85,6 +85,7 @@ struct BlobSettingMap
 BlobSettingMap map; // Offset map
 gl::UniformBlock block(program, "BlobSetting"); // Uniform block
 block.uniformBlockBinding(0); // Binding point 0
+
 DataStore data(block.getUniformBlockDataSize(), true); // Zeroed memory block
 block.setUniformOffsetMap(&map, data); // Set the map
 
