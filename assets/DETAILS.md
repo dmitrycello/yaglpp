@@ -29,20 +29,23 @@ To find out whether or not the class has an OpenGL object, use the **`isObject()
 > This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are those derived from **`gl::_Objects`**, they cannot be referenced as a whole. The framebuffer, query and vertex array objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method.
 
 ```
-_Object +-> _Buffer ------> ArrayBuffer, ElementArrayBuffer,
+_Object *-> _Buffer  - - -> ArrayBuffer, ElementArrayBuffer,
         |                   PixelPackBuffer, PixelUnpackBuffer,
         |                   TransformFeedbackBuffer, TextureBuffer, UniformBuffer
-        +-> _Framebuffer -> DrawFramebuffer, Framebuffer, ReadFramebuffer
-        +-> _Query -------> AnySamplesPassed, PrimitivesGenerated, SamplesPassed,
+        |
+        *-> _Framebuffer -> DrawFramebuffer, Framebuffer, ReadFramebuffer
+        |
+        *-> _Query - - - -> AnySamplesPassed, PrimitivesGenerated, SamplesPassed,
         |                   TimeElapsed, TransformFeedbackPrimitivesWritten
-        +-> _Shader ------> VertexShader, FragmentShader, GeometryShader
-        +-> _Texture -----> Texture1D, Texture2D, Texture3D, TextureCubeMap,
+        |
+        *-> _Shader  - - -> VertexShader, FragmentShader, GeometryShader
+        |
+        *-> _Texture - - -> Texture1D, Texture2D, Texture3D, TextureCubeMap,
         |                   Texture1DArray, Texture2DArray, BufferTexture, TextureRectangle,
         |                   Texture2DMultisample, Texture2DMultisampleArray
-        +-> Program
-        +-> Sampler
-        +-> Renderbuffer
-        +-> VertexArray
+        |
+        *-> Program, Sampler, Renderbuffer, VertexArray
+
 _Objects -> Queries, Textures, Buffers, Framebuffers, Samplers, Renderbuffers, VertexArrays
 ```
 
