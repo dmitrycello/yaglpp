@@ -90,10 +90,10 @@ ubo.bufferData(data, gl::BufferUsage::DynamicDraw); // Associate with data
 ubo.bindBufferBase(0); // Binding point 0
 
 // Usage code
- *map.value1 = 1;
- *map.value2 = 1.0f;
- *map.value3 = 2.0;
- ubo.bufferSubData(data, 0, blobData.getSize());
+*map.value1 = 1;
+*map.value2 = 1.0f;
+*map.value3 = 2.0;
+ubo.bufferSubData(data, 0, data.getSize());
 ```
 > [!NOTE]
 > The pointers in Win32 application are 4-byte long. So will be the size of the classes using them as the data.
