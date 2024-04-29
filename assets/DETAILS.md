@@ -29,23 +29,16 @@ To find out whether or not the class has an OpenGL object, use the **`isObject()
 > This behavior is implemented in every class derived from **`gl::_Object`**, all multi-object classes are those derived from **`gl::_Objects`**.
 
 ```
-_Object -> _Query - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -> AnySamplesPassed
-           _Texture - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -> Texture1D       PrimitivesGenerated
-           _Buffer - - - - - - - - - - - - - - - - - -> ArrayBuffer              Texture2D       SamplesPassed
-           _Framebuffer - - - - - - -> DrawFramebuffer  ElementArrayBuffer       Texture3D       TimeElapsed
-           _Shader -> VertexShader     Framebuffer      PixelPackBuffer          TextureCubeMap  TransformFeedbackPrimitivesWritten
-           Program    FragmentShader   ReadFramebuffer  PixelUnpackBuffer        Texture1DArray
-           Sampler    GeometryShader                    TransformFeedbackBuffer  Texture2DArray
-           Renderbuffer                                 TextureBuffer            BufferTexture
-           VertexArray                                  UniformBuffer            TextureRectangle
-                                                                                 Texture2DMultisample
-_Objects -> Queries                                                              Texture2DMultisampleArray
-            Textures                                                                     
-            Buffers
-            Framebuffers
-            Samplers
-            Renderbuffers
-            VertexArrays
+_Object -> _Query       -> AnySamplesPassed, PrimitivesGenerated, SamplesPassed, TimeElapsed, TransformFeedbackPrimitivesWritten
+           _Texture     -> Texture1D, Texture2D, Texture3D, TextureCubeMap, Texture1DArray, Texture2DArray, BufferTexture, TextureRectangle, Texture2DMultisample, Texture2DMultisampleArray
+           _Buffer      -> ArrayBuffer, ElementArrayBuffer, PixelPackBuffer, PixelUnpackBuffer, TransformFeedbackBuffer, TextureBuffer, UniformBuffer
+           _Framebuffer -> DrawFramebuffer, Framebuffer, ReadFramebuffer
+           _Shader      -> VertexShader, FragmentShader, GeometryShader
+           Program
+           Sampler
+           Renderbuffer
+           VertexArray
+_Objects -> Queries, Textures, Buffers, Framebuffers, Samplers, Renderbuffers, VertexArrays
 ```
 
 [&uarr; TOP](DETAILS.md#details)
