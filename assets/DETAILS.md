@@ -60,6 +60,10 @@ Uniform, VertexAttrib
 Sync, UniformBlock
             8 bytes (ptr64)
 ```
+
+> [!NOTE]
+> The names started with underscore character are abstract classes, they could not be created
+
 The _Uniform_ and _VertexAttrib_ classes have no destructors, they operate the location index value of a _uniform variable_ and a _vertex attribute_ respectively. The location is a 4-byte signed integer, which remains valid as long as the _Program_ object remains linked. Since the location value must be set, they cannot be created automatically, the **`getUniformLocation`**, **`setUniformLocation`**, **`getAttribLocation`** and **`setAttribLocation`** methods are used to set it up. The appropriate constructors exist as well. To find out if the location value was set successfully, use **`isUniform`** and **`isVertexAttrib`** methods.
 
 The _Sync_ class operates the OpenGL _synchronization object_, which is the 8-byte pointer to an opaque API object. It must be created at the specific point of a program with **`fenceSync`** method, or with the appropriate constructor. Its methods **`clientWaitSync`**, **`getSync`** and **`waitSync`** automatically create the synchronization object.
