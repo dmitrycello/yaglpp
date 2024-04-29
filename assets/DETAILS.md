@@ -17,7 +17,7 @@ rbuff.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Creat
 The _reference object_ could be created from another object with **`share..`**, or from a multi-object with **`assing..`** method:
 ```
 gl::Renderbuffers rbuffs; // Multi-object before being created
-arrays.genRenderbuffers(10);
+rbuffs.genRenderbuffers(10);
 
 gl::Renderbuffer rbuff1, rbuff2; // Reference objects before being created
 rbuff1.shareRenderbuffer(rbuff); // Same id as rbuff, destroyed by rbuff
