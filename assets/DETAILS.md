@@ -11,19 +11,19 @@ In addition, glpp library has an error checking procedure after every API call, 
 ### Objects
 All classes of the glpp library have the default constructor creating an empty class object. This allows to create class objects even before OpenGL initialization. Every class has minimum data members, such as an _id_. This allows to easily combine them into a stucture or another class. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The glpp class created as a **`single object`** does destroy the OpenGL object, where as **`reference object`** doesn't. There are also **`multi-objects`**, they create and destroy many OpenGL objects at once. In addition to their usual pair of **`gen..`** and **`delete..`** methods, muti-objects possess as well **`insert..`** and **`remove..`** methods allowing more flexible array manipulation. The _single object_ is just a usual one creating its own OpenGL object as following:
 ```
-gl::Renderbuffer rbuff; // Single object before being created
-rbuff.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created and binded
+gl::Renderbuffer rb; // Single object before being created
+rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created and binded
 ```
 The _reference object_ could be created from another object with **`share..`**, or from a multi-object with **`assing..`** method:
 ```
-gl::Renderbuffers rbuffs; // Multi-object before being created
-rbuffs.genRenderbuffers(10);
+gl::Renderbuffers rbs; // Multi-object before being created
+rbs.genRenderbuffers(10);
 
-gl::Renderbuffer rbuff1, rbuff2; // Reference objects before being created
-rbuff1.shareRenderbuffer(rbuff); // Same id as rbuff, will be destroyed by rbuff
-rbuff2.assignRenderbuffer(rbuffs, 0); // Same id as rbuffs[0], will be destroyed by rbuffs
+gl::Renderbuffer rb1, rb2; // Reference objects before being created
+rb1.shareRenderbuffer(rb); // Same id as rbuff, will be destroyed by rbuff
+rb2.assignRenderbuffer(rbs, 0); // Same id as rbuffs[0], will be destroyed by rbuffs
 ```
-To find out whether or not the class has an OpenGL object, use the **`isObject()`** method, and to find out whether or not the class is a single object, use the **`isSingle()`** method. The single object is automatically created as soon as it undergo an OpenGL operation, the reference object must be created from already valid object.
+To find out whether or not the class has an OpenGL object, use the **`isObject()`** method, and to find out whether or not the class is a single object, use the **`isSingle()`** method. The single object is automatically created as soon as it undergo an OpenGL operation, the reference object must be created from an already valid object.
 
 > [!NOTE]
 > This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are those derived from **`gl::_Objects`**, they cannot be referenced as a whole. The framebuffer, query and vertex array objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method.
