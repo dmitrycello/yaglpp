@@ -60,10 +60,42 @@ Sync, UniformBlock
 ```
 The _Uniform_ and _VertexAttrib_ classes have no destructors, they operate the location index value as the 4-byte signed integer, which remains valid as long as the _Program_ object remains linked. Since the location value must be set, they cannot be created automatically, the **`getUniformLocation`**, **`setUniformLocation`**, **`getAttribLocation`** and **`setAttribLocation`** methods are used to set it up. The appropriate constructors exist as well. To find out if the location value was set successfully, use **`isUniform`** and **`isVertexAttrib`** methods.
 
-The _Sync_ class operates the OpenGL synchronization object, which is athe 8-byte pointer to an opaque API object. It must be created at the specific point of a program with **`fenceSync`** method, or with the appropriate constructor. Its methods **`clientWaitSync`**, **`getSync`** and **`waitSync`** automatically create the synchronization object.
+The _Sync_ class operates the OpenGL synchronization object, which is the 8-byte pointer to an opaque API object. It must be created at the specific point of a program with **`fenceSync`** method, or with the appropriate constructor. Its methods **`clientWaitSync`**, **`getSync`** and **`waitSync`** automatically create the synchronization object.
 
+The _UniformBlock_ class has the size of a pointer. It is created with **`getUniformBlockIndex`** or **`setUniformBlockIndex`** methods, or by the appropriate constructor. The method saves uniform block index, as well as program id, number of uniforms, data block size and uniform block indices. This allows to use the saved data in next operations without the need to save it outside of a class. Since the number of indices is unknown, the class data is created dynamically. The unique class feature is the _offset map_, allowing much easier uniform block data exchange. The offset map is the user-defined stucture of pointers of specific type, according to block GLSL description in the shader. The **`setUniformOffsetMap`** method calculates all uniform offsets in the specified memory block, and sets the offset value to the stucture pointers, allowing to interchange uniform values directly through these pointers:
+```
+// GLSL shader
+uniform BlobSetting
+{
+    int value1;
+    float value2;
+    double value3;
+};
+
+// Setup code
+struct BlobSettingMap
+{
+    GLint* value1;
+    GLfloat* value2;
+    GLdouble* value3;
+};
+
+BlobSettingMap map; // Offset map
+gl::UniformBlock block(program, "BlobSetting"); // Uniform block
+block.uniformBlockBinding(0); // Binding point 0
+DataStore data(block.getUniformBlockDataSize(), true); // Zeroed memory block
+block.setUniformOffsetMap(&map, data); // Set the map structure
+gl::UniformBuffer ubo; // Uniform buffer object
+ubo.bufferData(data, gl::BufferUsage::DynamicDraw); // Associate with data
+ubo.bindBufferBase(0); // Binding point 0
+
+// Usage code
+ *map.value1 = 1;
+ *map.value2 = 1.0f;
+ *map.value3 = 2.0;
+ ubo.bufferSubData(data, 0, blobData.getSize());
+```
 > [!NOTE]
-> The pointers in Win32 application are 4-byte long. So the size of the classes using pointers will be so.
-
+> The pointers in Win32 application are 4-byte long. So will be the size of the classes using them as the data.
 
 [&uarr; TOP](DETAILS.md#details)
