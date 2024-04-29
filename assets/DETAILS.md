@@ -66,7 +66,7 @@ The _Sync_ class operates the OpenGL synchronization object, which is the 8-byte
 
 The _UniformBlock_ class allows to set many uniform variables at once. Having the size of a pointer, it is created with **`getUniformBlockIndex`** or **`setUniformBlockIndex`** methods, or by the appropriate constructor. The methods save uniform block index, as well as program id, number of uniforms, data block size and uniform block indices. This allows to use the saved data in next operations without the need to save it outside of a class. Since the number of indices is unknown, the class data is created dynamically. The _offset map_, a unique class feature allowing much easier uniform block data exchange, is a user-defined stucture of pointers of the type specified in GLSL shader. The **`setUniformOffsetMap`** method calculates all uniform offsets in the specified memory block, and sets the absolute addresses to the stucture pointers, allowing to interchange uniform values directly through these pointers.
 
-**GLSL shader:**
+GLSL shader:
 ```
 uniform BlobSetting
 {
@@ -75,7 +75,7 @@ uniform BlobSetting
     double value3;
 };
 ```
-**Setup code:**
+Setup code:
 ```
 struct
 {
@@ -94,7 +94,7 @@ gl::UniformBuffer ubo; // Uniform buffer object
 ubo.bufferData(data, gl::BufferUsage::DynamicDraw); // Associate with data
 ubo.bindBufferBase(0); // Binding point 0
 ```
-**Usage code:**
+Usage code:
 ```
 *map.value1 = 1;
 *map.value2 = 2.0f;
