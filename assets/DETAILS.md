@@ -25,7 +25,7 @@ varr3.assignVertexArray(arrays, 0); // Destroyed by arrays
 ```
 To find out whether or not the class has an OpenGL object, use the **`isObject()`** method, and to find out whether or not the class is a single object, use the **`isSingle()`** method.
 
-> [NOTE]
+> [!NOTE]
 > This behavior is implemented in every class derived from **`gl::_Object`**, all multi-object classes derived from **`gl::_Objects`**.
 
 [&uarr; TOP](DETAILS.md#details)
