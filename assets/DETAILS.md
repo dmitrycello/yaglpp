@@ -9,6 +9,19 @@ void gl::Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* valu
 In addition, glpp library has an error checking procedure after every API call, which is not the case for the Release build. Of corse, there are many gems whose purpose is to save programmer's time. Let's begin with basic.
 
 ### Objects
-All classes of the library have the default constructor creating an empty class object. This allows to create class object before OpenGL initialization. Every class has minimum data members, such as an _id_ for all classes derived from **`gl::_Object`**. This allows to easily combine them in a stucture or another class. The lifetime of the glpp object is controlled by its destructor, which not always destroys OpenGL object. It depense on how this object was created.
+All classes of the glpp library have the default constructor creating an empty class object. This allows to create class object even before OpenGL initialization. Every class has minimum data members, such as an _id_ for all classes derived from **`gl::_Object`**. This allows to easily combine them in a stucture or another class. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The glpp class created as a **`single object`** does destroy the OpenGL object, where as **`reference object`** doesn't. There are also **`multi-objects`**, they create and destroy many OpenGL objects at once. The single object is just a usual one creating its own OpenGL object as following:
+```
+gl::VertexArray varr;
+varr.bindVertexArray();
+```
+The reference object could be created from another object with **`share..`**, or from a multi-object with **`assing..`** method:
+```
+gl::VertexArrays arrays; // Multi-object
+arrays.genVertexArrays(10);
+
+gl::VertexArray varr2, varr3;
+varr2.shareVertexArray(varr); // Destroyed by varr
+varr3.assignVertexArray(arrays, 0); // Destroyed by arrays
+```
 
 [&uarr; TOP](DETAILS.md#details)
