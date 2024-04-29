@@ -20,7 +20,7 @@ The most valuable library's feature is the **`"lasy" creation and binding concep
 > Not every glpp object follows this roule: **`gl::VertexArray`** and **`gl::Sampler`** objects must be _binded_ explicitly, where as all multi-objects and **`glfw::`** objects have to be _created_ with specified parameters.
 
 ### Naming concept
-The original API names are carefully preserved, except very rare cases (e.g. **`gl::BufferTexture`** is a texture, but **`gl::TextureBuffer`** is a buffer). As the API functions are grouped around the C++ classes, the API constants are grouped around the enum classes. Some of the functions are duplicated as a static members of a class, it helps to find them on the context basis.
+The original API names are carefully preserved, except very rare cases (e.g. _BufferTexture_ is a texture, but _TextureBuffer_ is a buffer). As the API functions are grouped around the C++ classes, the API constants are grouped around the enum classes. Some of the functions are duplicated as a static members of a class, it helps to find them on the context basis.
 
 The library assets are defined within **`gl::`** and **`glfw::`** namespaces for GLAD and GLFW APIs respectively. The few helper classes, such as **`StbImage`**, reside in the global namespace. You may bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them at least while learning the API. The prefixes will also prevent name conflict while managing large projects. 
 
