@@ -41,17 +41,17 @@ GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BIND
 ### GLAD classes tree
 The following classes tree exposes the classes inheritance, as well as their data size.
 ```
-_Object * -> _Buffer  - - -> ArrayBuffer, ElementArrayBuffer,
-4 bytes |                    PixelPackBuffer, PixelUnpackBuffer,
-(id)    |                    TransformFeedbackBuffer, TextureBuffer, UniformBuffer
-        * -> _Framebuffer -> DrawFramebuffer, Framebuffer, ReadFramebuffer
-        * -> _Query - - - -> AnySamplesPassed, PrimitivesGenerated, SamplesPassed,
-        |                    TimeElapsed, TransformFeedbackPrimitivesWritten
-        * -> _Shader  - - -> VertexShader, FragmentShader, GeometryShader
-        * -> _Texture - - -> Texture1D, Texture2D, Texture3D, TextureCubeMap,
-        |                    Texture1DArray, Texture2DArray, BufferTexture, TextureRectangle,
-        |                    Texture2DMultisample, Texture2DMultisampleArray
-        * -> Program, Sampler, Renderbuffer, VertexArray
+_Object - * -> _Buffer  - - -> ArrayBuffer, ElementArrayBuffer,
+4 bytes   |                    PixelPackBuffer, PixelUnpackBuffer,
+(id)      |                    TransformFeedbackBuffer, TextureBuffer, UniformBuffer
+          * -> _Framebuffer -> DrawFramebuffer, Framebuffer, ReadFramebuffer
+          * -> _Query - - - -> AnySamplesPassed, PrimitivesGenerated, SamplesPassed,
+          |                    TimeElapsed, TransformFeedbackPrimitivesWritten
+          * -> _Shader  - - -> VertexShader, FragmentShader, GeometryShader
+          * -> _Texture - - -> Texture1D, Texture2D, Texture3D, TextureCubeMap,
+          |                    Texture1DArray, Texture2DArray, BufferTexture, TextureRectangle,
+          |                    Texture2DMultisample, Texture2DMultisampleArray
+          * -> Program, Sampler, Renderbuffer, VertexArray
 
 _Objects -> Queries, Textures, Buffers, Framebuffers, Samplers, Renderbuffers, VertexArrays
             8 bytes (ptr64)
