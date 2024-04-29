@@ -31,7 +31,7 @@ To find out whether or not the class has an OpenGL object, use the **`isObject()
 > [!TIP]
 > The classes can be shared or assigned directly in a constructor. The last two lines of the above example may look like this:  **`gl::Renderbuffer rb1(rb);`** **`gl::Renderbuffer rb2(rbs, 0);`**
 
-### The classes tree
+### The class tree
 ```
 _Object *-> _Buffer  - - -> ArrayBuffer, ElementArrayBuffer,
         |                   PixelPackBuffer, PixelUnpackBuffer,
