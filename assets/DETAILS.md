@@ -34,7 +34,7 @@ GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BIND
 ```
 
 > [!NOTE]
-> This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are childs of **`gl::_Objects`**, they cannot be referenced as a whole, so they don't have their **`share..`** method. The framebuffer, query and vertex array objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method either.
+> This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are childs of **`gl::_Objects`**, they cannot be referenced as a whole, so they don't have their **`share..`** method. The framebuffer, query and vertex array objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method either. Lastly, the vertex array objects should be binded explicitly, since it should happend at the specific point of a program.
 
 ### The GLAD classes tree
 The following classes tree exposes the classes inheritance, as well as their data size.
