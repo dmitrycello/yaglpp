@@ -155,10 +155,10 @@ void _Object::_object_assign(_Objects& objects, GLuint index, GLenum target)
 
 void _Object::_object_share(_Object& object)
 {
-    GLuint uId = object.m_iId;
+    GLint iId = object.m_iId;
     GLPP_ASSERT(m_iId >= 0); // OPENGL SINGLE OBJECT NAME WAS NOT CLEARED
-    GLPP_ASSERT(uId != 0); // OPENGL EMPTY OBJECT COULD NOT BE SHARED
-    m_iId = (uId < 0) ? -((GLint)uId) : uId;
+    GLPP_ASSERT(iId != 0); // OPENGL EMPTY OBJECT COULD NOT BE SHARED
+    m_iId = (iId < 0) ? -iId : iId;
 }
 
 GLsizei _Objects::getObjectCount()

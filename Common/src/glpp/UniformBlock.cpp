@@ -10,7 +10,7 @@ void UniformBlock::deleteUniformBlock()
 	m_lpData = nullptr;
 }
 
-void UniformBlock::setUniformBlockIndex(GLuint index, Program& program)
+void UniformBlock::setUniformBlockIndex(Program& program, GLuint index)
 {
 	GLPP_ASSERT(m_lpData == nullptr); // OPENGL UNIFORM BLOCK MUST BE EMPTY
 	GLPP_ASSERT(index < program.getActiveUniformBlocks()); // OPENGL UNIFORM BLOCK INDEX IS INVALID
@@ -72,7 +72,7 @@ GLboolean UniformBlock::getUniformBlockIndex(Program& program, _In_z_ const GLch
 	GLPP_GLAD_ERROR;
 	if (uIndex != GL_INVALID_INDEX)
 	{
-		setUniformBlockIndex(uIndex, program);
+		setUniformBlockIndex(program, uIndex);
 		return GL_TRUE;
 	}
 	return GL_FALSE;
