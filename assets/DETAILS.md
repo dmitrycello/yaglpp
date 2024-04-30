@@ -54,11 +54,11 @@ _Object -> _Buffer  - - -> ArrayBuffer, ElementArrayBuffer,
         -> Program, Sampler, Renderbuffer, VertexArray
 
 _Objects -> Queries, Textures, Buffers, Framebuffers, Samplers, Renderbuffers, VertexArrays
- 8 (ptr64)
+            8 (ptr64)
 Uniform, VertexAttrib
- 4 (location)
+            4 (location)
 Sync, UniformBlock
- 8 (ptr64)
+            8 (ptr64)
 ```
 
 > [!NOTE]
