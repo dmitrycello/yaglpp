@@ -14,7 +14,7 @@ All classes in _::gl_ namespace of the glpp library are counterpart of GLAD API.
 gl::Renderbuffer rb; // Empty object before creation
 rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created single object
 ```
-The _reference object_ simply copies the id from another valid object, being used as temporary asset in another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
+The _reference object_ simply copies the id from already created object. Being used as temporary asset in another OpenGL context, it cannot destroy the source object. It could be obtained from another single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
 ```
 gl::Renderbuffers rbs; // Empty multi-object before creation
 rbs.genRenderbuffers(10);
