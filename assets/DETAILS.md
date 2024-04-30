@@ -9,12 +9,12 @@ void gl::Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* valu
 In addition, glpp library has an error checking procedure after every API call, which is not the case in the Release build. Of corse, there are many gems whose purpose is to save programmer's time. Let's begin with basic.
 
 ### GLAD objects
-All classes in _::gl_ namespace of the glpp library are counterpart of GLAD API. They have the default constructor creating an empty class object. This allows to create class objects even before OpenGL initialization. Every class has minimum data members, such as an _id_, the 4-byte unsigned integer. This allows to easily combine them into a stucture or another class. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The class created as a **`single object`** does destroy the OpenGL object, where as **`reference object`** doesn't. The **`multi-object`** creates and destroys many OpenGL objects at once. The _single object_ is the one creating its own OpenGL object as following:
+All classes in _::gl_ namespace of the glpp library are counterpart of GLAD API. They all have the default constructor creating an empty class object. This allows to create class objects even before OpenGL initialization. Every class has minimum data members, such as an _id_, the 4-byte unsigned integer. This allows to easily combine them into a stucture or another class. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The class created as a **`single object`** does destroy the OpenGL object, where as **`reference object`** doesn't. The **`multi-object`** creates and destroys many OpenGL objects at once. The _single object_ is the one creating its own OpenGL object as following:
 ```
 gl::Renderbuffer rb; // Empty object before creation
 rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created single object
 ```
-The _reference object_ simply copies the id from already created object. Being used as temporary asset in another OpenGL context, it cannot destroy the source object. It could be obtained from another single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
+The _reference object_ simply copies the id from already created object. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source object. When it is deleted, it become an empty object without clearing an id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
 ```
 gl::Renderbuffers rbs; // Empty multi-object before creation
 rbs.genRenderbuffers(10);
@@ -27,16 +27,16 @@ rb2.assignRenderbuffer(rbs, 0); // Same id as rbs[0], will be destroyed by rbs
 > [!TIP]
 > The classes can be shared or assigned directly in a constructor, and the last three lines of the above example could be merged into one:  **`gl::Renderbuffer rb1(rb), rb2(rbs, 0);`**
 
-The _multi-object_ has the size of a pointer, creating the required array of object ids dynamically in the client memory. In Debug mode, it also checks the assigned object type, since the usage of an id as different OpenGL object types is not allowed (e.g. _ArrayBuffer_ sould not be later used as _ElementArrayBuffer_). In addition to its original pair of **`gen..`** and **`delete..`** methods creating and deleting the entire array, muti-object possesses as well **`insert..`** and **`remove..`** methods modifying only its part, and thus allowing more flexible array manipulation.
+The _multi-object_ has the size of a pointer, creating the required array of object ids dynamically in the client memory. In Debug mode, it also checks the object type at every assignment, since the usage of the same id as different object type is not allowed (e.g. _ArrayBuffer_ sould not be later used as _ElementArrayBuffer_). The multi-object could not be used by itself, every object name (id) sould be assigned to a reference object, and then used through that object. In addition to its original pair of **`gen..`** and **`delete..`** methods creating and deleting the entire array, muti-object possesses as well **`insert..`** and **`remove..`** methods modifying only its part, and thus allowing more flexible array manipulation.
 
-To find out whether or not the class has an OpenGL object, use the **`isObject()`** method, and to find out whether or not the class is a single object, use the **`isSingle()`** method. The single object is automatically created as soon as it undergo an OpenGL operation, the reference object must be created only from already valid object. The **`is..`** methods of child classes do not automatically create or bind an OpenGL object, they work exactly as their API counterpart:
+To find out whether or not the class has an OpenGL object, use the **`isObject()`** method, and to find out whether or not the class is a single object, use the **`isSingle()`** method. The single object is automatically created as soon as it undergo an OpenGL operation, the reference object must be created only from already created object. The **`is..`** methods of child classes do not automatically create or bind an OpenGL object, they work exactly as their API counterpart:
 ```
 GLboolean b1 = rb.isRenderbuffer(); // glIsRenderbuffer(id)
 GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BINDING..) == id
 ```
 
 > [!NOTE]
-> This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are childs of **`gl::_Objects`**, they cannot be referenced as a whole, so they don't have their **`share..`** method. The framebuffer, query and vertex array objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method either. Lastly, the vertex array and sampler objects should be binded explicitly, since vertex array should be binded at the specific point of a program, and sampler object binding takes a parameter.
+> This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are childs of **`gl::_Objects`**, they cannot be referenced as a whole, so they don't have their **`share..`** method. The framebuffer, query and vertex array objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method either. Lastly, the vertex array and sampler objects should be binded explicitly with their **`bind..`** methods, since vertex array should be binded at the specific point of a program, and sampler object binding takes a parameter.
 
 ### GLAD classes tree
 The following classes tree exposes the classes inheritance, as well as their data size in bytes.
@@ -107,5 +107,7 @@ ubo.bufferSubData(data, 0, data.getSize()); // Update uniform block
 ```
 > [!NOTE]
 > The pointers in Win32 application are 4-byte long. So will be the size of the class object being a pointer.
+
+### Global functions
 
 [&uarr; TOP](DETAILS.md#details)
