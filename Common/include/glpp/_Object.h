@@ -111,11 +111,11 @@ public:
 		return m_iId != 0;
 	}
 
-	/*Checks if the OpenGL object is single, or a part of multi-object
-	@return True if single OpenGL object, false if a part of multi-object*/
-	GLboolean isSingle()
+	/*Checks if the object is a reference of another object
+	@return True if reference object, false otherwise*/
+	GLboolean isReference()
 	{
-		return m_iId < 0;
+		return m_iId > 0;
 	}
 }; // class _Object
 
@@ -127,7 +127,7 @@ inline void _Object::_object_assign(_Objects& objects, GLuint index)
 
 inline void _Object::_object_share(_Object& object)
 {
-	GLuint u = object.m_iId; m_iId = (u < 0) ? -u : u;
+	GLint i = object.m_iId; m_iId = (i < 0) ? -i : i;
 }
 #endif // #ifndef _DEBUG
 } // namespace gl
@@ -135,8 +135,10 @@ inline void _Object::_object_share(_Object& object)
 #ifndef GLPP_BUILD_LIB
 #include "_Query.h"
 #include "_Buffer.h"
+#include "_Shader.h"
 #include "_Texture.h"
 #include "_Framebuffer.h"
+#include "Program.h"
 #include "Sampler.h"
 #include "Renderbuffer.h"
 #include "VertexArray.h"

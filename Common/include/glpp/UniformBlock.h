@@ -29,7 +29,14 @@ public:
 		m_lpData = nullptr;
 	}
 
-	/*(3.1) (2) Constructs uniform block object with <getUniformBlockIndex>*/
+	/*(3.1) (2) Constructs uniform block object with <setUniformBlockIndex>*/
+	UniformBlock(Program& program, GLuint index)
+	{
+		m_lpData = nullptr;
+		setUniformBlockIndex(program, index);
+	}
+
+	/*(3.1) (3) Constructs uniform block object with <getUniformBlockIndex>*/
 	UniformBlock(Program& program, _In_z_ const GLchar* name)
 	{
 		m_lpData = nullptr;
@@ -188,9 +195,9 @@ public:
 	}
 
 	/*(3.1) Directly assigns the index of a uniform block of a valid linked program object
-	@param Index value of the uniform block, must be less than the value returned by <getActiveUniformBlocks>
-	@param The valid linked program object*/
-	void setUniformBlockIndex(GLuint index, Program& program);
+	@param The valid linked program object
+	@param Index value of the uniform block, must be less than the value returned by <getActiveUniformBlocks>*/
+	void setUniformBlockIndex(Program& progra, GLuint index);
 
 	/*(3.1) (1) Fills up a user-defined stucture of pointers, namely offset map, receiving the calculated offsets of each uniform block variable within the buffer data store
 	@param [out] Specifies a pointer to the offset map stucture receiving the uniform offsets
@@ -272,7 +279,7 @@ inline void UniformBlock::_getActiveUniforms(GLenum pname, GLint* params)
 inline GLboolean UniformBlock::getUniformBlockIndex(Program& program, _In_z_ const GLchar* name)
 {
 	GLboolean r; GLuint i = glGetUniformBlockIndex(program._program_id(), name);
-	if (r = (i != GL_INVALID_INDEX)) setUniformBlockIndex(i, program); return r;
+	if (r = (i != GL_INVALID_INDEX)) setUniformBlockIndex(program, i); return r;
 }
 
 inline void UniformBlock::uniformBlockBinding(GLuint uniformBlockBinding)

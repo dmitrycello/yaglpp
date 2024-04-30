@@ -61,16 +61,6 @@ inline void _Shader::_compileShader(GLenum shaderType)
 	glCompileShader(_shader_id(shaderType));
 }
 
-inline void _Shader::_createShader(GLenum shaderType)
-{
-	m_uShader = glCreateShader(shaderType);
-}
-
-inline void _Shader::_deleteShader(GLenum shaderType)
-{
-	glDeleteShader(m_uShader); m_uShader = 0;
-}
-
 inline GLint _Shader::_getShader(GLenum shaderType, GLenum pname)
 {
 	GLint i; glGetShaderiv(_shader_id(shaderType), pname, &i); return i;

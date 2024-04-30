@@ -415,16 +415,6 @@ inline GLint Program::_getProgram(GLenum pname)
 	GLint i; glGetProgramiv(_program_id(), pname, &i); return i;
 }
 
-inline void Program::createProgram()
-{
-	m_uProgram = glCreateProgram();
-}
-
-inline void Program::deleteProgram()
-{
-	glDeleteProgram(m_uProgram); m_uProgram = 0;
-}
-
 inline void Program::getActiveAttrib(GLuint index, _Out_ ActiveAttribInfo* info)
 {
 	glGetActiveAttrib(_program_id(), index, MAX_PATH, &info->length, &info->size, (GLenum*)&info->type, info->name);

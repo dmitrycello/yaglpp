@@ -3711,8 +3711,6 @@ inline GLuint getMaxDualSourceDrawBuffers()
 
 #ifndef GLPP_BUILD_LIB
 #include "_Object.h"
-#include "_Shader.h"
-#include "Program.h"
 #include "Sync.h"
 #include "Uniform.h"
 #include "UniformBlock.h"

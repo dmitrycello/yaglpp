@@ -36,12 +36,12 @@ public:
 		}
 	}
 
-	/*Creates a memory block in the empty DataStore object
+	/*Creates memory block in the empty DataStore object
 	@param The memory block size in bytes
 	@param True to initialize the memory block with zeros, false otherwise (default)*/
 	void createDataStore(int size, bool init = false);
 
-	/*Deletes a memory block in the non-empty DataStore object*/
+	/*Deletes memory block in the valid DataStore object*/
 	void deleteDataStore();
 
 	/*Checks if data store object has memory block
@@ -52,17 +52,17 @@ public:
 	}
 
 	/*Returns the pointer to allocated data
-	@param The requested memory block size in bytes, default 0 which means no limit, ignored in release build
+	@param The requested memory block size in bytes, default 0 means no limit, ignored in release build
 	@return The pointer to memory block*/
 	void* getData(int length = 0);
 
 	/*Returns the pointer to the whole or a part of allocated data
 	@param The starting byte offset of the requested memory block
-	@param The requested memory block size in bytes, default 0 which means no limit, ignored in release build
+	@param The requested memory block size in bytes, default 0 means no limit, ignored in release build
 	@return The pointer to memory block*/
 	void* getSubData(int start, int length = 0);
 
-	/*Returns a memory block size of non-empty data store object
+	/*Returns memory block size of the valid data store object
 	@return The memory block size in bytes*/
 	int getSize();
 }; // class DataStore
