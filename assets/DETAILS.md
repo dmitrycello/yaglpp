@@ -62,7 +62,7 @@ Sync, UniformBlock
 ```
 
 > [!CAUTION]
-> The names starting with underscore character are standing for a base abstract classes, they could NOT be created
+> The names starting with underscore character are standing for a base abstract classes, they could NOT be created.
 
 The _Uniform_ and _VertexAttrib_ classes have no destructors, they operate the location index value of a _uniform variable_ and a _vertex attribute_ respectively. The location is a 4-byte signed integer, which remains valid as long as the _Program_ object remains linked. Since the location value must be set, they cannot be created automatically. The **`getUniformLocation`** and **`getAttribLocation`** methods aquire the location using a program object and the uniform or attribute name. If the location index is known, it could be set directly with **`setUniformLocation`** and **`setAttribLocation`** methods. The appropriate constructors exist as well. To find out if the location value was set successfully, use **`isUniform`** and **`isVertexAttrib`** methods.
 
