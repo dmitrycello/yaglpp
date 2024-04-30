@@ -11,7 +11,7 @@ In addition, glpp library has an error checking procedure after every API call, 
 ### GLAD objects
 All classes in _::gl_ namespace of the glpp library are counterpart of GLAD API. They all have the default constructor creating an empty class object. This allows to create class objects even before OpenGL initialization. Every class has minimum data members, such as an _id_, the 4-byte unsigned integer. This allows to easily combine them into a stucture or another class. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The class created as a **`single object`** does destroy the OpenGL object, where as **`reference object`** doesn't. The **`multi-object`** creates and destroys many OpenGL objects at once. The _single object_ is the one creating its own OpenGL object as following:
 ```
-gl::Renderbuffer rb; // Empty object before creation
+gl::Renderbuffer rb;                                                 // Empty object
 rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created single object
 ```
 The _reference object_ simply copies the id from already created object. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source object. When it is deleted, it become an empty object without clearing an id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
