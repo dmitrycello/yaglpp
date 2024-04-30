@@ -39,11 +39,11 @@ GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BIND
 > This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are childs of **`gl::_Objects`**, they cannot be referenced as a whole, so they don't have their **`share..`** method. The framebuffer, query and vertex array objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method either. Lastly, the vertex array and sampler objects should be binded explicitly, since vertex array should be binded at the specific point of a program, and sampler object binding takes a parameter.
 
 ### GLAD classes tree
-The following classes tree exposes the classes inheritance, as well as their data size.
+The following classes tree exposes the classes inheritance, as well as their data size in bytes.
 ```
 _Object -> _Buffer  - - -> ArrayBuffer, ElementArrayBuffer,
-4 bytes |                  PixelPackBuffer, PixelUnpackBuffer,
-(id)    |                  TransformFeedbackBuffer, TextureBuffer, UniformBuffer
+ 4 (id) |                  PixelPackBuffer, PixelUnpackBuffer,
+        |                  TransformFeedbackBuffer, TextureBuffer, UniformBuffer
         -> _Framebuffer -> DrawFramebuffer, Framebuffer, ReadFramebuffer
         -> _Query - - - -> AnySamplesPassed, PrimitivesGenerated, SamplesPassed,
         |                  TimeElapsed, TransformFeedbackPrimitivesWritten
@@ -54,11 +54,11 @@ _Object -> _Buffer  - - -> ArrayBuffer, ElementArrayBuffer,
         -> Program, Sampler, Renderbuffer, VertexArray
 
 _Objects -> Queries, Textures, Buffers, Framebuffers, Samplers, Renderbuffers, VertexArrays
-            8 bytes (ptr64)
+ 8 (ptr64)
 Uniform, VertexAttrib
-            4 bytes (location)
+ 4 (location)
 Sync, UniformBlock
-            8 bytes (ptr64)
+ 8 (ptr64)
 ```
 
 > [!NOTE]
