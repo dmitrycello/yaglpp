@@ -17,7 +17,7 @@ rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created 
 The _reference object_ simply copies the id from already created object. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source object. When it is deleted, it become an empty object without clearing an id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
 ```
 gl::Renderbuffers rbs;    // Empty multi-object before creation
-rbs.genRenderbuffers(10);
+rbs.genRenderbuffers(10); // Generates 10 object names
 
 gl::Renderbuffer rb1, rb2;      // Empty objects before copying
 rb1.shareRenderbuffer(rb);      // Same id as rb, will be destroyed by rb
