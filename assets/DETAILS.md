@@ -16,11 +16,11 @@ rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created 
 ```
 The _reference object_ simply copies the id from already created object. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source object. When it is deleted, it become an empty object without clearing an id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
 ```
-gl::Renderbuffers rbs; // Empty multi-object before creation
+gl::Renderbuffers rbs;    // Empty multi-object before creation
 rbs.genRenderbuffers(10);
 
-gl::Renderbuffer rb1, rb2; // Empty objects before copying
-rb1.shareRenderbuffer(rb); // Same id as rb, will be destroyed by rb
+gl::Renderbuffer rb1, rb2;      // Empty objects before copying
+rb1.shareRenderbuffer(rb);      // Same id as rb, will be destroyed by rb
 rb2.assignRenderbuffer(rbs, 0); // Same id as rbs[0], will be destroyed by rbs
 ```
 
@@ -31,12 +31,12 @@ The _multi-object_ has the size of a pointer, creating the required array of obj
 
 To find out whether or not the class has an OpenGL object, use the **`isObject()`** method, and to find out whether or not the class is a single object, use the **`isSingle()`** method. The single object is automatically created as soon as it undergo an OpenGL operation, the reference object must be created only from already created object. The **`is..`** methods of child classes do not automatically create or bind an OpenGL object, they work exactly as their API counterpart:
 ```
-GLboolean b1 = rb.isRenderbuffer(); // glIsRenderbuffer(id)
+GLboolean b1 = rb.isRenderbuffer();        // glIsRenderbuffer(id)
 GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BINDING..) == id
 ```
 
 > [!NOTE]
-> This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are childs of **`gl::_Objects`**, they cannot be referenced as a whole, so they don't have their **`share..`** method. The framebuffer, query and vertex array objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method either. Lastly, the vertex array and sampler objects should be binded explicitly with their **`bind..`** methods, since vertex array should be binded at the specific point of a program, and sampler object binding takes a parameter.
+> This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are childs of **`gl::_Objects`**, they cannot be referenced as a whole, so they don't have their **`share..`** method. The [framebuffer](https://www.khronos.org/opengl/wiki/Framebuffer_Object), [query](https://www.khronos.org/opengl/wiki/Query_Object) and [vertex array](https://www.khronos.org/opengl/wiki/Vertex_Specification) objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method either. Lastly, the vertex array and [sampler](https://www.khronos.org/opengl/wiki/Sampler_Object) objects should be binded explicitly with their **`bind..`** methods, since vertex array should be binded at the specific point of a program, and sampler object binding takes a parameter.
 
 ### GLAD classes tree
 The following classes tree exposes the classes inheritance, as well as their data size in bytes.
@@ -64,11 +64,11 @@ Sync, UniformBlock
 > [!CAUTION]
 > The names starting with underscore character are standing for a base abstract classes, they could NOT be created.
 
-The _Uniform_ and _VertexAttrib_ classes have no destructors, they operate the location index value of a _uniform variable_ and a _vertex attribute_ respectively. The location is a 4-byte signed integer, which remains valid as long as the _Program_ object remains linked. Since the location value must be set, they cannot be created automatically. The **`getUniformLocation`** and **`getAttribLocation`** methods aquire the location using a program object and the uniform or attribute name. If the location index is known, it could be set directly with **`setUniformLocation`** and **`setAttribLocation`** methods. The appropriate constructors exist as well. To find out if the location value was set successfully, use **`isUniform`** and **`isVertexAttrib`** methods.
+The _Uniform_ and _VertexAttrib_ classes have no destructors, they operate the location index value of a [uniform variable](https://www.khronos.org/opengl/wiki/Uniform_(GLSL)) and a [vertex attribute](https://www.khronos.org/opengl/wiki/Vertex_Specification) respectively. The location is a 4-byte signed integer, which remains valid as long as the [Program](https://www.khronos.org/opengl/wiki/GLSL_Object#Program_objects) object remains linked. Since the location value must be set, they cannot be created automatically. The **`getUniformLocation`** and **`getAttribLocation`** methods aquire the location using a program object and the uniform or attribute name. If the location index is known, it could be set directly with **`setUniformLocation`** and **`setAttribLocation`** methods. The appropriate constructors exist as well. To find out if the location value was set successfully, use **`isUniform`** and **`isVertexAttrib`** methods.
 
-The _Sync_ class operates the OpenGL _synchronization object_, which is the 8-byte pointer to an opaque API object. It must be created at the specific point of a program with **`fenceSync`** method. Its methods **`clientWaitSync`**, **`getSync`** and **`waitSync`** automatically create the synchronization object.
+The _Sync_ class operates the OpenGL [synchronization object](https://www.khronos.org/opengl/wiki/Sync_Object), which is the 8-byte pointer to an opaque API object. It must be created at the specific point of a program with **`fenceSync`** method. Its methods **`clientWaitSync`**, **`getSync`** and **`waitSync`** automatically create the synchronization object.
 
-The _UniformBlock_ class allows to operate many uniform variables at once. Having the size of a pointer, it is created with **`getUniformBlockIndex`** or **`setUniformBlockIndex`** methods, or by the appropriate constructor. The methods save uniform block index, as well as program id, number of uniforms, data block size and uniform block indices. This allows to use the saved data in next operations without the need to save it outside of a class. Since the number of indices is unknown, the class data is created dynamically. The _offset map_, a unique class feature allowing much easier uniform block data exchange, is a user-defined stucture of pointers of the type specified in GLSL shader. The **`setUniformOffsetMap`** method calculates all uniform offsets in the specified memory block, and sets the absolute addresses to the stucture pointers, allowing to interchange uniform values directly through these pointers.
+The _UniformBlock_ class allows to operate many uniform variables at once, it works closely with [uniform buffer object](https://www.khronos.org/opengl/wiki/Uniform_Buffer_Object). Having the size of a pointer, it is created with **`getUniformBlockIndex`** or **`setUniformBlockIndex`** methods, or by the appropriate constructor. The methods save uniform block index, as well as program id, number of uniforms, data block size and uniform block indices. This allows to use the saved data in next operations without the need to save it outside of a class. Since the number of indices is unknown, the class data is created dynamically. The _offset map_, a unique class feature allowing much easier uniform block data exchange, is a user-defined stucture of pointers of the type specified in GLSL shader. The **`setUniformOffsetMap`** method calculates all uniform offsets in the specified memory block, and sets the absolute addresses to the stucture pointers, allowing to interchange uniform values directly through these pointers.
 
 GLSL shader:
 ```
@@ -83,26 +83,26 @@ Setup code:
 ```
 struct
 {
-    GLint* value1;
-    GLfloat* value2;
+    GLint*    value1;
+    GLfloat*  value2;
     GLdouble* value3;
-} map; // Offset map
+} map;                                          // Offset map
 
 gl::UniformBlock block(program, "BlobSetting"); // Uniform block
-block.uniformBlockBinding(0); // Binding point 0
+block.uniformBlockBinding(0);                   // Binding point 0
 
 DataStore data(block.getUniformBlockDataSize(), true); // Zeroed memory block
-block.setUniformOffsetMap(&map, data); // Set the map
+block.setUniformOffsetMap(&map, data);                 // Set the map
 
-gl::UniformBuffer ubo; // Uniform buffer object
+gl::UniformBuffer ubo;                              // Uniform buffer object
 ubo.bufferData(data, gl::BufferUsage::DynamicDraw); // Associate with data
-ubo.bindBufferBase(0); // Binding point 0
+ubo.bindBufferBase(0);                              // Binding point 0
 ```
 Usage code:
 ```
-*map.value1 = 1;
-*map.value2 = 2.0f;
-*map.value3 = 3.0;
+*map.value1 = 1;    // Set integer
+*map.value2 = 2.0f; // Set float
+*map.value3 = 3.0;  // Set double
 ubo.bufferSubData(data, 0, data.getSize()); // Update uniform block
 ```
 > [!NOTE]
