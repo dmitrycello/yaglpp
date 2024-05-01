@@ -41,27 +41,9 @@ GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BIND
 > This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are childs of **`gl::_Objects`**, they cannot be referenced as a whole, so they don't have their **`share..`** method. The [framebuffer](https://www.khronos.org/opengl/wiki/Framebuffer_Object), [query](https://www.khronos.org/opengl/wiki/Query_Object) and [vertex array](https://www.khronos.org/opengl/wiki/Vertex_Specification) objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method either. Lastly, the vertex array and [sampler](https://www.khronos.org/opengl/wiki/Sampler_Object) objects should be binded explicitly with their **`bind..`** methods, since vertex array should be binded at the specific point of a program, and sampler object binding takes a parameter.
 
 ### GLAD classes tree
-The following classes tree exposes the classes inheritance, as well as their data size in bytes.
-```
-_Object -> _Buffer  - - -> ArrayBuffer, ElementArrayBuffer,
- 4 (id) |                  PixelPackBuffer, PixelUnpackBuffer,
-        |                  TransformFeedbackBuffer, TextureBuffer, UniformBuffer
-        -> _Framebuffer -> DrawFramebuffer, Framebuffer, ReadFramebuffer
-        -> _Query - - - -> AnySamplesPassed, PrimitivesGenerated, SamplesPassed,
-        |                  TimeElapsed, TransformFeedbackPrimitivesWritten
-        -> _Shader  - - -> VertexShader, FragmentShader, GeometryShader
-        -> _Texture - - -> Texture1D, Texture2D, Texture3D, TextureCubeMap,
-        |                  Texture1DArray, Texture2DArray, BufferTexture, TextureRectangle,
-        |                  Texture2DMultisample, Texture2DMultisampleArray
-        -> Program, Sampler, Renderbuffer, VertexArray
+The following classes tree exposes the classes inheritance, as well as their data size in bytes:
 
-_Objects -> Queries, Textures, Buffers, Framebuffers, Samplers, Renderbuffers, VertexArrays
-            8 (ptr64)
-Uniform, VertexAttrib
-            4 (location)
-Sync, UniformBlock
-            8 (ptr64)
-```
+![25.png](25.png)
 
 > [!CAUTION]
 > The names starting with underscore character are standing for a base abstract classes, they could NOT be created.
