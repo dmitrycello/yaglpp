@@ -54,7 +54,7 @@ If the description starts with the number in parentheses, it means either the mi
 > If you don't know the function, you should visit Khronos website to read its whole dedicated info.
 
 ### The main switches
-The symbols defined right after **`#pragma once`** directive in the **`glpp.h`** file are the library switches, they affect the build of the library. The first six could be commented, the others may only be altered:
+The symbols defined right after **`#pragma once`** directive in the [glpp.h](Common/include/glpp/glpp.h) file are the library switches, they affect the build of the library. The first six could be commented, the others may only be altered:
 - Switches **`GLPP_COCOA_CHDIR_RESOURCES`**, **`GLPP_COCOA_MENUBAR`** and **`GLPP_JOYSTICK_HAT_BUTTONS`** are the GLFW flags set at the initialization, they are on by default;
 - Commenting the **`GLPP_NO_AFX_LAYOUT`** switch will transform the glpp into the AFX-alike environment, without the **`main`** function. Instead, you have to inherit a class from **`glfw::Thread`** or **`glfw::ThreadWnd`**, and overwrite its virtual functions. Otherwise, classical layout with the **`main`** function is preserved;
 - Commenting the **`GLPP_NO_GLFW_LEGACY`** switch allows to build glpp with GLFW v3.3.10, the latest version supporting Windows XP. In this case, some functions and constants of the recent GLFW libraries become unavailable;
