@@ -1,9 +1,9 @@
 ## USAGE
 [&nwarr; README](../README.md)<br>
-- [1. Add the application project]()
-- [2. Set the application project properties]()
-- [3. Add the source file to the application project]()
-- [4. Type the code]()
+- [1. Add the application project](USAGE.md#1-add-the-application-project)
+- [2. Set the application project properties](USAGE.md#2-set-the-application-project-properties)
+- [3. Add the source file to the application project](USAGE.md#3-add-the-source-file-to-the-application-project)
+- [4. Type the code](USAGE.md#4-type-the-code)
 
 The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
