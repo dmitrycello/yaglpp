@@ -16,7 +16,7 @@ The _single object_ is the one creating its own _single_ OpenGL object as follow
 gl::Renderbuffer rb;                                                 // Empty object
 rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created single object
 ```
-The _reference object_ is another kind of a single object, operating a single OpenGL object name, but it simply copies the id from already created object. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source object. When it is deleted, it become an empty object without clearing an id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
+The _reference object_ is another kind of a single object, operating as well a single OpenGL object name, but it simply copies the id from already created object. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source object. When it is deleted, it become an empty object without clearing an id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
 ```
 gl::Renderbuffers rbs;    // Empty multi-object
 rbs.genRenderbuffers(10); // Generates 10 object names
