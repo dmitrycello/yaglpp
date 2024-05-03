@@ -3,7 +3,9 @@
 - [INSTALLATION](assets/INSTALLATION.md)
 - [USAGE](assets/USAGE.md)
 - [DETAILS](assets/DETAILS.md)
+
 <hr>
+
 - [Naming concept](README.md#naming-concept)
 - [IntelliSense](README.md#intellisense)
 - [The main switches](README.md#the-main-switches)
