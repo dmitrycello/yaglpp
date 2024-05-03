@@ -5,7 +5,7 @@
 - [DETAILS](assets/DETAILS.md)
 - [Naming concept](README.md#naming-concept)
 - [IntelliSense](README.md#intellisense)
-- [The main switches]()
+- [The main switches](README.md#the-main-switches)
 
 This project is an attempt to develop a C++ gear for the OpenGL API, merging its assets into the C++ objects. Its main goal was initially to help learning [GLAD/GLFW API 3.3](https://learnopengl.com/), but it definatelly became an efficient tool, allowing to develop the OpenGL application in less complicated manner with minimal overhead. It requires the C++ 11 compiler or later. The library also impliments the [SAL](https://learn.microsoft.com/en-us/cpp/code-quality/using-sal-annotations-to-reduce-c-cpp-code-defects) concept (Microsoft Source Code Annotation Language) only in Debug mode, any warnings in the Release mode should be ignored. At the moment, it is developped for Windows OS only using Visual Studio 2019+.
 
