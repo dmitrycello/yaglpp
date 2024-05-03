@@ -41,7 +41,7 @@ GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BIND
 > This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are childs of **`gl::_Objects`**, they cannot be referenced as a whole, so they don't have their **`share..`** method. The [framebuffer](https://www.khronos.org/opengl/wiki/Framebuffer_Object), [query](https://www.khronos.org/opengl/wiki/Query_Object) and [vertex array](https://www.khronos.org/opengl/wiki/Vertex_Specification) objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method either. Lastly, the vertex array and [sampler](https://www.khronos.org/opengl/wiki/Sampler_Object) objects should be binded explicitly with their **`bind..`** methods, since vertex array should be binded at the specific point of a program, and sampler object binding takes a parameter.
 
 ### GLAD classes tree
-The following classes tree exposes the classes inheritance, as well as their data size in bytes:
+Most of the classes in **`::gl`** namespace are derived from **`gl::_Object`**, operating a single OpenGL object name. The following classes tree exposes the classes inheritance, as well as their data size in bytes:
 
 ![25.png](25.png)
 
