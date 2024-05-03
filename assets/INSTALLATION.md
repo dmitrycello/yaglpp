@@ -1,12 +1,12 @@
 ## INSTALLATION
 [&nwarr; README](../README.md)
-[1. Download the required OpenGL components from the Internet](INSTALLATION.md#1-download-the-required-opengl-components-from-the-internet)
-[2. Prepare the components's folder](INSTALLATION.md#2-prepare-the-componentss-folder)
-[3. Create a new solution](INSTALLATION.md#3-create-a-new-solution)
-[4. Add the static library project](INSTALLATION.md#4-add-the-static-library-project)
-[5. Add files to the library project](INSTALLATION.md#5-add-files-to-the-library-project)
-[6. Set the library project proprties](INSTALLATION.md#6-set-the-library-project-proprties)
-[7. Build the library](INSTALLATION.md#7-build-the-library)
+- [1. Download the required OpenGL components from the Internet](INSTALLATION.md#1-download-the-required-opengl-components-from-the-internet)
+- [2. Prepare the components's folder](INSTALLATION.md#2-prepare-the-componentss-folder)
+- [3. Create a new solution](INSTALLATION.md#3-create-a-new-solution)
+- [4. Add the static library project](INSTALLATION.md#4-add-the-static-library-project)
+- [5. Add files to the library project](INSTALLATION.md#5-add-files-to-the-library-project)
+- [6. Set the library project proprties](INSTALLATION.md#6-set-the-library-project-proprties)
+- [7. Build the library](INSTALLATION.md#7-build-the-library)
 
 The installation of glpp library isn't much more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** sets the linking of all libraries. Once installation is complete, there is no need to set them all in project proprieties, just to include the **`glpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths (at least for the first time). The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
