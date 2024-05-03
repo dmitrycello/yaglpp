@@ -72,4 +72,4 @@ The symbols defined right after **`#pragma once`** directive in the [glpp.h](Com
 > [!WARNING]
 > Do not alter the last 2 switches, unless you really need to recalibrate the library path layout.
 
-[&uarr; TOP](USAGE.md#usage)
+[&uarr; TOP](README.md#glpp-opengl-c-library-v2441)
