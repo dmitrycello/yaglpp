@@ -117,8 +117,8 @@ To overload window events, use the new window class derived from **`glfw::Window
 #include <glpp/glpp.h>
 class LearnOpenGL : public glfw::Window
 {
-	using Window::Window; // Base constructors
-	void onFramebuffer(int width, int height)
+	using Window::Window;                     // Base constructors
+	void onFramebuffer(int width, int height) // Framebuffer callback
 	{
 		gl::viewport(0, 0, width, height);
 	}
@@ -139,7 +139,7 @@ class GLApplication : public glfw::ThreadWnd
 		m_pWindow = new glfw::Window(800, 600, "LearnOpenGL");
 		m_pWindow->makeContextCurrent(this);
 	}
-	void onRenderWindow()
+	void onRenderWindow() // Rendering loop
 	{
 		gl::clearColor(0.3f, 0.2f, 0.2f, 1.0f);
 		gl::clear(gl::BufferBitMask::ColorBufferBit);
@@ -149,7 +149,7 @@ GLApplication glApplication;
 ```
 
 > [!WARNING]
-> In order to use AFX-alike layout, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the **`glpp.h`** library header, and rebuild glpp.
+> In order to use AFX-alike layout, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [glpp.h]() library header, and rebuild glpp.
 
 > [!NOTE]
 > AFX-alike layout is rather experimental, and at the moment has only two classes. But it could become very promising direction for development in the future.
