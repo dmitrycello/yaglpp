@@ -1,5 +1,9 @@
 ## USAGE
-[&nwarr; README](../README.md)
+[&nwarr; README](../README.md)<br>
+- [1. Add the application project]()
+- [2. Set the application project properties]()
+- [3. Add the source file to the application project]()
+- [4. Type the code]()
 
 The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
