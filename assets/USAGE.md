@@ -97,9 +97,7 @@ int main(int argc, char** argv)
 	return 0;
 }
 ```
-
-> [!NOTE]
-> If there is no error, the IntelliSense shows the description of every library member:
+The IntelliSense shows the description of every library member:
 
 ![24.png](24.png)
 
