@@ -1,5 +1,7 @@
 ## DETAILS
-[&nwarr; README](../README.md)
+[&nwarr; README](../README.md)<br>
+- [GLAD objects](DETAILS.md#)
+- [GLAD classes tree](DETAILS.md#)
 
 This section outlines specific traits of glpp library. As it was mentionned before, glpp is a C++ gear for the OpenGL API, and its most every asset does the same as the original API asset. In the following example the glpp class member uses location as a class data:
 ```
