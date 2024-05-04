@@ -33,9 +33,8 @@ rb2.assignRenderbuffer(rbs, 0); // Reference of rbs[0], will be destroyed by rbs
 
 The _multi-object_ has the size of a pointer, creating the required array of object ids dynamically in the client memory. In Debug mode, it also checks the object type at every assignment, since the usage of the same id as different object type is not allowed by OpenGL (e.g. _ArrayBuffer_ sould not be later used as _ElementArrayBuffer_). The multi-object could not be used by itself, every object name (id) should be assigned to a reference object, and then used through that object. In addition to its original pair of **`gen..`** and **`delete..`** methods, creating and deleting the entire array, muti-object possesses as well **`insert..`** and **`remove..`** methods modifying only its part, and thus allowing more flexible array manipulation:
 ```
-                               // rbs: 1,2,3,4,5,6,7,8,9,10
+gl::Renderbuffers rbs(10);     // rbs: 1,2,3,4,5,6,7,8,9,10
 rbs.insertRenderbuffers(3, 3); // Generates 3 ids, insert from pos 3
-                               // rbs: 1,2,3,11,12,13,4,5,6,7,8,9,10
 rbs.removeRenderbuffers(3, 6); // Deletes 3 ids, remove from pos 6
                                // rbs: 1,2,3,11,12,13,7,8,9,10
 ```
