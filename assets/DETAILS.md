@@ -1,7 +1,7 @@
 ## DETAILS
 [&nwarr; README](../README.md)<br>
-- [GLAD objects](DETAILS.md#)
-- [GLAD classes tree](DETAILS.md#)
+- [GLAD objects](DETAILS.md#glad-objects)
+- [GLAD classes tree](DETAILS.md#glad-classes-tree)
 
 This section outlines specific traits of glpp library. As it was mentionned before, glpp is a C++ gear for the OpenGL API, and its most every asset does the same as the original API asset. In the following example the glpp class member uses location as a class data:
 ```
@@ -43,7 +43,7 @@ GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BIND
 > This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are childs of **`gl::_Objects`**, they cannot be referenced as a whole, so they don't have their **`share..`** method. The [framebuffer](https://www.khronos.org/opengl/wiki/Framebuffer_Object), [query](https://www.khronos.org/opengl/wiki/Query_Object) and [vertex array](https://www.khronos.org/opengl/wiki/Vertex_Specification) objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method either. Lastly, the vertex array and [sampler](https://www.khronos.org/opengl/wiki/Sampler_Object) objects should be binded explicitly with their **`bind..`** methods, since vertex array should be binded at the specific point of a program, and sampler object binding takes a parameter.
 
 ### GLAD classes tree
-Most of the classes in **`::gl`** namespace are derived from **`gl::_Object`**, operating a single 4-byte _id_. The data members of **`Uniform`** and **`VertexAttrib`** classes are single 4-byte signed integers, operating a location value. It could be **`-1`**, meaning an empty object, or invalid index. The classes derived from **`gl::_Objects`** are multi-objects, they are dynamically created blocks of client memory carriyng an array of OpenGL object _ids_ of varriyng length. The pointer being **`NULL`** for classes derived from **`gl::_Objects`**, **`Sync`** and **`UniformBlock`**, means an empty object. The following classes tree exposes the classes inheritance, as well as their data size in bytes:
+Most of the classes in **`::gl`** namespace are derived from **`gl::_Object`**, operating a single 4-byte _id_. The data members of **`Uniform`** and **`VertexAttrib`** classes are single 4-byte signed integers, operating a location value. It could be **`-1`**, meaning an empty object, or invalid index. The classes derived from **`gl::_Objects`** are multi-objects, they are dynamically created blocks of client memory carriyng an array of OpenGL object _ids_ of varriyng length. The class data member being a 64-bit pointer is 8-byte long for classes derived from **`gl::_Objects`**, **`Sync`** and **`UniformBlock`**. Its value **`NULL`** means an empty object. The following classes tree exposes the classes inheritance, as well as their data size in bytes:
 
 > [!TIP]
 > Despite the OpenGL _id_ is unsigned integer, the data member of **`gl::_Object`** class is signed integer. This allows to differentiate single and reference objects, being negative or positive value. Zero value means an empty object.
