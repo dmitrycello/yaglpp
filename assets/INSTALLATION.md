@@ -136,7 +136,7 @@ C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Heade
 ```
 
 > [!IMPORTANT]
-> Some platform configurations may be never used. But it is recommended to set them all, to avoid the mess later.
+> Some platform configurations may be never used. But it is recommended to set them all now, to avoid the mess later.
 
 > [!WARNING]
 > Make sure to hit the **`Apply`** button after setting up each platform configuration.
