@@ -25,7 +25,7 @@ The installation of glpp library isn't much more complicated than the setup of o
 - [Latest release](https://github.com/dmitrycello/glpp/releases) of glpp library, namely the **`include.7z`** and **`src.7z`** archives. The **`dependencies.txt`** file lists all component's versions tested with current release.
 
 ### 2. Prepare the components's folder
-Create the new folder anywhere on your PC, and name it **`Common`**. Extract all downloaded components, GLFW binary components must be extarcted according to used IDE, move extracted componebts into the following subdirectories:
+Create the new folder anywhere on your PC, and name it **`Common`**. Extract all downloaded components, and move them into the following subdirectories:
 ```
 Common\bin\ <- GLFW and FreeImage 64-bit Dlls
 Common\bin\Win32\ <- GLFW and FreeImage 32-bit Dlls
@@ -47,7 +47,7 @@ Common\src\glad.c <- Source file from GLAD archive
 ```
 
 > [!NOTE]
-> The GLFW library folder name depends on used IDE. Extract the appropriate folder from the binary archive into the required _lib_ subfolder, then move its dll file to the required _bin_ subfolder. If used IDE is different to Visual Studio 2019, make sure to adjust the **`GLPP_GLFW_LIB`** main switch in [glpp.h](../include/glpp.h) file.
+> The GLFW library folder name depends on used IDE. Extract the appropriate folder from the binary archive into the required _lib_ subfolder, then move its dll file into the required _bin_ subfolder. If used IDE is different to Visual Studio 2019, make sure to adjust the **`GLPP_GLFW_LIB`** main switch in [glpp.h](../include/glpp.h) file.
 
 ### 3. Create a new solution
 Create the solution for the library and the main project. On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
