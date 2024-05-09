@@ -68,7 +68,7 @@ The symbols defined right after **`#pragma once`** directive in the [glpp.h](Com
 - The **`GLPP_GLFW_LIB`** switch selects the GLFW library file used in the build. It could be **`"glfw3dll.lib`"** (default), **`"glfw3.lib`"**, or **`"glfw3_mt.lib`"**;
 - The last 2 switches contain the library output paths.
 
->[!NOTE}
+>[!NOTE]
 > The **`GLPP_GLFW_LIB`** switch also conains the library folder (e.g. lib-vc2019/glfw3dll.lib). It is important to change the year in folder name while using another IDE. At the moment GLFW supports Visual Studio 2013, 2015, 2017, 2019 and 2022.
 
 > [!WARNING]
