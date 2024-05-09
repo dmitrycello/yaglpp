@@ -66,7 +66,7 @@ The symbols defined right after **`#pragma once`** directive in the [glpp.h](inc
 - Commenting the **`GLPP_NO_GLFW_LEGACY`** switch allows to build glpp with GLFW v3.3.10, the latest version supporting Windows XP. In this case, some functions and constants of the recent GLFW libraries become unavailable;
 - When commenting the **`GLPP_FREEIMAGE_LIB`** switch, the **`FreeImage`** class won't be included in the build. This library is no longer maintained, but can deal with more formats compared to included **`StbImage`**;
 - The **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches indicate the minimum supporeted OpenGL context verion of the library. Accepted combination of these values are: 2/0, 2/1, 3/0, 3/1, 3/2 and 3/3 to represent the OpenGL versions 2.0 to 3.3 respectively. To change these switches, it is necessary to add other versions of the GLAD header file to **`glad`** folder, as described in last step of the [INSTALLATION](assets/INSTALLATION.md) section;
-- The **`GLPP_GLFW_LIB`** switch selects the GLFW library file used in the build. It could be **`"glfw3dll.lib`"** (default), **`"glfw3.lib`"** (static), or **`"glfw3_mt.lib`"** (static multi-threaded);
+- The **`GLPP_GLFW_LIB`** switch selects the GLFW library file used in the build. It could be **`"glfw3dll.lib`"** (dll), **`"glfw3.lib`"** (static), or **`"glfw3_mt.lib`"** (static multi-threaded);
 - The last 2 switches contain the library output paths.
 
 >[!NOTE]
