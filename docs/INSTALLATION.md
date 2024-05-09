@@ -17,7 +17,7 @@ The installation of glpp library isn't much more complicated than the setup of o
 - [GLAD](https://glad.dav1d.de) archive generated with Specification set to **`OpenGL`**, Profile set to **`Core`**, API **`gl`** set to **`Version 3.3`**. Keep gles1, gles2 and glsc2 as **`None`**. Do not select any extension!
 - [GLFW](https://www.glfw.org/download) archives v3.4 or later from  the 64-bit and 32-bit Windows binaries. Older versions are [here](https://github.com/glfw/glfw/releases).
 - [GLM](https://github.com/g-truc/glm) pack v1.0.1 or later.
-- [stb_image](https://github.com/nothings/stb/tree/master) library. It is important to use the specific versions of its files. Every newer version of a file requires additional testings. If there is no such version, try using newer version (it usually works), or get the one preserved in this repository. Currently required files are:
+- [stb_image](https://github.com/nothings/stb/tree/master) library. It is important to use the specific versions of its files. Every newer version of a file requires additional testings. If there is no such version, try using newer version (it usually works), or get the one preserved in **`Common.7z`** archive of this repository. Currently required files are:
 	+ **stb_image.h** v2.29
 	+ **stb_image_resize2.h** v2.06
 	+ **stb_image_write.h** v1.16
