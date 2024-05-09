@@ -69,7 +69,7 @@ The symbols defined right after **`#pragma once`** directive in the [glpp.h](Com
 - The last 2 switches contain the library output paths.
 
 >[!NOTE]
-> The **`GLPP_GLFW_LIB`** switch also conains the library folder (e.g. _lib-vc2019/glfw3dll.lib_). It is important to change the year in folder name while using another IDE. At the moment GLFW supports Visual Studio 2013, 2015, 2017, 2019 and 2022.
+> The **`GLPP_GLFW_LIB`** switch also conains the library folder (e.g. _lib-vc2019/glfw3dll.lib_). It is important to change the year in folder name while using another IDE, to link the appropriate library. At the moment GLFW supports Visual Studio 2013, 2015, 2017, 2019 and 2022.
 
 > [!WARNING]
 > Do not alter the last 2 switches, unless you really need to recalibrate the library path layout.
