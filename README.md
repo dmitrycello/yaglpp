@@ -1,7 +1,7 @@
 # glpp: OpenGL C++ library v24.4.1
-[INSTALLATION &rarr;](assets/INSTALLATION.md)<br>
-[USAGE &rarr;](assets/USAGE.md)<br>
-[DETAILS &rarr;](assets/DETAILS.md)<br>
+[INSTALLATION &rarr;](docs/INSTALLATION.md)<br>
+[USAGE &rarr;](docs/USAGE.md)<br>
+[DETAILS &rarr;](docs/DETAILS.md)<br>
 - [Naming concept](README.md#naming-concept)
 - [IntelliSense](README.md#intellisense)
 - [The main switches](README.md#the-main-switches)
