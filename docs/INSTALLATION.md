@@ -194,12 +194,12 @@ Rebuild started...
 1>glpp.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\Debug\glpp.lib
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
-> [!TIP]
+> [!NOTE]
 > Rebuild ensures to process the every source file from scratch. Use **`Build glpp (Ctrl+B)`** to update the build.
 
 The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive, rename its **`glad.h`** file to **`gladXX.h`** and move it into **`glad`** directory, do not use other files from the downgraded archives. The XX is the number of GLAD version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control could be great for backward compatible coding.
 
-> [!TIP]
+> [!IMPORTANT]
 > It is recommended to generate all earlier versions of **`glad.h`** from 2.0 to 3.2 with **`Core`** profile, with no extension selected, rename them to **`gladXX.h`** as described above, and place them into **`glad`** directory. Now you just need to change the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches to select desired OpenGL version, and rebuild the libeary. But to learn OpenGL, always stick to default version 3.3!
 
 By default glpp uses Dll version of GLFW library. It is much easier to use pre-compiled .lib files of GLFW, rather than build them from sratch. But when using Static GLFW build, while Debugging, if you by some accident Step Into the function, you will get an unpleasant screen '.pdb not found', it is because the .lib file does not have the right path of the source file. While using Dll version, the function is simply stepped out. When compiling the final version of your project, you may switch to the Static GLFW build by setting the **`GLPP_GLFW_LIB`** switch to **`glfw3.lib/glfw3_mt.lib`**. Note that using Dlls decreases the application file size, and saves the computer RAM while running several applications using that Dll, but the appropriate Dll must be distributed with the application.
