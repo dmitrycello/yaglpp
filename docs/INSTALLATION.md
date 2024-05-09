@@ -31,18 +31,24 @@ Common\bin\ <- GLFW and FreeImage 64-bit Dlls
 Common\bin\Win32\ <- GLFW and FreeImage 32-bit Dlls
 Common\include\glpp\ <- glpp include headers
 Common\include\glad\glad.h <- header from GLAD archive
-Common\include\GLFW\ <- 2 GLFW include headers
+Common\include\GLFW\ <- 2 GLFW library headers
 Common\include\glm\ <- The whole <glm> subfolder
 Common\include\KHR\khrplatform.h <- header from GLAD archive
-Common\include\stb\ <- 3 stb_image above mentionned headers
+Common\include\stb\ <- 3 stb_image library headers
 Common\include\FreeImage.h <- FreeImage header
-Common\lib\ <- GLFW, FreeImage 64-bit Libs
+Common\lib\ <- FreeImage 64-bit Libs
 Common\lib\Debug\ <- Empty (glpp 64-bit Debug output)
-Common\lib\Win32\ <- GLFW, FreeImage 32-bit Libs
+Common\lib\lib-vc2019\ <- GLFW 64-bit Libs
+Common\lib\Win32\ <- FreeImage 32-bit Libs
 Common\lib\Win32\Debug\ <- Empty (glpp 32-bit Debug output)
+Common\lib\Win32\lib-vc2019\ <- GLFW 32-bit Libs
 Common\src\glpp\ <- glpp source files
 Common\src\glad.c <- Source file from GLAD archive
 ```
+
+> [!NOTE]
+> The GLFW library folder name depends on used IDE. Extract the appropriate folder from the binary archive, paste it into required _lib_ subfolder, then move dll file to required _bin_ subfolder. If different to Visual Studio 2019, make sure to adjust the **`GLPP_GLFW_LIB`** main switch in [glpp.h](include/glpp.h) file.
+
 ### 3. Create a new solution
 Create the solution for the library and the main project. On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
 
