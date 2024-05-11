@@ -13,12 +13,12 @@ In addition, glpp library has an error checking procedure after every API call, 
 ### GLAD objects
 All classes in _::gl_ namespace of the glpp library are counterparts of GLAD API. They all have the default constructor creating an empty class object, this allows to create these objects even before OpenGL initialization. Every class has a single data member, such as a 4-byte _id_ integer. This allows to easily combine them into a stucture or another class. All derived classes have the same data size as their parent class. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The class created as a **`single object`** does destroy the OpenGL object, where as **`reference object`** doesn't. The **`multi-object`** creates and destroys many OpenGL objects at once.
 
-The _single object_ is the one creating its own _single_ OpenGL object as following:
+The **`single object`** is the one creating its own _single_ OpenGL object as following:
 ```
 gl::Renderbuffer rb;                                                 // Empty object
 rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created single object
 ```
-The _reference object_ is another kind of a _single_ object. It has the same functionality as single object, but it simply copies the id from already created object. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source object. When it is deleted, it become an empty object without clearing an id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
+The **`reference object`** is another kind of a _single_ object. It has the same functionality as single object, but it simply copies the id from already created object. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source object. When it is deleted, it become an empty object without clearing an id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
 ```
 gl::Renderbuffers rbs;    // Empty multi-object
 rbs.genRenderbuffers(10); // Generates 10 object names
@@ -31,7 +31,7 @@ rb2.assignRenderbuffer(rbs, 0); // Reference of rbs[0], will be destroyed by rbs
 > [!TIP]
 > The classes can be shared or assigned directly in a constructor, and the last three lines of the above example could be merged into one:  **`gl::Renderbuffer rb1(rb), rb2(rbs, 0);`**
 
-The _multi-object_ has the size of a pointer, creating the required array of object ids dynamically in the client memory. In Debug mode, it also checks the object type at every assignment, since the usage of the same id as different object type is not allowed by OpenGL (e.g. _ArrayBuffer_ sould not be later used as _ElementArrayBuffer_). The multi-object could not be used by itself, every object name (id) should be assigned to a reference object, and then used through that object. In addition to its original pair of **`gen..`** and **`delete..`** methods, creating and deleting the entire array, muti-object possesses as well **`insert..`** and **`remove..`** methods modifying only its part, and thus allowing more flexible array manipulation:
+The **`multi-object`** has the size of a pointer, creating the required array of object ids dynamically in the client memory. In Debug mode, it also checks the object type at every assignment, since the usage of the same id as different object type is not allowed by OpenGL (e.g. _ArrayBuffer_ sould not be later used as _ElementArrayBuffer_). The multi-object could not be used by itself, every object name (id) should be assigned to a reference object, and then used through that object. In addition to its original pair of **`gen..`** and **`delete..`** methods, creating and deleting the entire array, muti-object possesses as well **`insert..`** and **`remove..`** methods modifying only its part, and thus allowing more flexible array manipulation:
 ```
 gl::Renderbuffers rbs(10);     // rbs: 1,2,3,4,5,6,7,8,9,10
 rbs.insertRenderbuffers(3, 3); // Generates 3 ids, insert from pos 3
