@@ -50,7 +50,7 @@ GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BIND
 ### GLAD class tree
 The most of classes in **`::gl`** namespace are derived from **`gl::_Object`**, operating a single _id_. The data member of **`Uniform`** and **`VertexAttrib`** classes is a single signed integer, operating a location value. It could be **`-1`**, meaning an invalid index, or an empty object. The classes derived from **`gl::_Objects`** are multi-objects, carriyng an array of OpenGL object _ids_ of varriyng length. Their class data member is single pointer, which is also the case for **`Sync`** and **`UniformBlock`** classes. Its **`NULL`** value means an empty object. The following class tree exposes the classes's inheritance, as well as their data size in bytes:
 
-> [!INFO]
+> [!NOTE]
 > Despite the OpenGL _id_ is unsigned integer, the data member of **`gl::_Object`** class is signed integer. This allows to differentiate single and reference objects, being negative or positive value. Zero value means an empty object.
 
 ![25.png](25.png)
