@@ -2,6 +2,7 @@
 #include <glpp/StbImage.h>
 #define GLPP_STBIMAGE_BYTE 0xF0
 #define GLPP_STBIMAGE_COMP 0x0F
+static int GLPP_STBIMAGE_JPEG = 80;
 extern LPBYTE _loadResource(int, int*);
 
 #ifdef _DEBUG
@@ -12,11 +13,9 @@ extern LPBYTE _loadResource(int, int*);
 #define GLPP_STBIMAGE_ASSERT
 #endif // #ifdef _DEBUG
 
-static int GLPP_STBIMAGE_JPEG = 80;
-thread_local void* GLPP_STBIMAGE_TLSLOCK = nullptr;
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_ASSERT(e) GLPP_ASSERT(e)
-#define STBI_FREE(p) if (GLPP_STBIMAGE_TLSLOCK != p) GLPP_FREE(p)
+#define STBI_FREE(p) GLPP_FREE(p)
 #define STBI_MALLOC(s) GLPP_MALLOC(s)
 #define STBI_REALLOC(p,s) GLPP_REALLOC(p,s)
 #include <stb/stb_image.h> // v2.29
@@ -35,7 +34,7 @@ thread_local void* GLPP_STBIMAGE_TLSLOCK = nullptr;
 #define STBIW_REALLOC(p,s) GLPP_REALLOC(p,s)
 #include <stb/stb_image_write.h> // v1.16
 
-/*Callback version of deprecated animated gif loader, missing in official release :(*/
+/*Deprecated animated gif loader, missing in official release*/
 STBIDEF stbi_uc* stbi_load_gif_from_callbacks(stbi_io_callbacks const* clbk, void* user, int** delays, int* x, int* y, int* z, int* comp, int req_comp)
 {
 	unsigned char* result;
@@ -48,7 +47,7 @@ STBIDEF stbi_uc* stbi_load_gif_from_callbacks(stbi_io_callbacks const* clbk, voi
 	return result;
 }
 
-/*File version of deprecated animated gif loader, missing in official release :(*/
+/*Deprecated animated gif loader, missing in official release*/
 STBIDEF stbi_uc* stbi_load_gif_from_file(FILE* f, int** delays, int* x, int* y, int* z, int* comp, int req_comp)
 {
 	unsigned char* result;
@@ -65,299 +64,52 @@ STBIDEF stbi_uc* stbi_load_gif_from_file(FILE* f, int** delays, int* x, int* y, 
 	return result;
 }
 
-void StbImage::_byte(_LPDATA data)
+/*Deprecated animated gif loader, missing in official release*/
+STBIDEF stbi_us* stbi_load_16_gif_from_callbacks(stbi_io_callbacks const* clbk, void* user, int** delays, int* x, int* y, int* z, int* comp, int req_comp)
 {
-	int iResult = (data->len) ?
-		stbi_is_hdr_from_memory(data->buffer, data->len) :
-		stbi_is_hdr_from_file(data->file);
-	if (iResult)
-	{
-		m_iByte = 4;
-	}
-	else
-	{
-		iResult = (data->len) ?
-			stbi_is_16_bit_from_memory(data->buffer, data->len) :
-			stbi_is_16_bit_from_file(data->file);
-		m_iByte = (iResult) ? 2 : 1;
-	}
+	unsigned char* result = stbi_load_gif_from_callbacks(clbk, user, delays, x, y, z, comp, req_comp);
+	if (!result) return NULL;
+	return stbi__convert_8_to_16(result, *x, *y, *comp);
 }
 
-void StbImage::_c168(void* data)
+/*Deprecated animated gif loader, missing in official release*/
+STBIDEF stbi_us* stbi_load_16_gif_from_file(FILE* f, int** delays, int* x, int* y, int* z, int* comp, int req_comp)
 {
-	GLPP_ASSERT(m_iByte == 2); // LOADED IMAGE IS NOT 16-BIT
-	m_lpPixels = stbi__convert_16_to_8((stbi__uint16*)data, m_iWidth, m_iHeight, m_iComp);
-	GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT 16-BIT TO 8-BIT
-	m_iByte = 1;
+	unsigned char* result = stbi_load_gif_from_file(f, delays, x, y, z, comp, req_comp);
+	if (!result) return NULL;
+	return stbi__convert_8_to_16(result, *x, *y, *comp);
 }
 
-void StbImage::_c816(void* data)
+/*Deprecated animated gif loader, missing in official release*/
+STBIDEF stbi_us* stbi_load_16_gif_from_memory(stbi_uc const* buffer, int len, int** delays, int* x, int* y, int* z, int* comp, int req_comp)
 {
-	GLPP_ASSERT(m_iByte == 1); // LOADED IMAGE IS NOT 8-BIT
-	m_lpPixels = stbi__convert_8_to_16((stbi_uc*)data, m_iWidth, m_iHeight, m_iComp);
-	GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT 8-BIT TO 16-BIT
-	m_iByte = 2;
+	unsigned char* result = stbi_load_gif_from_memory(buffer, len, delays, x, y, z, comp, req_comp);
+	if (!result) return NULL;
+	return stbi__convert_8_to_16(result, *x, *y, *comp);
 }
 
-void StbImage::_cf08(void* data, int format)
+/*Deprecated animated gif loader, missing in official release*/
+STBIDEF float* stbi_loadf_gif_from_callbacks(stbi_io_callbacks const* clbk, void* user, int** delays, int* x, int* y, int* z, int* comp, int req_comp)
 {
-	int iReqComp = format & GLPP_STBIMAGE_COMP;
-	GLPP_ASSERT(m_iByte == 1); // LOADED IMAGE IS NOT 8-BIT
-	GLPP_ASSERT((iReqComp != 0) && (iReqComp != m_iComp)); // NO CONVERSION IS TO PERFORM AT CURRENT SETTING
-	m_lpPixels = stbi__convert_format((stbi_uc*)data, m_iComp, iReqComp, m_iWidth, m_iHeight);
-	GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT 8-BIT PIXEL FORMAT
-	m_iComp = iReqComp;
+	unsigned char* result = stbi_load_gif_from_callbacks(clbk, user, delays, x, y, z, comp, req_comp);
+	if (!result) return NULL;
+	return stbi__ldr_to_hdr(result, *x, *y, *comp);
 }
 
-void StbImage::_cf16(void* data, int format)
+/*Deprecated animated gif loader, missing in official release*/
+STBIDEF float* stbi_loadf_gif_from_file(FILE* f, int** delays, int* x, int* y, int* z, int* comp, int req_comp)
 {
-	int iReqComp = format & GLPP_STBIMAGE_COMP;
-	GLPP_ASSERT(m_iByte == 2); // LOADED IMAGE IS NOT 16-BIT
-	GLPP_ASSERT((iReqComp != 0) && (iReqComp != m_iComp)); // NO CONVERSION IS TO PERFORM AT CURRENT SETTING
-	m_lpPixels = stbi__convert_format16((stbi__uint16*)data, m_iComp, iReqComp, m_iWidth, m_iHeight);
-	GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT 16-BIT PIXEL FORMAT
-	m_iComp = iReqComp;
+	unsigned char* result = stbi_load_gif_from_file(f, delays, x, y, z, comp, req_comp);
+	if (!result) return NULL;
+	return stbi__ldr_to_hdr(result, *x, *y, *comp);
 }
 
-void StbImage::_conv(void* source, int format)
+/*Deprecated animated gif loader, missing in official release*/
+STBIDEF float* stbi_loadf_gif_from_memory(stbi_uc const* buffer, int len, int** delays, int* x, int* y, int* z, int* comp, int req_comp)
 {
-	void* lpSource = source;
-	int iReqByte = (format & GLPP_STBIMAGE_BYTE) >> 4;
-	int iReqComp = format & GLPP_STBIMAGE_COMP;
-	if (iReqByte == m_iByte) iReqByte = 0; // Reset equal depth
-	if (iReqComp == m_iComp) iReqComp = 0; // Reset equal channels
-
-	// From 8-bit depth (reqbyte = 0,2,4)
-	if (m_iByte == 1)
-	{
-		if (iReqComp > 0) // Different comp
-		{
-			m_lpPixels = stbi__convert_format((stbi_uc*)lpSource, m_iComp, iReqComp, m_iWidth, m_iHeight);
-			GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT IMAGE
-			lpSource = m_lpPixels;
-			m_iComp = iReqComp;
-		}
-		if (iReqByte == 2) // Directly to 16-bit
-		{
-			m_lpPixels = stbi__convert_8_to_16((stbi_uc*)lpSource, m_iWidth, m_iHeight, m_iComp);
-			GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT IMAGE
-			lpSource = m_lpPixels;
-			m_iByte = 2;
-		}
-		else if (iReqByte == 4)  // Directly to float
-		{
-			m_lpPixels = stbi__ldr_to_hdr((stbi_uc*)lpSource, m_iWidth, m_iHeight, m_iComp);
-			GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT IMAGE
-			lpSource = m_lpPixels;
-			m_iByte = 4;
-		}
-	}
-
-	// From 16-bit depth (reqbyte = 0,1,4)
-	else if (m_iByte == 2)
-	{
-		if (iReqComp > 0) // Different comp
-		{
-			m_lpPixels = stbi__convert_format16((stbi__uint16*)lpSource, m_iComp, iReqComp, m_iWidth, m_iHeight);
-			GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT IMAGE
-			lpSource = m_lpPixels;
-			m_iComp = iReqComp;
-		}
-		if (iReqByte > 0) // Not equal depth (reqbyte = 1,4)
-		{
-			m_lpPixels = stbi__convert_16_to_8((stbi__uint16*)lpSource, m_iWidth, m_iHeight, m_iComp);
-			GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT IMAGE
-			lpSource = m_lpPixels;
-			if (iReqByte == 4) // 2nd conversions
-			{
-				m_lpPixels = stbi__ldr_to_hdr((stbi_uc*)lpSource, m_iWidth, m_iHeight, m_iComp);
-				GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT IMAGE
-			}
-			m_iByte = iReqByte;
-		}
-	}
-
-	// From 32-bit depth (reqbyte = 0,1,2), if any change
-	else if ((iReqComp > 0) || (iReqByte > 0))
-	{
-		m_lpPixels = stbi__hdr_to_ldr((float*)lpSource, m_iWidth, m_iHeight, m_iComp);
-		GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT IMAGE
-		lpSource = m_lpPixels;
-		if (iReqComp > 0) // Different comp
-		{
-			m_lpPixels = stbi__convert_format((stbi_uc*)lpSource, m_iComp, iReqComp, m_iWidth, m_iHeight);
-			GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT IMAGE
-			lpSource = m_lpPixels;
-			m_iComp = iReqComp;
-		}
-		if (iReqByte == 2) // 16-bit 2nd conversion
-		{
-			m_lpPixels = stbi__convert_8_to_16((stbi_uc*)lpSource, m_iWidth, m_iHeight, m_iComp);
-			GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT IMAGE
-			m_iByte = 2;
-		}
-		else if (iReqByte == 0) // Float 3rd conversion
-		{
-			m_lpPixels = stbi__ldr_to_hdr((stbi_uc*)lpSource, m_iWidth, m_iHeight, m_iComp);
-			GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT IMAGE
-			m_iByte = 4;
-		}
-		else // Keep 8-bit
-		{
-			m_iByte = 1;
-		}
-	}
-	GLPP_ASSERT(lpSource != source); // NO CONVERSION IS TO PERFORM AT CURRENT SETTING
-}
-
-void StbImage::_copy(const StbImage* source)
-{
-	GLPP_ASSERT(m_lpPixels == nullptr); // STB IMAGE DESTINATION OBJECT HAS LOADED IMAGE
-	GLPP_ASSERT(source->m_lpPixels != nullptr); // STB IMAGE SOURCE OBJECT HAS NO LOADED IMAGE
-	m_iByte = source->m_iByte;
-	m_iComp = source->m_iComp;
-	m_iWidth = source->m_iWidth;
-	m_iHeight = source->m_iHeight;
-}
-
-void StbImage::_file(_LPDATA data, const char* file)
-{
-	GLPP_ASSERT(m_lpPixels == nullptr); // STB IMAGE OBJECT HAS LOADED IMAGE
-	errno_t iError = fopen_s(&data->file, file, "rb");
-	GLPP_ASSERT(iError == 0); // FAILED TO LOAD IMAGE FILE
-	data->len = 0;
-	if (m_lpPixels)
-	{
-		stbi_image_free(m_lpPixels);
-	}
-}
-
-void StbImage::_h2ld(void* data)
-{
-	GLPP_ASSERT(m_iByte == 4); // LOADED IMAGE IS NOT HDR
-	m_lpPixels = stbi__hdr_to_ldr((float*)data, m_iWidth, m_iHeight, m_iComp);
-	GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT HDR TO LDR
-	m_iByte = 1;
-}
-
-int StbImage::_info(_LPDATA data)
-{
-	_byte(data);
-	return (data->len) ?
-		stbi_info_from_memory(data->buffer, data->len, &m_iWidth, &m_iHeight, &m_iComp) :
-		stbi_info_from_file(data->file, &m_iWidth, &m_iHeight, &m_iComp);
-}
-
-int StbImage::_lgif(_LPDATA data, int format, int** delays)
-{
-	m_iByte = (format & GLPP_STBIMAGE_BYTE) >> 4;
-	int iLayers, iReqComp = format & GLPP_STBIMAGE_COMP;
-	m_lpPixels = (data->len) ?
-		stbi_load_gif_from_memory(data->buffer, data->len, delays, &m_iWidth, &m_iHeight, &iLayers, &m_iComp, iReqComp) :
-		stbi_load_gif_from_file(data->file, delays, &m_iWidth, &m_iHeight, &iLayers, &m_iComp, iReqComp);
-	GLPP_STBIMAGE_ASSERT; // FAILED TO LOAD GIF IMAGE
-	if (iReqComp > 0)
-	{
-		m_iComp = iReqComp;
-	}
-	switch (m_iByte)
-	{
-	case 2:
-		m_lpPixels = stbi__convert_8_to_16((stbi_uc*)m_lpPixels, m_iWidth, m_iHeight, m_iComp);
-		GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT IMAGE
-		break;
-
-	case 4:
-		m_lpPixels = stbi__ldr_to_hdr((stbi_uc*)m_lpPixels, m_iWidth, m_iHeight, m_iComp);
-		GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT IMAGE
-		break;
-
-	case 0:
-		m_iByte = 1;
-	}
-	m_iHeight *= iLayers; // Interleaved images
-	return iLayers;
-}
-
-void StbImage::_l2hd(void* data)
-{
-	GLPP_ASSERT(m_iByte == 1); // LOADED IMAGE IS NOT LDR
-	m_lpPixels = stbi__ldr_to_hdr((stbi_uc*)data, m_iWidth, m_iHeight, m_iComp);
-	GLPP_STBIMAGE_ASSERT; // FAILED TO CONVERT LDR TO HDR
-	m_iByte = 4;
-}
-
-void StbImage::_load(_LPDATA data, int format)
-{
-	m_iByte = (format & GLPP_STBIMAGE_BYTE) >> 4;
-	int iReqComp = format & GLPP_STBIMAGE_COMP;
-	if (m_iByte == 0) // Load original depth
-	{
-		_byte(data);
-	}
-	switch (m_iByte)
-	{
-	case 1: // Load 8-bit depth
-		m_lpPixels = (data->len) ?
-			stbi_load_from_memory(data->buffer, data->len, &m_iWidth, &m_iHeight, &m_iComp, iReqComp) :
-			stbi_load_from_file(data->file, &m_iWidth, &m_iHeight, &m_iComp, iReqComp);
-		break;
-
-	case 2: // Load 16-bit depth
-		m_lpPixels = (data->len) ?
-			stbi_load_16_from_memory(data->buffer, data->len, &m_iWidth, &m_iHeight, &m_iComp, iReqComp) :
-			stbi_load_from_file_16(data->file, &m_iWidth, &m_iHeight, &m_iComp, iReqComp);
-		break;
-
-	default: // Load 32-bit depth
-		m_lpPixels = (data->len) ?
-			stbi_loadf_from_memory(data->buffer, data->len, &m_iWidth, &m_iHeight, &m_iComp, iReqComp) :
-			stbi_loadf_from_file(data->file, &m_iWidth, &m_iHeight, &m_iComp, iReqComp);
-	}
-	GLPP_STBIMAGE_ASSERT; // FAILED TO LOAD IMAGE
-	if (iReqComp > 0)
-	{
-		m_iComp = iReqComp;
-	}
-}
-
-void StbImage::_rcid(_LPDATA data, int rcid)
-{
-	GLPP_ASSERT(m_lpPixels == nullptr); // STB IMAGE OBJECT HAS LOADED IMAGE
-	data->buffer = _loadResource(rcid, &data->len);
-}
-
-bool StbImage::_resz(void* source, int ow, int oh, int rx, int ry, int rw, int rh)
-{
-	GLPP_ASSERT((ow > 0) && (oh > 0) && ((ow * oh) <= STBI_MAX_DIMENSIONS)); // OUTPUT IMAGE DIMENSIONS ARE INVALID
-	stbir_datatype byte; // Depth
-	switch (m_iByte)
-	{
-	case  1: byte = STBIR_TYPE_UINT8; break;
-	case  2: byte = STBIR_TYPE_UINT16; break;
-	default: byte = STBIR_TYPE_FLOAT; // 4
-	}
-	stbir_pixel_layout comp; // Channels
-	switch (m_iComp)
-	{
-	case  1: comp = STBIR_1CHANNEL; break;
-	case  2: comp = STBIR_2CHANNEL; break;
-	case  3: comp = STBIR_RGB; break;
-	default: comp = STBIR_RGBA; // 4
-	}
-	STBIR_RESIZE resize;
-	m_lpPixels = GLPP_MALLOC(static_cast<size_t>(ow) * oh * m_iByte * m_iComp);
-	stbir_resize_init(&resize, source, m_iWidth, m_iHeight, 0, m_lpPixels, ow, oh, 0, comp, byte);
-	stbir_set_edgemodes(&resize, STBIR_EDGE_CLAMP, STBIR_EDGE_CLAMP);
-	stbir_set_filters(&resize, STBIR_FILTER_DEFAULT, STBIR_FILTER_DEFAULT);
-	double s0 = (double)rx / m_iWidth;
-	double t0 = (double)ry / m_iHeight;
-	double s1 = s0 + (double)rw / m_iWidth;
-	double t1 = t0 + (double)rh / m_iHeight;
-	GLPP_ASSERT(stbir_set_input_subrect(&resize, s0, t0, s1, t1)); // THE IMAGE REGION IN NOT INBOUND
- 	m_iWidth = ow;
-	m_iHeight = oh;
-	return (bool)stbir_resize_extended(&resize);
+	unsigned char* result = stbi_load_gif_from_memory(buffer, len, delays, x, y, z, comp, req_comp);
+	if (!result) return NULL;
+	return stbi__ldr_to_hdr(result, *x, *y, *comp);
 }
 
 StbImage::StbImage()
@@ -369,81 +121,53 @@ StbImage::StbImage()
 	m_lpPixels = nullptr;
 }
 
-void StbImage::convert(_In_ const StbImage& source, StbFormat format)
-{
-	_copy(&source);
-	GLPP_STBIMAGE_TLSLOCK = source.m_lpPixels;
-	_conv(source.m_lpPixels, (int)format);
-	GLPP_STBIMAGE_TLSLOCK = nullptr;
-}
-
-void StbImage::convert16To8(_In_ const StbImage& source)
-{
-	_copy(&source);
-	GLPP_STBIMAGE_TLSLOCK = source.m_lpPixels;
-	_c168(source.m_lpPixels);
-	GLPP_STBIMAGE_TLSLOCK = nullptr;
-}
-
-void StbImage::convert8To16(_In_ const StbImage& source)
-{
-	_copy(&source);
-	GLPP_STBIMAGE_TLSLOCK = source.m_lpPixels;
-	_c816(source.m_lpPixels);
-	GLPP_STBIMAGE_TLSLOCK = nullptr;
-}
-
-void StbImage::convertFormat(_In_ const StbImage& source, StbFormat format)
-{
-	_copy(&source);
-	GLPP_STBIMAGE_TLSLOCK = source.m_lpPixels;
-	_cf08(source.m_lpPixels, (int)format);
-	GLPP_STBIMAGE_TLSLOCK = nullptr;
-}
-
-void StbImage::convertFormat16(_In_ const StbImage& source, StbFormat format)
-{
-	_copy(&source);
-	GLPP_STBIMAGE_TLSLOCK = source.m_lpPixels;
-	_cf16(source.m_lpPixels, (int)format);
-	GLPP_STBIMAGE_TLSLOCK = nullptr;
-}
-
 void StbImage::convertIphonePngToRgb(bool convert)
 {
 	stbi_convert_iphone_png_to_rgb((int)convert);
 }
 
-void StbImage::copy(_In_ const StbImage& source)
+void StbImage::copy(const StbImage& source)
 {
-	_copy(&source);
+	GLPP_ASSERT(m_lpPixels == nullptr); // STB IMAGE DESTINATION OBJECT HAS LOADED IMAGE
+	void* lpSource = source.getPixels(); // Pixels
+	m_iByte = source.m_iByte;
+	m_iComp = source.m_iComp;
+	m_iWidth = source.m_iWidth;
+	m_iHeight = source.m_iHeight;
 	size_t iSize = static_cast<size_t>(m_iWidth) * m_iHeight * m_iComp * m_iByte;
 	m_lpPixels = GLPP_MALLOC(iSize);
-	memcpy(m_lpPixels, source.m_lpPixels, iSize);
+	memcpy(m_lpPixels, lpSource, iSize);
 }
 
-void StbImage::copyRegion(_In_ const StbImage& source, int rleft, int rtop, int rwidth, int rheight)
+void StbImage::copyRegion(const StbImage& source, int rleft, int rtop, int rwidth, int rheight)
 {
-	_copy(&source);
-	GLPP_ASSERT((rwidth > 0) && (rleft >= 0) && (m_iWidth >= (rleft + rwidth))); // INVALID WIDTH OR LEFT PARAMETERS OF ALLOCATING SPRITE
-	GLPP_ASSERT((rheight > 0) && (rtop >= 0) && (m_iHeight >= (rtop + rheight))); // INVALID HEIGHT OR TOP PARAMETERS OF ALLOCATING SPRITE
+	GLPP_ASSERT((this == &source) || (m_lpPixels == nullptr)); // STB DESTINATION IMAGE OBJECT HAS LOADED IMAGE
+	void* lpSource = source.getPixels(); // Pixels
+	m_iByte = source.m_iByte;
+	m_iComp = source.m_iComp;
+	GLPP_ASSERT((rwidth > 0) && (rleft >= 0) && (source.m_iWidth >= (rleft + rwidth))); // INVALID WIDTH OR LEFT PARAMETERS OF ALLOCATING SPRITE
+	GLPP_ASSERT((rheight > 0) && (rtop >= 0) && (source.m_iHeight >= (rtop + rheight))); // INVALID HEIGHT OR TOP PARAMETERS OF ALLOCATING SPRITE
 	int iDstPos = 0,
 		iPixel = m_iByte * m_iComp,
 		iDstLine = rwidth * iPixel,
-		iSrcLine = m_iWidth * iPixel,
+		iSrcLine = source.m_iWidth * iPixel,
 		iSrcPos = (iSrcLine * rtop) + (rleft * iPixel);
 	m_lpPixels = GLPP_MALLOC(static_cast<size_t>(iDstLine) * rheight);
 	for (int iHscan = 0; iHscan < rheight; iHscan++)
 	{
-		memcpy((char*)m_lpPixels + iDstPos, (char*)source.m_lpPixels + iSrcPos, iDstLine);
+		memcpy((char*)m_lpPixels + iDstPos, (char*)lpSource + iSrcPos, iDstLine);
 		iDstPos += iDstLine;
 		iSrcPos += iSrcLine;
 	}
 	m_iWidth = rwidth;
 	m_iHeight = rheight;
+	if (this == &source)
+	{
+		STBI_FREE(lpSource);
+	}
 }
 
-void StbImage::copySprite(_In_ const StbImage& source, int width, int height, int index)
+void StbImage::copySprite(const StbImage& source, int width, int height, int index)
 {
 	int iCol = source.m_iWidth / width, iRemC = source.m_iWidth % width; // Number of sprites in row + reminder
 	int iRow = source.m_iHeight / height, iRemR = source.m_iHeight % height; // Number of rows in image + reminder
@@ -470,14 +194,6 @@ void StbImage::flipVerticallyOnWrite(bool flip)
 	stbi_flip_vertically_on_write((int)flip);
 }
 
-void StbImage::hdrToLdr(_In_ const StbImage& source)
-{
-	_copy(&source);
-	GLPP_STBIMAGE_TLSLOCK = source.m_lpPixels;
-	_h2ld(source.m_lpPixels);
-	GLPP_STBIMAGE_TLSLOCK = nullptr;
-}
-
 void StbImage::hdrToLdrGamma(float gamma)
 {
 	stbi_hdr_to_ldr_gamma(gamma);
@@ -500,26 +216,80 @@ void StbImage::imageFree()
 
 bool StbImage::info(int rcid)
 {
-	_DATA data;
-	_rcid(&data, rcid);
-	return (bool)_info(&data);
+	int iLen;
+	GLPP_ASSERT(m_lpPixels == nullptr); // STB IMAGE OBJECT HAS LOADED IMAGE
+	unsigned char* pBuffer = _loadResource(rcid, &iLen);
+	m_iByte =
+		(stbi_is_hdr_from_memory(pBuffer, iLen)) ? 4 :
+		(stbi_is_16_bit_from_memory(pBuffer, iLen)) ? 2 : 1;
+	return (bool)stbi_info_from_memory(pBuffer, iLen, &m_iWidth, &m_iHeight, &m_iComp);
 }
 
 bool StbImage::info(_In_z_ const char* file)
 {
-	_DATA data;
-	_file(&data, file);
-	bool bResult = (bool)_info(&data);
-	fclose(data.file);
+	FILE* pFile;
+	GLPP_ASSERT(m_lpPixels == nullptr); // STB IMAGE OBJECT HAS LOADED IMAGE
+	errno_t iError = fopen_s(&pFile, file, "rb");
+	GLPP_ASSERT(iError == 0); // FAILED TO LOAD IMAGE FILE
+	m_iByte =
+		(stbi_is_hdr_from_file(pFile)) ? 4 :
+		(stbi_is_16_bit_from_file(pFile)) ? 2 : 1;
+	bool bResult = (bool)stbi_info_from_file(pFile, &m_iWidth, &m_iHeight, &m_iComp);
+	fclose(pFile);
 	return bResult;
 }
 
-void StbImage::ldrToHdr(_In_ const StbImage& source)
+bool StbImage::info(_In_ StbCallbacks const* clbk, _In_ void* user)
 {
-	_copy(&source);
-	GLPP_STBIMAGE_TLSLOCK = source.m_lpPixels;
-	_l2hd(source.m_lpPixels);
-	GLPP_STBIMAGE_TLSLOCK = nullptr;
+	GLPP_ASSERT(m_lpPixels == nullptr); // STB IMAGE OBJECT HAS LOADED IMAGE
+	m_iByte =
+		(stbi_is_hdr_from_callbacks((stbi_io_callbacks*)clbk, user)) ? 4 :
+		(stbi_is_16_bit_from_callbacks((stbi_io_callbacks*)clbk, user)) ? 2 : 1;
+	return (bool)stbi_info_from_callbacks((stbi_io_callbacks*)clbk, user, &m_iWidth, &m_iHeight, &m_iComp);
+}
+
+bool StbImage::is16bit(int rcid)
+{
+	int iLen;
+	unsigned char* pBuffer = _loadResource(rcid, &iLen);
+	return (bool)stbi_is_16_bit_from_memory(pBuffer, iLen);
+}
+
+bool StbImage::is16bit(_In_z_ const char* file)
+{
+	FILE* pFile;
+	errno_t iError = fopen_s(&pFile, file, "rb");
+	GLPP_ASSERT(iError == 0); // FAILED TO LOAD IMAGE FILE
+	bool bResult = (bool)stbi_is_16_bit_from_file(pFile);
+	fclose(pFile);
+	return bResult;
+}
+
+bool StbImage::is16bit(_In_ StbCallbacks const* clbk, _In_ void* user)
+{
+	return (bool)stbi_is_16_bit_from_callbacks((stbi_io_callbacks*)clbk, user);
+}
+
+bool StbImage::isHdr(int rcid)
+{
+	int iLen;
+	unsigned char* pBuffer = _loadResource(rcid, &iLen);
+	return (bool)stbi_is_hdr_from_memory(pBuffer, iLen);
+}
+
+bool StbImage::isHdr(_In_z_ const char* file)
+{
+	FILE* pFile;
+	errno_t iError = fopen_s(&pFile, file, "rb");
+	GLPP_ASSERT(iError == 0); // FAILED TO LOAD IMAGE FILE
+	bool bResult = (bool)stbi_is_hdr_from_file(pFile);
+	fclose(pFile);
+	return bResult;
+}
+
+bool StbImage::isHdr(_In_ StbCallbacks const* clbk, _In_ void* user)
+{
+	return (bool)stbi_is_hdr_from_callbacks((stbi_io_callbacks*)clbk, user);
 }
 
 void StbImage::ldrToHdrGamma(float gamma)
@@ -534,40 +304,151 @@ void StbImage::ldrToHdrScale(float scale)
 
 void StbImage::load(int rcid, StbFormat format)
 {
-	_DATA data;
-	_rcid(&data, rcid);
-	_load(&data, (int)format);
+	int iLen;
+	GLPP_ASSERT(m_lpPixels == nullptr); // STB IMAGE OBJECT HAS LOADED IMAGE
+	unsigned char* pBuffer = _loadResource(rcid, &iLen);
+	m_iByte = ((int)format & GLPP_STBIMAGE_BYTE) >> 4;
+	int iReqComp = (int)format & GLPP_STBIMAGE_COMP;
+	if (m_iByte == 0) // Load original depth
+	{
+		m_iByte =
+			(stbi_is_hdr_from_memory(pBuffer, iLen)) ? 4 :
+			(stbi_is_16_bit_from_memory(pBuffer, iLen)) ? 2 : 1;
+	}
+	m_lpPixels =
+		(m_iByte == 1) ? stbi_load_from_memory(pBuffer, iLen, &m_iWidth, &m_iHeight, &m_iComp, iReqComp) :
+		(m_iByte == 2) ? stbi_load_16_from_memory(pBuffer, iLen, &m_iWidth, &m_iHeight, &m_iComp, iReqComp) :
+		(void*)stbi_loadf_from_memory(pBuffer, iLen, &m_iWidth, &m_iHeight, &m_iComp, iReqComp);
+	GLPP_STBIMAGE_ASSERT; // FAILED TO LOAD IMAGE
+	if (iReqComp > 0) m_iComp = iReqComp;
 }
 
 void StbImage::load(_In_z_ const char* file, StbFormat format)
 {
-	_DATA data;
-	_file(&data, file);
-	_load(&data, (int)format);
-	fclose(data.file);
+	FILE* pFile;
+	GLPP_ASSERT(m_lpPixels == nullptr); // STB IMAGE OBJECT HAS LOADED IMAGE
+	errno_t iError = fopen_s(&pFile, file, "rb");
+	GLPP_ASSERT(iError == 0); // FAILED TO LOAD IMAGE FILE
+	m_iByte = ((int)format & GLPP_STBIMAGE_BYTE) >> 4;
+	int iReqComp = (int)format & GLPP_STBIMAGE_COMP;
+	if (m_iByte == 0) // Load original depth
+	{
+		m_iByte =
+			(stbi_is_hdr_from_file(pFile)) ? 4 :
+			(stbi_is_16_bit_from_file(pFile)) ? 2 : 1;
+	}
+	m_lpPixels =
+		(m_iByte == 1) ? stbi_load_from_file(pFile, &m_iWidth, &m_iHeight, &m_iComp, iReqComp) :
+		(m_iByte == 2) ? stbi_load_from_file_16(pFile, &m_iWidth, &m_iHeight, &m_iComp, iReqComp) :
+		(void*)stbi_loadf_from_file(pFile, &m_iWidth, &m_iHeight, &m_iComp, iReqComp);
+	GLPP_STBIMAGE_ASSERT; // FAILED TO LOAD IMAGE
+	if (iReqComp > 0) m_iComp = iReqComp;
+	fclose(pFile);
+}
+
+void StbImage::load(_In_ StbCallbacks const* clbk, _In_ void* user, StbFormat format)
+{
+	GLPP_ASSERT(m_lpPixels == nullptr); // STB IMAGE OBJECT HAS LOADED IMAGE
+	m_iByte = ((int)format & GLPP_STBIMAGE_BYTE) >> 4;
+	int iReqComp = (int)format & GLPP_STBIMAGE_COMP;
+	if (m_iByte == 0) // Load original depth
+	{
+		m_iByte =
+			(stbi_is_hdr_from_callbacks((stbi_io_callbacks*)clbk, user)) ? 4 :
+			(stbi_is_16_bit_from_callbacks((stbi_io_callbacks*)clbk, user)) ? 2 : 1;
+	}
+	m_lpPixels =
+		(m_iByte == 1) ? stbi_load_from_callbacks((stbi_io_callbacks*)clbk, user, &m_iWidth, &m_iHeight, &m_iComp, iReqComp) :
+		(m_iByte == 2) ? stbi_load_16_from_callbacks((stbi_io_callbacks*)clbk, user, &m_iWidth, &m_iHeight, &m_iComp, iReqComp) :
+		(void*)stbi_loadf_from_callbacks((stbi_io_callbacks*)clbk, user, &m_iWidth, &m_iHeight, &m_iComp, iReqComp);
+	GLPP_STBIMAGE_ASSERT; // FAILED TO LOAD IMAGE
+	if (iReqComp > 0) m_iComp = iReqComp;
 }
 
 int StbImage::loadGif(int rcid, _Outptr_opt_ int** delays, StbFormat format)
 {
-	_DATA data;
-	_rcid(&data, rcid);
-	return _lgif(&data, (int)format, delays);
+	int iLen;
+	GLPP_ASSERT(m_lpPixels == nullptr); // STB IMAGE OBJECT HAS LOADED IMAGE
+	unsigned char* pBuffer = _loadResource(rcid, &iLen);
+	m_iByte = ((int)format & GLPP_STBIMAGE_BYTE) >> 4;
+	int iLayers, iReqComp = (int)format & GLPP_STBIMAGE_COMP;
+	if (m_iByte == 0) m_iByte = 1; // Original depth always 1
+	m_lpPixels =
+		(m_iByte == 1) ? stbi_load_gif_from_memory(pBuffer, iLen, delays, &m_iWidth, &m_iHeight, &iLayers, &m_iComp, iReqComp) :
+		(m_iByte == 2) ? stbi_load_16_gif_from_memory(pBuffer, iLen, delays, &m_iWidth, &m_iHeight, &iLayers, &m_iComp, iReqComp) :
+		(void*)stbi_loadf_gif_from_memory(pBuffer, iLen, delays, &m_iWidth, &m_iHeight, &iLayers, &m_iComp, iReqComp);
+	GLPP_STBIMAGE_ASSERT; // FAILED TO LOAD GIF IMAGE
+	if (iReqComp > 0) m_iComp = iReqComp;
+	m_iHeight *= iLayers; // Interleaved images
+	return iLayers;
 }
 
 int StbImage::loadGif(_In_z_ const char* file, _Outptr_opt_ int** delays, StbFormat format)
 {
-	_DATA data;
-	_file(&data, file);
-	int iLayers = _lgif(&data, (int)format, delays);
-	fclose(data.file);
+	FILE* pFile;
+	GLPP_ASSERT(m_lpPixels == nullptr); // STB IMAGE OBJECT HAS LOADED IMAGE
+	errno_t iError = fopen_s(&pFile, file, "rb");
+	GLPP_ASSERT(iError == 0); // FAILED TO LOAD IMAGE FILE
+	m_iByte = ((int)format & GLPP_STBIMAGE_BYTE) >> 4;
+	int iLayers, iReqComp = (int)format & GLPP_STBIMAGE_COMP;
+	if (m_iByte == 0) m_iByte = 1; // Original depth always 1
+	m_lpPixels =
+		(m_iByte == 1) ? stbi_load_gif_from_file(pFile, delays, &m_iWidth, &m_iHeight, &iLayers, &m_iComp, iReqComp) :
+		(m_iByte == 2) ? stbi_load_16_gif_from_file(pFile, delays, &m_iWidth, &m_iHeight, &iLayers, &m_iComp, iReqComp) :
+		(void*)stbi_loadf_gif_from_file(pFile, delays, &m_iWidth, &m_iHeight, &iLayers, &m_iComp, iReqComp);
+	GLPP_STBIMAGE_ASSERT; // FAILED TO LOAD GIF IMAGE
+	if (iReqComp > 0) m_iComp = iReqComp;
+	m_iHeight *= iLayers; // Interleaved images
 	return iLayers;
 }
 
-bool StbImage::resizeRegion(int width, int height, int rleft, int rtop, int rwidth, int rheight)
+int StbImage::loadGif(_In_ StbCallbacks const* clbk, _In_ void* user, _Outptr_opt_ int** delays, StbFormat format)
 {
-	void* lpSource = getPixels();
-	bool bResult = _resz(lpSource, width, height, rleft, rtop, rwidth, rheight);
-	stbi_image_free(lpSource);
+	GLPP_ASSERT(m_lpPixels == nullptr); // STB IMAGE OBJECT HAS LOADED IMAGE
+	m_iByte = ((int)format & GLPP_STBIMAGE_BYTE) >> 4;
+	int iLayers, iReqComp = (int)format & GLPP_STBIMAGE_COMP;
+	if (m_iByte == 0) m_iByte = 1; // Original depth always 1
+	m_lpPixels =
+		(m_iByte == 1) ? stbi_load_gif_from_callbacks((stbi_io_callbacks*)clbk, user, delays, &m_iWidth, &m_iHeight, &iLayers, &m_iComp, iReqComp) :
+		(m_iByte == 2) ? stbi_load_16_gif_from_callbacks((stbi_io_callbacks*)clbk, user, delays, &m_iWidth, &m_iHeight, &iLayers, &m_iComp, iReqComp) :
+		(void*)stbi_loadf_gif_from_callbacks((stbi_io_callbacks*)clbk, user, delays, &m_iWidth, &m_iHeight, &iLayers, &m_iComp, iReqComp);
+	GLPP_STBIMAGE_ASSERT; // FAILED TO LOAD GIF IMAGE
+	if (iReqComp > 0) m_iComp = iReqComp;
+	m_iHeight *= iLayers; // Interleaved images
+	return iLayers;
+}
+
+bool StbImage::resizeRegion(const StbImage& source, int width, int height, int rleft, int rtop, int rwidth, int rheight)
+{
+	GLPP_ASSERT((this == &source) || (m_lpPixels == nullptr)); // STB DESTINATION IMAGE OBJECT HAS LOADED IMAGE
+	GLPP_ASSERT((width > 0) && (height > 0) && ((width * height) <= STBI_MAX_DIMENSIONS)); // OUTPUT IMAGE DIMENSIONS ARE INVALID
+	void* lpSource = source.getPixels(); // Pixels
+	m_iByte = source.m_iByte;
+	m_iComp = source.m_iComp;
+	stbir_datatype byte =
+		(m_iByte == 1) ? STBIR_TYPE_UINT8 :
+		(m_iByte == 2) ? STBIR_TYPE_UINT16 : STBIR_TYPE_FLOAT; // Depth
+	stbir_pixel_layout comp =
+		(m_iComp == 1) ? STBIR_1CHANNEL :
+		(m_iComp == 2) ? STBIR_2CHANNEL :
+		(m_iComp == 3) ? STBIR_RGB : STBIR_RGBA; // Channels
+	STBIR_RESIZE resize;
+	m_lpPixels = GLPP_MALLOC(static_cast<size_t>(width) * height * m_iByte * m_iComp);
+	stbir_resize_init(&resize, lpSource, source.m_iWidth, source.m_iHeight, 0, m_lpPixels, width, height, 0, comp, byte);
+	stbir_set_edgemodes(&resize, STBIR_EDGE_CLAMP, STBIR_EDGE_CLAMP);
+	stbir_set_filters(&resize, STBIR_FILTER_DEFAULT, STBIR_FILTER_DEFAULT);
+	double s0 = (double)rleft / source.m_iWidth;
+	double t0 = (double)rtop / source.m_iHeight;
+	double s1 = s0 + (double)rwidth / source.m_iWidth;
+	double t1 = t0 + (double)rheight / source.m_iHeight;
+	GLPP_ASSERT(stbir_set_input_subrect(&resize, s0, t0, s1, t1)); // THE IMAGE REGION IN NOT INBOUND
+	bool bResult = (bool)stbir_resize_extended(&resize);
+	m_iWidth = width;
+	m_iHeight = height;
+	if (this == &source)
+	{
+		STBI_FREE(lpSource);
+	}
 	return bResult;
 }
 
@@ -579,16 +460,6 @@ void StbImage::setFlipVerticallyOnLoad(bool flip)
 void StbImage::setUnpremultiplyOnLoad(bool unpremultiply)
 {
 	stbi_set_unpremultiply_on_load((int)unpremultiply);
-}
-
-void StbImage::verticalFlip()
-{
-	stbi__vertical_flip(getPixels(), m_iWidth, m_iHeight, m_iComp * m_iByte);
-}
-
-void StbImage::verticalFlipSlices(int layers)
-{
-	stbi__vertical_flip_slices(getPixels(), m_iWidth, m_iHeight, layers, m_iComp * m_iByte);
 }
 
 void StbImage::writeForcePngFilter(int filter)
@@ -645,7 +516,7 @@ void StbImage::writeTgaWithRle(bool rle)
 }
 
 #ifdef _DEBUG
-_Ret_notnull_ void* StbImage::getPixels()
+_Ret_notnull_ void* StbImage::getPixels() const
 {
 	GLPP_ASSERT(m_lpPixels != nullptr); // STB IMAGE OBJECT HAS NO LOADED IMAGE
 	return m_lpPixels;
