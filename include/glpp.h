@@ -95,7 +95,7 @@ enum class StbFormat : int;
 
 #ifdef GLPP_FREEIMAGE_LIB
 class FreeImage;
-#endif // #ifdef GLPP_USE_FREEIMAGE
+#endif // #ifdef GLPP_FREEIMAGE_LIB
 
 #ifdef GLPP_BUILD_LIB
 /*glpp memory deallocation macro*/
