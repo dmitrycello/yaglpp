@@ -81,10 +81,10 @@ enum class StbFormat : int
 class StbImage
 {
 private:
-	int m_iByte; // Bytes p/channel
-	int m_iComp; // Channels p/pixel
-	int m_iWidth; // Image width
-	int m_iHeight; // Image height
+	int m_iByte;      // Bytes p/channel
+	int m_iComp;      // Channels p/pixel
+	int m_iWidth;     // Image width
+	int m_iHeight;    // Image height
 	void* m_lpPixels; // Pixel data
 
 public:
