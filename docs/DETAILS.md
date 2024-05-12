@@ -93,10 +93,10 @@ ubo.bindBufferBase(0);                              // Binding point 0
 ```
 Usage code:
 ```
-*map.value1 = 1;    // Set integer
-*map.value2 = 2.0f; // Set float
-*map.value3 = 3.0;  // Set double
-ubo.bufferSubData(data, 0, data.getSize()); // Update uniform block
+*map.value1 = 1;         // Set integer
+*map.value2 = 2.0f;      // Set float
+*map.value3 = 3.0;       // Set double
+ubo.bufferSubData(data); // Update uniform block
 ```
 > [!NOTE]
 > The pointers in Win32 application are 4-byte long. So will be the size of the class object being a pointer.
