@@ -93,8 +93,8 @@ protected:
 	}
 
 	void _object_delete(GLPP_GLAD_PFNDELETE pfnDelete);
-	void _object_gen(GLPP_GLAD_PFNGEN pfnGen, GLenum param = 1);
-	GLuint _object_id(GLPP_GLAD_PFNGEN pfnGen, GLenum param = 1);
+	void _object_gen(GLPP_GLAD_PFNGEN pfnGen, GLenum param = 1); // param used by Shader class
+	GLuint _object_id(GLPP_GLAD_PFNGEN pfnGen, GLenum param = 1); // param used by Shader class
 	void _object_share(_Object& object);
 
 #ifdef _DEBUG

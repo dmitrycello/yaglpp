@@ -206,7 +206,7 @@ public:
 		return m_iHeight;
 	}
 
-	/*Gets the pointer of pixel array of last loaded image
+	/*Gets a pointer to the pixel array of last loaded image
 	@return Pointer to the image pixel array*/
 	_Ret_notnull_ void* getPixels() const;
 
@@ -329,7 +329,7 @@ public:
 	@return The number of loaded layers*/
 	int loadGif(_In_ StbCallbacks const* clbk, _In_ void* user, _Outptr_opt_ int** delays, StbFormat format = StbFormat::Default);
 
-	/*(1) Resizes currently loaded image
+	/*(1) Resizes loaded image replacing the current image
 	@param The width of a new image
 	@param The height of a new image
 	@return True if success, false otherwise*/
@@ -338,7 +338,7 @@ public:
 		return resizeRegion(width, height, 0, 0, m_iWidth, m_iHeight);
 	}
 
-	/*(2) Resizes an image currently loaded into the source StbImage object
+	/*(2) Resizes an image loaded into the source StbImage object
 	@param [in] The source StbImage object
 	@param The width of a new image
 	@param The height of a new image
@@ -348,7 +348,7 @@ public:
 		return resizeRegion(source, width, height, 0, 0, source.m_iWidth, source.m_iHeight);
 	}
 
-	/*(1) Resizes a region of currently loaded image replacing the old image
+	/*(1) Resizes a region of loaded image replacing the current image
 	@param The width of a new image
 	@param The height of a new image
 	@param The region top-left corner x coordinate on the image
@@ -361,7 +361,7 @@ public:
 		return resizeRegion(*this, width, height, rleft, rtop, rwidth, rheight);
 	}
 
-	/*(2) Resizes a region of the image currently loaded into the source StbImage object
+	/*(2) Resizes a region of the image loaded into the source StbImage object
 	@param [in] The source StbImage object
 	@param The width of a new image
 	@param The height of a new image
@@ -412,8 +412,8 @@ public:
 	@param [in] Path to the written TGA file*/
 	bool writeTga(_In_z_ const char* filepath);
 
-	/*Sets global RLE compression flag for writing TGA files
-	@param True to enable RLE, default true*/
+	/*Sets global RLE compression flag for writing TGA files. Default true
+	@param True to enable RLE, false otherwise*/
 	static void writeTgaWithRle(bool rle);
 }; // class StbImage
 

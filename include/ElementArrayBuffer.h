@@ -44,7 +44,7 @@ public:
 	@param Specifies the expected usage pattern of the data store enumerator*/
 	void bufferData(DataStore& dataStore, BufferUsage usage)
 	{
-		_bufferData(_tlsElementArrayBuffer(), GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)dataStore.getSize(), dataStore.getData(0), (GLenum)usage);
+		_bufferData(_tlsElementArrayBuffer(), GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)dataStore.getSize(), dataStore.getData(), (GLenum)usage);
 	}
 
 	/*(2) Creates and initializes buffer object's data store
@@ -57,15 +57,22 @@ public:
 	}
 
 	/*(1) Updates a subset of a buffer object data store from DataStore object
+	@param Specifies the associated DataStore object who's region will be copied into the buffer*/
+	void bufferSubData(DataStore& data)
+	{
+		_bufferSubData(_tlsArrayBuffer(), GL_ELEMENT_ARRAY_BUFFER, 0, data.getSize(), data.getData());
+	}
+
+	/*(2) Updates a subset of a buffer object data store from a part of DataStore object
 	@param Specifies the associated DataStore object who's region will be copied into the buffer
 	@param Specifies the integer offset into the buffer object's data store where data replacement will begin, measured in bytes
 	@param Specifies the integer size in bytes of the data store region being replaced*/
 	void bufferSubData(DataStore& data, GLintptr offset, GLsizeiptr size)
 	{
-		_bufferSubData(_tlsElementArrayBuffer(), GL_ELEMENT_ARRAY_BUFFER, offset, size, data.getSubData((int)offset, (int)size));
+		_bufferSubData(_tlsArrayBuffer(), GL_ELEMENT_ARRAY_BUFFER, offset, size, data.getSubData((int)offset, (int)size));
 	}
 
-	/*(2) Updates a subset of a buffer object's data store
+	/*(3) Updates a subset of a buffer object's data store
 	@param Specifies the integer offset into the buffer object's data store where data replacement will begin, measured in bytes
 	@param Specifies the integer size in bytes of the data store region being replaced
 	@param [in] Specifies a pointer to the new data that will be copied into the data store*/
