@@ -1,4 +1,4 @@
-# yaglpp: Yen Another GLAD/GLFW C++ library v24.5.1
+# yaglpp: Yet Another GLAD/GLFW C++ library v24.5.1
 [INSTALLATION &rarr;](docs/INSTALLATION.md)<br>
 [USAGE &rarr;](docs/USAGE.md)<br>
 [DETAILS &rarr;](docs/DETAILS.md)<br>
