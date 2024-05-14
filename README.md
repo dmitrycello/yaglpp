@@ -76,4 +76,4 @@ The symbols defined right after **`#pragma once`** directive in the [yaglpp.h](i
 > [!WARNING]
 > Do not alter the last 2 switches, unless you really need to recalibrate the library path layout.
 
-[&uarr; TOP](README.md#yagl-yet-another-gladglfw-c-library)
+[&uarr; TOP](README.md#yet-another-opengl-c-library)
