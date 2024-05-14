@@ -1,4 +1,4 @@
-# _YAGL++_: Yet Another GLAD/GLFW C++ library
+# _YAGL++_: Yet Another OpenGL C++ library
 [INSTALLATION &rarr;](docs/INSTALLATION.md)<br>
 [USAGE &rarr;](docs/USAGE.md)<br>
 [DETAILS &rarr;](docs/DETAILS.md)<br>
@@ -19,12 +19,12 @@ void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value)
 The most valuable library's feature is the **`"lasy" creation and binding concept`**. It means, the OpenGL object is automatically created and binded only when required. The creation of a class object does not mean the OpenGL object immediate creation or binding. This allows to use a glpp object as class member in situations where the immediate creation of OpenGL object would produce an error. The appropriate functions for creation and bindind are no longer needed, but still preserved to allow the programmer to create or bind the OpenGL object at anytime. The object status is saved in [thread local memory](https://learn.microsoft.com/en-us/cpp/c-language/thread-local-storage), which makes the library thread safe.
 
 > [!NOTE]
-> Not every glpp object follows this rule: **`gl::VertexArray`** and **`gl::Sampler`** objects must be _binded_ explicitly, where as all multi-objects and **`glfw::`** objects have to be _created_ with specified parameters.
+> Not every YAGL++ object follows this rule: **`gl::VertexArray`** and **`gl::Sampler`** objects must be _binded_ explicitly, where as all multi-objects and **`glfw::`** objects have to be _created_ with specified parameters.
 
 ### Naming concept
-The original API names are carefully preserved, except very rare cases (e.g. _BufferTexture_ is a texture, but _TextureBuffer_ is a buffer). As the API functions are grouped around the C++ classes, the API constants are grouped around the enum classes. The library assets are defined within **`gl::`** and **`glfw::`** namespaces for GLAD and GLFW APIs respectively. The few helper classes, such as **`StbImage`**, reside in the global namespace. You may bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them at least while learning the API. The prefixes will also prevent name conflict while managing large projects. 
+The original API names are carefully preserved, except very rare cases (e.g. _BufferTexture_ is a texture, but _TextureBuffer_ is a buffer). As the API functions are grouped around the C++ classes, the API constants are grouped around the enum classes. The library assets are defined within **`gl::`** and **`glfw::`** namespaces for GLAD and GLFW APIs respectively. The few helper classes, such as **`StbImage`**, reside in the global namespace. You may bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them at least while learning the OpenGL API. The prefixes will also prevent name conflict while managing large projects. 
 
-The names in glpp library are obtained by stripping gl and glwf prefixes of the original API names, and by applying the camil-case roule for the rest. For the constant names, every underscore symbol is used as a word delimiter. Such an approach helps learning the original API symbols for potential switching to OpenGL C programming. Some of the API functions such as **`glDisable`**, **`glEnable`**, **`glGet`**, **`glIsEnabled`**, and **`glPixelStore`** are used with the names of their constant values. For example:
+The names in YAGL++ library are obtained by stripping gl and glwf prefixes of the original API names, and by applying the camil-case roule for the rest. For the constant names, every underscore symbol is used as a word delimiter. Such an approach helps learning the original API symbols for potential switching to OpenGL C programming. Some of the API functions such as **`glDisable`**, **`glEnable`**, **`glGet`**, **`glIsEnabled`**, and **`glPixelStore`** are used with the names of their constant values. For example:
 ```
 glDisable(GL_SAMPLE_COVERAGE)
 glEnable(GL_SCISSOR_TEST)
@@ -33,7 +33,7 @@ glIsEnabled(GL_POLYGON_SMOOTH)
 glPixelStoref(GL_UNPACK_ROW_LENGTH, length)
 glfwWindowHint(GLFW_VISIBLE, visible)
 ```
-in glpp library become:
+in YAGL++ library become:
 ```
 gl::disableSampleCoverage()
 gl::enableScissorTest()
@@ -49,7 +49,7 @@ GLfloat gl::Texture2D::getMaxTextureLodBias(); // Static member function
 ```
 
 > [!CAUTION]
-> The underscore at the beginning of a name means a private assignment, you should NOT be using these names. The global symbols starting with **`GLPP_`** are also preserved by the library.
+> The underscore at the beginning of a name means a private assignment, you should NOT be using these names. The global symbols starting with **`YAGLPP_`** are also preserved by the library.
 
 ### IntelliSense
 Every methode or enum member in the library is provided with the comment shown in Visual Studio by the [IntelliSense](https://learn.microsoft.com/en-us/visualstudio/ide/using-intellisense) with the description, parameter list and return value. So it could be a nice way to briefly recap what the function does, instead of going online time after time. All information is taken from [Khronos website](https://registry.khronos.org/OpenGL-Refpages/gl4/).
@@ -60,19 +60,20 @@ If the description starts with the number in parentheses, it means either the mi
 > If you don't know the function, you should visit Khronos website to read its whole dedicated info.
 
 ### The main switches
-The symbols defined right after **`#pragma once`** directive in the [glpp.h](include/glpp.h) file are the library switches, they affect the build of the library. The first six could be commented, the others may only be altered:
-- Switches **`GLPP_COCOA_CHDIR_RESOURCES`**, **`GLPP_COCOA_MENUBAR`** and **`GLPP_JOYSTICK_HAT_BUTTONS`** are the GLFW flags set at the initialization, they are on by default;
-- Commenting the **`GLPP_NO_AFX_LAYOUT`** switch will transform the glpp into the AFX-alike environment, without the **`main`** function. Instead, you have to inherit a class from **`glfw::Thread`** or **`glfw::ThreadWnd`**, and overwrite its virtual functions. Otherwise, classical layout with the **`main`** function is preserved;
-- Commenting the **`GLPP_NO_GLFW_LEGACY`** switch allows to build glpp with GLFW v3.3.10, the latest version supporting Windows XP. In this case, some functions and constants of the recent GLFW libraries become unavailable;
-- When commenting the **`GLPP_FREEIMAGE_LIB`** switch, the **`FreeImage`** class won't be included in the build. This library is no longer maintained, but can deal with more formats compared to included **`StbImage`**;
-- The **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches indicate the minimum supporeted OpenGL context verion of the library. Accepted combination of these values are: 2/0, 2/1, 3/0, 3/1, 3/2 and 3/3 to represent the OpenGL versions 2.0 to 3.3 respectively. To change these switches, it is necessary to add other versions of the GLAD header file to **`glad`** folder, as described in last step of the [INSTALLATION](assets/INSTALLATION.md) section;
-- The **`GLPP_GLFW_LIB`** switch selects the GLFW library file used in the build. It could be **`"glfw3dll.lib`"** (dll), **`"glfw3.lib`"** (static), or **`"glfw3_mt.lib`"** (static multi-threaded);
+The symbols defined right after **`#pragma once`** directive in the [yaglpp.h](include/yaglpp.h) file are the library switches, they affect the build of the library. The first seven could be commented, the others may only be altered:
+- Switches **`YAGLPP_COCOA_CHDIR_RESOURCES`**, **`YAGLPP_COCOA_MENUBAR`** and **`GLPP_JOYSTICK_HAT_BUTTONS`** are the GLFW flags set at the initialization, they are on by default;
+- Commenting the **`YAGLPP_GLM_EXTENSIONS`** switch will exclude GLM library extension headers reducing the compile time, allowing to include each GLM header separately;
+- Commenting the **`YAGLPP_NO_AFX_LAYOUT`** switch will transform the YAGL++ into the AFX-alike environment, without the **`main`** function. Instead, you have to inherit a class from **`glfw::Thread`** or **`glfw::ThreadWnd`**, and overwrite its virtual functions. Otherwise, classical layout with the **`main`** function is preserved;
+- Commenting the **`YAGLPP_NO_GLFW_LEGACY`** switch allows to build YAGL++ with GLFW v3.3.10, the latest version supporting Windows XP. In this case, some functions and constants of the recent GLFW libraries become unavailable;
+- When commenting the **`YAGLPP_FREEIMAGE_LIB`** switch, the **`FreeImage`** class will be excluded from the build. This library is no longer maintained, but can deal with more formats compared to included **`StbImage`**;
+- The **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** switches indicate the supporeted OpenGL context verion by the library. Accepted combination of these values are: 2/0, 2/1, 3/0, 3/1, 3/2 and 3/3 to represent the OpenGL versions 2.0 to 3.3 respectively. To change these switches, it is necessary to add other versions of the GLAD header file to **`glad`** folder, as described in last step of the [INSTALLATION](docs/INSTALLATION.md) section;
+- The **`YAGLPP_GLFW_LIB`** switch selects the GLFW library file used in the build. It could be **`"glfw3dll.lib`"** (dll), **`"glfw3.lib`"** (static), or **`"glfw3_mt.lib`"** (static multi-threaded);
 - The last 2 switches contain the library output paths.
 
 >[!NOTE]
-> The **`GLPP_GLFW_LIB`** switch also conains the library folder (e.g. _lib-vc2019/glfw3dll.lib_). It is important to change the year in folder name while using another IDE, to link the appropriate library. At the moment GLFW supports Visual Studio 2013, 2015, 2017, 2019 and 2022.
+> The **`YAGLPP_GLFW_LIB`** switch also conains the library folder (e.g. _lib-vc2019/glfw3dll.lib_). It is important to change the year in folder name while using another IDE, to link the appropriate library. At the moment GLFW supports Visual Studio 2013, 2015, 2017, 2019 and 2022.
 
 > [!WARNING]
 > Do not alter the last 2 switches, unless you really need to recalibrate the library path layout.
 
-[&uarr; TOP](README.md#glpp-opengl-c-library-v2441)
+[&uarr; TOP](README.md#yagl-yet-another-gladglfw-c-library)
