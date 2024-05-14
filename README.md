@@ -61,7 +61,7 @@ If the description starts with the number in parentheses, it means either the su
 
 ### The main switches
 The symbols defined right after **`#pragma once`** directive in the [yaglpp.h](include/yaglpp.h) file are the library switches, they affect the build of the library. The first seven could be commented, the others may only be altered:
-- Switches **`YAGLPP_COCOA_CHDIR_RESOURCES`**, **`YAGLPP_COCOA_MENUBAR`** and **`GLPP_JOYSTICK_HAT_BUTTONS`** are the GLFW flags set at the initialization, they are on by default;
+- Switches **`YAGLPP_COCOA_CHDIR_RESOURCES`**, **`YAGLPP_COCOA_MENUBAR`** and **`YAGLPP_JOYSTICK_HAT_BUTTONS`** are the GLFW flags set at the initialization, they are on by default;
 - Commenting the **`YAGLPP_GLM_EXTENSIONS`** switch will exclude GLM library extension headers reducing the compile time, allowing to include each GLM header separately;
 - Commenting the **`YAGLPP_NO_AFX_LAYOUT`** switch will transform the YAGL++ into the AFX-alike environment, without the **`main`** function. Instead, you have to inherit a class from **`glfw::Thread`** or **`glfw::ThreadWnd`**, and overwrite its virtual functions. Otherwise, classical layout with the **`main`** function is preserved;
 - Commenting the **`YAGLPP_NO_GLFW_LEGACY`** switch allows to build YAGL++ with GLFW v3.3.10, the latest version supporting Windows XP. In this case, some functions and constants of the recent GLFW libraries become unavailable;
