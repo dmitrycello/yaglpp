@@ -1,4 +1,4 @@
-# Yet Another OpenGL C++ library
+# Yet Another GL++ library
 [INSTALLATION &rarr;](docs/INSTALLATION.md)<br>
 [USAGE &rarr;](docs/USAGE.md)<br>
 [DETAILS &rarr;](docs/DETAILS.md)<br>
