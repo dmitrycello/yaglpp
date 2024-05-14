@@ -13,7 +13,7 @@ The library works with GLAD version 2.0 to 3.3, and GLFW version 3.4+. The versi
 void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value)
 {
 	glUniform3fv(_location(), count, (GLfloat*)value); // GLAD API call
-	GLPP_GLAD_ERROR; // Error checking macro
+	YAGLPP_GLAD_ERROR;                                 // Error checking macro
 }
 ```
 The most valuable library's feature is the **`"lasy" creation and binding concept`**. It means, the OpenGL object is automatically created and binded only when required. The creation of a class object does not mean the OpenGL object immediate creation or binding. This allows to use a YAGL++ object as class member in situations where the immediate creation of OpenGL object would produce an error. The appropriate functions for creation and bindind are no longer needed, but still preserved to allow the programmer to create or bind the OpenGL object at anytime. The object status is saved in [thread local memory](https://learn.microsoft.com/en-us/cpp/c-language/thread-local-storage), which makes the library thread safe.
