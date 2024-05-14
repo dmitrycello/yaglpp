@@ -75,7 +75,7 @@ Select **`Static Library (C++)`**, hit **`Next`**:
 
 Type the static library project name, which must be exactly **`glpp`**, check the path to the solution, and hit **`Create`**:
 
-![06.png](06.png)
+![26.png](26.png)
 
 ### 5. Add files to the library project
 In the Solution Explorer remove all header and source files **`(Del)`**. These files no longer needed, so they could be deleted permanently:
