@@ -80,22 +80,22 @@ Type the static library project name, which must be exactly **`glpp`**, check th
 ### 5. Add files to the library project
 In the Solution Explorer remove all header and source files **`(Del)`**. These files no longer needed, so they could be deleted permanently:
 
-![07.png](07.png)
+![27.png](27.png)
 
 Right-click **`Header Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\include\glpp`** directory, select **`glpp.h`** file:
 
-![08.png](08.png)
+![28.png](28.png)
 
 > [!NOTE]
 > The header files here are irrelevant for the build, and may not be included at all. The **`glpp.h`** file is added just to toggle the switches.
 
 Next, right-click **`Source Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\src\glpp`** directory, and select all **`.cpp`** files:
 
-![09.png](09.png)
+![29.png](29.png)
 
 Finally, add the same way the **`$(SolutionDir)\Common\src\glad.c`** file to **`Source Files`** filter. The Solution Explorer should now look like this:
 
-![10.png](10.png)
+![30.png](30.png)
 
 ### 6. Set the library project proprties
 Right-click glpp project name bar and press **`Proprties (Alt+Enter)`**:
