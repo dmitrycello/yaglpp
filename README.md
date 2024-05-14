@@ -1,4 +1,4 @@
-# _YAGL++_<br>Yet Another GLAD/GLFW C++ library
+# _YAGL++_: Yet Another GLAD/GLFW C++ library
 [INSTALLATION &rarr;](docs/INSTALLATION.md)<br>
 [USAGE &rarr;](docs/USAGE.md)<br>
 [DETAILS &rarr;](docs/DETAILS.md)<br>
