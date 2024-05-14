@@ -1,4 +1,4 @@
-# _YAGL++_: Yet Another OpenGL C++ library
+# Yet Another OpenGL C++ library
 [INSTALLATION &rarr;](docs/INSTALLATION.md)<br>
 [USAGE &rarr;](docs/USAGE.md)<br>
 [DETAILS &rarr;](docs/DETAILS.md)<br>
