@@ -73,7 +73,7 @@ Select **`Static Library (C++)`**, hit **`Next`**:
 
 ![05.png](05.png)
 
-Type the static library project name, which must be exactly **_glpp_**, check the path to the solution, and hit **`Create`**:
+Type the static library project name, which must be exactly **_yaglpp_**, check the path to the solution, and hit **`Create`**:
 
 ![26.png](26.png)
 
@@ -82,14 +82,14 @@ In the Solution Explorer remove all header and source files **`(Del)`**. These f
 
 ![27.png](27.png)
 
-Right-click **`Header Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\include\glpp`** directory, select **`glpp.h`** file:
+Right-click **`Header Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\include\yaglpp`** directory, select **`yaglpp.h`** file:
 
 ![28.png](28.png)
 
 > [!NOTE]
-> The header files here are irrelevant for the build, and may not be included at all. The **`glpp.h`** file is added just to toggle the switches.
+> The header files here are irrelevant for the build, and may not be included at all. The **`yaglpp.h`** file is added just to toggle the main switches.
 
-Next, right-click **`Source Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\src\glpp`** directory, and select all **`.cpp`** files:
+Next, right-click **`Source Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\src\yaglpp`** directory, and select all **`.cpp`** files:
 
 ![29.png](29.png)
 
@@ -98,19 +98,19 @@ Finally, add the same way the **`$(SolutionDir)\Common\src\glad.c`** file to **`
 ![30.png](30.png)
 
 ### 6. Set the library project proprties
-Right-click glpp project name bar and press **`Proprties (Alt+Enter)`**:
+Right-click **`yaglpp`** project name bar and press **`Proprties (Alt+Enter)`**:
 
-![11.png](11.png)
+![31.png](31.png)
 
 In the Properties window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
 
-![12.png](12.png)
+![32.png](32.png)
 
-The glpp needs to set 4 configuration options for each platform configuration. To set an option, select a category at the left-hand side, then select an option at the right-hand side. Click the drop-down menu at the right, then hit **`<Edit...>`**, or select the available option:
+The YAGL++ needs to set 4 configuration options for each platform configuration. To set an option, select a category at the left-hand side, then select an option at the right-hand side. Click the drop-down menu at the right, then hit **`<Edit...>`**, or select the available option:
 
-![13.png](13.png)
+![33.png](33.png)
 
-The glpp library supports 4 platform configurations: **`Debug / x64`**, **`Release / x64`**, **`Debug / Win32`**, **`Release / Win32`**. Here is the list of the required options under each of the 4 platform configurations in form **`category -> name: value`**:
+The YAGL++ library supports 4 platform configurations: **`Debug / x64`**, **`Release / x64`**, **`Debug / Win32`**, **`Release / Win32`**. Here is the list of the required options under each of the 4 platform configurations in form **_category -> name: value_**:
 
 - **`Debug / x64 (LIB)`**:
 ```
@@ -148,13 +148,13 @@ C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Heade
 > Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 ### 7. Build the library
-Now close the Properties window. In the Solution Explorer open **`glpp.h`** file, so the IDE focuses on glpp project within the solution. Select any of the 4 platform configuration on the top of IDE:
+Now close the Properties window. In the Solution Explorer open **`yaglpp.h`** file, so the IDE focuses on yaglpp project within the solution. Select any of the 4 platform configuration on the top of IDE:
 
-![14.png](14.png)
+![34.png](34.png)
 
-Click **`Build -> Rebuild glpp`**:
+Click **`Build -> Rebuild yaglpp`**:
 
-![15.png](15.png)
+![36.png](36.png)
 
 The output should look like this:
 ```
@@ -195,14 +195,14 @@ Rebuild started...
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
 > [!NOTE]
-> Rebuild ensures to process the every source file from scratch. Use **`Build glpp (Ctrl+B)`** to update the build.
+> Rebuild ensures to process the every source file from scratch. Use **`Build yaglpp (Ctrl+B)`** to update the build.
 
-The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive, rename its **`glad.h`** file to **`gladXX.h`** and move it into **`glad`** directory, do not use other files from the downgraded archives. The XX is the number of GLAD version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control could be great for backward compatible coding.
+The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive, rename its **`glad.h`** file to **`gladXX.h`** and move it into **`<glad>`** directory, do not use other files from the downgraded archives. The XX is the number of GLAD version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control could be great for backward compatible coding.
 
 > [!IMPORTANT]
 > It is recommended to generate all earlier versions of **`glad.h`** from 2.0 to 3.2 with **`Core`** profile, with no extension selected, rename them to **`gladXX.h`** as described above, and place them into **`glad`** directory. Now you just need to change the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches to select desired OpenGL version, and rebuild the libeary. But to learn OpenGL, always stick to default version 3.3!
 
-By default glpp uses _dll_ version of GLFW library. It is much easier to use pre-compiled .lib files of GLFW, rather than build them from sratch. But when using Static GLFW build, while Debugging, if you by some accident Step Into the function, you will get an unpleasant screen '.pdb not found', it is because the .lib file does not have the right path of the source file. While using dll version, the function is simply stepped out. When compiling the final version of your project, you may switch to the Static GLFW build by setting the **`GLPP_GLFW_LIB`** switch to **`glfw3.lib/glfw3_mt.lib`**. Note that using dlls decreases the application file size, and saves the computer RAM while running several applications using that dll, but the appropriate dll must be distributed with the application.
+By default YAGL++ uses _dll_ version of GLFW library. It is much easier to use pre-compiled _lib_ files of GLFW, rather than build them from sratch. But when using Static GLFW build, while Debugging, if you by some accident Step Into the function, you will get an unpleasant screen '.pdb not found', it is because the _lib_ file does not have the right path of the source file. While using _dll_ version, the function is simply stepped out. When compiling the final version of your project, you may switch to the Static GLFW build by setting the **`GLPP_GLFW_LIB`** switch to **`glfw3.lib`** or **`glfw3_mt.lib`**. Note that using dlls decreases the application file size, and saves the computer RAM while running several applications using that dll, but the appropriate dll must be distributed with the application.
 
 > [!TIP]
 > After installation is complete, the original API assets will be still available, so it is possible to combine C++ and C programming in the same source, but the only interaction of C code with the glpp objects will be very limited.
