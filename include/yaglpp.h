@@ -1,7 +1,7 @@
 /*
-	+---------------------------------------------+
-	|   YAGL++: Yet Another OpenGL C++ library    |
-	+---------------------------------------------+
+	+---------------------------------------+
+	|   YAGL++: Yet Another GC++ library    |
+	+---------------------------------------+
 
 	All information/instructions can be found here:
 	https://github.com/dmitrycello/yaglpp/blob/main/README.md
@@ -17,7 +17,7 @@
 /*Define <JoystickHatButtons> pre-initialize hint*/
 #define YAGLPP_JOYSTICK_HAT_BUTTONS
 
-/*Include all GLM library headers increasing the compile time*/
+/*Include all GLM library headers, affects the compile time*/
 #define YAGLPP_GLM_HEADERS
 
 /*Do not include main entry point into YAGL++ library*/
@@ -47,7 +47,7 @@
 /* END OF ADJUSTABLE SWITCHES */
 #include <windows.h>
 #include <iostream>
-#include <glm/detail/qualifier.hpp>
+#include <glm/fwd.hpp>
 #ifdef __cplusplus
 namespace glm {
 /*Two-component char vector type defined by YAGL++*/
