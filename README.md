@@ -1,4 +1,4 @@
-# YAGL++: Yet Another GL++ library
+# Yet Another GL++ library
 ![00.png](docs/00.png)
 [INSTALLATION &rarr;](docs/INSTALLATION.md)<br>
 [USAGE &rarr;](docs/USAGE.md)<br>
