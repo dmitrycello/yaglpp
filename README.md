@@ -1,5 +1,5 @@
 # YAGL++: Yet Another GL++ library
-![00.png](00.png)
+![00.png](docs/00.png)
 [INSTALLATION &rarr;](docs/INSTALLATION.md)<br>
 [USAGE &rarr;](docs/USAGE.md)<br>
 [DETAILS &rarr;](docs/DETAILS.md)<br>
