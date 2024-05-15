@@ -1,4 +1,4 @@
-![00.png](docs/logo.png)
+![logo2.png](docs/logo2.png)
 # Yet Another GL++ library
 [INSTALLATION &rarr;](docs/INSTALLATION.md)<br>
 [USAGE &rarr;](docs/USAGE.md)<br>
