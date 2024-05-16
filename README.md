@@ -124,7 +124,7 @@ The most of classes in **`::gl`** namespace are derived from **`gl::_Object`**, 
 ![25.png](docs/25.png)
 
 > [!CAUTION]
-> The names starting with underscore character stand for the base abstract classes, they could NOT be created.
+> The names starting with underscore character stand for the base abstract classes, they could NOT be used.
 
 The ***Uniform*** and ***VertexAttrib*** classes have no destructors, they operate the location index value of a [uniform variable](https://www.khronos.org/opengl/wiki/Uniform_(GLSL)) and a [vertex attribute](https://www.khronos.org/opengl/wiki/Vertex_Specification) respectively, which remains valid as long as the [Program](https://www.khronos.org/opengl/wiki/GLSL_Object#Program_objects) object remains linked. Since the location value must be set, they cannot be created automatically. The **`getUniformLocation`** and **`getAttribLocation`** methods aquire the location using a program object and the uniform or attribute name. If the location index is known, it could be set directly with **`setUniformLocation`** and **`setAttribLocation`** methods. The appropriate constructors exist as well. To find out if the location value was set successfully, use **`isUniform`** and **`isVertexAttrib`** methods.
 
