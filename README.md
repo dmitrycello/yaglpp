@@ -7,7 +7,7 @@
 - [IntelliSense](README.md#intellisense)
 - [The main switches](README.md#the-main-switches)
 - [GLAD objects](README.md#glad-objects)
-- [GLAD class tree]()
+- [GLAD class tree](README.md#glad-class-tree)
 
 YAGL++ is _"yet another"_ attempt to develop a C++ gear for the OpenGL GLAD/GLFW API, merging its assets into the C++ objects. Its initial goal was to help [learning OpenGL 3.3 API](https://learnopengl.com/), but after a while it became quite efficient tool, taking care of the routine work, allowing to develop the OpenGL application in less complicated manner with minimal overhead. It requires the C++ 11 compiler or later. The library also impliments the [SAL](https://learn.microsoft.com/en-us/cpp/code-quality/using-sal-annotations-to-reduce-c-cpp-code-defects) concept (Microsoft Source Code Annotation Language) only in Debug build. At the moment, it is developped for Windows OS using Visual Studio.
 
