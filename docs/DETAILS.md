@@ -50,12 +50,9 @@ GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BIND
 The most of classes in **`::gl`** namespace are derived from **`gl::_Object`**, operating a single id. The data member of _Uniform_ and _VertexAttrib_ classes is a single signed integer, operating a location value. It could be **`-1`**, meaning an invalid index, or an empty object. The classes derived from **`gl::_Objects`** are multi-objects, carriyng an array of OpenGL object ids of varriyng length. Their class data member is single pointer, which is also the case for _Sync_ and _UniformBlock_ classes. Its **`NULL`** value means an empty object. The following class tree exposes the classes's inheritance, as well as their data size in bytes:
 
 > [!NOTE]
-> Despite the OpenGL id is unsigned integer, the data member of **`gl::_Object`** class is signed integer. This allows to differentiate single and reference objects, being negative or positive value. Zero value means an empty object.
+> Despite the OpenGL id is unsigned integer, the data member of **`gl::_Object`** class is signed integer. This allows to differentiate single and reference objects, being negative or positive value. Zero value means an empty object. The pointers in Win32 application are 4-byte long. So will be the size of the class object being a pointer.
 
 ![25.png](25.png)
-
-> [!NOTE]
-> The pointers in Win32 application are 4-byte long. So will be the size of the class object being a pointer.
 
 > [!CAUTION]
 > The names starting with underscore character stand for the base abstract classes, they could NOT be created.
