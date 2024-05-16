@@ -140,7 +140,7 @@ The **_Cursor_** class operates a GLWF [cursor object](https://www.glfw.org/docs
 
 The **_Joystick_** class controls a GLWF [joystick input](https://www.glfw.org/docs/3.3/input_guide.html#joystick) functionality, which exist from the GLFW initialization, and terefore its lifetime could not be controlled. The joystick device could be _selected_ via appropriate constructor, two overloaded **`selectJoystick`** or **`selectJoystickGUID`** methods, and _deselected_ via class destructor or **`deselectJoystick`** method. It is not possible to have multiple Joystick classes referencing the same joystick device, the class previously selecting that device will be automatically deselected when another class picks it up. The _gamepad_ methods work only for the devices supporting the [gamepad input](https://www.glfw.org/docs/3.3/input_guide.html#gamepad), to find out if this is the case, call **`joystickIsGamepad`** method. The Joystick class supports event handling, the single **`onDisconnect`** virtual function notifies the class object when associated physical device is disconnected, before that object is being voided. It is also possible to catch the joystick device connected event by setting **`JoystickConnectedCallback`** procdure via **`setJoystickConnectedCallback`** static method.
 
-> [!NOTE]
+> [!TIP]
 > In order to use the joystick disconnected event handler, it is necessary to derive a class from **`glfw::Joystick`**, and overwrite its **`onDisconnect`** virtual function.
 
 [&uarr; TOP](README.md#yet-another-gl-library)
