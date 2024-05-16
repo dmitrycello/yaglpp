@@ -132,4 +132,7 @@ The ***Sync*** class operates the OpenGL [synchronization object](https://www.kh
 
 The ***UniformBlock*** class allows to operate many uniform variables at once, it works closely with [uniform buffer object](https://www.khronos.org/opengl/wiki/Uniform_Buffer_Object). The class data has a uniform block index, which is aquired with **`getUniformBlockIndex`** or set with **`setUniformBlockIndex`** methods, or by the appropriate constructor. These methods save as well program id, number of uniforms, data block size and copy uniform block indices. This allows to use the saved data in next operations without the need to save it outside of a class. Since the number of indices is unknown, the whole class data is created dynamically, and the class object has the size of a pointer. The _offset map_, a unique class feature allowing much easier uniform block data exchange, is a user-defined stucture of pointers of the type specified in GLSL shader. The **`setUniformOffsetMap`** method calculates all uniform offsets in the specified memory block, and sets the absolute addresses to the stucture pointers, allowing to interchange uniform values directly through these pointers.
 
+### GLFW objects
+All classes in _::glfw_ namespace are counterparts of GLFW library.
+
 [&uarr; TOP](README.md#yet-another-gl-library)
