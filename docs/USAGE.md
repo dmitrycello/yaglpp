@@ -151,7 +151,7 @@ GLApplication glApplication;
 ```
 
 > [!WARNING]
-> In order to use AFX-alike layout, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [yaglpp.h](../Common/include/yaglpp/yaglpp.h) library header, and rebuild glpp.
+> In order to use AFX-alike layout, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [yaglpp.h](../include/yaglpp/yaglpp.h) library header, and rebuild YAGL++.
 
 > [!NOTE]
 > AFX-alike layout is rather experimental, and at the moment has only two classes. But it could become very promising direction for development in the future.
