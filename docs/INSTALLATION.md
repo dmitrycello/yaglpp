@@ -189,7 +189,7 @@ Rebuild started...
 1>Window.cpp
 1>yaglpp.cpp
 1>Generating Code...
-1>yaglpp.vcxproj -> D:\Gigabyte\Documents\Visual Studio 2019\Projects\OpenGL\Common\lib\Debug\yaglpp.lib
+1>yaglpp.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\Debug\yaglpp.lib
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
 > [!NOTE]
