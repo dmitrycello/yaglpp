@@ -1,5 +1,5 @@
 ## INSTALLATION
-[&nwarr; README](../README.md#yet-another-gl-library)<br>
+[&nwarr; README](../README.md)<br>
 - [1. Download the required OpenGL components from the Internet](INSTALLATION.md#1-download-the-required-opengl-components-from-the-internet)
 - [2. Prepare the components's folder](INSTALLATION.md#2-prepare-the-componentss-folder)
 - [3. Create a new solution](INSTALLATION.md#3-create-a-new-solution)
