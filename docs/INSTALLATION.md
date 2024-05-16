@@ -37,10 +37,8 @@ Common\include\stb\ <- 3 stb_image library headers
 Common\include\yaglpp\ <- YAGL++ include headers
 Common\include\FreeImage.h <- FreeImage header
 Common\lib\ <- FreeImage 64-bit Libs
-Common\lib\Debug\ <- Empty (YAGL++ 64-bit Debug output)
 Common\lib\lib-vc2019\ <- GLFW 64-bit Libs
 Common\lib\Win32\ <- FreeImage 32-bit Libs
-Common\lib\Win32\Debug\ <- Empty (YAGL++ 32-bit Debug output)
 Common\lib\Win32\lib-vc2019\ <- GLFW 32-bit Libs
 Common\src\yaglpp\ <- YAGL++ source files
 Common\src\glad.c <- Source file from GLAD archive
