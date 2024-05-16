@@ -8,6 +8,7 @@
 - [The main switches](README.md#the-main-switches)
 - [GLAD objects](README.md#glad-objects)
 - [GLAD class tree](README.md#glad-class-tree)
+- [GLFW objects](README.md#glfw-objects)
 
 YAGL++ is _"yet another"_ attempt to develop a C++ gear for the OpenGL GLAD/GLFW API, merging its assets into the C++ objects. Its initial goal was to help [learning OpenGL 3.3 API](https://learnopengl.com/), but after a while it became quite efficient tool, taking care of the routine work, allowing to develop the OpenGL application in less complicated manner with minimal overhead. It requires the C++ 11 compiler or later. The library also impliments the [SAL](https://learn.microsoft.com/en-us/cpp/code-quality/using-sal-annotations-to-reduce-c-cpp-code-defects) concept (Microsoft Source Code Annotation Language) only in Debug build. At the moment, it is developped for Windows OS using Visual Studio.
 
@@ -133,6 +134,10 @@ The ***Sync*** class operates the OpenGL [synchronization object](https://www.kh
 The ***UniformBlock*** class allows to operate many uniform variables at once, it works closely with [uniform buffer object](https://www.khronos.org/opengl/wiki/Uniform_Buffer_Object). The class data has a uniform block index, which is aquired with **`getUniformBlockIndex`** or set with **`setUniformBlockIndex`** methods, or by the appropriate constructor. These methods save as well program id, number of uniforms, data block size and copy uniform block indices. This allows to use the saved data in next operations without the need to save it outside of a class. Since the number of indices is unknown, the whole class data is created dynamically, and the class object has the size of a pointer. The _offset map_, a unique class feature allowing much easier uniform block data exchange, is a user-defined stucture of pointers of the type specified in GLSL shader. The **`setUniformOffsetMap`** method calculates all uniform offsets in the specified memory block, and sets the absolute addresses to the stucture pointers, allowing to interchange uniform values directly through these pointers.
 
 ### GLFW objects
-All classes in _::glfw_ namespace are counterparts of GLFW library.
+All classes in _::glfw_ namespace are counterparts of GLFW API. They all have the default constructor creating an empty class object, but unlike the GLAD objects, they don't have similar pattern. All these classes control their lifetime, they must be explicitly created or selected via their methods. Consisting of multiple data members, they are less suitable to combine in a stucture or another class.
+
+The **_Cursor_** class operates a GLWF [cursor object](https://www.glfw.org/docs/3.3/input_guide.html#cursor_object). It has only **`createStandardCursor`** method and few **`createCursor`** overloaded methods to explicitly create the GLFW cursor object from different sources. The appropriate constructors exist as well. The **`destroyCursor`** method is called from the class destructor, if the object was not cleared before.
+
+The **_Joystick_** class controls a GLWF [joystick input](https://www.glfw.org/docs/3.3/input_guide.html#joystick) functionality, which exist from the GLFW initialization. Therefore its lifetime could not be controlled, it could be only selected in different ways, or deselected to return to empty object status. It is impossible to have multiple Joystick classes referencing the same joystick device, the Joystick class previously selecting that device will be automatically deselected when another Joystick class picks it up.
 
 [&uarr; TOP](README.md#yet-another-gl-library)
