@@ -22,12 +22,12 @@ Choose any project name, check the path to the solution, and hit **`Create`**:
 
 In the Solution Explorer, right-click the project's name and click **`Set as Startup Project`**, to set default running output application:
 
-![18.png](18.png)
+![38.png](38.png)
 
 ### 2. Set the application project properties
 Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to Debug / x64:
 
-![19.png](19.png)
+![39.png](39.png)
 
 In the Properties window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
 
@@ -72,7 +72,7 @@ Linker -> Advanced -> Entry Point: mainCRTStartup
 ### 3. Add the source file to the application project
 In the Solution Explorer, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
-![21.png](21.png)
+![41.png](41.png)
 
 Select **`C++ File (.cpp)`**, type any name, check the path, and hit **`Add`**
 
@@ -82,7 +82,7 @@ Select **`C++ File (.cpp)`**, type any name, check the path, and hit **`Add`**
 In the editor window type the minimal glpp application code:
 ```
 // Source.cpp
-#include <glpp/glpp.h>
+#include <yaglpp/yaglpp.h>
 int main(int argc, char** argv)
 {
 	glfw::Window glWindow(800, 600, "LearnOpenGL");
@@ -99,7 +99,7 @@ int main(int argc, char** argv)
 ```
 The IntelliSense shows the description of every library member:
 
-![24.png](24.png)
+![44.png](44.png)
 
 The build output should look like this:
 ```
@@ -116,7 +116,7 @@ Now hit **`F5`** to run the application:
 To overload window events, use the new window class derived from **`glfw::Window`**:
 ```
 // Source.cpp
-#include <glpp/glpp.h>
+#include <yaglpp/yaglpp.h>
 class LearnOpenGL : public glfw::Window
 {
 	using Window::Window;                     // Base constructors
@@ -133,7 +133,7 @@ int main(int argc, char** argv)
 Lastly, the example of the library usage in AFX-alike layout. The application class must be derived from **`glfw::Thread`** or **`glfw::ThreadWnd`** class:
 ```
 // Source.cpp
-#include <glpp/glpp.h>
+#include <yaglpp/yaglpp.h>
 class GLApplication : public glfw::ThreadWnd
 {
 	void onInitThread()
@@ -151,7 +151,7 @@ GLApplication glApplication;
 ```
 
 > [!WARNING]
-> In order to use AFX-alike layout, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [glpp.h](../Common/include/glpp/glpp.h) library header, and rebuild glpp.
+> In order to use AFX-alike layout, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [yaglpp.h](../Common/include/yaglpp/yaglpp.h) library header, and rebuild glpp.
 
 > [!NOTE]
 > AFX-alike layout is rather experimental, and at the moment has only two classes. But it could become very promising direction for development in the future.
