@@ -54,6 +54,9 @@ The most of classes in **`::gl`** namespace are derived from **`gl::_Object`**, 
 
 ![25.png](25.png)
 
+> [!NOTE]
+> The pointers in Win32 application are 4-byte long. So will be the size of the class object being a pointer.
+
 > [!CAUTION]
 > The names starting with underscore character stand for the base abstract classes, they could NOT be created.
 
@@ -95,8 +98,6 @@ Usage code:
 *map.value3 = 3.0;       // Set double
 ubo.bufferSubData(data); // Update uniform block
 ```
-> [!NOTE]
-> The pointers in Win32 application are 4-byte long. So will be the size of the class object being a pointer.
 
 ### Global functions
 
