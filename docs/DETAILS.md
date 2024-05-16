@@ -3,12 +3,12 @@
 - [GLAD objects](DETAILS.md#glad-objects)
 - [GLAD classes tree](DETAILS.md#glad-class-tree)
 
-This section outlines specific traits of glpp library. As it was mentionned before, glpp is a C++ gear for the OpenGL API, and its most every asset does the same as the original API asset. In the following example the glpp class member uses location as a class data:
+This section outlines specific traits of YAGL++ library, which as it was said is a C++ gear for the OpenGL API, and its almost every asset does the same as the original API asset. In the following example the YAGL++ class member uses location as a class data:
 ```
 void glUniform3fv(GLint location, GLsizei count, const GLfloat *value);             // Original API
 void gl::Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value); // Class member
 ```
-In addition, glpp library has an error checking procedure after every API call, which is not the case in the Release build. Of corse, there are many gems whose purpose is to save programmer's efforts. Let's begin with basic.
+In addition, YAGL++ library has an error checking procedure after every API call, which is not the case in the Release build. Of corse, there are many gems whose purpose is to save programmer's efforts. Let's begin with basic.
 
 ### GLAD objects
 All classes in _::gl_ namespace are counterparts of GLAD API. They all have the default constructor creating an empty class object, this allows to create these objects even before OpenGL initialization. Every class has a single data member, such as a 4-byte _id_ integer. This allows to easily combine them into a stucture or another class. All derived classes have the same data size as their parent class. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The class created as a _single object_ does destroy the OpenGL object, where as _reference object_ doesn't. The _multi-object_ creates and destroys many OpenGL objects at once.
@@ -18,7 +18,7 @@ The **_single object_** is the one creating its own _single_ OpenGL object name 
 gl::Renderbuffer rb;                                                 // Empty object
 rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created single object
 ```
-The **_reference object_** is another kind of a _single_ object. It has the same functionality as single object, but it simply copies the id from already created object. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source object. When it is deleted, it become an empty object without clearing an id. It is possible to have many objects at the time referencing the same _id_. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
+The **_reference object_** is another kind of a _single_ object. It has the same functionality as single object, but it simply copies the id from already created object. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source object. When it is deleted, it become an empty object without clearing an id. It is possible to have many objects at the time referencing the same id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
 ```
 gl::Renderbuffers rbs;    // Empty multi-object
 rbs.genRenderbuffers(10); // Generates 10 object names
@@ -37,7 +37,7 @@ gl::Renderbuffers rbs(10);     // ids: 1,2,3,4,5,6,7,8,9,10
 rbs.insertRenderbuffers(3, 3); // ids: 1,2,3,11,12,13,4,5,6,7,8,9,10
 rbs.removeRenderbuffers(3, 6); // ids: 1,2,3,11,12,13,7,8,9,10
 ```
-To find out whether or not the class has an OpenGL object, use the **`isObject()`** method, and to find out whether or not the class is a reference object, use the **`isReference()`** method. The single object is automatically created as soon as it undergo an OpenGL operation, the reference object must be created from already created one. The classes derived from **`gl::_Object`**, are single objects, most of their methods automatically create and bind an OpenGL object if necessary, except the **`is..`** methods, they work exactly as their API counterparts:
+To find out whether or not the class has the OpenGL object(s), use the **`isObject()`** method. The single object is automatically created as soon as it undergo an OpenGL operation, the reference object must be created from already created one. To find out whether or not the single object is a reference object, use the **`isReference()`** method. The classes derived from **`gl::_Object`**, are single objects, most of their methods automatically create and bind an OpenGL object if necessary, except the **`is..`** methods, they work exactly as their API counterparts:
 ```
 GLboolean b1 = rb.isRenderbuffer();        // glIsRenderbuffer(id)
 GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BINDING..) == id
