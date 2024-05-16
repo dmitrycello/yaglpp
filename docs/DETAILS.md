@@ -37,7 +37,7 @@ gl::Renderbuffers rbs(10);     // ids: 1,2,3,4,5,6,7,8,9,10
 rbs.insertRenderbuffers(3, 3); // ids: 1,2,3,11,12,13,4,5,6,7,8,9,10
 rbs.removeRenderbuffers(3, 6); // ids: 1,2,3,11,12,13,7,8,9,10
 ```
-To find out whether or not the class has the OpenGL object(s), use the **`isObject()`** method. The single object is automatically created as soon as it undergo an OpenGL operation, the reference object must be created from already created one. To find out whether or not the single object is a reference object, use the **`isReference()`** method. The classes derived from **`gl::_Object`**, are single objects, most of their methods automatically create and bind an OpenGL object if necessary, except the **`is..`** methods, they work exactly as their API counterparts:
+To find out whether or not the class has the OpenGL object(s), use the **`isObject()`** method. The single object is automatically created as soon as it undergo an OpenGL operation, the reference object must be created from already created one. To find out whether or not the single object is a reference object, use the **`isReference()`** method. The classes derived from **`gl::_Object`**, are single objects, most of their methods automatically create and bind an OpenGL object when necessary, except the **`is..`** methods, they work exactly as their API counterparts:
 ```
 GLboolean b1 = rb.isRenderbuffer();        // glIsRenderbuffer(id)
 GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BINDING..) == id
@@ -47,10 +47,10 @@ GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BIND
 > This behavior is implemented in every class derived from **`gl::_Object`**. All multi-object classes are childs of **`gl::_Objects`**, they cannot be referenced as a whole, so they don't have their **`share..`** method. The [framebuffer](https://www.khronos.org/opengl/wiki/Framebuffer_Object), [query](https://www.khronos.org/opengl/wiki/Query_Object) and [vertex array](https://www.khronos.org/opengl/wiki/Vertex_Specification) objects cannot be shared between OpenGL contexts, so they don't have their **`share..`** method either. Lastly, the vertex array and [sampler](https://www.khronos.org/opengl/wiki/Sampler_Object) objects should be binded explicitly with their **`bind..`** methods, since vertex array should be binded at the specific point of a program, and sampler object binding takes a parameter.
 
 ### GLAD class tree
-The most of classes in **`::gl`** namespace are derived from **`gl::_Object`**, operating a single _id_. The data member of _Uniform_ and _VertexAttrib_ classes is a single signed integer, operating a location value. It could be **`-1`**, meaning an invalid index, or an empty object. The classes derived from **`gl::_Objects`** are multi-objects, carriyng an array of OpenGL object _ids_ of varriyng length. Their class data member is single pointer, which is also the case for _Sync_ and _UniformBlock_ classes. Its **`NULL`** value means an empty object. The following class tree exposes the classes's inheritance, as well as their data size in bytes:
+The most of classes in **`::gl`** namespace are derived from **`gl::_Object`**, operating a single id. The data member of _Uniform_ and _VertexAttrib_ classes is a single signed integer, operating a location value. It could be **`-1`**, meaning an invalid index, or an empty object. The classes derived from **`gl::_Objects`** are multi-objects, carriyng an array of OpenGL object ids of varriyng length. Their class data member is single pointer, which is also the case for _Sync_ and _UniformBlock_ classes. Its **`NULL`** value means an empty object. The following class tree exposes the classes's inheritance, as well as their data size in bytes:
 
 > [!NOTE]
-> Despite the OpenGL _id_ is unsigned integer, the data member of **`gl::_Object`** class is signed integer. This allows to differentiate single and reference objects, being negative or positive value. Zero value means an empty object.
+> Despite the OpenGL id is unsigned integer, the data member of **`gl::_Object`** class is signed integer. This allows to differentiate single and reference objects, being negative or positive value. Zero value means an empty object.
 
 ![25.png](25.png)
 
@@ -79,17 +79,14 @@ struct
     GLint*    value1;
     GLfloat*  value2;
     GLdouble* value3;
-} map;                                          // Offset map
-
-gl::UniformBlock block(program, "BlobSetting"); // Uniform block
-block.uniformBlockBinding(0);                   // Binding point 0
-
+} map;                                                 // Offset map
+gl::UniformBlock block(program, "BlobSetting");        // Uniform block
+block.uniformBlockBinding(0);                          // Binding point 0
 DataStore data(block.getUniformBlockDataSize(), true); // Zeroed memory block
 block.setUniformOffsetMap(&map, data);                 // Set the map
-
-gl::UniformBuffer ubo;                              // Uniform buffer object
-ubo.bufferData(data, gl::BufferUsage::DynamicDraw); // Associate with data
-ubo.bindBufferBase(0);                              // Binding point 0
+gl::UniformBuffer ubo;                                 // Uniform buffer object
+ubo.bufferData(data, gl::BufferUsage::DynamicDraw);    // Associate with data
+ubo.bindBufferBase(0);                                 // Binding point 0
 ```
 Usage code:
 ```
