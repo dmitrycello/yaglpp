@@ -79,7 +79,7 @@ Select **`C++ File (.cpp)`**, type any name, check the path, and hit **`Add`**
 ![22.png](22.png)
 
 ### 4. Type the code
-In the editor window type the minimal glpp application code:
+In the editor window type the minimal YAGL++ application code:
 ```
 // Source.cpp
 #include <yaglpp/yaglpp.h>
