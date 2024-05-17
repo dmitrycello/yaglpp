@@ -83,12 +83,12 @@ The symbols defined right after **`#pragma once`** directive in the [yaglpp.h](i
 ### GLAD objects
 All classes in _::gl_ namespace are counterparts of GLAD API. They all have the default constructor creating an empty class object, this allows to create these objects even before OpenGL initialization. Every class has a single data member, such as a 4-byte _id_ integer. This allows to easily combine them into a stucture or another class. All derived classes have the same data size as their parent class. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The class created as a _single object_ does destroy the OpenGL object, where as _reference object_ doesn't. The _multi-object_ creates and destroys many OpenGL objects at once.
 
-**_The single object_** is the one creating its own _single_ OpenGL object name as following:
+The **_single object_** is the one creating its own _single_ OpenGL object name as following:
 ```
 gl::Renderbuffer rb;                                                 // Empty object
 rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Created single object
 ```
-**_The reference object_** is another kind of a _single_ object. It has the same functionality as single object, but it simply copies the id from already created object. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source object. When it is deleted, it become an empty object without clearing an id. It is possible to have many objects at the time referencing the same id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
+The **_reference object_** is another kind of a _single_ object. It has the same functionality as single object, but it simply copies the id from already created object. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source object. When it is deleted, it become an empty object without clearing an id. It is possible to have many objects at the time referencing the same id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
 ```
 gl::Renderbuffers rbs;    // Empty multi-object
 rbs.genRenderbuffers(10); // Generates 10 object names
@@ -101,7 +101,7 @@ rb2.assignRenderbuffer(rbs, 0); // Reference of rbs[0], will be destroyed by rbs
 > [!TIP]
 > The classes can be shared or assigned directly in a constructor, and the last three lines of the above example could be merged into one:  **`gl::Renderbuffer rb1(rb), rb2(rbs, 0);`**
 
-**_The multi-object_** has the size of a pointer, creating the required array of object ids dynamically in the client memory. In Debug mode, it also checks the object type at every assignment, since the usage of the same id as different object type is not allowed by OpenGL (e.g. _ArrayBuffer_ sould not be later used as _ElementArrayBuffer_). The multi-object could not be used by itself, every object name (id) should be assigned to a reference object, and then used through that object. In addition to its original pair of **`gen..`** and **`delete..`** methods, creating and deleting the entire array, muti-object possesses as well **`insert..`** and **`remove..`** methods modifying its part from the given position, and thus allowing more flexible array manipulation:
+The **_multi-object_** has the size of a pointer, creating the required array of object ids dynamically in the client memory. In Debug mode, it also checks the object type at every assignment, since the usage of the same id as different object type is not allowed by OpenGL (e.g. _ArrayBuffer_ sould not be later used as _ElementArrayBuffer_). The multi-object could not be used by itself, every object name (id) should be assigned to a reference object, and then used through that object. In addition to its original pair of **`gen..`** and **`delete..`** methods, creating and deleting the entire array, muti-object possesses as well **`insert..`** and **`remove..`** methods modifying its part from the given position, and thus allowing more flexible array manipulation:
 ```
 gl::Renderbuffers rbs(10);     // ids: 1,2,3,4,5,6,7,8,9,10
 rbs.insertRenderbuffers(3, 3); // ids: 1,2,3,11,12,13,4,5,6,7,8,9,10
