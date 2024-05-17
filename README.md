@@ -150,6 +150,6 @@ The **_Thread_** class is not a part of GLFW library, it is added to **`glfw::`*
 > [!TIP]
 > While the YAGL++ library is not in AFX-alike mode, the **`getMainThread`** function returns the pointer to **`glfw::Thread`** base class. Despite its virtual functions could not be overwritten, there is still way to handle its post messages within the window rendering loop by calling **`dispatchMessage`** method.
 
-The **_Window_** class operates a GLFW [window object](https://www.glfw.org/docs/3.3/window_guide.html#window_object).
+The **_Window_** class operates a GLFW [window object](https://www.glfw.org/docs/3.3/window_guide.html#window_object). This is the largest library object, and the most of the GLFW API functions are merged around it.
 
 [&uarr; TOP](README.md#yet-another-gl-library)
