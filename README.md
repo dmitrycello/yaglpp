@@ -157,4 +157,6 @@ glWindow.getCursorPos();             // Updates class X and Y values via API cal
 double y = glWindow.getCursorPosY(); // Value since the actual API call
 ```
 
+### StbImage class
+
 [&uarr; TOP](README.md#yet-another-gl-library)
