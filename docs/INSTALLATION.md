@@ -203,6 +203,6 @@ The library supports OpenGL versions 2.0 to 3.3. To downgrade the default versio
 By default, YAGL++ uses _dll_ version of GLFW library. It is much easier to use pre-compiled _lib_ files of GLFW, rather than build them from sratch. But when using Static GLFW build, while Debugging, if you by some accident Step Into the function, you will get an unpleasant screen '.pdb not found', it is because the _lib_ file does not have the right path of the source file. While using _dll_ version, the function is simply stepped out. When compiling the final version of your project, you may switch to the Static GLFW build by setting the **`GLPP_GLFW_LIB`** switch to **`glfw3.lib`** or **`glfw3_mt.lib`**. Note that using dlls decreases the application file size, and saves the computer RAM while running several applications using that dll, but the appropriate dll must be distributed with the application.
 
 > [!TIP]
-> After installation is complete, the original API assets will be still available, so it is possible to combine C++ and C programming in the same source, but the only interaction of C code with the YAGL++ objects is limited.
+> After installation is complete, the original API assets will be still available, so it is possible to combine C++ and C programming in the same source, but the combination of C code with the YAGL++ objects is not recommended, since this can affect the proper function of library objects.
 
 [&uarr; TOP](INSTALLATION.md#installation) [USAGE &rarr;](docs/USAGE.md)
