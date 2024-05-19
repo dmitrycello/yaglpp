@@ -205,4 +205,4 @@ By default, YAGL++ uses _dll_ version of GLFW library. It is much easier to use 
 > [!TIP]
 > After installation is complete, the original API assets will be still available, so it is possible to combine C++ and C programming in the same source, but the only interaction of C code with the YAGL++ objects will be very limited.
 
-[&uarr; TOP](INSTALLATION.md#installation)
+[&uarr; TOP](INSTALLATION.md#installation) [USAGE &rarr;](docs/USAGE.md)
