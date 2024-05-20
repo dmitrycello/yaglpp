@@ -118,10 +118,10 @@ GLboolean b2 = rb.isRenderbufferBinding(); // glGetIntegerv(GL_RENDERBUFFER_BIND
 ### Class tree
 The most of classes in **`::gl`** namespace are derived from **`gl::_Object`**, operating a single id. These classes control the OpenGL [Buffer](https://www.khronos.org/opengl/wiki/Buffer_Object), [Texture](https://www.khronos.org/opengl/wiki/Texture), [Framebuffer](https://www.khronos.org/opengl/wiki/Framebuffer_Object), [Renderbuffer](https://www.khronos.org/opengl/wiki/Renderbuffer_Object), [Query](https://www.khronos.org/opengl/wiki/Query_Object), [Sampler](https://www.khronos.org/opengl/wiki/Sampler_Object) and [Vertex array](https://www.khronos.org/opengl/wiki/Vertex_Specification) objects. Their ids could be created (generated) once in big number via their _multi-object_ counterparts, the classes derived from **`gl::_Objects`**, carriyng an array of OpenGL object ids of varriyng length. Their class data member is single pointer, which is also the case for _Sync_ and _UniformBlock_ classes. Its **`NULL`** value means an empty object. The OpenGL [Program](https://www.khronos.org/opengl/wiki/GLSL_Object#Program_objects) and [Shader](https://www.khronos.org/opengl/wiki/Shader) objects do not have their multi-object counterparts, but still could be referenced. The data member of _Uniform_ and _VertexAttrib_ classes is a single signed integer, operating a location value. It could be **`-1`**, meaning an invalid index, or an empty object. The following class tree exposes the classes's inheritance, as well as their data size in bytes:
 
+![25.png](docs/25.png)
+
 > [!NOTE]
 > Despite the OpenGL id is unsigned integer, the data member of **`gl::_Object`** class is signed integer. This allows to differentiate single and reference objects, being negative or positive value. Zero value means an empty object. The pointers in Win32 application are 4-byte long. So will be the size of the class object being a pointer.
-
-![25.png](docs/25.png)
 
 > [!CAUTION]
 > The names starting with underscore character stand for the base abstract classes, they could NOT be used.
