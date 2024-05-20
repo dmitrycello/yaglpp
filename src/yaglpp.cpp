@@ -25,6 +25,15 @@ LPBYTE _loadResource(int rcid, int* size)
     return (LPBYTE)LockResource(hMemory);
 }
 
+void _writeFile(_In_z_ const char* file, const void* data, int size)
+{
+    FILE* pFile;
+    errno_t iError = fopen_s(&pFile, file, "wb");
+    YAGLPP_ASSERT(iError == 0); // FAILED TO WRITE FILE
+    fwrite(data, 1, size, pFile);
+    fclose(pFile);
+}
+
 bool fileExists(_In_z_ const char* file)
 {
     struct stat buffer;
