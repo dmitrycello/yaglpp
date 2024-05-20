@@ -115,13 +115,13 @@ _Ret_notnull_ void* _assertRealloc(void*, size_t);
 /*YAGL++ Debug only statement macro, does nothing in Release mode*/
 #define YAGLPP_DEBUG(s) s
 
-/*YAGL++ zeroed memory allocation macro, does nothing in Release mode*/
+/*YAGL++ zeroed memory allocation macro, does no assertion in Release mode*/
 #define YAGLPP_CALLOC(s) _assertCalloc(s)
 
-/*YAGL++ raw memory allocation macro, does nothing in Release mode*/
+/*YAGL++ raw memory allocation macro, does no assertion in Release mode*/
 #define YAGLPP_MALLOC(s) _assertMalloc(s)
 
-/*YAGL++ memory reallocation macro, does nothing in Release mode*/
+/*YAGL++ memory reallocation macro, does no assertion in Release mode*/
 #define YAGLPP_REALLOC(p, s) _assertRealloc(p, s)
 
 #else // #ifdef _DEBUG

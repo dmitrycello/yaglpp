@@ -541,22 +541,22 @@ public:
 		return (bool)_getWindowAttrib(GLFW_FOCUS_ON_SHOW);
 	}
 
-	/*Retrieves window framebuffer height since last framebuffer size event, or <getFramebufferSize> call
-	@return Framebuffer height value*/
-	int getFramebufferHeight()
-	{
-		return m_iFramebufferHeight;
-	}
-
-	/*This function gets the immediate size, in pixels, of the framebuffer of the specified window. It uses direct GLFW API call and saves the result in window object, which can be retreived via <getFramebufferWidth> and <getFramebufferHeight> calls*/
+	/*This function gets the immediate size, in pixels, of the framebuffer of the specified window. It uses direct GLFW API call and saves the result in window object, which can be retreived via <getFramebufferSizeWidth> and <getFramebufferSizeHeight> calls*/
 	void getFramebufferSize()
 	{
 		glfwGetFramebufferSize(_window(), &m_iFramebufferWidth, &m_iFramebufferHeight);
 	}
 
+	/*Retrieves window framebuffer height since last framebuffer size event, or <getFramebufferSize> call
+	@return Framebuffer height value*/
+	int getFramebufferSizeHeight()
+	{
+		return m_iFramebufferHeight;
+	}
+
 	/*Retrieves window framebuffer width since last framebuffer size event, or <getFramebufferSize> call
 	@return Framebuffer width value*/
-	int getFramebufferWidth()
+	int getFramebufferSizeWidth()
 	{
 		return m_iFramebufferWidth;
 	}
