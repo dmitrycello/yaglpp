@@ -1,7 +1,5 @@
 ## DETAILS (under construction)
 [&nwarr; README](../README.md)<br>
-- [1]()
-- [2]()
 
 This section outlines specific traits of YAGL++ library, which as it was said is a C++ gear for the OpenGL API, and its almost every asset does the same as the original API asset. In the following example the YAGL++ class member uses location as a class data:
 ```
