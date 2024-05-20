@@ -1,12 +1,6 @@
 #pragma once
 #include "glfw3pp.h"
 namespace glfw {
-/*GLWF type of joystick connected callback routine
-@param The UTF-8 encoded GUID of the joystick
-@param The UTF-8 encoded name of the joystick
-@param The UTF-8 encoded name of the gamepad, or NULL if the joystick does not have a mapping*/
-typedef void (WINAPI JoystickConnectedCallback)(const char* guid, const char* name, const char* gamepad);
-
 /*GLFW gamepad axis enumerator*/
 enum class GamepadAxis : int
 {
@@ -126,6 +120,12 @@ enum class JoystickHat : unsigned char
 	/*Left and down joystick hats pressed*/
 	HatLeftDown = GLFW_HAT_LEFT_DOWN,
 };
+
+/*GLWF type of joystick connected callback routine
+@param The UTF-8 encoded GUID of the joystick
+@param The UTF-8 encoded name of the joystick
+@param The UTF-8 encoded name of the gamepad, or NULL if the joystick does not have a mapping*/
+typedef void (WINAPI JoystickConnectedCallback)(const char* guid, const char* name, const char* gamepad);
 
 /*Sets the function for the joystick connected callback routine
 @param GLWF type of joystick connected callback routine*/

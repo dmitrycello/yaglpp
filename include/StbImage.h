@@ -278,7 +278,7 @@ public:
 
 	/*Checks if the StbImage object has loaded image
 	@return True if the image is loaded, false otherwise*/
-	bool isImage()
+	bool isImage() const
 	{
 		return m_lpPixels != nullptr;
 	}
@@ -385,11 +385,13 @@ public:
 	static void writeForcePngFilter(int filter);
 
 	/*Writes currently loaded image into the BMP file. The image data must be 8-bit per channel
-	@param [in] Path to the written BMP file*/
+	@param [in] Path to the written BMP file
+	@return True if operation successful, false otherwise*/
 	bool writeBmp(_In_z_ const char* filepath);
 
 	/*Writes currently loaded image into the HDR file. The image data must be 32f-bit per channel
-	@param [in] Path to the written HDR file*/
+	@param [in] Path to the written HDR file
+	@return True if operation successful, false otherwise*/
 	bool writeHdr(_In_z_ const char* filepath);
 
 	/*Writes currently loaded image into the JPG file. The image data must be 8-bit per channel
@@ -401,7 +403,8 @@ public:
 	static void writeJpegQuality(int quality);
 
 	/*Writes currently loaded image into the PNG file. The image data must be 8-bit per channel
-	@param [in] Path to the written PNG file*/
+	@param [in] Path to the written PNG file
+	@return True if operation successful, false otherwise*/
 	bool writePng(_In_z_ const char* filepath);
 
 	/*Sets global PNG compession level value for writing PNG files. Higher value gives more compression, must be 0..9
@@ -409,7 +412,8 @@ public:
 	static void writePngCompressionLevel(int comp);
 
 	/*Writes currently loaded image into the TGA file. The image data must be 8-bit per channel
-	@param [in] Path to the written TGA file*/
+	@param [in] Path to the written TGA file
+	@return True if operation successful, false otherwise*/
 	bool writeTga(_In_z_ const char* filepath);
 
 	/*Sets global RLE compression flag for writing TGA files. Default true
