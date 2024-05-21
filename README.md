@@ -167,6 +167,8 @@ The **_FreeImage_** class is a C++ interface of the [FreeImage](https://freeimag
 > [!NOTE]
 > The FreeImage library does not have any updates since 2015, besides it has only DLL version, which requires the library DLL file destribution. Therefore, FreeImage is an optional YAGL++ image helper class, and it could be excluded from the build by commenting the **`YAGLPP_FREEIMAGE_LIB`** switch.
 
-The **_StbImage_** is the main YAGL++ image helper class, it works with various internal pixel formats, can resize the image, and does write to a file.
+The **_StbImage_** class is a C++ interface of the lightweight [stb_image](https://github.com/nothings/stb/tree/master) library. This is the main YAGL++ image helper class, it works with various internal pixel formats, can resize the image, and does write to into a file. After personal communication with its creator, [Sean Barrett](https://github.com/nothings), the class has been rewritten to better fit the library's maintenance. It means, the next version of a library's files will most likely work with the current class. According to the stb_image developers, the gif multi-layer loader is now depricated, and should come out one day. Nevertheless, the StbImage class will maintain this functionality as long as possible.
+
+The stb_image library supports an additional way of data input, I/O callback allowing to read from arbitrary sources, like packaged files etc. So the StbImage class has tree ways of data input: _binary resource, phisical file and I/O callback_.
 
 [&uarr; TOP](README.md#yet-another-gl-library)
