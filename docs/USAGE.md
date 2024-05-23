@@ -136,7 +136,7 @@ Lastly, the example of the library usage in AFX-alike layout. The application cl
 #include <yaglpp/yaglpp.h>
 class GLApplication : public glfw::ThreadWnd
 {
-	void onInitThread()
+	void onInitThread()   // Create window
 	{
 		m_pWindow = new glfw::Window(800, 600, "LearnOpenGL");
 		m_pWindow->makeContextCurrent(this);
