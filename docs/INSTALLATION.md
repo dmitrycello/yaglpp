@@ -1,26 +1,26 @@
 ## INSTALLATION
 [&nwarr; README](../README.md)<br>
-- [1. Download the required OpenGL components from the Internet]()
-- [2. Create a new solution]()
-- [3. Prepare the components's folder]()
-- [4. Add the static library project](INSTALLATION.md#4-add-the-static-library-project)
-- [5. Add files to the library project](INSTALLATION.md#5-add-files-to-the-library-project)
-- [6. Set the library project proprties](INSTALLATION.md#6-set-the-library-project-proprties)
-- [7. Build the library](INSTALLATION.md#7-build-the-library)
+- [1. Download the required OpenGL components from the Internet](INSTALLATION.md#1-download-the-required-opengl-components-from-the-internet)
+- [2. Create a new solution](INSTALLATION.md#2-create-a-new-solution)
+- [3. Prepare the components's folder](INSTALLATION.md#3-prepare-the-componentss-folder)
+- [4. Add the static library project]()
+- [5. Add files to the library project]()
+- [6. Set the library project proprties]()
+- [7. Build the library]()
 
 The installation of YAGL++ library isn't much more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** sets the linking of all required libraries. Once installation is complete, there is no need to set them in project proprieties, just to include the **`yaglpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths (at least for the first time). The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
 ### 1. Download the required OpenGL components from the Internet
 - [CMake](https://cmake.org/download/) 64-bit application installer, required to generate GLFW project files.
 - [GLAD](https://glad.dav1d.de) archive generated with _Specification_ set to **`OpenGL`**, _Profile_ set to **`Core`**, _API gl_ set to **`Version 3.3`**. Keep _API gles1, gles2, glsc2_ as **`None`**. Do not select any extension!
-- [GLFW](https://www.glfw.org/download) archives v3.4 or later from  the 64-bit and 32-bit Windows binaries. Older versions are [here](https://github.com/glfw/glfw/releases).
+- [GLFW](https://www.glfw.org/download) Source package archive v3.4 or later. Older versions could be found [here](https://github.com/glfw/glfw/releases).
 - [GLM](https://github.com/g-truc/glm) pack v1.0.1 or later.
 - [stb_image](https://github.com/nothings/stb/tree/master) library. It is important to use the file versions tested with the current release. Every newer version of a file may require some additional testings. If there is no such version, try using newer version (it usually works), or get the one preserved in **`Common.7z`** archive of this repository. Currently required files are:
 	+ **stb_image.h** v2.29
 	+ **stb_image_resize2.h** v2.06
 	+ **stb_image_write.h** v1.16
 - [FreeImage](https://freeimage.sourceforge.io) library 3.18.0 (optional). The only DLL distribution is supported (Win32/x64). The project is not being updated since 2015, so if you decide not to include it, make sure to comment the **`GLPP_FREEIMAGE_LIB`** switch in the **`glpp.h`** file.
-- [Latest release](https://github.com/dmitrycello/yaglpp/releases) of YAGL++ library, namely the **`include.7z`** and **`src.7z`** archives. The **`dependencies.txt`** file lists all component's versions tested with current release.
+- [Latest release](https://github.com/dmitrycello/yaglpp/releases) of YAGL++ library, the **`dependencies.txt`** file within the archive lists all component's versions tested with current release.
 
 ### 2. Create a new solution
 Create the solution for the library and the main project. On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
@@ -36,27 +36,26 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 ![03.png](03.png)
 
 ### 3. Prepare the components's folder
-Create the new folder within the solution directory under the name **`Common`**. Within that folder create 4 subfolders: **`bin`**, **`include`**, **`lib`**, and **`src`**. Create subfolder **`Win32`** within **`bin`** subfolder, as well as **`Win32`** and **`GLFW`** within **`lib`** subfolder. Finally, within **`lib/Win32`** create another **`GLFW`** subfolder. The folder tree should be as following:
+Create the new folder under the name **`Common`** within the solution directory. Within that folder create 4 subfolders: **`bin`**, **`include`**, **`lib`**, and **`src`**. Create subfolder **`Win32`** within **`Common/bin`**, as well as **`Win32`** and **`GLFW`** subfolders within **`Common/lib`**. Finally, create another **`GLFW`** subfolder within **`Common/lib/Win32`**. The folder tree should be as following:
 
 ![01a.png](01a.png)
 
 Extract all downloaded components, and move them into the following subdirectories:
 ```
-Common\bin\ <- GLFW and FreeImage 64-bit Dlls
-Common\bin\Win32\ <- GLFW and FreeImage 32-bit Dlls
-Common\include\glad\glad.h <- header from GLAD archive
-Common\include\GLFW\ <- 2 GLFW library headers
-Common\include\glm\ <- The <glm> subfolder from the GLM archive
-Common\include\KHR\khrplatform.h <- header from GLAD archive
-Common\include\stb\ <- 3 stb_image library headers
-Common\include\yaglpp\ <- YAGL++ include headers
-Common\include\FreeImage.h <- FreeImage header
-Common\lib\ <- FreeImage 64-bit Libs
-Common\lib\lib-vc2019\ <- GLFW 64-bit Libs
-Common\lib\Win32\ <- FreeImage 32-bit Libs
-Common\lib\Win32\lib-vc2019\ <- GLFW 32-bit Libs
-Common\src\yaglpp\ <- YAGL++ source files
-Common\src\glad.c <- Source file from GLAD archive
+Common\bin\ <- FreeImage 64-bit Dll file
+Common\bin\Win32\ <- FreeImage 32-bit Dll file
+Common\include\glad\glad.h <- GLAD header file from GLAD archive
+Common\include\GLFW\ <- Copy of (2) header files from GLFW Source package
+Common\include\glm\ <- The entire <glm> subfolder from the GLM archive
+Common\include\KHR\khrplatform.h <- KHR header file from GLAD archive
+Common\include\stb\ <- stb_image (3) header files
+Common\include\yaglpp\ <- YAGL++ header files from latest release
+Common\include\FreeImage.h <- FreeImage header file
+Common\lib\ <- FreeImage 64-bit Lib file
+Common\lib\Win32\ <- FreeImage 32-bit Lib file
+Common\src\glfw-3.4\ <- GLFW Source package
+Common\src\yaglpp\ <- YAGL++ source files from latest release
+Common\src\glad.c <- GLAD source file from GLAD archive
 ```
 
 
