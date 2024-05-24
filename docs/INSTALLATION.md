@@ -1,4 +1,4 @@
-## INSTALLATION
+## INSTALLATION (under construction)
 [&nwarr; README](../README.md)<br>
 - [1. Download the required OpenGL components from the Internet](INSTALLATION.md#1-download-the-required-opengl-components-from-the-internet)
 - [2. Create a new solution](INSTALLATION.md#2-create-a-new-solution)
