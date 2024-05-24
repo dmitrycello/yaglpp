@@ -36,23 +36,23 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 ![03.png](03.png)
 
 ### 3. Prepare the components's folder
-Create the new folder under the name **`Common`** within the solution directory. Within that folder create 4 subfolders: **`bin`**, **`include`**, **`lib`**, and **`src`**. Create subfolder **`Win32`** within **`Common/bin`**, as well as **`Win32`** and **`GLFW`** subfolders within **`Common/lib`**. Finally, create another **`GLFW`** subfolder within **`Common/lib/Win32`**. The folder tree should be as following:
+Create the new folder under the name **`Common`** within the solution directory. Within that folder create 4 subfolders: **`bin`**, **`include`**, **`lib`**, and **`src`**. Create subfolder **`Win32`** within **`Common/bin`**, as well as **`GLFW`** and **`Win32`** subfolders within **`Common/lib`**. Finally, create another **`GLFW`** subfolder within **`Common/lib/Win32`**. The folder tree should be as following:
 
 ![01a.png](01a.png)
 
 Extract all downloaded components, and move them into the following subdirectories:
 ```
-Common\bin\ <- FreeImage 64-bit Dll file
-Common\bin\Win32\ <- FreeImage 32-bit Dll file
+Common\bin\FreeImage.dll <- FreeImage 64-bit Dll file
+Common\bin\Win32\FreeImage.dll <- FreeImage 32-bit Dll file
 Common\include\glad\glad.h <- GLAD header file from GLAD archive
 Common\include\GLFW\ <- Copy of (2) header files from GLFW Source package
-Common\include\glm\ <- The entire <glm> subfolder from the GLM archive
+Common\include\glm\ <- The entire subfolder from the GLM archive
 Common\include\KHR\khrplatform.h <- KHR header file from GLAD archive
 Common\include\stb\ <- stb_image (3) header files
 Common\include\yaglpp\ <- YAGL++ header files from latest release
 Common\include\FreeImage.h <- FreeImage header file
-Common\lib\ <- FreeImage 64-bit Lib file
-Common\lib\Win32\ <- FreeImage 32-bit Lib file
+Common\lib\FreeImage.lib <- FreeImage 64-bit Lib file
+Common\lib\Win32\FreeImage.lib <- FreeImage 32-bit Lib file
 Common\src\glfw-3.4\ <- GLFW Source package
 Common\src\yaglpp\ <- YAGL++ source files from latest release
 Common\src\glad.c <- GLAD source file from GLAD archive
