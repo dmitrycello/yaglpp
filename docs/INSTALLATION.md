@@ -11,7 +11,7 @@
 The installation of YAGL++ library isn't much more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** sets the linking of all required libraries. Once installation is complete, there is no need to set them in project proprieties, just to include the **`yaglpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths (at least for the first time). The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
 ### 1. Download the required OpenGL components from the Internet
-- [CMake](https://cmake.org/download/) 64-bit application installer, required to generate GLFW project files.
+- [CMake](https://cmake.org/download/) latest application installer, required to generate GLFW project files.
 - [GLAD](https://glad.dav1d.de) archive generated with _Specification_ set to **`OpenGL`**, _Profile_ set to **`Core`**, _API gl_ set to **`Version 3.3`**. Keep _API gles1, gles2, glsc2_ as **`None`**. Do not select any extension!
 - [GLFW](https://www.glfw.org/download) Source package archive v3.4 or later. Older versions could be found [here](https://github.com/glfw/glfw/releases).
 - [GLM](https://github.com/g-truc/glm) pack v1.0.1 or later.
