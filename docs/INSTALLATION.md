@@ -12,6 +12,74 @@ The installation of YAGL++ library isn't much more complicated than the setup of
 
 [CMake](https://cmake.org/download/)
 
+```
+Rebuild started...
+1>------ Rebuild All started: Project: ZERO_CHECK, Configuration: Debug x64 ------
+1>1>Checking Build System
+2>------ Rebuild All started: Project: glfw, Configuration: Debug x64 ------
+2>Building Custom Rule D:/Path_to_solution/OpenGL/Common/src/glfw-3.4/src/CMakeLists.txt
+2>context.c
+2>init.c
+2>input.c
+2>monitor.c
+2>platform.c
+2>vulkan.c
+2>window.c
+2>egl_context.c
+2>osmesa_context.c
+2>null_init.c
+2>null_monitor.c
+2>null_window.c
+2>null_joystick.c
+2>win32_module.c
+2>win32_time.c
+2>win32_thread.c
+2>win32_init.c
+2>win32_joystick.c
+2>win32_monitor.c
+2>win32_window.c
+2>Generating Code...
+2>Compiling...
+2>wgl_context.c
+2>Generating Code...
+2>glfw.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\GLFW\src\Debug\glfw3.lib
+========== Rebuild All: 2 succeeded, 0 failed, 0 skipped ==========
+```
+
+```
+Rebuild started...
+1>------ Rebuild All started: Project: ZERO_CHECK, Configuration: Release x64 ------
+1>1>Checking Build System
+2>------ Rebuild All started: Project: glfw, Configuration: Release x64 ------
+2>Building Custom Rule D:/Path_to_solution/OpenGL/Common/src/glfw-3.4/src/CMakeLists.txt
+2>context.c
+2>init.c
+2>input.c
+2>monitor.c
+2>platform.c
+2>vulkan.c
+2>window.c
+2>egl_context.c
+2>osmesa_context.c
+2>null_init.c
+2>null_monitor.c
+2>null_window.c
+2>null_joystick.c
+2>win32_module.c
+2>win32_time.c
+2>win32_thread.c
+2>win32_init.c
+2>win32_joystick.c
+2>win32_monitor.c
+2>win32_window.c
+2>Generating Code...
+2>Compiling...
+2>wgl_context.c
+2>Generating Code...
+2>glfw.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\GLFW\src\Release\glfw3.lib
+========== Rebuild All: 2 succeeded, 0 failed, 0 skipped ==========
+```
+
 > [!TIP]
 > For the quick testing, the steps 1 and 2 of the installation process may be skipped, while using the repository **`Common.7z`** archive. In this case, download it on the [repository page](https://github.com/dmitrycello/glpp/tree/main), extract into **`Common`** folder, and if the IDE isn't Visual Studio 2019, make sure to adjust the **`YAGLPP_GLFW_LIB`** switch in [yaglpp.h](../include/yaglpp.h) according to the note in [step 2](INSTALLATION.md#2-prepare-the-componentss-folder). However, it is still recommended to get all components from the Internet, at least for the first time to feel the process. This is also the way the most programmers do, to ensure that each component version is up to date.
 
