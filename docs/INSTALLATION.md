@@ -10,6 +10,8 @@
 
 The installation of YAGL++ library isn't much more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** sets the linking of all required libraries. Once installation is complete, there is no need to set them in project proprieties, just to include the **`yaglpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths (at least for the first time). The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
+[CMake](https://cmake.org/download/)
+
 > [!TIP]
 > For the quick testing, the steps 1 and 2 of the installation process may be skipped, while using the repository **`Common.7z`** archive. In this case, download it on the [repository page](https://github.com/dmitrycello/glpp/tree/main), extract into **`Common`** folder, and if the IDE isn't Visual Studio 2019, make sure to adjust the **`YAGLPP_GLFW_LIB`** switch in [yaglpp.h](../include/yaglpp.h) according to the note in [step 2](INSTALLATION.md#2-prepare-the-componentss-folder). However, it is still recommended to get all components from the Internet, at least for the first time to feel the process. This is also the way the most programmers do, to ensure that each component version is up to date.
 
