@@ -1,28 +1,18 @@
 ## INSTALLATION (under construction)
 [&nwarr; README](../README.md)<br>
-- [1. Download the required OpenGL components from the Internet](INSTALLATION.md#1-download-the-required-opengl-components-from-the-internet)
-- [2. Create a new solution](INSTALLATION.md#2-create-a-new-solution)
-- [3. Prepare the components's folder](INSTALLATION.md#3-prepare-the-componentss-folder)
-- [4. Add the static library project]()
-- [5. Add files to the library project]()
-- [6. Set the library project proprties]()
-- [7. Build the library]()
+- [1. Create a new solution]()
+- [2. Download the OpenGL components]()
+- [3. Prepare the components's folder]()
+- [4. Install CMake]()
+- [5. Build GLFW]()
+- [6. Add the static library project]()
+- [7. Add files to the library project]()
+- [8. Set the library project proprties]()
+- [9. Build the library]()
 
-The installation of YAGL++ library isn't much more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** sets the linking of all required libraries. Once installation is complete, there is no need to set them in project proprieties, just to include the **`yaglpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths (at least for the first time). The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
+The installation of YAGL++ library isn't more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** directives set the linking of all required libraries. Once installation is complete, there is no need to set them anywhere, just to include the **`yaglpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths, at least for the first time. The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
-### 1. Download the required OpenGL components from the Internet
-- [CMake](https://cmake.org/download/) latest application installer, required to generate GLFW project files.
-- [GLAD](https://glad.dav1d.de) archive generated with _Specification_ set to **`OpenGL`**, _Profile_ set to **`Core`**, _API gl_ set to **`Version 3.3`**. Keep _API gles1, gles2, glsc2_ as **`None`**. Do not select any extension!
-- [GLFW](https://www.glfw.org/download) Source package archive v3.4 or later. Older versions could be found [here](https://github.com/glfw/glfw/releases).
-- [GLM](https://github.com/g-truc/glm) pack v1.0.1 or later.
-- [stb_image](https://github.com/nothings/stb/tree/master) library. It is important to use the file versions tested with the current release. Every newer version of a file may require some additional testings. If there is no such version, try using newer version (it usually works), or get the one preserved in **`Common.7z`** archive of this repository. Currently required files are:
-	+ **stb_image.h** v2.29
-	+ **stb_image_resize2.h** v2.06
-	+ **stb_image_write.h** v1.16
-- [FreeImage](https://freeimage.sourceforge.io) library 3.18.0 (optional). The only DLL distribution is supported (Win32/x64). The project is not being updated since 2015, so if you decide not to include it, make sure to comment the **`GLPP_FREEIMAGE_LIB`** switch in the **`glpp.h`** file.
-- [Latest release](https://github.com/dmitrycello/yaglpp/releases) of YAGL++ library, the **`dependencies.txt`** file within the archive lists all component's versions tested with current release.
-
-### 2. Create a new solution
+### 1. Create a new solution
 Create the solution for the library and the main project. On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
 
 ![01.png](01.png)
@@ -34,6 +24,20 @@ Select **`Blanc Solution`**, hit **`Next`**:
 Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hit **`Create`**:
 
 ![03.png](03.png)
+
+> [!TIP]
+> For the quick testing, the steps 2 and 3 of the installation process may be skipped, while using the repository **`Common.7z`** archive. In this case, download it on the [repository page](https://github.com/dmitrycello/glpp/tree/main), and extract into **`Common`** folder within the newly created solution. However, it is still recommended to follow all steps, at least for the first time to feel the process. This is also the way the most programmers do, to ensure that each component version is up to date.
+
+### 2. Download the OpenGL components
+- [GLAD](https://glad.dav1d.de) archive generated with _Specification_ set to **`OpenGL`**, _Profile_ set to **`Core`**, _API gl_ set to **`Version 3.3`**. Keep _API gles1, gles2, glsc2_ as **`None`**. Do not select any extension!
+- [GLFW](https://www.glfw.org/download) Source package archive v3.4 or later. Older versions could be found [here](https://github.com/glfw/glfw/releases).
+- [GLM](https://github.com/g-truc/glm) pack v1.0.1 or later.
+- [stb_image](https://github.com/nothings/stb/tree/master) library. It is important to use the file versions tested with the current release. Every newer version of a file may require some additional testings. If there is no such version, try using newer version (it usually works), or get the one preserved in **`Common.7z`** archive of this repository. Currently required files are:
+	+ **stb_image.h** v2.29
+	+ **stb_image_resize2.h** v2.06
+	+ **stb_image_write.h** v1.16
+- [FreeImage](https://freeimage.sourceforge.io) library 3.18.0 (optional). The only DLL distribution is supported (Win32/x64). The project is not being updated since 2015, so if you decide not to include it, make sure to comment the **`GLPP_FREEIMAGE_LIB`** switch in the **`glpp.h`** file.
+- [Latest release](https://github.com/dmitrycello/yaglpp/releases) of YAGL++ library, the **`dependencies.txt`** file within the archive lists every component's version tested with current release.
 
 ### 3. Prepare the components's folder
 Create the new folder under the name **`Common`** within the solution directory. Within that folder create 4 subfolders: **`bin`**, **`include`**, **`lib`**, and **`src`**. Create subfolder **`Win32`** within **`Common/bin`**, as well as **`GLFW`** and **`Win32`** subfolders within **`Common/lib`**. Finally, create another **`GLFW`** subfolder within **`Common/lib/Win32`**. The folder tree should be as following:
@@ -57,11 +61,73 @@ Common\src\glfw-3.4\ <- GLFW Source package
 Common\src\yaglpp\ <- YAGL++ source files from latest release
 Common\src\glad.c <- GLAD source file from GLAD archive
 ```
+### 4. Install CMake
+If it was not done before, the CMake application must be installed, in order to build CMake projects. Download the [CMake](https://cmake.org/download/) latest application installer, and lunch the wizard:
 
+![01b.png](01b.png)
 
+Accept the License Agreement, and hit **`Next`**:
 
+![02b.png](02b.png)
 
+Leave the default setting, and hit **`Next`**:
 
+![03b.png](03b.png)
+
+Leave the default destination folder, and hit **`Next`**:
+
+![04b.png](04b.png)
+
+Click **`Install`** to begin the installation:
+
+![05b.png](05b.png)
+
+After installation is complete, hit **`Finish`** to exit the wizard:
+
+![06b.png](06b.png)
+
+### 5. Build GLFW
+The YAGL++ works in 4 platform configuration: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So the GLFW library should be build for every configuration. Before building from the GLFW source package, in is necessary to create its project files with CMake, so let's lunch it first. Hit **`Browse Source...`** and navigate to GLFW Source package folder within **`Common/src`**. Hit **`Browse Build...`** and navigate to **`Common/lib/GLFW`** folder to set the destination for _x64_ library files. Then hit **`Configure`**:
+
+![02a.png](02a.png)
+
+Choose the appropriate IDE, and select the **`x64`** platform. Then hit **`Finish`**:
+
+![03a.png](03a.png)
+
+Ignore the red background, hit **`Generate`**:
+
+![04a.png](04a.png)
+
+Make sure that the generating is done, do not close the window:
+
+![05a.png](05a.png)
+
+Now hit **`Browse Build...`** and navigate to **`Common/lib/Win32/GLFW`** folder to set the destination for _Win32_ library files. Then hit **`Configure`**:
+
+![06a.png](06a.png)
+
+Keep the same IDE, and select the **`Win32`** platform. Then hit **`Finish`**:
+
+![07a.png](07a.png)
+
+As before, don't mind the red background, and hit **`Generate`**:
+
+![08a.png](08a.png)
+
+Make sure that the generating is done, and close the window:
+
+![09a.png](09a.png)
+
+Navigate to **`Common/lib/GLFW`** folder, and lunch the **`GLFW.sln`** solution file:
+
+![10a.png](10a.png)
+
+In the opened solution, select _Debug x64_ configuration. In the _Solution Explorer_ right-click the **`glfw`** project, then hit **`Rebuild`**:
+
+![11a.png](11a.png)
+
+The output should be as follows:
 ```
 Rebuild started...
 1>------ Rebuild All started: Project: ZERO_CHECK, Configuration: Debug x64 ------
@@ -95,7 +161,11 @@ Rebuild started...
 2>glfw.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\GLFW\src\Debug\glfw3.lib
 ========== Rebuild All: 2 succeeded, 0 failed, 0 skipped ==========
 ```
+Now, select _Release x64_ configuration. And hit **`Rebuild`** as before:
 
+![12a.png](12a.png)
+
+The output should be as follows:
 ```
 Rebuild started...
 1>------ Rebuild All started: Project: ZERO_CHECK, Configuration: Release x64 ------
@@ -129,14 +199,18 @@ Rebuild started...
 2>glfw.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\GLFW\src\Release\glfw3.lib
 ========== Rebuild All: 2 succeeded, 0 failed, 0 skipped ==========
 ```
+Next, it is possible to clean the solution, unless it is required to later modify and rebuild the GLFW. If this is not the case, delete the content within the **`Common/lib/GLFW`** folder, except the **`src/Debug`** and **`src/Release`** subfolders:
 
-> [!TIP]
-> For the quick testing, the steps 1 and 2 of the installation process may be skipped, while using the repository **`Common.7z`** archive. In this case, download it on the [repository page](https://github.com/dmitrycello/glpp/tree/main), extract into **`Common`** folder, and if the IDE isn't Visual Studio 2019, make sure to adjust the **`YAGLPP_GLFW_LIB`** switch in [yaglpp.h](../include/yaglpp.h) according to the note in [step 2](INSTALLATION.md#2-prepare-the-componentss-folder). However, it is still recommended to get all components from the Internet, at least for the first time to feel the process. This is also the way the most programmers do, to ensure that each component version is up to date.
+![13a.png](13a.png)
+![14a.png](14a.png)
 
-> [!NOTE]
-> The GLFW library folder name depends on used IDE. Extract the appropriate folder from the binary archive into the required _lib_ subfolder, then move its dll file into the required _bin_ subfolder. If used IDE is different to Visual Studio 2019, make sure to adjust the folder name from **`lib-vc2019`** to **`lib-vc20xx`** in **`GLPP_GLFW_LIB`** main switch in [yaglpp.h](../include/yaglpp.h) file to link appropriate _lib_ file, where **`xx`** could be: 13, 15, 17, 19 or 22.
 
-### 4. Add the static library project
+
+
+
+
+
+### 6. Add the static library project
 In the Solution explorer, right-click the solution name bar (1st line). Click **`Add -> New project...`**:
 
 ![04.png](04.png)
@@ -149,7 +223,7 @@ Type the static library project name, which must be exactly **_yaglpp_**, check 
 
 ![26.png](26.png)
 
-### 5. Add files to the library project
+### 7. Add files to the library project
 In the Solution Explorer remove all header and source files **`(Del)`**. These files no longer needed, so they could be deleted permanently:
 
 ![27.png](27.png)
@@ -169,7 +243,7 @@ Finally, add the same way the **`$(SolutionDir)\Common\src\glad.c`** file to **`
 
 ![30.png](30.png)
 
-### 6. Set the library project proprties
+### 8. Set the library project proprties
 Right-click **`yaglpp`** project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![31.png](31.png)
@@ -219,7 +293,7 @@ C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Heade
 > [!WARNING]
 > Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
-### 7. Build the library
+### 9. Build the library
 Now close the Properties window. In the Solution Explorer open **`yaglpp.h`** file, so the IDE focuses on yaglpp project within the solution. Select any of the 4 platform configuration on the top of IDE:
 
 ![34.png](34.png)
