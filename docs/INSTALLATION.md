@@ -121,7 +121,7 @@ Make sure that the generating is done, and this time close the window:
 ![09a.png](09a.png)
 
 ### 6. Build the GLFW library
-The GLFW project files for _x64_ and _Win32_ builds are now in **`Common/lib/GLFW`** and **`Common/lib/Win32/GLFW`** folders. To start the build, navigate first to **`Common/lib/GLFW`** folder, and lunch the **`GLFW.sln`** solution file:
+The GLFW project files for _x64_ and _Win32_ builds are now in **`Common/lib/GLFW`** and **`Common/lib/Win32/GLFW`** folders. To start the build, navigate first to **`Common/lib/GLFW`** folder, and double-click the **`GLFW.sln`** solution file:
 
 ![10a.png](10a.png)
 
@@ -215,7 +215,7 @@ Then navigate to **`Common/lib/GLFW/src`** folder, and delete its content, excep
 > [!TIP]
 > The GLFW project files are a bit large to keep (~100M), but if these files must be kept for later, just delete the **`.vs`** hidden temporary folder, which is around 95% of total space. Make sure to close the solution before deleting.
 
-To build _Win32_ library, navigate to **`Common/lib/Win32/GLFW`** folder, and lunch the **`GLFW.sln`** solution file from there. Repeat the same steps for _Debug Win32_ and _Release Win32_ platform configurations, close the IDE, then clean the solution, if necessary.
+To build _Win32_ library, navigate to **`Common/lib/Win32/GLFW`** folder, and double-click the **`GLFW.sln`** solution file from there. Repeat the same steps for _Debug Win32_ and _Release Win32_ platform configurations, close the IDE, then clean the solution, if necessary.
 
 ### 7. Add the static library project
 Reopen the previously created blanc solution. In the _Solution Explorer_, right-click the solution name bar (1st line). Click **`Add -> New project...`**:
