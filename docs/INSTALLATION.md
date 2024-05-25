@@ -4,11 +4,12 @@
 - [2. Download the OpenGL components](INSTALLATION.md#2-download-the-opengl-components)
 - [3. Prepare the components's folder](INSTALLATION.md#3-prepare-the-componentss-folder)
 - [4. Install CMake](INSTALLATION.md#4-install-cmake)
-- [5. Build GLFW]()
-- [6. Add the static library project]()
-- [7. Add files to the library project]()
-- [8. Set the library project proprties]()
-- [9. Build the library]()
+- [5. Generate GLFW project files]()
+- [6. Build the GLFW library](INSTALLATION.md#5-build-glfw)
+- [7. Add the static library project](INSTALLATION.md#6-add-the-static-library-project)
+- [8. Add files to the library project](INSTALLATION.md#7-add-files-to-the-library-project)
+- [9. Set the library project proprties](INSTALLATION.md#8-set-the-library-project-proprties)
+- [10. Build the YAGL++ library]()
 
 The installation of YAGL++ library isn't more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** directives set the linking of all required libraries. Once installation is complete, there is no need to set them anywhere, just to include the **`yaglpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths, at least for the first time. The offered setup supports _x64_ and _Win32_ platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
@@ -87,8 +88,8 @@ After installation is complete, hit **`Finish`** to exit the wizard:
 
 ![06b.png](06b.png)
 
-### 5. Build GLFW
-The YAGL++ works in 4 platform configuration: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So the GLFW library should be build for every configuration. Before building from the GLFW source package, in is necessary to create its project files with CMake, so let's lunch it first. Hit **`Browse Source...`** and navigate to GLFW Source package folder within **`Common/src`**. Hit **`Browse Build...`** and navigate to **`Common/lib/GLFW`** folder to set the destination for _x64_ library files. Then hit **`Configure`**:
+### 5. Generate GLFW project files
+The YAGL++ works in 4 platform configuration: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be build for every configuration. Before building from the GLFW source package, in is necessary to create its project files with CMake, so let's lunch it first. Hit **`Browse Source...`** and navigate to GLFW Source package folder within **`Common/src`**. Hit **`Browse Build...`** and navigate to **`Common/lib/GLFW`** folder to set the destination for _x64_ library files. Then hit **`Configure`**:
 
 ![02a2.png](02a2.png)
 
@@ -120,7 +121,8 @@ Make sure that the generating is done, and close the window:
 
 ![09a.png](09a.png)
 
-Navigate to **`Common/lib/GLFW`** folder, and lunch the **`GLFW.sln`** solution file:
+### 6. Build the GLFW library
+The GLFW project files for x64 and Win32 builds are now in **`Common/lib/GLFW`** and **`Common/lib/Win32/GLFW`** folders. To start the build, navigate first to **`Common/lib/GLFW`** folder, and lunch the **`GLFW.sln`** solution file:
 
 ![10a.png](10a.png)
 
@@ -200,18 +202,17 @@ Rebuild started...
 2>glfw.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\GLFW\src\Release\glfw3.lib
 ========== Rebuild All: 2 succeeded, 0 failed, 0 skipped ==========
 ```
-Next, it is possible to clean the solution, unless it is required to later modify and rebuild the GLFW. If this is not the case, delete the content within the **`Common/lib/GLFW`** folder, except the **`src/Debug`** and **`src/Release`** subfolders:
+Close the IDE. It is possible to clean the solution, unless it is required to later modify and rebuild the GLFW. If this is not the case, delete the content within the **`Common/lib/GLFW`** folder, except the **`src/Debug`** and **`src/Release`** subfolders. First, navigate to **`Common/lib/GLFW`** folder, and delete its content, except the **`src`** subfolder:
 
 ![13a.png](13a.png)
+
+Then navigate to **`Common/lib/GLFW/src`** folder, and delete its content, except the **`Debug`** and **`Release`** subfolders:
+
 ![14a.png](14a.png)
 
+To build _Win32_ library, navigate to **`Common/lib/Win32/GLFW`** folder, and lunch the **`GLFW.sln`** solution file from there. Repeat the same steps for _Debug Win32_ and _Release Win32_ platform configurations, then clean the solution, if necessary.
 
-
-
-
-
-
-### 6. Add the static library project
+### 7. Add the static library project
 In the Solution explorer, right-click the solution name bar (1st line). Click **`Add -> New project...`**:
 
 ![04.png](04.png)
@@ -224,7 +225,7 @@ Type the static library project name, which must be exactly **_yaglpp_**, check 
 
 ![26.png](26.png)
 
-### 7. Add files to the library project
+### 8. Add files to the library project
 In the Solution Explorer remove all header and source files **`(Del)`**. These files no longer needed, so they could be deleted permanently:
 
 ![27.png](27.png)
@@ -244,7 +245,7 @@ Finally, add the same way the **`$(SolutionDir)\Common\src\glad.c`** file to **`
 
 ![30.png](30.png)
 
-### 8. Set the library project proprties
+### 9. Set the library project proprties
 Right-click **`yaglpp`** project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![31.png](31.png)
@@ -294,8 +295,8 @@ C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Heade
 > [!WARNING]
 > Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
-### 9. Build the library
-Now close the Properties window. In the Solution Explorer open **`yaglpp.h`** file, so the IDE focuses on yaglpp project within the solution. Select any of the 4 platform configuration on the top of IDE:
+### 10. Build the library
+Now close the Properties window. In the _Solution Explorer_ open **`yaglpp.h`** file, so the IDE focuses on yaglpp project within the solution. Select any of the 4 platform configuration on the top of IDE:
 
 ![34.png](34.png)
 
