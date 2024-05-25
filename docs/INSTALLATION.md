@@ -116,7 +116,7 @@ As before, don't mind the red background, and hit **`Generate`**:
 
 ![08a.png](08a.png)
 
-Make sure that the generating is done, and now close the window:
+Make sure that the generating is done, and this time close the window:
 
 ![09a.png](09a.png)
 
