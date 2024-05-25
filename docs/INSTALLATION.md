@@ -1,16 +1,16 @@
 ## INSTALLATION (under construction)
 [&nwarr; README](../README.md)<br>
-- [1. Create a new solution]()
-- [2. Download the OpenGL components]()
-- [3. Prepare the components's folder]()
-- [4. Install CMake]()
+- [1. Create a new solution](INSTALLATION.md#1-create-a-new-solution)
+- [2. Download the OpenGL components](INSTALLATION.md#2-download-the-opengl-components)
+- [3. Prepare the components's folder](INSTALLATION.md#3-prepare-the-componentss-folder)
+- [4. Install CMake](INSTALLATION.md#4-install-cmake)
 - [5. Build GLFW]()
 - [6. Add the static library project]()
 - [7. Add files to the library project]()
 - [8. Set the library project proprties]()
 - [9. Build the library]()
 
-The installation of YAGL++ library isn't more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** directives set the linking of all required libraries. Once installation is complete, there is no need to set them anywhere, just to include the **`yaglpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths, at least for the first time. The offered setup supports **`x64`** and **`Win32`** platforms, producing the console application in Debug mode, and Windows application in Release mode.
+The installation of YAGL++ library isn't more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** directives set the linking of all required libraries. Once installation is complete, there is no need to set them anywhere, just to include the **`yaglpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths, at least for the first time. The offered setup supports _x64_ and _Win32_ platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
 ### 1. Create a new solution
 Create the solution for the library and the main project. On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
@@ -25,10 +25,11 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 
 ![03.png](03.png)
 
+### 2. Download the OpenGL components
+
 > [!TIP]
 > For the quick testing, the steps 2 and 3 of the installation process may be skipped, while using the repository **`Common.7z`** archive. In this case, download it on the [repository page](https://github.com/dmitrycello/glpp/tree/main), and extract into **`Common`** folder within the newly created solution. However, it is still recommended to follow all steps, at least for the first time to feel the process. This is also the way the most programmers do, to ensure that each component version is up to date.
 
-### 2. Download the OpenGL components
 - [GLAD](https://glad.dav1d.de) archive generated with _Specification_ set to **`OpenGL`**, _Profile_ set to **`Core`**, _API gl_ set to **`Version 3.3`**. Keep _API gles1, gles2, glsc2_ as **`None`**. Do not select any extension!
 - [GLFW](https://www.glfw.org/download) Source package archive v3.4 or later. Older versions could be found [here](https://github.com/glfw/glfw/releases).
 - [GLM](https://github.com/g-truc/glm) pack v1.0.1 or later.
@@ -89,7 +90,7 @@ After installation is complete, hit **`Finish`** to exit the wizard:
 ### 5. Build GLFW
 The YAGL++ works in 4 platform configuration: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So the GLFW library should be build for every configuration. Before building from the GLFW source package, in is necessary to create its project files with CMake, so let's lunch it first. Hit **`Browse Source...`** and navigate to GLFW Source package folder within **`Common/src`**. Hit **`Browse Build...`** and navigate to **`Common/lib/GLFW`** folder to set the destination for _x64_ library files. Then hit **`Configure`**:
 
-![02a.png](02a.png)
+![02a2.png](02a2.png)
 
 Choose the appropriate IDE, and select the **`x64`** platform. Then hit **`Finish`**:
 
