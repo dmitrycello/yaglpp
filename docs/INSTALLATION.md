@@ -88,7 +88,7 @@ After installation is complete, hit **`Finish`** to exit the wizard:
 ![06b.png](06b.png)
 
 ### 5. Generate GLFW project files
-The YAGL++ works in 4 platform configuration: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be build for every configuration. Before building from the GLFW Source package, in is necessary to generate its project files with CMake, so let's lunch it first. Hit **`Browse Source...`** and navigate to GLFW Source package folder within **`Common/src`**. Next, hit **`Browse Build...`** and navigate to **`Common/lib/GLFW`** folder to set the destination for _x64_ library files. Then hit **`Configure`**:
+The YAGL++ works in 4 platform configuration: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be built for every configuration. Before building from the GLFW Source package, in is necessary to generate its project files with CMake, so let's lunch it first. Hit **`Browse Source...`** and navigate to GLFW Source package folder within **`Common/src`**. Next, hit **`Browse Build...`** and navigate to **`Common/lib/GLFW`** folder to set the destination for _x64_ library files. Then hit **`Configure`**:
 
 ![02a2.png](02a2.png)
 
