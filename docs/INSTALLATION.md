@@ -346,14 +346,12 @@ Rebuild started...
 1>yaglpp.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\Debug\yaglpp.lib
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
+> [!TIP]
+> After installation is complete, the original API assets will be still available, so it is possible to combine C++ and C programming in the same source, but the combination of C code with the YAGL++ objects is not recommended, since this can affect the proper function of library objects.
+
 The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive, rename its **`glad.h`** file to **`gladXX.h`** and move it into **`glad`** directory, do not use other files from the downgraded archives. The XX is the number of GLAD version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control could be great for backward compatible coding.
 
 > [!IMPORTANT]
 > Generating all 5 downgraded GLAD versions allows to quickly set the OpenGL context version by changing the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches. Just set the desired value, and rebuild the library. But to learn OpenGL, always stick to default version 3.3!
-
-By default, YAGL++ uses _dll_ version of GLFW library. It is much easier to use pre-compiled _lib_ files of GLFW, rather than build them from sratch. But when using Static GLFW build, while Debugging, if you by some accident Step Into the function, you will get an unpleasant screen '.pdb not found', it is because the _lib_ file does not have the right path of the source file. While using _dll_ version, the function is simply stepped out. When compiling the final version of your project, you may switch to the Static GLFW build by setting the **`GLPP_GLFW_LIB`** switch to **`glfw3.lib`** or **`glfw3_mt.lib`**. Note that using dlls decreases the application file size, and saves the computer RAM while running several applications using that dll, but the appropriate dll must be distributed with the application.
-
-> [!TIP]
-> After installation is complete, the original API assets will be still available, so it is possible to combine C++ and C programming in the same source, but the combination of C code with the YAGL++ objects is not recommended, since this can affect the proper function of library objects.
 
 [&uarr; TOP](INSTALLATION.md#installation) [USAGE &rarr;](docs/USAGE.md)
