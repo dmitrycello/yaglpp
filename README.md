@@ -69,16 +69,12 @@ The symbols defined right after **`#pragma once`** directive in the [yaglpp.h](i
 - Commenting the **`YAGLPP_GLM_HEADERS`** switch will exclude GLM library headers, this allows to include only required GLM headers reducing the compile time;
 - Commenting the **`YAGLPP_NO_AFX_LAYOUT`** switch will transform the YAGL++ into the AFX-alike environment, without the **`main`** function. Instead, the code must contain the global variable of a class derived from **`glfw::Thread`** or **`glfw::ThreadWnd`**. Otherwise, classical layout with the **`main`** function is preserved;
 - Commenting the **`YAGLPP_NO_GLFW_LEGACY`** switch allows to build YAGL++ with GLFW v3.3.10, the latest version supporting Windows XP. In this case, the recent GLFW features become unavailable;
-- When commenting the **`YAGLPP_FREEIMAGE_LIB`** switch, the **`FreeImage`** class will be excluded from the build. This library is no longer maintained, but can deal with more formats compared to included **`StbImage`**;
 - The **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** switches indicate the OpenGL context version supporeted by the library. Accepted combination of these values are: 2/0, 2/1, 3/0, 3/1, 3/2 and 3/3 to represent the versions 2.0 to 3.3 respectively. To change these switches, it is necessary to add other versions of the GLAD header file to **`glad`** folder, as described in last step of the [INSTALLATION](docs/INSTALLATION.md) section;
-- The **`YAGLPP_GLFW_LIB`** switch selects the GLFW library file used in the build. It could be **`"glfw3dll.lib`"** (dll), **`"glfw3.lib`"** (static), or **`"glfw3_mt.lib`"** (static multi-threaded);
-- The last 2 switches contain the library output paths.
-
->[!NOTE]
-> The **`YAGLPP_GLFW_LIB`** switch also conains the library folder (e.g. _lib-vc2019/glfw3dll.lib_). It is important to change the year in folder name while using another IDE, to link the appropriate library. At the moment GLFW distributes precompiled binaries for Visual Studio 2013, 2015, 2017, 2019 and 2022.
+- When commenting the **`YAGLPP_FREEIMAGE_LIB`** switch, the **`FreeImage`** class will be excluded from the build. This library is no longer maintained, but can deal with more formats compared to included **`StbImage`**;
+- The last 4 switches contain the GLFW and output library paths.
 
 > [!WARNING]
-> Do not alter the last 2 switches, unless you really need to recalibrate the library path layout.
+> Do not alter the last 4 switches, unless you really need to recalibrate the library path layout.
 
 ### GLAD objects
 All classes in _::gl_ namespace are counterparts of GLAD API. They all have the default constructor creating an empty class object, this allows to create these objects even before OpenGL initialization. Every class has a single data member, such as a 4-byte _id_ integer. This allows to easily combine them into a stucture or another class. All derived classes have the same data size as their parent class. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The class created as a _single object_ does destroy the OpenGL object, where as _reference object_ doesn't. The _multi-object_ creates and destroys many OpenGL objects at once.
