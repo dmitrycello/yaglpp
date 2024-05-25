@@ -201,6 +201,9 @@ Rebuild started...
 2>glfw.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\GLFW\src\Release\glfw3.lib
 ========== Rebuild All: 2 succeeded, 0 failed, 0 skipped ==========
 ```
+> [!NOTE]
+> Rebuild ensures to process the every source file from scratch. Use **`Build (Ctrl+B)`** to update the build.
+
 Close the IDE. It is possible now to clean the solution, unless it is required to later modify and rebuild the GLFW. If this is not the case, delete the content within the **`Common/lib/GLFW`** folder, except the **`src/Debug`** and **`src/Release`** output subfolders. First, navigate to **`Common/lib/GLFW`** folder, and delete its content, except the **`src`** subfolder:
 
 ![13a.png](13a.png)
@@ -343,9 +346,6 @@ Rebuild started...
 1>yaglpp.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\Debug\yaglpp.lib
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
-> [!NOTE]
-> Rebuild ensures to process the every source file from scratch. Use **`Build yaglpp (Ctrl+B)`** to update the build.
-
 The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive, rename its **`glad.h`** file to **`gladXX.h`** and move it into **`glad`** directory, do not use other files from the downgraded archives. The XX is the number of GLAD version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control could be great for backward compatible coding.
 
 > [!IMPORTANT]
