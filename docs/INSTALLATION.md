@@ -22,7 +22,7 @@ Select **`Blanc Solution`**, hit **`Next`**:
 
 ![02.png](02.png)
 
-Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hit **`Create`**, then close the IDE for at this point:
+Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hit **`Create`**, then close the IDE for now:
 
 ![03.png](03.png)
 
