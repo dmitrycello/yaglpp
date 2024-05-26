@@ -8,7 +8,7 @@
 The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
 ### 1. Add the application project
-To add the application project to the solution, use the same way as for the static library: in the Solution Explorer right-click the solution name bar (1st line), Click **`Add -> New project...`**:
+To add the application project to the solution, use the same way as for the static library: in the _Solution Explorer_ right-click the solution name bar (1st line), Click **`Add -> New project...`**:
 
 ![04.png](04.png)
 
@@ -20,7 +20,7 @@ Choose any project name, check the path to the solution, and hit **`Create`**:
 
 ![17.png](17.png)
 
-In the Solution Explorer, right-click the project's name and click **`Set as Startup Project`**, to set default running output application:
+In the _Solution Explorer_, right-click the project's name and click **`Set as Startup Project`**, to set default running output application:
 
 ![38.png](38.png)
 
@@ -70,7 +70,7 @@ Linker -> Advanced -> Entry Point: mainCRTStartup
 > Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 ### 3. Add the source file to the application project
-In the Solution Explorer, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+In the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
 ![41.png](41.png)
 
