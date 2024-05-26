@@ -161,7 +161,7 @@ At this point, it would be wise to save all performed work by creating a Visual 
 
 ![15.png](15.png)
 
-In the opened window, keep the template type as _Project Template_, select the project to export from, then hit **`Next`**:
+In the opened window, keep the template type as _Project template_, select the project to export from, then hit **`Next`**:
 
 ![18.png](18.png)
 
