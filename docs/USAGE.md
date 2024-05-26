@@ -9,7 +9,7 @@
 The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
 ### 1. Add the application project
-To add the application project to the solution, use the same way as for the static library: in the _Solution Explorer_ right-click the solution name bar (1st line), Click **`Add -> New project...`**:
+To add the application project to the solution, use the same way as for the static library: in the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add -> New project...`**:
 
 ![04.png](04.png)
 
@@ -177,7 +177,7 @@ Hit **`Browse...`** to select the path to downloaded project icon for both _Icon
 
 ![19.png](19.png)
 
-Close the opened folder with the new template _.zip_ archive, then restart the IDE. Right-click the solution bar name in the _Solution Explorer_, click **`Add -> New Project...`**:
+Close the opened folder with the new template _.zip_ archive, then restart the IDE. In the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add -> New Project...`**:
 
 ![24.png](24.png)
 
