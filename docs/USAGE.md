@@ -119,7 +119,7 @@ To overload window events, use the new window class derived from **`glfw::Window
 // main.cpp
 #include <yaglpp/yaglpp.h>
 
-class LearnOpenGL : public glfw::Window
+class GLWindow : public glfw::Window
 {
 	using Window::Window;                     // Base constructors
 	void onFramebuffer(int width, int height) // Framebuffer callback
@@ -130,7 +130,7 @@ class LearnOpenGL : public glfw::Window
 
 int main(int argc, char** argv)
 {
-	LearnOpenGL window(800, 600, "LearnOpenGL");
+	GLWindow window(800, 600, "Overloaded event");
 	//...
 ```
 Lastly, the example of the library usage in AFX-alike layout. The application class must be derived from **`glfw::Thread`** or **`glfw::ThreadWnd`** class:
