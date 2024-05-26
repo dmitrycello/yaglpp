@@ -173,7 +173,7 @@ Type the project description (or any other):
 ```
 Windows and Console C++ Application using YAGL++ library
 ```
-Hit **`Browse...`** to select downloaded project icon as _Icon image_ and as _Preview image_. Then hit **`Finish`**:
+Hit **`Browse...`** to select the path to downloaded project icon for both _Icon image_ and _Preview image_ edit boxes. Then hit **`Finish`**:
 
 ![19.png](19.png)
 
