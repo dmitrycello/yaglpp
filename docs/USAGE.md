@@ -88,7 +88,7 @@ int main(int argc, char** argv)
 {
 	glfw::Window window(800, 600, "YAGL++");
 	window.makeContextCurrent();
-	while (!glWindow.windowShouldClose())
+	while (!window.windowShouldClose())
 	{
 		gl::clearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		gl::clear(gl::BufferBitMask::ColorBufferBit);
