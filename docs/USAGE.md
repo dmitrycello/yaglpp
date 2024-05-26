@@ -177,7 +177,7 @@ Hit **`Browse...`** to select the path to downloaded project icon for both _Icon
 
 ![19.png](19.png)
 
-Close the opened folder with the new template _.zip_ archive, then reopen the IDE. Right-click the solution bar name in the _Solution Explorer_, click **`Add -> New Project...`**:
+Close the opened folder with the new template _.zip_ archive, then restart the IDE. Right-click the solution bar name in the _Solution Explorer_, click **`Add -> New Project...`**:
 
 ![24.png](24.png)
 
