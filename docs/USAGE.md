@@ -54,14 +54,14 @@ Linker -> Advanced -> Entry Point: mainCRTStartup
 ```
 Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\Win32\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
-VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
+VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Console (/SUBSYSTEM:CONSOLE)'
 ```
 - **_Release Win32 (EXE)_**:
 ```
 Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\Win32\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
-VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
+VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Windows (/SUBSYSTEM:WINDOWS)'
 Linker -> Advanced -> Entry Point: mainCRTStartup
 ```
