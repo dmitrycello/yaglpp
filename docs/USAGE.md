@@ -4,6 +4,7 @@
 - [2. Set the application project properties](USAGE.md#2-set-the-application-project-properties)
 - [3. Add the source file to the application project](USAGE.md#3-add-the-source-file-to-the-application-project)
 - [4. Type the code](USAGE.md#4-type-the-code)
+- [5. Create YAGL++ project template](USAGE.md#5-create-yagl-project-template)
 
 The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
@@ -152,15 +153,11 @@ class GLApplication : public glfw::ThreadWnd
 	}
 } application;
 ```
-
-> [!WARNING]
-> In order to use AFX-alike layout, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [yaglpp.h](../include/yaglpp.h) library header, and rebuild the library.
-
 > [!NOTE]
-> AFX-alike layout is rather experimental, and at the moment has only two classes. But it could become very promising direction for development in the future.
+> AFX-alike layout is rather experimental, and at the moment has only two classes. But it could become very promising direction for development in the future. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [yaglpp.h](../include/yaglpp.h) library header, and rebuild the library.
 
 ### 5. Create YAGL++ project template
-At this point, it would be wise to save the performed work by creating a Visual Studio project template from the current project. Download the project icon [logo.png](logo.png), or use another one of a personal taste. Click **`Project menu -> Export Template...`**:
+At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new one without the need to set all required parameters. Download the project icon [logo.png](logo.png), or use another one of a personal taste. Click **`Project menu -> Export Template...`**:
 
 ![15.png](15.png)
 
@@ -188,6 +185,7 @@ Make sure to set filters to _All languages_, _All platforms_ and _All project ty
 
 ![35.png](35.png)
 
-Visual Studio cannot add the tags to custom templates. Therefore they do not show up immediately in the _Add a new project_ dialog.
+> [!NOTE]
+> Unfortunatelly, the Visual Studio does not allow to add a tags to custom templates. Therefore they do not show up immediately in the _Add a new project_ dialog.
 
 [&uarr; TOP](USAGE.md#usage)
