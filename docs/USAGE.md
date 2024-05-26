@@ -159,4 +159,35 @@ class GLApplication : public glfw::ThreadWnd
 > [!NOTE]
 > AFX-alike layout is rather experimental, and at the moment has only two classes. But it could become very promising direction for development in the future.
 
+### 5. Create YAGL++ project template
+At this point, it would be wise to save the performed work by creating a Visual Studio project template from the current project. Download the project icon [logo.png](logo.png), or use another one of a personal taste. Click **`Project menu -> Export Template...`**:
+
+![15.png](15.png)
+
+In the opened window, select the project to export from, then hit **`Next`**:
+
+![18.png](18.png)
+
+In the next window, type the project name (or any other):
+```
+YAGL++ Application
+```
+Type the project description (or any other):
+```
+Windows and Console C++ Application using YAGL++ library
+```
+Hit **`Browse...`** to select downloaded project icon as _Icon image_ and as _Preview image_. Then hit **`Finish`**:
+
+![19.png](19.png)
+
+Close the opened folder with the new template _.zip_ archive, then reopen the IDE. Right-click the solution bar name in the _Solution Explorer_, click **`Add -> New Project...`**:
+
+![24.png](24.png)
+
+Make sure to set filters to _All languages_, _All platforms_ and _All project types_. This will show all project templates. Alternativelly, type **`yagl`** in the search bar:
+
+![35.png](35.png)
+
+Visual Studio cannot add the tags to custom templates. Therefore they do not show up immediately in the _Add a new project_ dialog.
+
 [&uarr; TOP](USAGE.md#usage)
