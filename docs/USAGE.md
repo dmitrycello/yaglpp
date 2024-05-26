@@ -25,7 +25,7 @@ In the _Solution Explorer_, right-click the project's name and click **`Set as S
 ![38.png](38.png)
 
 ### 2. Set the application project properties
-Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to Debug / x64:
+Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to _Debug x64_:
 
 ![39.png](39.png)
 
@@ -35,14 +35,14 @@ In the Properties window set **`Configuration`** and **`Platform`** drop-down me
 
 As the library project, the application project may be used in one of the 4 platform configurations. In order to change the application platform configuration, it is necessary to build the library under that configuration. The application Debug platform configuration requires to set 4 configuration options, the application Release platform configuration requires an extra option to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol).
 
-- **`Debug / x64 (EXE)`**:
+- **_Debug x64 (EXE)_**:
 ```
 Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Console (/SUBSYSTEM:CONSOLE)'
 ```
-- **`Release / x64 (EXE)`**:
+- **_Release x64 (EXE)_**:
 ```
 Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
@@ -50,14 +50,14 @@ VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPat
 Linker -> System -> SubSystem: 'Windows (/SUBSYSTEM:WINDOWS)'
 Linker -> Advanced -> Entry Point: mainCRTStartup
 ```
-- **`Debug / Win32 (EXE)`**:
+- **_Debug Win32 (EXE)_**:
 ```
 Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\Win32\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Console (/SUBSYSTEM:CONSOLE)'
 ```
-- **`Release / Win32 (EXE)`**:
+- **_Release Win32 (EXE)_**:
 ```
 Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\Win32\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
