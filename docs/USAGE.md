@@ -150,8 +150,7 @@ class GLApplication : public glfw::ThreadWnd
 		gl::clearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		gl::clear(gl::BufferBitMask::ColorBufferBit);
 	}
-};
-GLApplication application;
+} application;
 ```
 
 > [!WARNING]
