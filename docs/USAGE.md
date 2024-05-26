@@ -81,11 +81,12 @@ Select **`C++ File (.cpp)`**, type any name, check the path, and hit **`Add`**
 ### 4. Type the code
 In the editor window type the minimal YAGL++ application code:
 ```
-// Source.cpp
+// main.cpp
 #include <yaglpp/yaglpp.h>
+
 int main(int argc, char** argv)
 {
-	glfw::Window glWindow(800, 600, "LearnOpenGL");
+	glfw::Window glWindow(800, 600, "YAGL++");
 	glWindow.makeContextCurrent();
 	while (!glWindow.windowShouldClose())
 	{
