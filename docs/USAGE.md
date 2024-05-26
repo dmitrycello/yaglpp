@@ -74,9 +74,9 @@ In the _Solution Explorer_, right-click the project's Source Files filter icon. 
 
 ![41.png](41.png)
 
-Select **`C++ File (.cpp)`**, type any name, check the path, and hit **`Add`**
+Select **`C++ File (.cpp)`**, type  **`main.cpp`** _(as main function)_, check the path, and hit **`Add`**
 
-![22.png](22.png)
+![22a.png](22a.png)
 
 ### 4. Type the code
 In the editor window type the minimal YAGL++ application code:
@@ -86,38 +86,39 @@ In the editor window type the minimal YAGL++ application code:
 
 int main(int argc, char** argv)
 {
-	glfw::Window glWindow(800, 600, "YAGL++");
-	glWindow.makeContextCurrent();
+	glfw::Window window(800, 600, "YAGL++");
+	window.makeContextCurrent();
 	while (!glWindow.windowShouldClose())
 	{
 		gl::clearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		gl::clear(gl::BufferBitMask::ColorBufferBit);
-		glWindow.swapBuffers();
+		window.swapBuffers();
 		glfw::pollEvents();
 	}
 	return 0;
 }
 ```
-The IntelliSense shows the description of every library member:
+The IntelliSense now shows the description of every library member:
 
-![44.png](44.png)
+![44b.png](44b.png)
 
-The build output should look like this:
+Rebuild the project, the output should look like this:
 ```
 Rebuild started...
 1>------ Rebuild All started: Project: Project1, Configuration: Debug x64 ------
-1>Source.cpp
+1>main.cpp
 1>Project1.vcxproj -> D:\Path_to_solution\OpenGL\x64\Debug\Project1.exe
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
 Now hit **`F5`** to run the application:
 
-![23.png](23.png)
+![23a.png](23a.png)
 
 To overload window events, use the new window class derived from **`glfw::Window`**:
 ```
-// Source.cpp
+// main.cpp
 #include <yaglpp/yaglpp.h>
+
 class LearnOpenGL : public glfw::Window
 {
 	using Window::Window;                     // Base constructors
@@ -126,20 +127,22 @@ class LearnOpenGL : public glfw::Window
 		gl::viewport(0, 0, width, height);
 	}
 };
+
 int main(int argc, char** argv)
 {
-	LearnOpenGL glWindow(800, 600, "LearnOpenGL");
+	LearnOpenGL window(800, 600, "LearnOpenGL");
 	//...
 ```
 Lastly, the example of the library usage in AFX-alike layout. The application class must be derived from **`glfw::Thread`** or **`glfw::ThreadWnd`** class:
 ```
-// Source.cpp
+// main.cpp
 #include <yaglpp/yaglpp.h>
+
 class GLApplication : public glfw::ThreadWnd
 {
 	void onInitThread()   // Create window
 	{
-		m_pWindow = new glfw::Window(800, 600, "LearnOpenGL");
+		m_pWindow = new glfw::Window(800, 600, "AFX-alike mode");
 		m_pWindow->makeContextCurrent(this);
 	}
 	void onRenderWindow() // Rendering loop
@@ -148,11 +151,11 @@ class GLApplication : public glfw::ThreadWnd
 		gl::clear(gl::BufferBitMask::ColorBufferBit);
 	}
 };
-GLApplication glApplication;
+GLApplication application;
 ```
 
 > [!WARNING]
-> In order to use AFX-alike layout, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [yaglpp.h](../include/yaglpp.h) library header, and rebuild YAGL++.
+> In order to use AFX-alike layout, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [yaglpp.h](../include/yaglpp.h) library header, and rebuild the library.
 
 > [!NOTE]
 > AFX-alike layout is rather experimental, and at the moment has only two classes. But it could become very promising direction for development in the future.
