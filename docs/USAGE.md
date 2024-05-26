@@ -181,7 +181,7 @@ Close the opened folder with the new template _.zip_ archive, then reopen the ID
 
 ![24.png](24.png)
 
-Make sure to set filters to _All languages_, _All platforms_ and _All project types_. This will show all project templates. Alternativelly, type **`yagl`** in the search bar:
+Make sure to set filters to _All languages_, _All platforms_ and _All project types_. This will show all project templates. Alternatively, type **`yagl`** in the search bar:
 
 ![35.png](35.png)
 
