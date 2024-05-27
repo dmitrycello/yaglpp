@@ -350,7 +350,7 @@ Rebuild started...
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
 > [!TIP]
-> After installation is complete, the original API assets will be still available, so it is possible to combine C++ and C programming in the same source, but the combination of C code with the YAGL++ objects is not recommended, since this can affect the proper function of library objects.
+> After installation is complete, the original API assets will be still available, but the combination of C code with the YAGL++ objects is not recommended, since this can affect the proper function of library objects.
 
 The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive, extract its **`glad.h`** file, rename to **`gladXX.h`** and move it into **`glad`** directory, do not use other files from the downgraded archives. The XX is the number of GLAD version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control could be great for backward compatible coding.
 
