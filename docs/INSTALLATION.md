@@ -91,7 +91,7 @@ After installation is complete, hit **`Finish`** to exit the wizard:
 ![06b.png](06b.png)
 
 ### 5. Generate GLFW project files
-The YAGL++ works in 4 platform configuration: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be built for every configuration. Before building from the GLFW Source package, in is necessary to generate its project files with CMake, so let's lunch it first. Hit **`Browse Source...`** and navigate to GLFW Source package folder within **`Common/src`**. Next, hit **`Browse Build...`** and navigate to **`Common/lib/GLFW`** folder to set the destination for _x64_ library files. Then hit **`Configure`**:
+The YAGL++ works in 4 platform configuration: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be built for every configuration. Before building from the GLFW Source package, in is necessary to generate its project files with CMake, so let's lunch it first. Hit **`Browse Source...`** and navigate to **`Common/src`** directory, select the **`glfw-3.4`** package folder. Next, hit **`Browse Build...`** and navigate to **`Common/lib`** directory, select the **`GLFW`** folder to set the destination for _x64_ library files. Then hit **`Configure`**:
 
 ![02a2.png](02a2.png)
 
@@ -107,7 +107,7 @@ Make sure that the generating is done, do not close the window yet:
 
 ![05a.png](05a.png)
 
-Now hit again **`Browse Build...`** and navigate to **`Common/lib/Win32/GLFW`** folder to set the destination for _Win32_ library files. Then hit **`Configure`**:
+Now hit again **`Browse Build...`** and navigate to **`Common/lib/Win32`** directory, select the **`GLFW`** folder to set the destination for _Win32_ library files. Then hit **`Configure`**:
 
 ![06a.png](06a.png)
 
@@ -119,12 +119,12 @@ As before, don't mind the red background, and hit **`Generate`**:
 
 ![08a.png](08a.png)
 
-Make sure that the generating is done, and this time close the window:
+Make sure that the generating is done, and at this point close the window:
 
 ![09a.png](09a.png)
 
 ### 6. Build the GLFW library
-The GLFW project files for _x64_ and _Win32_ builds are now in **`Common/lib/GLFW`** and **`Common/lib/Win32/GLFW`** folders. To start the build, navigate first to **`Common/lib/GLFW`** folder, and double-click the **`GLFW.sln`** solution file:
+The GLFW project files for _x64_ and _Win32_ platforms are now in **`Common/lib/GLFW`** and **`Common/lib/Win32/GLFW`** folders. To start the build, navigate first to **`Common/lib/GLFW`** folder, and double-click the **`GLFW.sln`** solution file:
 
 ![10a.png](10a.png)
 
@@ -218,7 +218,7 @@ Then navigate to **`Common/lib/GLFW/src`** folder, and delete its content, excep
 > [!TIP]
 > The GLFW project files are a bit large to keep (~100M), but if these files must be kept for later, just delete the **`.vs`** hidden temporary folder, which is around 95% of total space. Make sure to close the solution before deleting.
 
-To build _Win32_ library, navigate to **`Common/lib/Win32/GLFW`** folder, and double-click the **`GLFW.sln`** solution file from there. Repeat the same steps for _Debug Win32_ and _Release Win32_ platform configurations, close the IDE, then clean the solution, if necessary.
+To build _Win32_ library, navigate to **`Common/lib/Win32/GLFW`** folder, and double-click the **`GLFW.sln`** solution file from there. Rebuild GLFW the same way for _Debug Win32_ and _Release Win32_ platform configurations, close the IDE, then clean the solution, if necessary.
 
 ### 7. Add the static library project
 Reopen the previously created blanc solution. In the _Solution Explorer_, right-click the solution name bar (1st line). Click **`Add -> New project...`**:
@@ -352,9 +352,9 @@ Rebuild started...
 > [!TIP]
 > After installation is complete, the original API assets will be still available, so it is possible to combine C++ and C programming in the same source, but the combination of C code with the YAGL++ objects is not recommended, since this can affect the proper function of library objects.
 
-The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive, rename its **`glad.h`** file to **`gladXX.h`** and move it into **`glad`** directory, do not use other files from the downgraded archives. The XX is the number of GLAD version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control could be great for backward compatible coding.
+The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive, extract its **`glad.h`** file, rename to **`gladXX.h`** and move it into **`glad`** directory, do not use other files from the downgraded archives. The XX is the number of GLAD version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control could be great for backward compatible coding.
 
 > [!IMPORTANT]
-> Generating all 5 downgraded GLAD versions allows to quickly set the OpenGL context version by changing the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches. Just set the desired value, and rebuild the library. But to learn OpenGL, always stick to default version 3.3!
+> It is advised to generate all 5 downgraded GLAD versions, this allows to quickly set the OpenGL context version by changing the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches. Just set the desired value, and rebuild the library. But to learn OpenGL, always stick to default version 3.3!
 
 [&uarr; TOP](INSTALLATION.md#installation) [USAGE &rarr;](docs/USAGE.md)
