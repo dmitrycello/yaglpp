@@ -34,8 +34,8 @@ protected:
 	GLint _getShader(GLenum shaderType, GLenum pname);
 	GLchar* _getShaderSource(GLenum shaderType);
 	void _getShaderSource(GLenum shaderType, GLsizei bufSize, GLsizei* length, GLchar* source);
-	static void _glCreateShader(GLsizei shaderType, GLuint* id);
-	static void _glDeleteShader(GLsizei unused, const GLuint* id);
+	static void WINAPI _glCreateShader(GLsizei shaderType, GLuint* id);
+	static void WINAPI _glDeleteShader(GLsizei unused, const GLuint* id);
 	void _shaderSource(GLenum shaderType, int rcid);
 	void _shaderSource(GLenum shaderType, const char* filepath);
 	void _shaderSource(GLenum shaderType, GLsizei count, const GLchar** string, const GLint* length);

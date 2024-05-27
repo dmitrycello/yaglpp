@@ -78,8 +78,8 @@ private:
 	friend class UniformBlock;
 	friend class VertexAttrib;
 	GLint _getProgram(GLenum pname);
-	static void _glCreateProgram(GLsizei unused, GLuint* id);
-	static void _glDeleteProgram(GLsizei unused, const GLuint* id);
+	static void WINAPI _glCreateProgram(GLsizei unused, GLuint* id);
+	static void WINAPI _glDeleteProgram(GLsizei unused, const GLuint* id);
 
 	GLuint _program_id()
 	{
