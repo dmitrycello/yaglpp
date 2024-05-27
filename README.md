@@ -71,7 +71,7 @@ The symbols defined right after **`#pragma once`** directive in the [yaglpp.h](i
 - Commenting the **`YAGLPP_NO_FREEIMAGE`** switch will add **`FreeImage`** class to the build. This library is no longer maintained, but can deal with more formats compared to included **`StbImage`**;
 - Commenting the **`YAGLPP_NO_GLFW_LEGACY`** switch allows to build YAGL++ with GLFW v3.3.10, the latest version supporting Windows XP. In this case, the recent GLFW features become unavailable;
 - The **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** switches indicate the OpenGL context version supported by the library. Accepted combination of these values are: 2/0, 2/1, 3/0, 3/1, 3/2 and 3/3 to represent the versions 2.0 to 3.3 respectively. To change these switches, it is necessary to add other versions of the GLAD header file to **`glad`** folder, as described at the end of the [INSTALLATION](docs/INSTALLATION.md) section;
-- The **`YAGLPP_GLFW_DEBUG`**, **`YAGLPP_GLFW_RELEASE`**, **`YAGLPP_LIB_DEBUG`** and **`YAGLPP_LIB_RELEASE`** switches contain the GLFW and output library paths.
+- The **`YAGLPP_GLFW_DEBUG`**, **`YAGLPP_GLFW_RELEASE`**, **`YAGLPP_LIB_DEBUG`** and **`YAGLPP_LIB_RELEASE`** switches contain the GLFW and YAGL++ library output paths.
 
 > [!WARNING]
 > Do not alter the last 4 switches, unless you really need to recalibrate the library path layout.
