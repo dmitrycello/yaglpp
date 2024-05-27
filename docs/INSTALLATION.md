@@ -352,9 +352,9 @@ Rebuild started...
 > [!TIP]
 > After installation is complete, the original API assets will be still available, but the combination of C code with the YAGL++ objects is not recommended, since this can affect the proper function of library objects.
 
-The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive, extract its **`glad.h`** file, rename to **`gladXX.h`** and move it into **`glad`** directory, do not use other files from the downgraded archives. The XX is the number of GLAD version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control could be great for backward compatible coding.
+The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive, extract its **`glad.h`** file, rename to **`gladXX.h`** and move it into **`glad`** directory, do not use other files from the downgraded archives. The **`XX`** is the number of generated version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control could be great for backward compatible coding.
 
 > [!IMPORTANT]
-> It is advised to generate all 5 downgraded GLAD versions, this allows to quickly set the OpenGL context version by changing the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches. Just set the desired value, and rebuild the library. But to learn OpenGL, always stick to default version 3.3!
+> It is advised to generate all 5 downgraded GLAD versions, better to do it now to avoid the mess later. This allows to quickly set the OpenGL context version by changing the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches. Just set the desired value, and rebuild the library. But to learn OpenGL, always stick to default version 3.3!
 
 [&uarr; TOP](INSTALLATION.md#installation) [USAGE &rarr;](docs/USAGE.md)
