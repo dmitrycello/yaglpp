@@ -87,7 +87,7 @@ In the editor window type the minimal YAGL++ application code:
 
 int main(int argc, char** argv)
 {
-	glfw::Window window(800, 600, "YAGL++");
+	glfw::Window window(800, 600, "YAGL++ Application");
 	window.makeContextCurrent();
 	while (!window.windowShouldClose())
 	{
@@ -131,7 +131,7 @@ class GLWindow : public glfw::Window
 
 int main(int argc, char** argv)
 {
-	GLWindow window(800, 600, "Overloaded event");
+	GLWindow window(800, 600, "Overloaded Event Application");
 	//...
 ```
 Lastly, the example of the library usage in AFX-alike layout. The application class must be derived from **`glfw::Thread`** or **`glfw::ThreadWnd`** class:
@@ -143,7 +143,7 @@ class GLApplication : public glfw::ThreadWnd
 {
 	void onInitThread()   // Create window
 	{
-		m_pWindow = new glfw::Window(800, 600, "AFX-alike mode");
+		m_pWindow = new glfw::Window(800, 600, "AFX-alike Mode Application");
 		m_pWindow->makeContextCurrent(this);
 	}
 	void onRenderWindow() // Rendering loop
