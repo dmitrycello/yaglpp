@@ -35,16 +35,16 @@
 /*Define the minimum supported YAGL++ context minor version value*/
 #define YAGLPP_CONTEXT_VERSION_MINOR 3
 
-/*Define path to Static Debug build of GLFW library*/
+/*Define GLFW library Debug output path*/
 #define YAGLPP_GLFW_DEBUG "GLFW/src/Debug/glfw3.lib"
 
-/*Define path to Static Release build of GLFW library*/
+/*Define GLFW library Release output path*/
 #define YAGLPP_GLFW_RELEASE "GLFW/src/Release/glfw3.lib"
 
-/*Define YAGL++ library debug output path*/
+/*Define YAGL++ library Debug output path*/
 #define YAGLPP_LIB_DEBUG "Debug/yaglpp.lib"
 
-/*Define YAGL++ library release output path*/
+/*Define YAGL++ library Release output path*/
 #define YAGLPP_LIB_RELEASE "yaglpp.lib"
 
 /* END OF ADJUSTABLE SWITCHES */
