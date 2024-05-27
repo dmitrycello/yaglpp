@@ -1,6 +1,6 @@
 #pragma once
 #include "yaglpp.h"
-/*glpp stb_image I/O callback structure*/
+/*YAGL++ stb_image I/O callback structure*/
 typedef struct
 {
 	/*Fills 'data' with 'size' bytes. Returns number of bytes actually read*/
@@ -13,7 +13,7 @@ typedef struct
 	int (*eof)(void* user);
 } StbCallbacks;
 
-/*glpp stb_image pixel format enumerator*/
+/*YAGL++ stb_image pixel format enumerator*/
 enum class StbFormat : int
 {
 	/*Default channels per pixel and channel depth*/
@@ -77,7 +77,7 @@ enum class StbFormat : int
 	RgbAlphaF = 0x44,
 };
 
-/*glpp stb_image helper root class*/
+/*YAGL++ stb_image helper root class*/
 class StbImage
 {
 private:
@@ -124,6 +124,13 @@ public:
 	{
 		m_lpPixels = nullptr;
 		load(file, format);
+	}
+
+	/*(7) Constructs StbImage object with <load>*/
+	StbImage(_In_ StbCallbacks const* clbk, _In_ void* user, StbFormat format = StbFormat::Default)
+	{
+		m_lpPixels = nullptr;
+		load(clbk, user, format);
 	}
 
 	/*Cleans up the StbImage object*/
