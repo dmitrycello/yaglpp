@@ -14,7 +14,7 @@
 The installation of YAGL++ library isn't more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** directives set the linking of all required libraries. Once installation is complete, there is no need to set them anywhere, just to include the **`yaglpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths, at least for the first time. The offered setup supports _x64_ and _Win32_ platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
 > [!IMPORTANT]
-> Before to begin the installation, make sure your graphic card supports OpenGL 3.3+: download [GLview](https://www.realtech-vr.com/home/?page_id=1402), install it and run the test. If OpenGL 3.3 in not supported, try to update the graphic card driver.
+> Before to begin the installation, make sure your graphic card supports OpenGL 3.3+: download [GLview](https://www.realtech-vr.com/home/?page_id=1402), install it, and run the test. If OpenGL 3.3 in not supported, try to update the graphic card driver.
 
 ### 1. Create a new solution
 Create the solution for the library and the main project. On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
