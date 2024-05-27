@@ -125,7 +125,7 @@ public:
 		return m_pCursor != nullptr;
 	}
 
-#ifdef YAGLPP_FREEIMAGE_LIB
+#ifndef YAGLPP_NO_FREEIMAGE
 	/*(5) Constructs cursor object with <createCursor>*/
 	Cursor(FreeImage& fi, int xhot, int yhot, unsigned int page = 0)
 	{
@@ -160,7 +160,7 @@ public:
 	@param [in] The cursor file path
 	@param Page index in the cursor file. Must be less than the image count*/
 	void createCursor(_In_z_ const char* filepath, unsigned int page = 0);
-#endif // #ifdef YAGLPP_FREEIMAGE_LIB
+#endif // #ifndef YAGLPP_NO_FREEIMAGE
 }; // class Cursor
 
 #ifndef _DEBUG

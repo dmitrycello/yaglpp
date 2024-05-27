@@ -1,6 +1,6 @@
 #pragma once
 #include "yaglpp.h"
-#ifdef YAGLPP_FREEIMAGE_LIB
+#ifndef YAGLPP_NO_FREEIMAGE
 /*YAGL++ FreeImage helper root class*/
 class FreeImage
 {
@@ -41,7 +41,7 @@ private:
 	} _DATA, *_LPDATA;
 	_LPDATA m_lpData;	// Class data
 
-	LPVOID _bitmap(unsigned int page);
+	LPVOID _bitmap(unsigned int page) const;
 	int _loadCursor(LPBYTE data, int size, LPPOINT* hotspot);
 	int _loadFormat(int rcid, int format);
 	int _loadFormat(void* memory, const char* filepath, int format);
@@ -76,47 +76,56 @@ public:
 		}
 	}
 
-	/*Return pixel array of an entire image
+	/*Return pixel array of an entire image, reversing the byte order
 	@param [out] Pointer to store the width of allocated image
 	@param [out] Pointer to store the height of allocated image
 	@param Image page index in the object. Must be less than the image count
 	@return The allocated RGBA pixel array. Must be cleaned up after use*/
 	_Ret_notnull_ LPBYTE allocateImage(_Out_ int* width, _Out_ int* height, unsigned int page = 0);
 
-	/*Return pixel array of one of the sprites with similar dimensions. The image dimentions must be mutiple of those of the sprites.
-	@param The width of indexed image, must be the same within the image
-	@param The height of indexed image, must be the same within the image
-	@param The index of the sprite. Must be less than the number of sprites fit into image
-	@param Image page index in the object. Must be less than the image count
-	@return The allocated RGBA pixel array. Must be cleaned up after use*/
-	_Ret_notnull_ LPBYTE allocateIndex(int width, int height, int index, unsigned int page = 0);
-
-	/*Return pixel array of a part of an image
+	/*Return pixel array of a part of an image, reversing the byte order
 	@param Image sprite left x-offset in pixels
 	@param Image sprite top y-offset in pixels
 	@param Image sprite width in pixels
 	@param Image sprite height in pixels
 	@param Image page index in the object. less than the
 	@return The allocated RGBA pixel array. Must be cleaned up after use*/
-	_Ret_notnull_ LPBYTE allocateSprite(int left, int top, int width, int height, unsigned int page = 0);
+	_Ret_notnull_ LPBYTE allocateRegion(int left, int top, int width, int height, unsigned int page = 0);
+
+	/*Return pixel array of one of the sprites with similar dimensions, reversing the byte order. The image dimentions must be mutiple of those of the sprites.
+	@param The width of indexed image, must be the same within the image
+	@param The height of indexed image, must be the same within the image
+	@param The index of the sprite. Must be less than the number of sprites fit into image
+	@param Image page index in the object. Must be less than the image count
+	@return The allocated RGBA pixel array. Must be cleaned up after use*/
+	_Ret_notnull_ LPBYTE allocateSprite(int width, int height, int index, unsigned int page = 0);
 
 	/*Return index of largest image page in the object
 	@return The largest page index in the object*/
 	int findLargestPage();
 
-	/*Retrieve width and height the of specified page
-	@param [out] Pointer to store the width of an image
-	@param [out] Pointer to store the height of an image
-	@param Image page index in the object. Must be less than the image count*/
-	void getImageInfo(_Out_ int* width, _Out_ int* height, unsigned int page = 0);
+	/*Returns a pointer to RGBA pixel data of the image page in top-to-bottom order
+	@param Image page index in the object. Must be less than the image count
+	@return The image page pixel data, cleaned up by the library*/
+	_Ret_notnull_ LPBYTE getBits(unsigned int page = 0);
+
+	/*Returns the width of the image page
+	@param Image page index in the object. Must be less than the image count
+	@return The image page width*/
+	int getHeight(unsigned int page = 0) const;
+
+	/*Returns the width of the image page
+	@param Image page index in the object. Must be less than the image count
+	@return The image page width*/
+	int getWidth(unsigned int page = 0) const;
 
 	/*Return FreeImage object page count
 	@return The number of image pages in the FreeImage object*/
-	int getPageCount();
+	int getPageCount() const;
 
 	/*Check if FreeImage object contains one or more images
 	@return True if FreeImage object contains images, false otherwise*/
-	bool isImage()
+	bool isImage() const
 	{
 		return m_lpData != nullptr;
 	}
@@ -212,14 +221,14 @@ public:
 }; // class FreeImage
 
 #ifndef _DEBUG
-inline LPVOID FreeImage::_bitmap(unsigned int page)
+inline LPVOID FreeImage::_bitmap(unsigned int page) const
 {
 	return m_lpData->data[page];
 }
 
-inline int FreeImage::getPageCount()
+inline int FreeImage::getPageCount() const
 {
 	return m_lpData->count;
 }
 #endif // #ifndef _DEBUG
-#endif // #ifdef YAGLPP_USE_FREEIMAGE
+#endif // #ifndef YAGLPP_NO_FREEIMAGE

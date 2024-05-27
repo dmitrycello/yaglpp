@@ -53,7 +53,7 @@ public:
 	/*Cleans up the valid data store object*/
 	~DataStore()
 	{
-		if (isDataStore())
+		if (isData())
 		{
 			deleteDataStore();
 		}
@@ -94,7 +94,7 @@ public:
 
 	/*Checks if data store object has memory block
 	@param True if object has memory block, false otherwise*/
-	bool isDataStore() const
+	bool isData() const
 	{
 		return m_lpData != nullptr;
 	}
