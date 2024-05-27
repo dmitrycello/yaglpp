@@ -19,12 +19,12 @@ GLchar* _Shader::_getShaderSource(GLenum shaderType)
 	return pBuffer;
 }
 
-void _Shader::_glCreateShader(GLsizei shaderType, GLuint* id)
+void WINAPI _Shader::_glCreateShader(GLsizei shaderType, GLuint* id)
 {
 	*id = glCreateShader((GLenum)shaderType);
 }
 
-void _Shader::_glDeleteShader(GLsizei unused, const GLuint* id)
+void WINAPI _Shader::_glDeleteShader(GLsizei unused, const GLuint* id)
 {
 	glDeleteShader(*id);
 }

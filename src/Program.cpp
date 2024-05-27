@@ -2,12 +2,12 @@
 #include <yaglpp/Program.h>
 #pragma comment(lib, "opengl32.lib")
 namespace gl {
-void Program::_glCreateProgram(GLsizei unused, GLuint* id)
+void WINAPI Program::_glCreateProgram(GLsizei unused, GLuint* id)
 {
 	*id = glCreateProgram();
 }
 
-void Program::_glDeleteProgram(GLsizei unused, const GLuint* id)
+void WINAPI Program::_glDeleteProgram(GLsizei unused, const GLuint* id)
 {
 	glDeleteProgram(*id);
 }
