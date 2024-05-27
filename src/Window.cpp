@@ -460,7 +460,7 @@ void Window::setWindowIcon(StbImage& si)
 	glfwSetWindowIcon(_window(), 1, &glfwImage);
 }
 
-#ifdef YAGLPP_FREEIMAGE_LIB
+#ifndef YAGLPP_NO_FREEIMAGE
 void Window::setWindowIcon(FreeImage& freeImage)
 {
 	GLFWimage glfwImage;
@@ -483,7 +483,7 @@ void Window::setWindowIcon(_In_z_ const char* filepath)
 	FreeImage freeImage;
 	if (freeImage.loadIcon(filepath) > 0) setWindowIcon(freeImage);
 }
-#endif // #ifdef YAGLPP_FREEIMAGE_LIB
+#endif // #ifndef YAGLPP_NO_FREEIMAGE
 
 void Window::setWindowMonitor(Monitor& fullscreen)
 {

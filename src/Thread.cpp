@@ -6,6 +6,7 @@
 #define _LOCK_POST_BIT 30
 #define _LOCK_EXIT_BIT 31
 #ifndef YAGLPP_NO_AFX_LAYOUT
+#pragma message("Thread.cpp: Compiling with AFX-alike layout support...")
 int main(int argc, char** argv)
 {
     return glfw::Thread::_main(argc, argv);

@@ -11,13 +11,12 @@ void Cursor::createCursor(StbImage& si, int xhot, int yhot)
 	_cursor_set(glfwCreateCursor(&glfwImage, xhot, yhot));
 }
 
-#ifdef YAGLPP_FREEIMAGE_LIB
+#ifndef YAGLPP_NO_FREEIMAGE
 void Cursor::createCursor(FreeImage& fi, int xhot, int yhot, unsigned int page)
 {
 	GLFWimage glfwImage;
 	glfwImage.pixels = fi.allocateImage(&glfwImage.width, &glfwImage.height, page);
-	GLFWcursor* pCursor = glfwCreateCursor(&glfwImage, xhot, yhot);
-	_cursor_set(pCursor);
+	_cursor_set(glfwCreateCursor(&glfwImage, xhot, yhot));
 	YAGLPP_FREE(glfwImage.pixels); // Free allocated buffer
 }
 
@@ -42,7 +41,7 @@ void Cursor::createCursor(_In_z_ const char* filepath, unsigned int page)
 	}
 	YAGLPP_FREE(lpHotspot); // Free allocated buffer
 }
-#endif // #ifdef YAGLPP_FREEIMAGE_LIB
+#endif // #ifndef YAGLPP_NO_FREEIMAGE
 
 #ifdef _DEBUG
 GLFWcursor* Cursor::_cursor()

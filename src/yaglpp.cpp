@@ -40,6 +40,11 @@ bool fileExists(_In_z_ const char* file)
     return stat(file, &buffer) == 0;
 }
 
+void freeMemory(_In_ void* block)
+{
+    YAGLPP_FREE(block);
+}
+
 #ifdef _DEBUG
 _Ret_notnull_ void* _assertCalloc(size_t size)
 {

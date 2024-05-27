@@ -1,10 +1,10 @@
 #define YAGLPP_BUILD_LIB
 #include <yaglpp/FreeImage.h>
-#ifndef YAGLPP_FREEIMAGE_LIB
+#ifdef YAGLPP_NO_FREEIMAGE
 #pragma message("FreeImage.cpp: Compiling without FreeImage library support...")
-#else // #ifndef YAGLPP_FREEIMAGE_LIB
+#else // #ifdef YAGLPP_NO_FREEIMAGE
 #include <FreeImage.h>
-#pragma comment(lib, YAGLPP_FREEIMAGE_LIB)
+#pragma comment(lib, "FreeImage.lib")
 extern LPBYTE _loadFile(const char*, int*);
 extern LPBYTE _loadResource(int, int*);
 FreeImage::_SDATA FreeImage::s_Data;
@@ -59,7 +59,7 @@ int FreeImage::_loadFormat(int rcid, int format)
 
 int FreeImage::_loadFormat(void* memory, const char* filepath, int format)
 {
-	YAGLPP_ASSERT(m_lpData == nullptr); // FREE IMAGE OBJECT MUST BE EMPTY
+	YAGLPP_ASSERT(!isImage()); // FREE IMAGE OBJECT MUST BE EMPTY
 	int iCount = 0, iFlag = 0;
 	switch (format)
 	{
@@ -135,19 +135,7 @@ _Ret_notnull_ LPBYTE FreeImage::allocateImage(_Out_ int* width, _Out_ int* heigh
 	return (LPBYTE)pDst;
 }
 
-_Ret_notnull_ LPBYTE FreeImage::allocateIndex(int width, int height, int index, unsigned int page)
-{
-	FIBITMAP* pBitmap = (FIBITMAP*)_bitmap(page); // Assert image
-	int iFullWidth = FreeImage_GetWidth(pBitmap);
-	int iFullHeight = FreeImage_GetHeight(pBitmap);
-	int iCol = iFullWidth / width, iRemC = iFullWidth % width; // Calculate number of sprites in row and reminder
-	int iRow = iFullHeight / height, iRemR = iFullHeight % height; // Calculate number of rows in image and reminder
-	YAGLPP_ASSERT((iRemC == 0) && (iRemR == 0) && (index < (iCol * iRow))); // ALLOCATING SPRITE CAN'T FIT INTO THE IMAGE
-	int iTop = index / iCol, iLeft = index % iCol; // Find sprite position in image
-	return allocateSprite(iLeft * width, iTop * height, width, height, page);
-}
-
-_Ret_notnull_ LPBYTE FreeImage::allocateSprite(int left, int top, int width, int height, unsigned int page)
+_Ret_notnull_ LPBYTE FreeImage::allocateRegion(int left, int top, int width, int height, unsigned int page)
 {
 	FIBITMAP* pBitmap = (FIBITMAP*)_bitmap(page); // Assert image
 	int iFullWidth = FreeImage_GetWidth(pBitmap);
@@ -173,6 +161,18 @@ _Ret_notnull_ LPBYTE FreeImage::allocateSprite(int left, int top, int width, int
 	return (LPBYTE)pDst;
 }
 
+_Ret_notnull_ LPBYTE FreeImage::allocateSprite(int width, int height, int index, unsigned int page)
+{
+	FIBITMAP* pBitmap = (FIBITMAP*)_bitmap(page); // Assert image
+	int iFullWidth = FreeImage_GetWidth(pBitmap);
+	int iFullHeight = FreeImage_GetHeight(pBitmap);
+	int iCol = iFullWidth / width, iRemC = iFullWidth % width; // Calculate number of sprites in row and reminder
+	int iRow = iFullHeight / height, iRemR = iFullHeight % height; // Calculate number of rows in image and reminder
+	YAGLPP_ASSERT((iRemC == 0) && (iRemR == 0) && (index < (iCol* iRow))); // ALLOCATING SPRITE CAN'T FIT INTO THE IMAGE
+	int iTop = index / iCol, iLeft = index % iCol; // Find sprite position in image
+	return allocateRegion(iLeft * width, iTop * height, width, height, page);
+}
+
 int FreeImage::findLargestPage()
 {
 	int iPage = 0, iSize = 0, iCount = getPageCount();
@@ -189,11 +189,19 @@ int FreeImage::findLargestPage()
 	return iPage;
 }
 
-void FreeImage::getImageInfo(_Out_ int* width, _Out_ int* height, unsigned int page)
+_Ret_notnull_ LPBYTE FreeImage::getBits(unsigned int page)
 {
-	FIBITMAP* pDib = (FIBITMAP*)_bitmap(page);
-	*width = FreeImage_GetWidth(pDib);
-	*height = FreeImage_GetHeight(pDib);
+	return FreeImage_GetBits((FIBITMAP*)_bitmap(page)); // Assert image
+}
+
+int FreeImage::getHeight(unsigned int page) const
+{
+	return FreeImage_GetHeight((FIBITMAP*)_bitmap(page));
+}
+
+int FreeImage::getWidth(unsigned int page) const
+{
+	return FreeImage_GetWidth((FIBITMAP*)_bitmap(page));
 }
 
 int FreeImage::loadCursor(int rcid, _Out_ LPPOINT* hotspot)
@@ -265,16 +273,16 @@ void FreeImage::_SDATA::errorCallback(int format, const char* description)
 	YAGLPP_ASSERT(false); // FREE IMAGE LIBRARY ERROR
 }
 
-LPVOID FreeImage::_bitmap(unsigned int page)
+LPVOID FreeImage::_bitmap(unsigned int page) const
 {
 	YAGLPP_ASSERT(getPageCount() > (int)page); // PAGE INDEX IS INVALID
 	return m_lpData->data[page];
 }
 
-int FreeImage::getPageCount()
+int FreeImage::getPageCount() const
 {
-	YAGLPP_ASSERT(m_lpData != nullptr); // FREE IMAGE OBJECT IS EMPTY
+	YAGLPP_ASSERT(isImage()); // FREE IMAGE OBJECT IS EMPTY
 	return m_lpData->count;
 }
 #endif // #ifdef _DEBUG
-#endif // #ifndef YAGLPP_FREEIMAGE_LIB
+#endif // #ifdef YAGLPP_NO_FREEIMAGE
