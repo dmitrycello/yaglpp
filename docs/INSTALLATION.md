@@ -357,4 +357,4 @@ The library supports OpenGL versions 2.0 to 3.3. To downgrade the default versio
 > [!IMPORTANT]
 > It is advised to generate all 5 downgraded GLAD versions, better to do it now to avoid the mess later. This allows to quickly set the OpenGL context version by changing the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches. Just set the desired value, and rebuild the library. But to learn OpenGL, always stick to default version 3.3!
 
-[&uarr; TOP](INSTALLATION.md#installation) [USAGE &rarr;](docs/USAGE.md)
+[&uarr; TOP](INSTALLATION.md#installation) [USAGE &rarr;](USAGE.md)
