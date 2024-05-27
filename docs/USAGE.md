@@ -99,7 +99,7 @@ int main(int argc, char** argv)
 	return 0;
 }
 ```
-The IntelliSense now shows the description of every library member:
+Now the IntelliSense shows the description of every library member:
 
 ![44b.png](44b.png)
 
