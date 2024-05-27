@@ -993,7 +993,7 @@ public:
 	@param [in] Stb image object*/
 	void setWindowIcon(StbImage& stbImage);
 
-#ifdef YAGLPP_FREEIMAGE_LIB
+#ifndef YAGLPP_NO_FREEIMAGE
 	/*(FI) Set icon of specified window from free image object. Does nothing if empty object
 	@param [in] Free image object*/
 	void setWindowIcon(FreeImage& freeImage);
@@ -1005,7 +1005,7 @@ public:
 	/*(FI) Set icon of specified window from the icon file. Does nothing if invalid file
 	@param [in] Path to the icon file*/
 	void setWindowIcon(_In_z_ const char* filepath);
-#endif // #ifdef YAGLPP_FREEIMAGE_LIB
+#endif // #ifndef YAGLPP_NO_FREEIMAGE
 
 	/*This function sets the monitor that the window uses for full screen mode. It also sets selected video mode parameters via window hints
 	@param Monitor object with selected monitor and video mode*/

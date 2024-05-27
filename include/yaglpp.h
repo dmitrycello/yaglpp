@@ -23,11 +23,11 @@
 /*Do not include main entry point into YAGL++ library*/
 #define YAGLPP_NO_AFX_LAYOUT
 
+/*Do not include FreeImage library into YAGL++ library*/
+#define YAGLPP_NO_FREEIMAGE
+
 /*Compile with the most recent GLFW nonlegacy library*/
 #define YAGLPP_NO_GLFW_LEGACY
-
-/*Use FreeImage library, define path to Static/Dll build*/
-#define YAGLPP_FREEIMAGE_LIB "FreeImage.lib"
 
 /*Define the minimum supported YAGL++ context major version value*/
 #define YAGLPP_CONTEXT_VERSION_MAJOR 3
@@ -35,14 +35,17 @@
 /*Define the minimum supported YAGL++ context minor version value*/
 #define YAGLPP_CONTEXT_VERSION_MINOR 3
 
-/*Define path to Static/Dll/MT build of GLFW3 library*/
-#define YAGLPP_GLFW_LIB "lib-vc2019/glfw3dll.lib"
+/*Define path to Static Debug build of GLFW library*/
+#define YAGLPP_GLFW_DEBUG "GLFW/src/Debug/glfw3.lib"
+
+/*Define path to Static Release build of GLFW library*/
+#define YAGLPP_GLFW_RELEASE "GLFW/src/Release/glfw3.lib"
 
 /*Define YAGL++ library debug output path*/
-#define YAGLPP_DEBUG_LIB "Debug/yaglpp.lib"
+#define YAGLPP_LIB_DEBUG "Debug/yaglpp.lib"
 
 /*Define YAGL++ library release output path*/
-#define YAGLPP_RELEASE_LIB "yaglpp.lib"
+#define YAGLPP_LIB_RELEASE "yaglpp.lib"
 
 /* END OF ADJUSTABLE SWITCHES */
 #include <windows.h>
@@ -92,19 +95,25 @@ typedef tvec4<unsigned short> usvec4;
 @return True if file exists, false otherwise*/
 bool fileExists(_In_z_ const char* file);
 
+/*YAGL++ helper function, deallocates the pointer previously allocated by the library
+@param [in] The pointer to freed memory block*/
+void freeMemory(_In_ void* block);
+
 class DataStore;
 class StbImage;
+typedef struct StbCallbacks;
 enum class StbFormat : int;
 
-#ifdef YAGLPP_FREEIMAGE_LIB
+#ifndef YAGLPP_NO_FREEIMAGE
 class FreeImage;
-#endif // #ifdef YAGLPP_FREEIMAGE_LIB
+#endif // #ifndef YAGLPP_NO_FREEIMAGE
 
 #ifdef YAGLPP_BUILD_LIB
 /*YAGL++ memory deallocation macro*/
 #define YAGLPP_FREE(p) free(p)
 
 #ifdef _DEBUG
+#define YAGLPP_GLFW_LIB YAGLPP_GLFW_DEBUG
 _Ret_notnull_ void* _assertCalloc(size_t);
 _Ret_notnull_ void* _assertMalloc(size_t);
 _Ret_notnull_ void* _assertRealloc(void*, size_t);
@@ -125,6 +134,7 @@ _Ret_notnull_ void* _assertRealloc(void*, size_t);
 #define YAGLPP_REALLOC(p, s) _assertRealloc(p, s)
 
 #else // #ifdef _DEBUG
+#define YAGLPP_GLFW_LIB YAGLPP_GLFW_RELEASE
 #define YAGLPP_ASSERT(e)
 #define YAGLPP_DEBUG(s)
 #define YAGLPP_CALLOC(s) calloc(s, 1)
@@ -145,9 +155,9 @@ _Ret_notnull_ void* _assertRealloc(void*, size_t);
 #endif // #ifdef YAGLPP_GLM_HEADERS
 
 #ifdef _DEBUG
-#pragma comment(lib, YAGLPP_DEBUG_LIB)
+#pragma comment(lib, YAGLPP_LIB_DEBUG)
 #else // #ifdef _DEBUG
-#pragma comment(lib, YAGLPP_RELEASE_LIB)
+#pragma comment(lib, YAGLPP_LIB_RELEASE)
 #endif // #ifdef _DEBUG
 #endif // #ifndef YAGLPP_BUILD_LIB
 
