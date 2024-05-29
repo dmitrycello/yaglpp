@@ -48,8 +48,7 @@ int main(int argc, char** argv)
 		gl::clear(gl::BufferBitMask::ColorBufferBit);
 
 		program.useProgram();
-		float greenValue = (float)sin(glfwGetTime()) / 2.0f + 0.5f;
-		ourColor.uniform(0.0f, greenValue, 0.0f, 1.0f);
+		ourColor.uniform(0.0f, (float)sin(glfw::getTime()) / 2.0f + 0.5f, 0.0f, 1.0f);
 		VAO.bindVertexArray();
 		gl::drawArrays(gl::PrimitiveMode::Triangles, 0, 3);
 
