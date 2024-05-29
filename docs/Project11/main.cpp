@@ -48,7 +48,7 @@ int main(int argc, char** argv)
 		gl::clear(gl::BufferBitMask::ColorBufferBit);
 
 		program.useProgram();
-		xoffset.uniform((float)sin(glfwGetTime()) / 2.0f + 0.5f);
+		xoffset.uniform((float)sin(glfw::getTime()) / 2.0f + 0.5f);
 		VAO.bindVertexArray();
 		gl::drawArrays(gl::PrimitiveMode::Triangles, 0, 3);
 
