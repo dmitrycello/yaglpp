@@ -26,11 +26,11 @@ int main(int argc, char** argv)
 	fragShader.compileShader();
 	gl::Program program(vertShader, fragShader);
 	program.linkProgram();
-	gl::Uniform ourColor(program, "ourColor"), ourOffset(program, "ourOffset");
+	gl::Uniform xoffset(program, "xoffset");
 
 	float vertices[] = {
-		 0.5f, -0.5f, 0.0f, // bottom right
 		-0.5f, -0.5f, 0.0f, // bottom left
+		 0.5f, -0.5f, 0.0f, // bottom right
 		 0.0f,  0.5f, 0.0f  // top
 	};
 	gl::VertexArray VAO;
@@ -48,9 +48,7 @@ int main(int argc, char** argv)
 		gl::clear(gl::BufferBitMask::ColorBufferBit);
 
 		program.useProgram();
-		float greenValue = (float)sin(glfwGetTime()) / 2.0f + 0.5f;
-		ourColor.uniform(0.0f, greenValue, 0.0f, 1.0f);
-		ourOffset.uniform(greenValue);
+		xoffset.uniform((float)sin(glfwGetTime()) / 2.0f + 0.5f);
 		VAO.bindVertexArray();
 		gl::drawArrays(gl::PrimitiveMode::Triangles, 0, 3);
 
