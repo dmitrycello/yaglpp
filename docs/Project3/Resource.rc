@@ -1,0 +1,5 @@
+// Resource.rc
+#include "resource.h"
+
+IDT_VERT_SHADER RCDATA "Shader.vert"
+IDT_FRAG_SHADER RCDATA "Shader.frag"
