@@ -115,6 +115,9 @@ Now hit **`F5`** to run the application:
 
 ![23a.png](23a.png)
 
+> [!WARNING]
+> The original API assets are still available in the source file, but the combination of thoses with the YAGL++ objects in most cases will affect the proper function of library objects.
+
 To overload window events, use the new window class derived from **`glfw::Window`**:
 ```
 // main.cpp
