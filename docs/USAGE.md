@@ -138,7 +138,7 @@ int main(int argc, char** argv)
 	GLWindow window(800, 600, "Overloaded Event Application");
 	//...
 ```
-Lastly, the example of the library usage in AFX-alike layout. The application class must be derived from **`glfw::Thread`** or **`glfw::ThreadWnd`** class:
+Finally, the example of the library usage in AFX-alike layout. The application class derived from the **`glfw::ThreadWnd`** class is defined with the anonymous variable:
 ```
 // main.cpp
 #include <yaglpp/yaglpp.h>
