@@ -11,7 +11,7 @@
 - [9. Set the library project proprties](INSTALLATION.md#9-set-the-library-project-proprties)
 - [10. Build the YAGL++ library](INSTALLATION.md#10-build-the-library)
 
-The installation of YAGL++ library isn't more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** directives set the linking of all required libraries. Once installation is complete, there is no need to set them anywhere, just to include the **`yaglpp.h`** in the source file. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths, at least for the first time. The offered setup supports _x64_ and _Win32_ platforms, producing the console application in Debug mode, and Windows application in Release mode.
+The installation of YAGL++ library isn't more complicated than the setup of original OpenGL API components. It actually includes those, while **`#pragma comments`** directives set the linking of all required libraries. Once installation is complete, there is no need to set them anywhere, just to include the [yaglpp.h](../include/yaglpp.h) file in the source code. The library must be built within the application project's solution, it helps understanding the way the library works. The path layout can be different, but it is strongly recommended to use all suggested names and paths, at least for the first time. The offered setup supports _x64_ and _Win32_ platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
 > [!IMPORTANT]
 > Before to begin the installation, make sure your graphics card supports OpenGL 3.3+: download [GLview](https://www.realtech-vr.com/home/?page_id=1402), install it, and run the test. If OpenGL 3.3 in not supported, try to update the graphics card driver.
@@ -40,7 +40,7 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 	+ **stb_image.h** v2.29
 	+ **stb_image_resize2.h** v2.06
 	+ **stb_image_write.h** v1.16
-- [FreeImage](https://freeimage.sourceforge.io) library 3.18.0 (optional). The only DLL distribution is supported (Win32/x64). The project is not being updated since 2015, so if you decide not to include it, make sure to comment the **`GLPP_FREEIMAGE_LIB`** switch in the **`yaglpp.h`** file.
+- [FreeImage](https://freeimage.sourceforge.io) library 3.18.0 (optional). The only DLL distribution is supported (Win32/x64). The project is not being updated since 2015, so if you decide not to include it, make sure to comment the **`GLPP_FREEIMAGE_LIB`** switch in the [yaglpp.h](../include/yaglpp.h) file.
 - [Latest release](https://github.com/dmitrycello/yaglpp/releases) of YAGL++ library, the **`dependencies.txt`** file within the archive lists every component version tested with current release.
 
 ### 3. Prepare the components's folder
@@ -238,12 +238,12 @@ In the _Solution Explorer_ remove all header and source files **`(Del)`**. These
 
 ![27.png](27.png)
 
-Right-click **`Header Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\include\yaglpp`** directory, select **`yaglpp.h`** file:
+Right-click **`Header Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\include\yaglpp`** directory, select [yaglpp.h](../include/yaglpp.h) file:
 
 ![28.png](28.png)
 
 > [!NOTE]
-> The header files here are irrelevant for the build, and may not be included at all. The **`yaglpp.h`** file is added just to toggle the main switches.
+> The header files here are irrelevant for the build, and may not be included at all. The [yaglpp.h](../include/yaglpp.h) file is added just to toggle the main switches.
 
 Next, right-click **`Source Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\src\yaglpp`** directory, and select all **`.cpp`** files:
 
@@ -303,7 +303,7 @@ C/C++ -> Precompiled Headers -> Precompiled Header: 'Not Using Precompiled Heade
 > Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 ### 10. Build the library
-Now close the Properties window. In the _Solution Explorer_ open **`yaglpp.h`** file, so the IDE focuses on yaglpp project within the solution. Select any of the 4 platform configuration on the top of IDE:
+Now close the Properties window. In the _Solution Explorer_ open [yaglpp.h](../include/yaglpp.h) file, so the IDE focuses on yaglpp project within the solution. Select any of the 4 platform configuration on the top of IDE:
 
 ![34.png](34.png)
 
