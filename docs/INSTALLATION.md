@@ -207,7 +207,7 @@ Rebuild started...
 > [!NOTE]
 > Rebuild ensures to process the every source file from scratch. Use **`Build (Ctrl+B)`** to update the build.
 
-Close the IDE. It is possible now to clean the solution, unless it is required to later modify and rebuild the GLFW. If this is not the case, delete the content within the **`Common/lib/GLFW`** folder, except the **`src/Debug`** and **`src/Release`** output subfolders. First, navigate to **`Common/lib/GLFW`** folder, and delete its content, except the **`src`** subfolder:
+Close the IDE. It is possible now to clean up the solution, unless it is required to later modify and rebuild the GLFW. If this is not the case, navigate first to **`Common/lib/GLFW`** folder, and delete its content, except the **`src`** subfolder:
 
 ![13a.png](13a.png)
 
@@ -218,7 +218,10 @@ Then navigate to **`Common/lib/GLFW/src`** folder, and delete its content, excep
 > [!TIP]
 > The GLFW project files are a bit large to keep (~100M), but if these files must be kept for later, just delete the **`.vs`** hidden temporary folder, which is around 95% of total space. Make sure to close the solution before deleting.
 
-To build _Win32_ library, navigate to **`Common/lib/Win32/GLFW`** folder, and double-click the **`GLFW.sln`** solution file from there. Rebuild GLFW the same way for _Debug Win32_ and _Release Win32_ platform configurations, close the IDE, then clean the solution, if necessary.
+To build _Win32_ library, navigate to **`Common/lib/Win32/GLFW`** folder, and double-click the **`GLFW.sln`** solution file from there. Rebuild GLFW the same way for _Debug Win32_ and _Release Win32_ platform configurations, close the IDE, then clean up the solution, if necessary.
+
+> [!WARNING]
+> Do not use the Visual Studio **`Build -> Clean Solution`** option: that deletes the output library files as well.
 
 ### 7. Add the static library project
 Reopen the previously created blanc solution. In the _Solution Explorer_, right-click the solution name bar (1st line). Click **`Add -> New project...`**:
