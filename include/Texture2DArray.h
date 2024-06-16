@@ -8,7 +8,7 @@ class Texture2DArray : public _Texture
 {
 public:
 	/*(3.0) (1) Constructs an empty texture object*/
-	Texture2DArray() : _Texture() {}
+	Texture2DArray() {}
 
 	/*(3.0) (2) Constucts a texture object with <shareTexture>*/
 	Texture2DArray(Texture2DArray& texture)
@@ -637,9 +637,9 @@ public:
 
 	/*(3.0) Sets the texture magnification function value
 	@param Specifies the texture magnification function's value. The initial value is linear*/
-	void setTextureMagFilter(TextureMagFilter func)
+	void setTextureMagFilter(TextureMagFilter filter)
 	{
-		_texParameter(_tlsTexture2DArray(), GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, (GLint)func);
+		_texParameter(_tlsTexture2DArray(), GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, (GLint)filter);
 	}
 
 	/*(3.0) Sets the index of the highest defined mipmap level

@@ -7,7 +7,7 @@ class Texture1D : public _Texture
 {
 public:
 	/*(1) Constructs an empty texture object*/
-	Texture1D() : _Texture() {}
+	Texture1D() {}
 
 	/*(2) Constucts a texture object with <shareTexture>*/
 	Texture1D(Texture1D& texture)
@@ -465,9 +465,9 @@ public:
 
 	/*Sets the texture magnification function value
 	@param Specifies the texture magnification function's value. The initial value is linear*/
-	void setTextureMagFilter(TextureMagFilter func)
+	void setTextureMagFilter(TextureMagFilter filter)
 	{
-		_texParameter(_tlsTexture1D(), GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, (GLint)func);
+		_texParameter(_tlsTexture1D(), GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, (GLint)filter);
 	}
 
 	/*Sets the index of the highest defined mipmap level

@@ -33,7 +33,7 @@ protected:
 
 public:
 	/*(3.0) (1) Constructs an empty renderbuffer object*/
-	Renderbuffer() : _Object() {}
+	Renderbuffer() {}
 
 	/*(3.0) (2) Constucts a renderbuffer object with <shareRenderbuffer>*/
 	Renderbuffer(Renderbuffer& renderbuffer)

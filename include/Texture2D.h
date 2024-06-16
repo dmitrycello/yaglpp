@@ -7,7 +7,7 @@ class Texture2D : public _Texture
 {
 public:
 	/*(1) Constructs an empty texture object*/
-	Texture2D() : _Texture() {}
+	Texture2D() {}
 
 	/*(2) Constucts a texture object with <shareTexture>*/
 	Texture2D(Texture2D& texture)
@@ -488,9 +488,9 @@ public:
 
 	/*Sets the texture magnification function value
 	@param Specifies the texture magnification function's value. The initial value is linear*/
-	void setTextureMagFilter(TextureMagFilter func)
+	void setTextureMagFilter(TextureMagFilter filter)
 	{
-		_texParameter(_tlsTexture2D(), GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, (GLint)func);
+		_texParameter(_tlsTexture2D(), GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, (GLint)filter);
 	}
 
 	/*Sets the index of the highest defined mipmap level

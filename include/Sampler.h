@@ -19,7 +19,7 @@ protected:
 
 public:
 	/*(3.3) (1) Constructs an empty sampler object*/
-	Sampler() : _Object() {}
+	Sampler() {}
 
 	/*(3.3) (2) Constucts a sampler object with <shareSampler>*/
 	Sampler(Sampler& sampler)

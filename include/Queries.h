@@ -6,7 +6,7 @@ class Queries : public _Objects
 {
 public:
 	/*(1) Constructs an empty query multi-object*/
-	Queries() : _Objects() {}
+	Queries() {}
 
 	/*(2) Constucts a query multi-object with <genQueries>*/
 	Queries(GLsizei n)

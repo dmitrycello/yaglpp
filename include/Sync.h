@@ -22,7 +22,7 @@ enum class SyncStatus : GLenum
 class Sync
 {
 private:
-	GLsync m_pSync; // Sync object
+	GLsync m_pSync = nullptr; // Sync object
 	GLsync _sync_ptr()
 	{
 		if (m_pSync == nullptr)
@@ -34,10 +34,7 @@ private:
 
 public:
 	/*(3.2) Constructs an empty sync object*/
-	Sync()
-	{
-		m_pSync = nullptr;
-	}
+	Sync() {}
 
 	/*(3.2) Cleans up the valid synchronization object*/
 	~Sync()

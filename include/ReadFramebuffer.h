@@ -8,7 +8,7 @@ class ReadFramebuffer : public _Framebuffer
 {
 public:
 	/*(3.0) (1) Constructs an empty framebuffer object*/
-	ReadFramebuffer() : _Framebuffer() {}
+	ReadFramebuffer() {}
 
 	/*(3.0) (2) Constucts a framebuffer object with <assignFramebuffer>*/
 	ReadFramebuffer(Framebuffers& framebuffers, GLuint index)

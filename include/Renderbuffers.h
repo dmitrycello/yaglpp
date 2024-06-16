@@ -7,7 +7,7 @@ class Renderbuffers : public _Objects
 {
 public:
 	/*(3.0) (1) Constructs an empty renderbuffer multi-object*/
-	Renderbuffers() : _Objects() {}
+	Renderbuffers() {}
 
 	/*(3.0) (2) Constucts a renderbuffer multi-object with <genRenderbuffers>*/
 	Renderbuffers(GLsizei n)

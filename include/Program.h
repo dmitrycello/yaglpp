@@ -77,10 +77,9 @@ private:
 	friend class Uniform;
 	friend class UniformBlock;
 	friend class VertexAttrib;
-	GLint _getProgram(GLenum pname);
 	static void WINAPI _glCreateProgram(GLsizei unused, GLuint* id);
 	static void WINAPI _glDeleteProgram(GLsizei unused, const GLuint* id);
-
+	GLint _getProgram(GLenum pname);
 	GLuint _program_id()
 	{
 		return _object_id(&_glCreateProgram);
@@ -88,7 +87,7 @@ private:
 
 public:
 	/*(1) Constructs an empty program object*/
-	Program() : _Object() {}
+	Program() {}
 
 	/*(2) Constucts a program object with <shareShader>*/
 	Program(Program& program)
@@ -444,7 +443,7 @@ inline void Program::validateProgram()
 #if !defined _DEBUG && defined GL_VERSION_3_0
 inline void Program::bindFragDataLocation(ColorNumber colorNumber, _In_z_ const GLchar* name)
 {
-	glBindFragDataLocation(_program_id(), colorNumber, name);
+	glBindFragDataLocation(_program_id(), (GLuint)colorNumber, name);
 }
 
 inline ColorNumber Program::getFragDataLocation(_In_z_ const GLchar* name)

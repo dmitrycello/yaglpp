@@ -8,7 +8,7 @@ class PrimitivesGenerated : public _Query
 {
 public:
 	/*(3.0) (1) Constructs an empty query object*/
-	PrimitivesGenerated() : _Query() {}
+	PrimitivesGenerated() {}
 
 	/*(3.0) (2) Constucts a query object with <assignQuery>*/
 	PrimitivesGenerated(Queries& queries, GLuint index)

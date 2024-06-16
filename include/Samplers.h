@@ -7,7 +7,7 @@ class Samplers : public _Objects
 {
 public:
 	/*(3.3) (1) Constructs an empty sampler multi-object*/
-	Samplers() : _Objects() {}
+	Samplers() {}
 
 	/*(3.3) (2) Constucts a sampler multi-object with <genSamplers>*/
 	Samplers(GLsizei n)

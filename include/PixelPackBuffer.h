@@ -8,7 +8,7 @@ class PixelPackBuffer : public _Buffer
 {
 public:
 	/*(2.1) (1) Constructs an empty buffer object*/
-	PixelPackBuffer() : _Buffer() {}
+	PixelPackBuffer() {}
 
 	/*(2.1) (2) Constucts a buffer object with <shareBuffer>*/
 	PixelPackBuffer(PixelPackBuffer& buffer)

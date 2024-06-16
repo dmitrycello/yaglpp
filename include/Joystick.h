@@ -136,22 +136,24 @@ class Joystick
 {
 private:
 	static struct _SDATA {
+		int m_iJcount;
+		int m_pJoysticks[GLFW_JOYSTICK_LAST + 1];
+		JoystickConnectedCallback* m_pConnected = nullptr;
 		_SDATA();
-		JoystickConnectedCallback* m_pConnected;
+		void getJoysticks();
 	} s_Data;
-	int m_iJid; // Joystick id
-	int m_iAxes; // Axes count
-	int m_iButtons; // Button count
-	int m_iHats; // Hat count
-	const float* m_pAxes; // Axe array
-	const unsigned char* m_pButtons; // Button array
-	const unsigned char* m_pHats; // Hat array
-	const char* m_pGamepadName;
-	const char* m_pGuid;
-	const char* m_pName;
-	GLFWgamepadstate m_Gamepad; // Gamepad state
-	void _init();
-	int _jid();
+	int m_iJid = -1;							// Joystick id
+	int m_iAxes = 0;							// Axes count
+	int m_iHats = 0;							// Hat count
+	int m_iButtons = 0;							// Button count
+	const char* m_pGuid = nullptr;				// Joystick GUID
+	const char* m_pName = nullptr;				// Joystick name
+	const float* m_pAxes = nullptr;				// Axe array
+	const char* m_pGamepad = nullptr;			// Gamepad name
+	const unsigned char* m_pHats = nullptr;		// Hat array
+	const unsigned char* m_pButtons = nullptr;	// Button array
+	GLFWgamepadstate m_Gamepad = { 0 };			// Gamepad state
+	int _jid() const;
 	static void _joystickCallback(int jid, int event);
 	void _select(int jid);
 
@@ -161,15 +163,18 @@ protected:
 
 public:
 	/*(1) Constructs an empty joystick object*/
-	Joystick()
+	Joystick() {}
+
+	/*(2) Constructs joystick object with <selectJoystick>, 0u selects first joystick in the system*/
+	Joystick(unsigned int jindex)
 	{
-		_init();
+		selectJoystick(jindex);
 	}
 
-	/*(2) Constructs joystick object with <selectJoystick>*/
+	/*(3) Constructs joystick object with <selectJoystick>*/
 	Joystick(_In_z_ const char* name)
 	{
-		_init(); selectJoystick(name);
+		selectJoystick(name);
 	}
 
 	/*Cleans up the valid joystick object*/
@@ -181,89 +186,108 @@ public:
 		}
 	}
 
-	/*Unconditionally deselect specified joystick*/
+	/*Unconditionally deselects specified joystick*/
 	void deselectJoystick();
 
 	/*Returns the joystick axis count after <getJoystickAxes> call
 	@return The number of axes, or 0 prior to mentionned calls*/
-	int getAxisCount()
+	int getAxisCount() const
 	{
 		return m_iAxes;
 	}
 
 	/*Returns the joystick button count after <getJoystickButtons> call
 	@return The number of buttons, or 0 prior to mentionned calls*/
-	int getButtonCount()
+	int getButtonCount() const
 	{
 		return m_iButtons;
 	}
 
-	/*Get specified gamepad axis state retrieved by <getGamepadState> call
+	/*Gets specified gamepad axis state retrieved by <getGamepadState> call
 	@param The gamepad axis
 	@return The specified gamepad axis state value, must be between -1.0 and 1.0*/
-	float getGamepadAxis(GamepadAxis axis)
+	float getGamepadAxis(GamepadAxis axis) const
 	{
 		return m_Gamepad.axes[(int)axis];
 	}
 
-	/*Get specified gamepad button state retrieved by <getGamepadState> call
+	/*Gets specified gamepad button state retrieved by <getGamepadState> call
 	@param The gamepad button
 	@return True if specified gamepad button is pressed, false otherwise*/
-	bool getGamepadButton(GamepadButton button)
+	bool getGamepadButton(GamepadButton button) const
 	{
 		return (bool)m_Gamepad.buttons[(int)button];
 	}
 
-	/*Scans the gamepad states, and triggers the appropriate events if any changes occured since the last scan. The first scan is always skipped
-	@return True if the gamepad state was loaded successfully, false otherwise*/
-	bool getGamepadState();
-
 	/*Returns the human-readable name of the gamepad from the gamepad mapping assigned to the specified joystick
 	@return The UTF-8 encoded name of the gamepad, or NULL if the joystick does not have a mapping*/
-	_Ret_maybenull_ const char* getGamepadName();
+	_Ret_maybenull_ const char* getGamepadName() const;
+
+	/*Scans the gamepad states, and triggers the appropriate events if any changes occured since the last scan. The first scan is always skipped
+	@return True if the gamepad state was loaded successfully, false otherwise*/
+	bool getGamepadState()
+	{
+		return (bool)glfwGetGamepadState(_jid(), &m_Gamepad);
+	}
 
 	/*Returns the joystick hat count after <getJoystickHats> call
 	@return The number of hats, or 0 prior to mentionned calls*/
-	int getHatCount()
+	int getHatCount() const
 	{
 		return m_iHats;
 	}
 
 	/*Scans the axes states, and triggers the appropriate events if any changes occured since the last scan. The first scan is always skipped*/
-	void getJoystickAxes();
+	void getJoystickAxes()
+	{
+		m_pAxes = glfwGetJoystickAxes(_jid(), &m_iAxes);
+	}
 
-	/*Get current joystick axis state retrieved by <getJoystickAxes> call
+	/*Gets current joystick axis state retrieved by <getJoystickAxes> call
 	@param The joystick axis index
 	@return The joystick axis state value, must be between -1.0 and 1.0*/
-	float getJoystickAxis(unsigned int index);
+	float getJoystickAxis(unsigned int index) const;
 
-	/*Get current joystick button state retrieved by <getJoystickButtons> call
+	/*Gets current joystick button state retrieved by <getJoystickButtons> call
 	@param The joystick button index
 	@return True if specified button is pressed, false otherwise*/
-	bool getJoystickButton(unsigned int index);
+	bool getJoystickButton(unsigned int index) const;
 
 	/*Scans the buttons states, and triggers the appropriate events if any changes occured since the last scan. The first scan is always skipped*/
-	void getJoystickButtons();
+	void getJoystickButtons()
+	{
+		m_pButtons = glfwGetJoystickButtons(_jid(), &m_iButtons);
+	}
+
+	/*Retrieves number of joysticks available in the system
+	@return The number of available joysticks*/
+	static int getJoystickCount()
+	{
+		return s_Data.m_iJcount;
+	}
 
 	/*Returns the SDL compatible GUID, as a UTF-8 encoded hexadecimal string, of the specified joystick
 	@return The UTF-8 encoded GUID of the joystick*/
-	_Ret_z_ const char* getJoystickGUID();
+	_Ret_z_ const char* getJoystickGUID() const;
 
-	/*Get current joystick hat state retrieved by <getJoystickHats> call
+	/*Gets current joystick hat state retrieved by <getJoystickHats> call
 	@param The joystick hat index
 	@return The joystick hat state value*/
-	JoystickHat getJoystickHat(unsigned int index);
+	JoystickHat getJoystickHat(unsigned int index) const;
 
 	/*Scans the hats states, and triggers the appropriate events if any changes occured since the last scan. The first scan is always skipped*/
-	void getJoystickHats();
+	void getJoystickHats()
+	{
+		m_pHats = glfwGetJoystickHats(_jid(), &m_iHats);
+	}
 
 	/*This function returns the name, encoded as UTF-8, of the specified joystick
 	@return The UTF-8 encoded name of the joystick*/
-	_Ret_z_ const char* getJoystickName();
+	_Ret_z_ const char* getJoystickName() const;
 
-	/*Check if valid joystick object, must be called prior to any other calls. Validate the object (<3.3)
+	/*Checks if valid joystick object, must be called prior to any other calls. Validate the object (<3.3)
 	@return True if valid joystick object, false otherwise*/
-	bool isJoystick()
+	bool isJoystick() const
 	{
 		return m_iJid > -1;
 	}
@@ -283,16 +307,17 @@ public:
 	/*(2) Loads the file and updates the internal list with any gamepad mappings it finds
 	@param [in] The path to the file
 	@return True if successful, false otherwise*/
-	static bool loadGamepadMappings(_In_z_ const char* filepath);
+	static bool loadGamepadMappings(_In_z_ const char* file);
 
-	/*(1) Select first available joystick in the system*/
-	void selectJoystick();
+	/*(1) Selects joystick by its index. The index 0u selects first joystick in the system
+	@param [in] The joystick index, default 0u*/
+	void selectJoystick(unsigned int jindex = 0u);
 
-	/*(2) Select joystick by its name
+	/*(2) Selects joystick by its name in the system
 	@param [in] The joystick name*/
 	void selectJoystick(_In_z_ const char* jname);
 
-	/*Select joystick by its GUID
+	/*Selects joystick by its GUID
 	@param [in] The joystick GUID*/
 	void selectJoystickGUID(_In_z_ const char* jname);
 
@@ -318,39 +343,44 @@ inline void setJoystickConnectedCallback(JoystickConnectedCallback callback)
 }
 
 #ifndef _DEBUG
-inline int Joystick::_jid()
+inline int Joystick::_jid() const
 {
 	return m_iJid;
 }
 
-_Ret_maybenull_ inline const char* Joystick::getGamepadName()
+_Ret_maybenull_ inline const char* Joystick::getGamepadName() const
 {
-	return m_pGamepadName;
+	return m_pGamepad;
 }
 
-inline float Joystick::getJoystickAxis(unsigned int index)
+inline float Joystick::getJoystickAxis(unsigned int index) const
 {
 	return m_pAxes[index];
 }
 
-inline bool Joystick::getJoystickButton(unsigned int index)
+inline bool Joystick::getJoystickButton(unsigned int index) const
 {
 	return m_pButtons[index] == GLFW_PRESS;
 }
 
-_Ret_z_ inline const char* Joystick::getJoystickGUID()
+_Ret_z_ inline const char* Joystick::getJoystickGUID() const
 {
 	return m_pGuid;
 }
 
-inline JoystickHat Joystick::getJoystickHat(unsigned int index)
+inline JoystickHat Joystick::getJoystickHat(unsigned int index) const
 {
 	return (JoystickHat)m_pHats[index];
 }
 
-_Ret_z_ inline const char* Joystick::getJoystickName()
+_Ret_z_ inline const char* Joystick::getJoystickName() const
 {
 	return m_pName;
+}
+
+inline void Joystick::selectJoystick(unsigned int jindex)
+{
+	_select(s_Data.m_pJoysticks[jindex]);
 }
 #endif // #ifndef _DEBUG
 } // namespace glfw

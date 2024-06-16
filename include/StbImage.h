@@ -1,7 +1,7 @@
 #pragma once
 #include "yaglpp.h"
 /*YAGL++ stb_image I/O callback structure*/
-typedef struct
+struct StbCallbacks
 {
 	/*Fills 'data' with 'size' bytes. Returns number of bytes actually read*/
 	int (*read)(void* user, char* data, int size);
@@ -11,7 +11,7 @@ typedef struct
 
 	/*Returns nonzero if at end of file/data*/
 	int (*eof)(void* user);
-} StbCallbacks;
+};
 
 /*YAGL++ stb_image pixel format enumerator*/
 enum class StbFormat : int
@@ -81,55 +81,49 @@ enum class StbFormat : int
 class StbImage
 {
 private:
-	int m_iByte;      // Bytes p/channel
-	int m_iComp;      // Channels p/pixel
-	int m_iWidth;     // Image width
-	int m_iHeight;    // Image height
-	void* m_lpPixels; // Pixel data
+	int m_iByte = 0;			// Bytes p/channel
+	int m_iComp = 0;			// Channels p/pixel
+	int m_iWidth = 0;			// Image width
+	int m_iHeight = 0;			// Image height
+	void* m_lpPixels = nullptr;	// Pixel data
 
 public:
 	/*(1) Constructs an empty StbImage object*/
-	StbImage();
+	StbImage() {}
 
 	/*(2) Constructs a copy StbImage object with <copy>*/
 	StbImage(const StbImage& source)
 	{
-		m_lpPixels = nullptr;
 		copy(source);
 	}
 
 	/*(3) Constructs a copy StbImage object with <copySprite>*/
 	StbImage(const StbImage& source, int width, int height, int index)
 	{
-		m_lpPixels = nullptr;
 		copySprite(source, width, height, index);
 	}
 
 	/*(4) Constructs a copy StbImage object with <copyRegion>*/
 	StbImage(const StbImage& source, int rleft, int rtop, int rwidth, int rheight)
 	{
-		m_lpPixels = nullptr;
 		copyRegion(source, rleft, rtop, rwidth, rheight);
 	}
 
 	/*(5) Constructs StbImage object with <load>*/
 	StbImage(int rcid, StbFormat format = StbFormat::Default)
 	{
-		m_lpPixels = nullptr;
 		load(rcid, format);
 	}
 
 	/*(6) Constructs StbImage object with <load>*/
 	StbImage(_In_z_ const char* file, StbFormat format = StbFormat::Default)
 	{
-		m_lpPixels = nullptr;
 		load(file, format);
 	}
 
 	/*(7) Constructs StbImage object with <load>*/
 	StbImage(_In_ StbCallbacks const* clbk, _In_ void* user, StbFormat format = StbFormat::Default)
 	{
-		m_lpPixels = nullptr;
 		load(clbk, user, format);
 	}
 
