@@ -143,7 +143,7 @@ void _pixelStore(GLenum pname, GLint param)
 
 void activeTexture(TextureUnit index)
 {
-    glActiveTexture((GLenum)index + GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE0 + (GLenum)index);
     YAGLPP_GLAD_ERROR;
 }
 

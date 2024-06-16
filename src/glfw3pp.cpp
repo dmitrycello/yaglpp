@@ -15,6 +15,7 @@ namespace glfw {
 int Thread::m_sArgc;
 char** Thread::m_sArgv;
 Thread* Thread::m_sMainThread;
+ThreadSync Thread::m_sThreadSync;
 Window::_SDATA Window::s_Data;
 Monitor::_SDATA Monitor::s_Data;
 Joystick::_SDATA Joystick::s_Data;

@@ -44,7 +44,7 @@ GLenum _Texture::_siType(StbImage& image)
 #ifdef _DEBUG
 void _Texture::_activeTexture(GLuint* tls, GLenum target, TextureUnit index)
 {
-	glActiveTexture((GLenum)index + GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0 + (GLenum)index);
 	YAGLPP_GLAD_ERROR;
 	_texture_rebind(tls, target);
 }

@@ -96,7 +96,7 @@ void Program::validateProgram()
 #if defined _DEBUG && defined GL_VERSION_3_0
 void Program::bindFragDataLocation(ColorNumber colorNumber, _In_z_ const GLchar* name)
 {
-	glBindFragDataLocation(_program_id(), colorNumber, name);
+	glBindFragDataLocation(_program_id(), (GLuint)colorNumber, name);
 	YAGLPP_GLAD_ERROR;
 }
 

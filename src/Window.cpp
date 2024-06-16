@@ -504,7 +504,7 @@ void Window::_errorCallback(int code, const char* description)
 
 GLFWwindow* Window::_window()
 {
-	YAGLPP_ASSERT(m_pWindow != nullptr); // GLFW WINDOW OBJECT IS EMPTY
+	YAGLPP_ASSERT(isWindow()); // GLFW WINDOW OBJECT IS EMPTY
 	return m_pWindow;
 }
 

@@ -5,21 +5,7 @@ namespace glfw {
 Monitor::_SDATA::_SDATA()
 {
 	getMonitors();
-	m_pConnected = nullptr;
 	glfwSetMonitorCallback(&_monitorCallback);
-}
-
-void Monitor::_init()
-{
-	m_fXscale = 0;
-	m_fYscale = 0;
-	m_iWidthMM = 0;
-	m_iHeightMM = 0;
-	m_iVidcount = 0;
-	m_pName = nullptr;
-	m_pMonitor = nullptr;
-	m_pSelected = nullptr;
-	m_pVidmodes = nullptr;
 }
 
 void Monitor::_monitorCallback(GLFWmonitor* monitor, int event)
@@ -56,7 +42,6 @@ void Monitor::_monitorCallback(GLFWmonitor* monitor, int event)
 
 void Monitor::_select(GLFWmonitor* monitor)
 {
-	YAGLPP_ASSERT(m_pMonitor == nullptr); // GLFW MONITOR OBJECT MUST BE DESELECTED
 	Monitor* pClass = (Monitor*)glfwGetMonitorUserPointer(monitor);
 	if (pClass)
 	{
@@ -68,7 +53,14 @@ void Monitor::_select(GLFWmonitor* monitor)
 	m_pVidmodes = glfwGetVideoModes(monitor, &m_iVidcount);
 	glfwGetMonitorContentScale(monitor, &m_fXscale, &m_fYscale);
 	glfwGetMonitorPhysicalSize(monitor, &m_iWidthMM, &m_iHeightMM);
+	glfwGetMonitorWorkarea(monitor, &m_iXpos, &m_iYpos, &m_iWidth, &m_iHidth);
 	glfwSetMonitorUserPointer(monitor, this);
+}
+
+void Monitor::deselectMonitor()
+{
+	glfwSetMonitorUserPointer(_monitor(), nullptr);
+	memset(this, 0, sizeof(Monitor));
 }
 
 _Ret_notnull_ const GLFWvidmode* Monitor::getVideoMode(unsigned int vindex, _Out_opt_ bool* current)
@@ -87,6 +79,7 @@ _Ret_notnull_ const GLFWvidmode* Monitor::getVideoMode(unsigned int vindex, _Out
 
 void Monitor::selectMonitor(_In_z_ const char* name)
 {
+	YAGLPP_ASSERT(!isMonitor()); // GLFW MONITOR OBJECT MUST BE DESELECTED
 	for (int i = 0; i < s_Data.m_iMcount; i++)
 	{
 		const char* zName = glfwGetMonitorName(s_Data.m_pMonitors[i]);
@@ -96,24 +89,27 @@ void Monitor::selectMonitor(_In_z_ const char* name)
 			return;
 		}
 	}
-	if (isMonitor()) deselectMonitor();
 }
 
 #ifdef _DEBUG
-GLFWmonitor* Monitor::_monitor()
+GLFWmonitor* Monitor::_monitor() const
 {
-	if (m_pMonitor == nullptr)
-	{
-		selectMonitor();
-		YAGLPP_ASSERT(isMonitor()); // NO MONITORS IN THE SYSTEM WERE FOUND
-	}
+	YAGLPP_ASSERT(isMonitor()); // GLFW MONITOR WAS NOT SELECTED
 	return m_pMonitor;
+}
+
+void Monitor::selectMonitor(unsigned int mindex)
+{
+	YAGLPP_ASSERT(!isMonitor()); // GLFW MONITOR OBJECT MUST BE DESELECTED
+	YAGLPP_ASSERT(mindex < (unsigned int)s_Data.m_iMcount); // MONITOR INDEX IS INVALID
+	_select(s_Data.m_pMonitors[mindex]);
 }
 
 void Monitor::selectMonitor(Window& window)
 {
+	YAGLPP_ASSERT(!isMonitor()); // GLFW MONITOR OBJECT MUST BE DESELECTED
 	GLFWmonitor* pMonitor = glfwGetWindowMonitor(window._window());
-	YAGLPP_ASSERT(pMonitor == nullptr); // GLFW WINDOW OBJECT IS NOT IN FULLSCREEN MODE
+	YAGLPP_ASSERT(pMonitor == nullptr); // GLFW WINDOW IS NOT IN FULLSCREEN MODE
 	_select(pMonitor);
 }
 #endif // #ifdef _DEBUG

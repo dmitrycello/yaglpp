@@ -1,10 +1,9 @@
 #define YAGLPP_BUILD_LIB
 #include <yaglpp/FreeImage.h>
-#ifdef YAGLPP_NO_FREEIMAGE
-#pragma message("FreeImage.cpp: Compiling without FreeImage library support...")
-#else // #ifdef YAGLPP_NO_FREEIMAGE
+#ifndef YAGLPP_NO_FREEIMAGE
 #include <FreeImage.h>
 #pragma comment(lib, "FreeImage.lib")
+#pragma message("FreeImage.cpp: Compiling with FreeImage library support...")
 extern LPBYTE _loadFile(const char*, int*);
 extern LPBYTE _loadResource(int, int*);
 FreeImage::_SDATA FreeImage::s_Data;
@@ -285,4 +284,4 @@ int FreeImage::getPageCount() const
 	return m_lpData->count;
 }
 #endif // #ifdef _DEBUG
-#endif // #ifdef YAGLPP_NO_FREEIMAGE
+#endif // #ifndef YAGLPP_NO_FREEIMAGE

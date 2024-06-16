@@ -112,15 +112,6 @@ STBIDEF float* stbi_loadf_gif_from_memory(stbi_uc const* buffer, int len, int** 
 	return stbi__ldr_to_hdr(result, *x, *y, *comp);
 }
 
-StbImage::StbImage()
-{
-	m_iByte = 0;
-	m_iComp = 0;
-	m_iWidth = 0;
-	m_iHeight = 0;
-	m_lpPixels = nullptr;
-}
-
 void StbImage::convertIphonePngToRgb(bool convert)
 {
 	stbi_convert_iphone_png_to_rgb((int)convert);
