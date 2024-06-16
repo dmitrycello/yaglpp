@@ -203,15 +203,12 @@ enum class ActiveUniformType : GLenum
 class Uniform
 {
 private:
-	GLint m_iLocation; // Uniform index
+	GLint m_iLocation = -1; // Uniform index
 	GLuint _location();
 
 public:
 	/*(1) Constructs unassigned uniform object*/
-	Uniform()
-	{
-		m_iLocation = -1;
-	}
+	Uniform() {}
 
 	/*(2) Constructs uniform object with <setUniformLocation>*/
 	Uniform(GLuint location)
@@ -367,6 +364,13 @@ public:
 	@param Specifies whether to transpose the matrix as the values are loaded into the uniform variable
 	@param [in] Pointer to an array of specified number of 4x4 matrix values that will be used to update the uniform*/
 	void uniformMatrix4(GLsizei count, GLboolean transpose, _In_reads_(count * 16) const GLfloat* value);
+
+	/*Specifies the TextureUnit value of a sampler uniform variable for the current program object. This is an alias of <uniform(GLint)> function
+	@param Specifies the new TextureUnit value to be used for the sampler uniform variable*/
+	void uniformTextureUnit(TextureUnit unit)
+	{
+		uniform((GLint)unit);
+	}
 
 #ifdef GL_VERSION_2_1
 	/*(2.1) (1) Specifies 2x3 matrix or array of matrices of a uniform variable for the current program object

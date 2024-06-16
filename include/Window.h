@@ -1007,7 +1007,10 @@ public:
 	void setWindowIcon(_In_z_ const char* filepath);
 #endif // #ifndef YAGLPP_NO_FREEIMAGE
 
-	/*This function sets the monitor that the window uses for full screen mode. It also sets selected video mode parameters via window hints
+	/*(1) This function sets the primary monitor that the window uses for full screen mode*/
+	void setWindowMonitor();
+
+	/*(2) This function sets the monitor that the window uses for full screen mode. It also sets selected video mode parameters via window hints
 	@param Monitor object with selected monitor and video mode*/
 	void setWindowMonitor(Monitor& monitor);
 
@@ -1133,6 +1136,11 @@ namespace glfw {
 inline void Window::setCursor(Cursor& cursor)
 {
 	glfwSetCursor(_window(), cursor._cursor());
+}
+
+inline void Window::setWindowMonitor()
+{
+	glfw::Monitor m(true); setWindowMonitor(m);
 }
 
 #ifndef _DEBUG

@@ -1,7 +1,6 @@
 #pragma once
 #include "glfw3pp.h"
 namespace glfw {
-class Thread;
 /*GLFW thread priority enumerator*/
 enum class ThreadPriority : int
 {
@@ -47,39 +46,38 @@ struct ThreadMessage
 
     /*The sender thread object*/
     Thread* sender;
+
+private:
+    friend Thread;
+    ThreadMessage* _next; // Reference to next message
 };
+
+/*Retreives the pointer to the current thread object
+@return Pointer to current thread object*/
+_Ret_notnull_ Thread* getCurrentThread();
 
 /*Retreives the pointer to the main thread object
 @return Pointer to main thread object*/
 _Ret_notnull_ Thread* getMainThread();
 
-/*GLFW OS Windows based application thread object root class*/
+/*GLFW Windows-based thread object root class*/
 class Thread
 {
 private:
-    typedef struct _PACK {
-        _PACK* next;    // Next package
-        int msgid;      // Message id
-        WPARAM wparam;  // Message data
-        LPARAM lparam;  // Message data
-        Thread* sender; // Sender thread
-    } *_LPPACK;
-
-    bool m_bError; // Error flag
-    DWORD m_dwThreadId; // Thread id
-    DWORD m_dwExitcode; // Exit code
-    HANDLE m_hThread; // Thread handle
-    _LPPACK m_lpLast; // Last-in package
-    _LPPACK m_lpFirst; // First-out package
-    static int m_sArgc; // Cmdline arg number
-    static char** m_sArgv; // Cmdline arg values
-    static Thread* m_sMainThread; // Main thread
-    volatile LONG m_nSpinlock; // Spinlock data
-    void _lockBit(int bit);
-    HANDLE _handle();
-    void _unlockBit(int bit)
+    friend ThreadSync;
+    int m_iThreadId = 0;                // Thread id
+    DWORD m_dwExitcode = 0;             // Exit code
+    HANDLE m_hThread = nullptr;         // Thread handle
+    Thread* m_pNextsync = nullptr;      // Next thread in sync queue
+    ThreadMessage* m_pQueue = nullptr;  // Circular message queue (last)
+    static int m_sArgc;                 // Cmdline arg number
+    static char** m_sArgv;              // Cmdline arg values
+    static Thread* m_sMainThread;       // Main thread
+    static ThreadSync m_sThreadSync;    // Built-in sync object
+    HANDLE _handle() const;
+    static Thread** _tlsThread()
     {
-        _interlockedbittestandreset(&m_nSpinlock, bit);
+        thread_local Thread* tls = 0; return &tls;
     }
 
 protected:
@@ -93,20 +91,31 @@ protected:
     virtual void onRunThread() {}
 
 public:
+    /*(1) Constructs the Windows thread object*/
     Thread();
 
-    /*Creates a thread for a specified Thread object to execute within the virtual address space of the calling process. Sets the last error flag
+    /*(2) Constructs the Windows thread object with <createThread>*/
+    Thread(bool suspended)
+    {
+        createThread(suspended);
+    }
+
+    /*Creates a thread for a specified Thread object to execute within the virtual address space of the calling process
     @param True to start the thread in suspended state, default false*/
     void createThread(bool suspended = false);
 
     /*Dispatches the first inter-thread message in the message queue of the calling thread. If the message is present, copies the message data into <ThreadMessage> structure and then removes it from the message queue
     @param [out] Points to the thread message structure receiving the message data
     @return True if the message is dispatched, false otherwise*/
-    bool dispatchMessage(_Out_ ThreadMessage* message);
+    static bool dispatchMessage(_Out_ ThreadMessage* message);
 
-    /*Enters thread object's data synchronization spinlock
+    /*Enters thread's built-in synchronization spinlock
     @param The spinlock bit number, must be from 0 to 29*/
-    void enterLock(int bit);
+    static void enterLock(int bit);
+
+    /*Enters thread's built-in synchronization queue. Suspends the current thread if the queue is not empty
+    @param The spinlock bit number, must be from 0 to 29*/
+    static void enterQueue(int bit);
 
     /*Unconditionally ends the current thread of the thread object. Must be called by the current thread
     @param The exit code for the thread*/
@@ -124,16 +133,20 @@ public:
     @return The null-terminating string of specified command line argument*/
     static _Ret_notnull_ const char* getArgValue(int index);
 
+    /*Retreives the pointer to the current thread object
+    @return Pointer to current thread object*/
+    static _Ret_notnull_ Thread* getCurrentThread();
+
     /*Retreives the current exit code of the thread object
     @return The current thread object exit code*/
-    DWORD getExitCode()
+    DWORD getExitCode() const
     {
         return m_dwExitcode;
     }
 
-    /*Retrieves the termination status of the specified thread. Sets the last error flag
+    /*Retrieves the termination status of the specified thread
     @return The thread termination status*/
-    int getExitCodeThread();
+    int getExitCodeThread() const;
 
     /*Retreives the pointer to the main thread object
     @return Pointer to main thread object*/
@@ -141,56 +154,64 @@ public:
 
     /*Retrieves the id of currently running thread
     @return Running thread's id*/
-    int getThreadId();
+    int getThreadId() const;
 
-    /*Retrieves the priority value for the specified thread. Sets the last error flag
+    /*Retrieves the priority value for the specified thread
     @return Thread's priority level*/
-    ThreadPriority getThreadPriority();
+    ThreadPriority getThreadPriority() const;
 
-    /*Retrieves the priority boost control state of the specified thread. Sets the last error flag
+    /*Retrieves the priority boost control state of the specified thread
     @return True if dynamic boosting is disabled, false otherwise*/
-    bool getThreadPriorityBoost();
+    bool getThreadPriorityBoost() const;
 
     /*Checks if the thread object is currently calling thread
     @return True if current thread, false otherwise*/
-    bool isCurrentThread()
+    bool isCurrentThread() const;
+
+    /*(1) Checks if the thread object is in the syncronization queue
+    @return True if thread object is in the queue, false otherwise*/
+    bool isQueued() const
     {
-        return getThreadId() == m_dwThreadId;
+        return m_pNextsync != nullptr;
     }
 
-    /*Checks if last thread specific operation failed
-    @return True if last operation has failed, false otherwise*/
-    bool isLastError()
-    {
-        return m_bError;
-    }
+    /*(2) Checks if thread's built-in sync object bit is in the syncronization queue
+    @return True if sync object bit is in the queue, false otherwise*/
+    static bool isQueued(int bit);
 
-    /*Checks if the thread did not exit. Sets the last error flag
+    /*Checks if the thread did not exit
     @return True if thread is still alive, false otherwise*/
-    bool isStillAlive()
+    bool isStillAlive() const
     {
         return getExitCodeThread() == STILL_ACTIVE;
     }
 
+    /*Checks if thread object is currently suspended
+    @return True if thread object is suspended, false otherwise*/
+    bool isSuspended() const;
+
     /*Checks if valid thread object
     @return True if valid thread object, false otherwise*/
-    bool isThread()
+    bool isThread() const
     {
         return m_hThread != NULL;
     }
 
-    /*Releases thread object's data synchronization spinlock
+    /*Releases thread's built-in synchronization spinlock
     @param The spinlock bit number, must be from 0 to 29*/
-    void leaveLock(int bit);
+    static void leaveLock(int bit);
+
+    /*Leaves thread's built-in synchronization queue. Resumes the next thread if the queue is not empty
+    @param The spinlock bit number, must be from 0 to 29*/
+    static void leaveQueue(int bit);
 
     /*Adds the message to specified thread object's message queue. The method should not be called from the current thread
     @param Message id number
     @param Additional message-specific information
-    @param Additional message-specific information
-    @param The sender thread object, default NULL*/
-    void postMessage(int msgid, WPARAM wparam, LPARAM lparam, _In_opt_ Thread* sender = nullptr);
+    @param Additional message-specific information*/
+    void postMessage(int msgid, WPARAM wparam, LPARAM lparam);
 
-    /*Decrements a thread's suspend count. When the suspend count is decremented to zero, the execution of the thread is resumed. Sets the last error flag
+    /*Decrements a thread's suspend count. When the suspend count is decremented to zero, the execution of the thread is resumed
     @return The thread's previous suspend count*/
     int resumeThread();
 
@@ -198,34 +219,42 @@ public:
     @param Current object exit code value*/
     void setExitCode(int exitcode);
 
-    /*Sets a preferred processor for a thread, the system schedules threads on their preferred processors whenever possible. Sets the last error flag
+    /*Sets a preferred processor for a thread, the system schedules threads on their preferred processors whenever possible
     @param The number of the preferred processor for the thread
     @return The previous preferred processor*/
-    int setThreadIdealProcessor(int processor);
+    int setThreadIdealProcessor(int processor) const;
 
-    /*Sets the priority value for the specified thread. Sets the last error flag
+    /*Sets the priority value for the specified thread
     @param The priority value for the thread*/
-    void setThreadPriority(ThreadPriority priority);
+    void setThreadPriority(ThreadPriority priority) const;
 
-    /*Disables or enables the ability of the system to temporarily boost the priority of a thread. Sets the last error flag
+    /*Disables or enables the ability of the system to temporarily boost the priority of a thread
     @param True to disable dynamic boosting*/
-    void setThreadPriorityBoost(bool disable);
+    void setThreadPriorityBoost(bool disable) const;
 
-    /*Suspends the specified thread. Sets the last error flag
+    /*Suspends the specified thread
     @return The thread's previous suspend count*/
     int suspendThread();
 
-    /*Terminates a thread with specified exit code. Does not provide apprppriate cleanup. Sets the last error flag
+    /*Terminates a thread with specified exit code. Does not provide apprppriate cleanup
     @param The exit code for the thread*/
-    void terminateThread(int exitcode);
+    void terminateThread(int exitcode) const;
 
-    /*Try enter the thread object's data synchronization spinlock. If succeeded, the thread takes the ownership
+    /*Tries entering thread's built-in synchronization spinlock. If succeeded, the thread takes the ownership
     @param The spinlock bit number, must be from 0 to 29
     @return True if the spinlock bit was unlocked, false otherwise*/
-    bool tryLock(int bit);
+    static bool tryLock(int bit);
 
-    /*Waits until the specified object is in the signaled state. Sets the last error flag*/
-    void waitForSingleObject();
+    /*Tries entering thread's built-in synchronization queue. Returns immediatelly, if the queue is not empty, the thread takes the ownership
+    @param The spinlock bit number, must be from 0 to 29
+    @return True if current thread has entered synchronization queue, false otherwise*/
+    static bool tryQueue(int bit);
+
+    /*Waits until the specified object is in the signaled state*/
+    void waitForSingleObject() const;
+
+    /*Resumes the execution of the thread regardless of the thread suspension count*/
+    void wakeThread();
 
 #ifdef YAGLPP_BUILD_LIB
     static DWORD _thread(LPVOID param);
@@ -237,13 +266,47 @@ public:
 #endif // #ifdef YAGLPP_BUILD_LIB
 }; // class Thread
 
-inline _Ret_notnull_ Thread* getMainThread()
+/*GLFW thread synchronization object root class*/
+class ThreadSync
 {
-    return Thread::getMainThread();
-}
+private:
+    volatile LONG m_nSpinlock = 0;  // Spinlock data
+    Thread* m_pLastsync[32] = { nullptr };  // Last thread
+
+public:
+    /*Enters thread synchronization spinlock
+    @param The spinlock bit number, must be from 0 to 31*/
+    void enterLock(int bit);
+
+    /*Enters thread synchronization queue. Suspends the current thread if the queue is not empty
+    @param The spinlock bit number, must be from 0 to 31*/
+    void enterQueue(int bit);
+
+    /*Checks if thread sync object bit is in the syncronization queue
+    @return True if sync object bit is in the queue, false otherwise*/
+    bool isQueued(int bit) const;
+
+    /*Releases thread synchronization spinlock
+    @param The spinlock bit number, must be from 0 to 31*/
+    void leaveLock(int bit);
+
+    /*Leaves thread synchronization queue. Resumes the next thread if the queue is not empty
+    @param The spinlock bit number, must be from 0 to 31*/
+    void leaveQueue(int bit);
+
+    /*Tries entering thread synchronization spinlock. If succeeded, the thread takes the ownership
+    @param The spinlock bit number, must be from 0 to 31
+    @return True if the spinlock bit was unlocked, false otherwise*/
+    bool tryLock(int bit);
+
+    /*Tries entering thread synchronization queue. Returns immediatelly, if the queue is not empty, the thread takes the ownership
+    @param The spinlock bit number, must be from 0 to 31
+    @return True if current thread has entered synchronization queue, false otherwise*/
+    bool tryQueue(int bit);
+};
 
 /*GLFW windowed application thread object class derived from <Thread>*/
-class ThreadWnd : public Thread
+class WindowThread : public Thread
 {
 protected:
     Window* m_pWindow; // Thread's window
@@ -265,32 +328,47 @@ protected:
     virtual void onRunThread();
 
 public:
-    ThreadWnd()
+    WindowThread()
     {
         m_pWindow = nullptr;
     }
 
     /*Check if the thread's window is associated with current context
     @return True if current context exist, false otherwise*/
-    bool isContextWindow()
+    bool isContextWindow() const
     {
         return m_pWindow != nullptr;
     }
 
     /*Gets the current context's window object associated with specified thread
     @return The current context's window object*/
-    _Ret_notnull_ Window* getContextWindow();
+    _Ret_notnull_ Window* getContextWindow() const;
 }; // class WindowThread : public Thread
 
+inline _Ret_notnull_ Thread* getCurrentThread()
+{
+    return Thread::getCurrentThread();
+}
+
+inline _Ret_notnull_ Thread* getMainThread()
+{
+    return Thread::getMainThread();
+}
+
 #ifndef _DEBUG
-inline HANDLE Thread::_handle()
+inline HANDLE Thread::_handle() const
 {
     return m_hThread;
 }
 
 inline void Thread::enterLock(int bit)
 {
-    _lockBit(bit);
+    m_sThreadSync.enterLock(bit);
+}
+
+inline void Thread::enterQueue(int bit)
+{
+    m_sThreadSync.enterQueue(bit);
 }
 
 inline void Thread::exitThread(int exitcode)
@@ -303,27 +381,115 @@ inline _Ret_notnull_ const char* Thread::getArgValue(int index)
     return m_sArgv[index];
 }
 
+inline _Ret_notnull_ Thread* Thread::getCurrentThread()
+{
+    return *_tlsThread();
+}
+
+inline int Thread::getExitCodeThread() const
+{
+    DWORD dwExitCode; GetExitCodeThread(_handle(), &dwExitCode); return dwExitCode;
+}
+
 inline _Ret_notnull_ Thread* Thread::getMainThread()
 {
     return Thread::m_sMainThread;
 }
 
-inline int Thread::getThreadId()
+inline int Thread::getThreadId() const
 {
-    return m_dwThreadId;
+    return (m_iThreadId < 0) ? -(m_iThreadId) : m_iThreadId;
+}
+
+inline ThreadPriority Thread::getThreadPriority() const
+{
+    return (ThreadPriority)GetThreadPriority(_handle());
+}
+
+inline bool Thread::getThreadPriorityBoost() const
+{
+    BOOL bDisable; GetThreadPriorityBoost(_handle(), &bDisable); return bDisable;
+}
+
+inline bool Thread::isCurrentThread() const
+{
+    return *_tlsThread() == this;
+}
+
+inline bool Thread::isQueued(int bit)
+{
+    m_sThreadSync.isQueued(bit);
+}
+
+inline bool Thread::isSuspended() const
+{
+    return m_iThreadId < 0;
 }
 
 inline void Thread::leaveLock(int bit)
 {
-    _unlockBit(bit);
+    m_sThreadSync.leaveLock(bit);
+}
+
+inline void Thread::leaveQueue(int bit)
+{
+    m_sThreadSync.leaveQueue(bit);
+}
+
+inline int Thread::setThreadIdealProcessor(int processor) const
+{
+    return SetThreadIdealProcessor(_handle(), processor);
+}
+
+inline void Thread::setThreadPriority(ThreadPriority priority) const
+{
+    SetThreadPriority(_handle(), (int)priority);
+}
+
+inline void Thread::setThreadPriorityBoost(bool disable) const
+{
+    SetThreadPriorityBoost(_handle(), disable);
+}
+
+inline void Thread::terminateThread(int exitcode) const
+{
+#pragma warning(push)
+#pragma warning(disable : 6258)
+    TerminateThread(_handle(), exitcode);
+#pragma warning(pop)
 }
 
 inline bool Thread::tryLock(int bit)
 {
+    return m_sThreadSync.tryLock(bit);
+}
+
+inline bool Thread::tryQueue(int bit)
+{
+    return m_sThreadSync.tryQueue(bit);
+}
+
+inline void Thread::waitForSingleObject() const
+{
+    WaitForSingleObject(_handle(), INFINITE);
+}
+
+inline bool ThreadSync::isQueued(int bit) const
+{
+    return m_pLastsync[bit] != nullptr;
+}
+
+inline void ThreadSync::leaveLock(int bit)
+{
+    _interlockedbittestandreset(&m_nSpinlock, bit);
+}
+
+inline bool ThreadSync::tryLock(int bit)
+{
     return !_interlockedbittestandset(&m_nSpinlock, bit);
 }
 
-inline _Ret_notnull_ Window* ThreadWnd::getContextWindow()
+inline _Ret_notnull_ Window* WindowThread::getContextWindow() const
 {
     return m_pWindow;
 }

@@ -8,7 +8,7 @@ class Texture2DMultisample : public _Texture
 {
 public:
 	/*(3.2) (1) Constructs an empty texture object*/
-	Texture2DMultisample() : _Texture() {}
+	Texture2DMultisample() {}
 
 	/*(3.2) (2) Constucts a texture object with <shareTexture>*/
 	Texture2DMultisample(Texture2DMultisample& texture)
@@ -370,9 +370,9 @@ public:
 
 	/*(3.2) Sets the texture magnification function value
 	@param Specifies the texture magnification function's value. The initial value is linear*/
-	void setTextureMagFilter(TextureMagFilter func)
+	void setTextureMagFilter(TextureMagFilter filter)
 	{
-		_texParameter(_tlsTexture2DMultisample(), GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MAG_FILTER, (GLint)func);
+		_texParameter(_tlsTexture2DMultisample(), GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MAG_FILTER, (GLint)filter);
 	}
 
 	/*(3.2) The texture minifying function is used whenever the level-of-detail function used when sampling from the texture determines that the texture should be minified

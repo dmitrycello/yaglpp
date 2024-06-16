@@ -17,17 +17,14 @@ private:
 		GLuint data[0];	// Zero data array
 #pragma warning(pop)
 	} _DATA, *_LPDATA;
-	_LPDATA m_lpData;	// Class data
+	_LPDATA m_lpData = nullptr;	// Class data
 	_LPDATA _data();
 	GLint _getActiveUniformBlock(GLenum pname);
 	void _getActiveUniforms(GLenum pname, GLint* params);
 
 public:
 	/*(3.1) (1) Constructs an empty uniform block object*/
-	UniformBlock()
-	{
-		m_lpData = nullptr;
-	}
+	UniformBlock() {}
 
 	/*(3.1) (2) Constructs uniform block object with <setUniformBlockIndex>*/
 	UniformBlock(Program& program, GLuint index)

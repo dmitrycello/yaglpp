@@ -8,7 +8,7 @@ class TextureRectangle : public _Texture
 {
 public:
 	/*(3.1) (1) Constructs an empty texture object*/
-	TextureRectangle() : _Texture() {}
+	TextureRectangle() {}
 
 	/*(3.1) (2) Constucts a texture object with <shareTexture>*/
 	TextureRectangle(TextureRectangle& texture)
@@ -373,9 +373,9 @@ public:
 
 	/*(3.1) Sets the texture magnification function value
 	@param Specifies the texture magnification function's value. The initial value is linear*/
-	void setTextureMagFilter(TextureMagFilter func)
+	void setTextureMagFilter(TextureMagFilter filter)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, (GLint)func);
+		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, (GLint)filter);
 	}
 
 	/*(3.1) The texture minifying function is used whenever the level-of-detail function used when sampling from the texture determines that the texture should be minified

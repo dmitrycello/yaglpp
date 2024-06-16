@@ -7,7 +7,7 @@ class VertexShader : public _Shader
 {
 public:
 	/*(1) Construct an empty shader object*/
-	VertexShader() : _Shader() {}
+	VertexShader() {}
 
 	/*(2) Constucts a shader object with <shareShader>*/
 	VertexShader(VertexShader& shader)

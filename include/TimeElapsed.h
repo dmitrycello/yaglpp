@@ -8,7 +8,7 @@ class TimeElapsed : public _Query
 {
 public:
 	/*(3.3) (1) Constructs an empty query object*/
-	TimeElapsed() : _Query() {}
+	TimeElapsed() {}
 
 	/*(3.3) (2) Constucts a query object with <assignQuery>*/
 	TimeElapsed(Queries& queries, GLuint index)

@@ -6,7 +6,7 @@ class Textures : public _Objects
 {
 public:
 	/*(1) Constructs an empty texture multi-object*/
-	Textures() : _Objects() {}
+	Textures() {}
 
 	/*(2) Constucts a texture multi-object with <genTextures>*/
 	Textures(GLsizei n)

@@ -8,7 +8,7 @@ class TextureBuffer : public _Buffer
 {
 public:
 	/*(3.1) (1) Constructs an empty buffer object*/
-	TextureBuffer() : _Buffer() {}
+	TextureBuffer() {}
 
 	/*(3.1) (2) Constucts a buffer object with <shareBuffer>*/
 	TextureBuffer(TextureBuffer& buffer)

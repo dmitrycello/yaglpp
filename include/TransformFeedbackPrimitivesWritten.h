@@ -8,7 +8,7 @@ class TransformFeedbackPrimitivesWritten : public _Query
 {
 public:
 	/*(3.0) (1) Constructs an empty query object*/
-	TransformFeedbackPrimitivesWritten() : _Query() {}
+	TransformFeedbackPrimitivesWritten() {}
 
 	/*(3.0) (2) Constucts a query object with <assignQuery>*/
 	TransformFeedbackPrimitivesWritten(Queries& queries, GLuint index)

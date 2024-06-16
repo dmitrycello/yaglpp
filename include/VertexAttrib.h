@@ -88,7 +88,7 @@ enum class VertexAttribSize : GLsizei
 	Triple = 3,
 	
 	/*Four-component attribute value, this is initial value*/
-	Quad = 4,
+	Quadruple = 4,
 	
 	/*Additionally accepted reversed four-component attribute value*/
 	Bgra = GL_BGRA,
@@ -152,7 +152,7 @@ enum class VertexAttribISize : GLsizei
 	Triple = 3,
 
 	/*(3.0) Four-component attribute value*/
-	Quad = 4,
+	Quadruple = 4,
 };
 
 /*(3.0) GLAD vertex attribute integer data type enumerator*/
@@ -197,16 +197,13 @@ enum class VertexAttribPType : GLenum
 class VertexAttrib
 {
 private:
-	GLint m_iLocation; // Attribute index
+	GLint m_iLocation = -1; // Attribute index
 	GLint _getVertexAttrib(GLenum ePname);
 	GLuint _location();
 
 public:
 	/*(1) Constructs unassigned vertex attribute object*/
-	VertexAttrib()
-	{
-		m_iLocation = -1;
-	}
+	VertexAttrib() {}
 
 	/*(2) Constructs vertex attribute object with <setAttribLocation>*/
 	VertexAttrib(GLuint location)

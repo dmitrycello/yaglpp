@@ -1,9 +1,9 @@
 /*
 	+---------------------------------------+
-	|   YAGL++: Yet Another GC++ library    |
+	|   YAGL++: Yet Another GL++ library    |
 	+---------------------------------------+
 
-	All information/instructions can be found here:
+	All information can be found here:
 	https://github.com/dmitrycello/yaglpp/blob/main/README.md
 */
 #pragma once
@@ -95,13 +95,13 @@ typedef tvec4<unsigned short> usvec4;
 @return True if file exists, false otherwise*/
 bool fileExists(_In_z_ const char* file);
 
-/*YAGL++ helper function, deallocates the pointer previously allocated by the library
+/*YAGL++ helper function, deallocates the memory block previously allocated by the library
 @param [in] The pointer to freed memory block*/
 void freeMemory(_In_ void* block);
 
 class DataStore;
 class StbImage;
-typedef struct StbCallbacks;
+struct StbCallbacks;
 enum class StbFormat : int;
 
 #ifndef YAGLPP_NO_FREEIMAGE

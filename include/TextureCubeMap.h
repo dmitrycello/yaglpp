@@ -29,7 +29,7 @@ class TextureCubeMap : public _Texture
 {
 public:
 	/*(1) Constructs an empty texture object*/
-	TextureCubeMap() : _Texture() {}
+	TextureCubeMap() {}
 
 	/*(2) Constucts a texture object with <shareTexture>*/
 	TextureCubeMap(TextureCubeMap& texture)
@@ -533,9 +533,9 @@ public:
 
 	/*Sets the texture magnification function value
 	@param Specifies the texture magnification function's value. The initial value is linear*/
-	void setTextureMagFilter(TextureMagFilter func)
+	void setTextureMagFilter(TextureMagFilter filter)
 	{
-		_texParameter(_tlsTextureCubeMap(), GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, (GLint)func);
+		_texParameter(_tlsTextureCubeMap(), GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, (GLint)filter);
 	}
 
 	/*Sets the index of the highest defined mipmap level

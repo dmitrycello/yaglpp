@@ -7,7 +7,7 @@ class VertexArrays : public _Objects
 {
 public:
 	/*(3.0) (1) Constructs an empty vertex array multi-object*/
-	VertexArrays() : _Objects() {}
+	VertexArrays() {}
 
 	/*(3.0) (2) Constucts a vertex array multi-object with <genVertexArrays>*/
 	VertexArrays(GLsizei n)

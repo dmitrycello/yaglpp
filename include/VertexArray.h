@@ -14,7 +14,7 @@ protected:
 
 public:
 	/*(3.0) (1) Constructs an empty vertex array object*/
-	VertexArray() : _Object() {}
+	VertexArray() {}
 
 	/*(3.0) (2) Constucts a vertex array object with <assignVertexArray>*/
 	VertexArray(VertexArrays& arrays, GLuint index)

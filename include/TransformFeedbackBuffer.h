@@ -8,7 +8,7 @@ class TransformFeedbackBuffer : public _Buffer
 {
 public:
 	/*(3.0) (1) Constructs an empty buffer object*/
-	TransformFeedbackBuffer() : _Buffer() {}
+	TransformFeedbackBuffer() {}
 
 	/*(3.0) (2) Constucts a buffer object with <shareBuffer>*/
 	TransformFeedbackBuffer(TransformFeedbackBuffer& buffer)
