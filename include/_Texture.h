@@ -766,8 +766,6 @@ class _Texture : public _Object
 	friend _Framebuffer;
 #endif // #ifdef GL_VERSION_3_0
 protected:
-	_Texture() : _Object() {}
-
 	GLuint _texture_id()
 	{
 		return _object_id(glGenTextures);

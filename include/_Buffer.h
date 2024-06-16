@@ -127,8 +127,6 @@ class _Buffer : public _Object
 protected:
 	friend class _Texture;
 	friend class VertexAttrib;
-	_Buffer() : _Object() {}
-
 	GLuint _buffer_id()
 	{
 		return _object_id(glGenBuffers);

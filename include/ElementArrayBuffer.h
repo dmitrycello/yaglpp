@@ -7,7 +7,7 @@ class ElementArrayBuffer : public _Buffer
 {
 public:
 	/*(1) Constructs an empty buffer object*/
-	ElementArrayBuffer() : _Buffer() {}
+	ElementArrayBuffer() {}
 
 	/*(2) Constucts a buffer object with <shareBuffer>*/
 	ElementArrayBuffer(ElementArrayBuffer& buffer)

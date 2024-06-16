@@ -46,10 +46,10 @@ GLint64 _getInteger64(GLenum target, GLuint index);
 #endif // #ifdef GL_VERSION_3_2
 
 /*GLAD draw buffer unit index ranging from 0 to the value returned by <getMaxDrawBuffers> minus 1*/
-typedef unsigned int DrawBuffer;
+typedef unsigned short DrawBuffer;
 
 /*GLAD active texture unit index ranging from 0 to the value returned by <getMaxCombinedTextureImageUnits> minus 1*/
-typedef unsigned int TextureUnit;
+typedef unsigned short TextureUnit;
 
 class _Buffer;
 class _Object;
@@ -2614,7 +2614,7 @@ inline void _pixelStore(GLenum pname, GLint param)
 
 inline void activeTexture(TextureUnit index)
 {
-	glActiveTexture((GLenum)index + GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0 + (GLenum)index);
 }
 
 inline void blendColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
@@ -2834,13 +2834,13 @@ class PixelUnpackBuffer;
 
 #ifdef GL_VERSION_3_0
 /*(3.0) GLAD clip geometry unit index ranging from 0 to the value returned by <getMaxClipDistances> minus 1*/
-typedef unsigned int ClipDistance;
+typedef unsigned short ClipDistance;
 
 /*(3.0) GLAD color attachment unit index ranging from 0 to the value returned by <getMaxColorAttachments> minus 1*/
-typedef unsigned int ColorAttachment;
+typedef unsigned short ColorAttachment;
 
 /*(3.0) GLAD color number index ranging from 0 to the value returned by <getMaxDrawBuffers> minus 1*/
-typedef unsigned int ColorNumber;
+typedef unsigned short ColorNumber;
 
 class _Framebuffer;
 class DrawFramebuffer;
@@ -2907,7 +2907,7 @@ enum class TransformFeedbackPrimitiveMode : GLenum
 @return Color attachment unit value within <DrawBuffer> enumerator*/
 constexpr DrawBufferUnit drawBufferAttachment(ColorAttachment index)
 {
-	return (DrawBufferUnit)(GL_COLOR_ATTACHMENT0 + index);
+	return (DrawBufferUnit)(GL_COLOR_ATTACHMENT0 + (GLenum)index);
 }
 
 /*(3.0) Constant expression converting index value to color attachment unit within <DrawBuffers> enumerator
@@ -2915,7 +2915,7 @@ constexpr DrawBufferUnit drawBufferAttachment(ColorAttachment index)
 @return Color attachment unit value within <DrawBuffers> enumerator*/
 constexpr DrawBuffersUnit drawBuffersAttachment(ColorAttachment index)
 {
-	return (DrawBuffersUnit)(GL_COLOR_ATTACHMENT0 + index);
+	return (DrawBuffersUnit)(GL_COLOR_ATTACHMENT0 + (GLenum)index);
 }
 
 /*(3.0) Constant expression checking if the returned color number index is valid
@@ -2931,7 +2931,7 @@ constexpr GLboolean isColorNumber(ColorNumber index)
 @return Color attachment unit value within <ReadBuffer> enumerator*/
 constexpr ReadBufferUnit readBufferAttachment(ColorAttachment index)
 {
-	return (ReadBufferUnit)(GL_COLOR_ATTACHMENT0 + index);
+	return (ReadBufferUnit)(GL_COLOR_ATTACHMENT0 + (GLenum)index);
 }
 
 /*(3.0) Start transform feedback operation, must be paired with called before <endTransformFeedback>
@@ -2982,7 +2982,7 @@ void colorMask(DrawBuffer index, GLboolean red, GLboolean green, GLboolean blue,
 @param The index of clip geometry unit*/
 inline void disableClipDistance(ClipDistance index)
 {
-	_disable(index + GL_CLIP_DISTANCE0);
+	_disable(GL_CLIP_DISTANCE0 + (GLenum)index);
 }
 
 /*(3.0) Disable enabled framebuffer SRGB server-side GL capability, initially disabled. If enabled and the value of <FramebufferAttachmentColorEncoding> for the framebuffer attachment corresponding to the destination buffer is <Srgb>, the R, G, and B destination color values (after conversion from fixed-point to floating-point) are considered to be encoded for the sRGB color space and hence are linearized prior to their use in blending*/
@@ -3001,7 +3001,7 @@ inline void disableRasterizerDiscard()
 @param The index of clip geometry unit*/
 inline void enableClipDistance(ClipDistance index)
 {
-	_enable(index + GL_CLIP_DISTANCE0);
+	_enable(GL_CLIP_DISTANCE0 + (GLenum)index);
 }
 
 /*(3.0) Enable framebuffer SRGB server-side GL capability, initially disabled. If enabled and the value of <FramebufferAttachmentColorEncoding> for the framebuffer attachment corresponding to the destination buffer is <Srgb>, the R, G, and B destination color values (after conversion from fixed-point to floating-point) are considered to be encoded for the sRGB color space and hence are linearized prior to their use in blending*/
@@ -3136,7 +3136,7 @@ inline GLintptr getTransformFeedbackBufferStart()
 @return True if the clip geometry unit is enabled*/
 inline GLboolean isClipDistance(ClipDistance index)
 {
-	return _isEnabled(index + GL_CLIP_DISTANCE0);
+	return _isEnabled(GL_CLIP_DISTANCE0 + (GLenum)index);
 }
 
 /*(3.0) Checks if context flag forward compatible bit was set at the context creation

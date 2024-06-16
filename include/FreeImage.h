@@ -39,7 +39,7 @@ private:
 		LPVOID data[0];	// Zero data array
 #pragma warning(pop)
 	} _DATA, *_LPDATA;
-	_LPDATA m_lpData;	// Class data
+	_LPDATA m_lpData = nullptr;	// Class data
 
 	LPVOID _bitmap(unsigned int page) const;
 	int _loadCursor(LPBYTE data, int size, LPPOINT* hotspot);
@@ -48,22 +48,17 @@ private:
 
 public:
 	/*(1) Construct an empty free image object*/
-	FreeImage()
-	{
-		m_lpData = nullptr;
-	}
+	FreeImage() {}
 
 	/*(2) Construct free image object with <loadImage>*/
 	FreeImage(int rcid)
 	{
-		m_lpData = nullptr;
 		loadImage(rcid);
 	}
 
 	/*(3) Construct free image object with <loadImage>*/
 	FreeImage(_In_z_ const char* filepath)
 	{
-		m_lpData = nullptr;
 		loadImage(filepath);
 	}
 

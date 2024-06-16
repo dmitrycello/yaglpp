@@ -7,7 +7,7 @@ class Framebuffers : public _Objects
 {
 public:
 	/*(3.0) (1) Constructs an empty framebuffer multi-object*/
-	Framebuffers() : _Objects() {}
+	Framebuffers() {}
 
 	/*(3.0) (2) Constucts a framebuffer multi-object with <genFramebuffers>*/
 	Framebuffers(GLsizei n)

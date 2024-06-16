@@ -24,8 +24,6 @@ enum class QueryConditionalRenderMode : GLenum
 class _Query : public _Object
 {
 protected:
-	_Query() : _Object() {}
-
 	GLuint _query_id()
 	{
 		return _object_id(glGenQueries);

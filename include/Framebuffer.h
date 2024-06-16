@@ -8,7 +8,7 @@ class Framebuffer : public _Framebuffer
 {
 public:
 	/*(3.0) (1) Constructs an empty framebuffer object*/
-	Framebuffer() : _Framebuffer() {}
+	Framebuffer() {}
 
 	/*(3.0) (2) Constucts a framebuffer object with <assignFramebuffer>*/
 	Framebuffer(Framebuffers& framebuffers, GLuint index)

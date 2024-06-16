@@ -8,7 +8,7 @@ class DrawFramebuffer : public _Framebuffer
 {
 public:
 	/*(3.0) (1) Constructs an empty framebuffer object*/
-	DrawFramebuffer() : _Framebuffer() {}
+	DrawFramebuffer() {}
 
 	/*(3.0) (2) Constucts a framebuffer object with <assignFramebuffer>*/
 	DrawFramebuffer(Framebuffers& framebuffers, GLuint index)

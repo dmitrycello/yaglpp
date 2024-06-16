@@ -51,16 +51,13 @@ class Cursor
 {
 private:
 	friend class Window;
-	GLFWcursor* m_pCursor;
+	GLFWcursor* m_pCursor = nullptr;
 	GLFWcursor* _cursor();
 	void _cursor_set(GLFWcursor* cursor);
 
 public:
 	/*(1) Constructs empty cursor object*/
-	Cursor()
-	{
-		m_pCursor = nullptr;
-	}
+	Cursor() {}
 
 	/*(2) Constructs cursor object with <createStandardCursor>*/
 	Cursor(CursorShape shape)
@@ -120,7 +117,7 @@ public:
 
 	/*Check if valid cursor object
 	@return True if valid cursor object, false otherwise*/
-	bool isCursor()
+	bool isCursor() const
 	{
 		return m_pCursor != nullptr;
 	}

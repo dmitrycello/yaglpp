@@ -7,7 +7,7 @@ class FragmentShader : public _Shader
 {
 public:
 	/*(1) Construct an empty shader object*/
-	FragmentShader() : _Shader() {}
+	FragmentShader() {}
 
 	/*(2) Constucts a shader object with <shareShader>*/
 	FragmentShader(FragmentShader& shader)

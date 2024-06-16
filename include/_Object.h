@@ -19,7 +19,7 @@ private:
 		GLuint ids[0];	// Zero data array
 #pragma warning(pop)
 	} _DATA, *_LPDATA;
-	_LPDATA m_lpData;	// Class data
+	_LPDATA m_lpData = nullptr;	// Class data
 
 #ifdef _DEBUG
 	GLuint _objects_assign(GLuint index, GLenum target);
@@ -28,11 +28,6 @@ private:
 #endif // #ifdef _DEBUG
 
 protected:
-	_Objects()
-	{
-		m_lpData = nullptr;
-	}
-
 	void _objects_delete(YAGLPP_GLAD_PFNDELETE pfnDelete);
 	void _objects_gen(YAGLPP_GLAD_PFNGEN pfnGen, GLsizei n);
 	void _objects_insert(YAGLPP_GLAD_PFNGEN pfnGen, GLsizei n, GLint pos);
@@ -79,14 +74,9 @@ namespace gl {
 class _Object
 {
 private:
-	GLint m_iId;
+	GLint m_iId = 0;
 
 protected:
-	_Object()
-	{
-		m_iId = 0;
-	}
-
 	GLuint _object_id()
 	{
 		return (m_iId < 0) ? -(m_iId) : m_iId;

@@ -6,7 +6,7 @@ class Buffers : public _Objects
 {
 public:
 	/*(1) Constructs an empty buffer multi-object*/
-	Buffers() : _Objects() {}
+	Buffers() {}
 
 	/*(2) Constucts a buffer multi-object with <genBuffers>*/
 	Buffers(GLsizei n)

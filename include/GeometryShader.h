@@ -8,7 +8,7 @@ class GeometryShader : public _Shader
 {
 public:
 	/*(3.2) (1) Construct an empty shader object*/
-	GeometryShader() : _Shader() {}
+	GeometryShader() {}
 
 	/*(3.2) (2) Constucts a shader object with <shareShader>*/
 	GeometryShader(GeometryShader& shader)

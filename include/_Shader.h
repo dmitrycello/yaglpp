@@ -21,8 +21,6 @@ enum class ShaderType : GLenum
 class _Shader : public _Object
 {
 protected:
-	_Shader() : _Object() {}
-
 	GLuint _shader_id(GLenum shaderType)
 	{
 		return _object_id(&_glCreateShader, shaderType);

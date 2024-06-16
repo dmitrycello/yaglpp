@@ -4,49 +4,40 @@
 class DataStore
 {
 private:
-	int m_iSize;
-	LPBYTE m_lpData;
+	int m_iSize = 0;
+	LPBYTE m_lpData = nullptr;
 
 public:
 	/*(1) Construct an empty data store object*/
-	DataStore()
-	{
-		m_iSize = 0;
-		m_lpData = nullptr;
-	}
+	DataStore() {}
 
 	/*(2) Construct data store object with <loadData>*/
 	DataStore(int rcid)
 	{
-		m_lpData = nullptr;
 		loadData(rcid);
 	}
 
 	/*(3) Construct data store object with <loadData>*/
 	DataStore(_In_z_ const char* file)
 	{
-		m_lpData = nullptr;
 		loadData(file);
 	}
 
 	/*(4) Construct data store object with <loadData>*/
 	DataStore(const DataStore& source)
 	{
-		m_lpData = nullptr;
 		loadData(source);
 	}
 
 	/*(5) Construct data store object with <loadSubData>*/
 	DataStore(const DataStore& source, int start, int length)
 	{
-		m_lpData = nullptr;
 		loadSubData(source, start, length);
 	}
 
 	/*(6) Construct data store object with <createDataStore>*/
 	DataStore(int size, bool init)
 	{
-		m_lpData = nullptr;
 		createDataStore(size, init);
 	}
 

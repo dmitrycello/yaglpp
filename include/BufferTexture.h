@@ -111,7 +111,7 @@ class BufferTexture : public _Texture
 {
 public:
 	/*(3.1) (1) Constructs an empty texture object*/
-	BufferTexture() : _Texture() {}
+	BufferTexture() {}
 
 	/*(3.1) (2) Constucts a texture object with <shareTexture>*/
 	BufferTexture(BufferTexture& texture)
