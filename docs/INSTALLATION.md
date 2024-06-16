@@ -221,7 +221,7 @@ Then navigate to **`Common/lib/GLFW/src`** folder, and delete its content, excep
 To build _Win32_ library, navigate to **`Common/lib/Win32/GLFW`** folder, and double-click the **`GLFW.sln`** solution file from there. Rebuild GLFW the same way for _Debug Win32_ and _Release Win32_ platform configurations, close the IDE, then clean up the solution, if necessary.
 
 > [!WARNING]
-> Do not use the Visual Studio **`Build -> Clean Solution`** option: that deletes the output library files as well.
+> Do not use the Visual Studio **`Build -> Clean Solution`** option. That deletes the output library files as well.
 
 ### 7. Add the static library project
 Reopen the previously created blanc solution. In the _Solution Explorer_, right-click the solution name bar (1st line). Click **`Add -> New project...`**:
