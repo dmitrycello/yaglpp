@@ -33,7 +33,7 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 > [!TIP]
 > For the quick testing, the steps 2 and 3 of the installation process may be skipped, while using the repository **`Common.7z`** archive. In this case, download it on the [repository page](https://github.com/dmitrycello/glpp/tree/main), and extract into **`Common`** folder within the newly created solution directory. However, it is still recommended to follow all steps, at least for the first time to feel the process. This is also the way the most programmers do, to ensure that each component is up to date.
 
-- [GLAD](https://glad.dav1d.de) archive generated with _Specification_ set to **`OpenGL`**, _Profile_ set to **`Core`**, _API gl_ set to **`Version 3.3`**. Keep _API gles1, gles2, glsc2_ as **`None`**. Do not select any extension! After extracting downloaded archive, rename **`glad.h`** file to **`glad33.h`**;
+- [GLAD](https://glad.dav1d.de) archive generated with _Specification_ set to **`OpenGL`**, _Profile_ set to **`Core`**, _API gl_ set to **`Version 3.3`**. Keep _API gles1, gles2, glsc2_ as **`None`**. Do not select any extension;
 - [GLFW](https://www.glfw.org/download) Source package archive v3.4 or later. Older versions could be found [here](https://github.com/glfw/glfw/releases);
 - [GLM](https://github.com/g-truc/glm) pack v1.0.1 or later;
 - [stb_image](https://github.com/nothings/stb/tree/master) library. It is important to use the file versions tested with the current release. Every newer version of a file may require some additional testings. If there is no such version, try using newer version (it usually works), or get the one preserved in **`Common.7z`** archive of this repository. Currently required files are:
@@ -52,7 +52,7 @@ Extract all downloaded components, and move them into the following subdirectori
 ```
 Common\bin\FreeImage.dll <- FreeImage 64-bit Dll file
 Common\bin\Win32\FreeImage.dll <- FreeImage 32-bit Dll file
-Common\include\glad\glad33.h <- Renamed GLAD header file from GLAD archive
+Common\include\glad\glad.h <- GLAD header file from GLAD archive
 Common\include\GLFW\ <- Copy of (2) header files from GLFW Source package
 Common\include\glm\ <- The entire subfolder from the GLM archive
 Common\include\KHR\khrplatform.h <- KHR header file from GLAD archive
@@ -355,6 +355,6 @@ Rebuild started...
 The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive with the same setting, but the _API gl_ set to **`Version X.X`**, extract its only **`glad.h`** file, rename it to **`gladXX.h`** and move it into **`glad`** directory. The **`XX`** is the number of generated version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control is great for backward compatible coding.
 
 > [!IMPORTANT]
-> It is advised to generate all 6 supported GLAD versions, it's better to do it now to avoid the mess later. This allows to quickly set the OpenGL context version by changing the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches. Just set the desired value, and rebuild the library. But to learn OpenGL, always stick to default version 3.3!
+> It is advised to generate all 6 supported GLAD versions, it's better to do now to avoid the mess later. This allows to quickly set the OpenGL context version by changing the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches. Just set the desired value, and rebuild the library. But to learn OpenGL, always stick to default version 3.3!
 
 [&uarr; TOP](INSTALLATION.md#installation) [USAGE &rarr;](USAGE.md)
