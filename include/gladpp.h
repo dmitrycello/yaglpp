@@ -1,7 +1,7 @@
 #pragma once
 #include "yaglpp.h"
 #if (YAGLPP_CONTEXT_VERSION_MAJOR == 3) && (YAGLPP_CONTEXT_VERSION_MINOR == 3)
-#include <glad/glad.h>
+#include <glad/glad33.h>
 #elif (YAGLPP_CONTEXT_VERSION_MAJOR == 3) && (YAGLPP_CONTEXT_VERSION_MINOR == 2)
 #include <glad/glad32.h>
 #elif (YAGLPP_CONTEXT_VERSION_MAJOR == 3) && (YAGLPP_CONTEXT_VERSION_MINOR == 1)
