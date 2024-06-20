@@ -190,6 +190,6 @@ Make sure to set filters to _All languages_, _All platforms_ and _All project ty
 ![35.png](35.png)
 
 > [!NOTE]
-> Unfortunatelly, the Visual Studio does not allow to add the _tags_ to a custom template. Therefore it does not show up immediately in the _Add a new project_ dialog, ousted by the built-in templates. But after some time, it will appear under _Recent project templates_, and then it could be pinned.
+> Unfortunatelly, the Visual Studio does not allow to add the _tags_ to a custom template. Therefore it does not show up immediately in the _Add a new project_ dialog, ousted by the built-in templates. But after some time, it will appear under _Recent project templates_, wher it could be then pinned.
 
 [&uarr; TOP](USAGE.md#usage)
