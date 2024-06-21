@@ -1,7 +1,0 @@
-// Resource.rc
-#include "resource.h"
-
-IDT_VERT_SHADER		RCDATA "Shader.vert"
-IDT_FRAG_SHADER		RCDATA "Shader.frag"
-IDI_CONTAINER		RCDATA "container.jpg"
-IDI_AWESOMEFACE		RCDATA "awesomeface.png"
