@@ -67,7 +67,7 @@ Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Console (/SUBSYSTEM:CONSOLE)'
-Resources -> Additional Include Directories: $(SolutionDir)\Common\res\;%(AdditionalIncludeDirectories)
+Resources -> Additional Include Directories: $(SolutionDir)\Common\res\
 ```
 - **_Release x64 (EXE)_**:
 ```
@@ -76,7 +76,7 @@ VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(Includ
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Windows (/SUBSYSTEM:WINDOWS)'
 Linker -> Advanced -> Entry Point: mainCRTStartup
-Resources -> Additional Include Directories: $(SolutionDir)\Common\res\;%(AdditionalIncludeDirectories)
+Resources -> Additional Include Directories: $(SolutionDir)\Common\res\
 ```
 - **_Debug Win32 (EXE)_**:
 ```
@@ -84,7 +84,7 @@ Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\Win32\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Console (/SUBSYSTEM:CONSOLE)'
-Resources -> Additional Include Directories: $(SolutionDir)\Common\res\;%(AdditionalIncludeDirectories)
+Resources -> Additional Include Directories: $(SolutionDir)\Common\res\
 ```
 - **_Release Win32 (EXE)_**:
 ```
@@ -93,7 +93,7 @@ VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(Includ
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Windows (/SUBSYSTEM:WINDOWS)'
 Linker -> Advanced -> Entry Point: mainCRTStartup
-Resources -> Additional Include Directories: $(SolutionDir)\Common\res\;%(AdditionalIncludeDirectories)
+Resources -> Additional Include Directories: $(SolutionDir)\Common\res\
 ```
 
 > [!IMPORTANT]
