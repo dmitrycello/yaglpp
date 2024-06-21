@@ -27,10 +27,27 @@ In the _Solution Explorer_, right-click the project's name and click **`Set as S
 ![38.png](38.png)
 
 ### 2. Add the resources to the application project
-The resources allow the quick access to files included into an output execitable as _binary resources_. Setting it up here may be optional, but recommended for the first time, to set it in the project template at the last step.
+The resources allow a quick access to files included into the output execitable as _binary resources_. Setting it up here may be optional, but it is strongly advised for the first time, to be later included in the project template. In the _Solution Explorer_, right-click the project's Resource Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+
+![41a.png](41a.png)
+
+Select **`Resource -> Resource File (.rc)`**, keep **`Resource.rc`** file name, check the path, and hit **`Add`**:
+
+![41b.png](41b.png)
+
+In the editor window delete the content of two newly created flies _resource.h_ and _Resource.rc_, and type the following:
+```
+// resource.h
+
+```
+```
+// Resource.rc
+#include "resource.h"
+
+```
 
 > [!NOTE]
-> If the **`.rc`** file isn't included into the project, the _Resource_ option would not be accessible in the project properties later on.
+> If no **`.rc`** file is added to the project, the _Resource_ option won't appear in the Properties window later on.
 
 ### 3. Set the application project properties
 Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to _Debug x64_:
@@ -82,7 +99,7 @@ In the _Solution Explorer_, right-click the project's Source Files filter icon. 
 
 ![41.png](41.png)
 
-Select **`C++ File (.cpp)`**, type  **`main.cpp`** _(as main function)_, check the path, and hit **`Add`**
+Select **`Code -> C++ File (.cpp)`**, type  **`main.cpp`** _(as main function)_, check the path, and hit **`Add`**:
 
 ![22a.png](22a.png)
 
