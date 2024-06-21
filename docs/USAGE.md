@@ -1,10 +1,11 @@
 ## USAGE
 [&nwarr; README](../README.md)<br>
 - [1. Add the application project](USAGE.md#1-add-the-application-project)
-- [2. Set the application project properties](USAGE.md#2-set-the-application-project-properties)
-- [3. Add the source file to the application project](USAGE.md#3-add-the-source-file-to-the-application-project)
-- [4. Type the code](USAGE.md#4-type-the-code)
-- [5. Create YAGL++ project template](USAGE.md#5-create-yagl-project-template)
+- [2. Add the resources to the application project](USAGE.md#2-add-the-resources-to-the-application-project)
+- [3. Set the application project properties](USAGE.md#3-set-the-application-project-properties)
+- [4. Add the source file to the application project](USAGE.md#4-add-the-source-file-to-the-application-project)
+- [5. Type the code](USAGE.md#5-type-the-code)
+- [6. Create YAGL++ project template](USAGE.md#6-create-yagl-project-template)
 
 The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
