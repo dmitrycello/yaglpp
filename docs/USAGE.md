@@ -25,7 +25,13 @@ In the _Solution Explorer_, right-click the project's name and click **`Set as S
 
 ![38.png](38.png)
 
-### 2. Set the application project properties
+### 2. Add the resources to the application project
+The resources allow the quick access to files included into an output execitable as _binary resources_. Setting it up here may be optional, but recommended for the first time, to set it in the project template at the last step.
+
+> [!NOTE]
+> If the **`.rc`** file isn't included into the project, the _Resource_ option would not be accessible in the project properties later on.
+
+### 3. Set the application project properties
 Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to _Debug x64_:
 
 ![39.png](39.png)
@@ -70,7 +76,7 @@ Linker -> Advanced -> Entry Point: mainCRTStartup
 > [!WARNING]
 > Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
-### 3. Add the source file to the application project
+### 4. Add the source file to the application project
 In the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
 ![41.png](41.png)
@@ -79,7 +85,7 @@ Select **`C++ File (.cpp)`**, type  **`main.cpp`** _(as main function)_, check t
 
 ![22a.png](22a.png)
 
-### 4. Type the code
+### 5. Type the code
 In the editor window type the minimal YAGL++ application code:
 ```
 // main.cpp
@@ -160,7 +166,7 @@ class : public glfw::WindowThread
 > [!NOTE]
 > AFX-alike layout is rather experimental, and at the moment can be used only with two classes. But it could become very promising direction for development in the future. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [yaglpp.h](../include/yaglpp.h) library header file, and rebuild the library.
 
-### 5. Create YAGL++ project template
+### 6. Create YAGL++ project template
 At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work within the same solution, or within a solution with similar path layout. Download the project icon file [icon.png](icon.png), or use any other with transparent background. Click **`Project menu -> Export Template...`**:
 
 ![15.png](15.png)
