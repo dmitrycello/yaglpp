@@ -27,7 +27,7 @@ In the _Solution Explorer_, right-click the project's name and click **`Set as S
 ![38.png](38.png)
 
 ### 2. Add the resources to the application project
-The resources allow a quick access to files included into the output execitable as _binary resources_. Setting it up here may be optional, but it is strongly advised for the first time, to be later included in the project template. In the _Solution Explorer_, right-click the project's Resource Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+The resources allow a quick access to files included into the output execitable as _binary resources_. Setting it up here may be optional, but it is strongly advised for the first time, to be later included in the project template. In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
 ![41a.png](41a.png)
 
@@ -35,11 +35,12 @@ Select **`Resource -> Resource File (.rc)`**, keep **`Resource.rc`** file name, 
 
 ![41b.png](41b.png)
 
-In the editor window delete the content of two newly created flies _resource.h_ and _Resource.rc_, and type the following:
+Open the two newly created flies in the editor window, and replace their content with the following in _resource.h_ file:
 ```
 // resource.h
 
 ```
+and in _Resource.rc_ file:
 ```
 // Resource.rc
 #include "resource.h"
@@ -47,18 +48,18 @@ In the editor window delete the content of two newly created flies _resource.h_ 
 ```
 
 > [!NOTE]
-> If no **`.rc`** file is added to the project, the _Resource_ option won't appear in the Properties window later on.
+> If the **`Resource.rc`** file isn't added to the project, the _Resource_ option would not be accessible in the project Properties window later on.
 
 ### 3. Set the application project properties
 Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to _Debug x64_:
 
-![39.png](39.png)
+![39a.png](39a.png)
 
 In the Properties window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
 
 ![20.png](20.png)
 
-As the library project, the application project may be used in one of the 4 platform configurations. In order to change the application platform configuration, it is necessary to build the library under that configuration. The application Debug platform configuration requires to set 4 configuration options, the application Release platform configuration requires an extra option to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol).
+As the library project, the application project may be used in one of the 4 platform configurations. In order to change the application platform configuration, it is necessary to build the library under that configuration. The application Debug platform configuration requires to set 5 configuration options, the application Release platform configuration requires an extra option to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol).
 
 - **_Debug x64 (EXE)_**:
 ```
@@ -66,6 +67,7 @@ Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Console (/SUBSYSTEM:CONSOLE)'
+Resources -> Additional Include Directories: $(SolutionDir)\Common\res\;%(AdditionalIncludeDirectories)
 ```
 - **_Release x64 (EXE)_**:
 ```
@@ -74,6 +76,7 @@ VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(Includ
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Windows (/SUBSYSTEM:WINDOWS)'
 Linker -> Advanced -> Entry Point: mainCRTStartup
+Resources -> Additional Include Directories: $(SolutionDir)\Common\res\;%(AdditionalIncludeDirectories)
 ```
 - **_Debug Win32 (EXE)_**:
 ```
@@ -81,6 +84,7 @@ Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\Win32\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Console (/SUBSYSTEM:CONSOLE)'
+Resources -> Additional Include Directories: $(SolutionDir)\Common\res\;%(AdditionalIncludeDirectories)
 ```
 - **_Release Win32 (EXE)_**:
 ```
@@ -89,19 +93,20 @@ VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(Includ
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Windows (/SUBSYSTEM:WINDOWS)'
 Linker -> Advanced -> Entry Point: mainCRTStartup
+Resources -> Additional Include Directories: $(SolutionDir)\Common\res\;%(AdditionalIncludeDirectories)
 ```
 
-> [!WARNING]
+> [!IMPORTANT]
 > Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 ### 4. Add the source file to the application project
 In the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
-![41.png](41.png)
+![41c.png](41c.png)
 
 Select **`Code -> C++ File (.cpp)`**, type  **`main.cpp`** _(as main function)_, check the path, and hit **`Add`**:
 
-![22a.png](22a.png)
+![22b.png](22b.png)
 
 ### 5. Type the code
 In the editor window type the minimal YAGL++ application code:
@@ -187,7 +192,7 @@ class : public glfw::WindowThread
 ### 6. Create YAGL++ project template
 At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work within the same solution, or within a solution with similar path layout. Download the project icon file [icon.png](icon.png), or use any other with transparent background. Click **`Project menu -> Export Template...`**:
 
-![15.png](15.png)
+![15a.png](15a.png)
 
 In the opened window, keep the template type as _Project template_, select the project to export from, then hit **`Next`**:
 
