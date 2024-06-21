@@ -241,18 +241,18 @@ In the _Solution Explorer_ remove all header and source files **`(Del)`**. These
 
 ![27.png](27.png)
 
-Right-click **`Header Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\include\yaglpp`** directory, select [yaglpp.h](../include/yaglpp.h) file:
+Right-click _Header Files_ filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\include\yaglpp`** directory, select [yaglpp.h](../include/yaglpp.h) file:
 
 ![28.png](28.png)
 
 > [!NOTE]
 > The header files here are irrelevant for the build, and may not be included at all. The [yaglpp.h](../include/yaglpp.h) file is added just to toggle the main switches.
 
-Next, right-click **`Source Files`** filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\src\yaglpp`** directory, and select all **`.cpp`** files:
+Next, right-click _Source Files_ filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\src\yaglpp`** directory, and select all **`.cpp`** files:
 
 ![29.png](29.png)
 
-Finally, add the same way the **`$(SolutionDir)\Common\src\glad.c`** file to **`Source Files`** filter. The Solution Explorer should now look like this:
+Finally, add the same way the **`$(SolutionDir)\Common\src\glad.c`** file to the _Source Files_ filter. The Solution Explorer should now look like this:
 
 ![30.png](30.png)
 
