@@ -44,9 +44,9 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 - [Latest release](https://github.com/dmitrycello/yaglpp/releases) of YAGL++ library, the **`dependencies.txt`** file within the archive lists every component version tested with current release.
 
 ### 3. Prepare the components's folder
-Create the new folder under the name **`Common`** within the newly created solution directory. In that folder create 4 other subfolders: **`bin`**, **`include`**, **`lib`**, and **`src`**. Create subfolder **`Win32`** within **`Common/bin`**, as well as **`GLFW`** and **`Win32`** subfolders within **`Common/lib`**. Finally, create another **`GLFW`** subfolder within **`Common/lib/Win32`**. The folder tree should be as following:
+Create the new folder under the name **`Common`** within the newly created solution directory. In that folder create 5 other subfolders: **`bin`**, **`include`**, **`lib`**, **`res`**, and **`src`**. Create subfolder **`Win32`** within **`Common/bin`**, as well as **`GLFW`** and **`Win32`** subfolders within **`Common/lib`**. Finally, create another **`GLFW`** subfolder within **`Common/lib/Win32`**. The folder tree should be as following:
 
-![01a.png](01a.png)
+![01b.png](01b.png)
 
 Extract all downloaded components, and move them into the following subdirectories:
 ```
