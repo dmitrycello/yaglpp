@@ -68,7 +68,7 @@ Common\src\glad.c <- GLAD source file from GLAD archive
 ### 4. Install CMake
 If it was not done before, the CMake application must be installed, in order to build CMake projects. Download the [CMake](https://cmake.org/download/) latest application installer, lunch the wizard, and hit **`Next`**:
 
-![01b.png](01b.png)
+![01d.png](01d.png)
 
 Accept the License Agreement, and hit **`Next`**:
 
