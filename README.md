@@ -53,6 +53,11 @@ Some of the functions are duplicated as a static members of a class, it helps to
 GLfloat gl::getMaxTextureLodBias();            // Global function
 GLfloat gl::Texture2D::getMaxTextureLodBias(); // Static member function
 ```
+Some classes are supplied with the [Class Properties](https://learn.microsoft.com/en-us/cpp/cpp/property-cpp?view=msvc-170), which is rather a syntactical "suger", but could also simplify the access to the object with a number of getters and setters. In case if this feature is not supported by the compiler, it is possible to comment the appropriate main switch in the [yaglpp.h](include/yaglpp.h) file, and then use only the respective functions. The property name is obtained by stripping the "set" or "get" prefix. For simplicity, the only read-write properties are provided. The two following lines are equivalent:
+```
+texture2D.setTextureMaxLod() = 1000.0f; // Usual way
+texture2D.textureMaxLod = 1000.0f;      // Using class property
+```
 
 > [!CAUTION]
 > The underscore at the beginning of a name means a private assignment, you should NOT be using these names. The global symbols starting with **`YAGLPP_`** are also preserved by the library.
@@ -66,8 +71,9 @@ If the description starts with the number in parentheses, it means either the su
 > If you don't know the function, you should visit Khronos website to read its whole dedicated info.
 
 ### The main switches
-The symbols defined right after **`#pragma once`** directive in the [yaglpp.h](include/yaglpp.h) file are the library switches, they affect the build of the library. The first seven could be commented, the others could be only altered:
+The symbols defined right after **`#pragma once`** directive in the [yaglpp.h](include/yaglpp.h) file are the library switches, they affect the build of the library. The first eight switches could be commented, the others could be only altered:
 - Switches **`YAGLPP_COCOA_CHDIR_RESOURCES`**, **`YAGLPP_COCOA_MENUBAR`** and **`YAGLPP_JOYSTICK_HAT_BUTTONS`** are the GLFW hints set at the initialization, they are on by default;
+- Commenting the **`YAGLPP_CLASS_PROPERTIES`** switch will exlude the class properties from the library;
 - Commenting the **`YAGLPP_GLM_HEADERS`** switch will exclude GLM library headers, this allows to include only required GLM headers, while reducing the compile time;
 - Commenting the **`YAGLPP_NO_AFX_LAYOUT`** switch will transform the YAGL++ into the AFX-alike environment, without the **`main`** function. Instead, the code must contain the global variable of a class derived from **`glfw::Thread`** or **`glfw::WindowThread`**. Otherwise, classical layout with the **`main`** function is preserved;
 - Commenting the **`YAGLPP_NO_FREEIMAGE`** switch will add **`FreeImage`** class to the build. This library is no longer maintained, but can deal with more formats compared to included **`StbImage`**;
