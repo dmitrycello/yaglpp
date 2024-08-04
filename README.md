@@ -160,7 +160,17 @@ double x = glWindow.getCursorPosX(); // Value since last cursor position event
 glWindow.getCursorPos();             // Updates class X and Y values via API call
 double y = glWindow.getCursorPosY(); // Value since the actual API call
 ```
-Some of the class members allows the API transfer feature, which is the possibility to perform the API call the from secondary thread by sending the appropriate message to the main thread. This requires the use of **`dispatchMessage`** and **`translateMessage`** functions within the main rendering loop. After the API transfer is complete, the main thread is sending a **`onWindowTransfer`** notification back to the sender window.
+Some of the class members allows the _API transfer_ feature, which is the possibility to perform the API call the from secondary thread by sending the appropriate message to the main thread. This requires the use of **`dispatchMessage`** and **`translateMessage`** functions within the main rendering loop. After the API transfer is complete, the main thread is sending a **`onWindowTransfer`** notification back to the sender window:
+```
+glfw::Message msg;
+while (dispatchMessage(&msg))
+{
+    if (!translateMessage(&msg))
+    {
+        // Custom thread messages
+    }
+}
+```
 
 ### Helper classes
 The YAGL++ library classes in global namespace are not a part of GLAD or GLFW API, they are included to simplify the I/O data handling. The _DataStore_ class is managing the client memory block, the _FreeImage_ and _StbImage_ are designed to manage the image data. All these helper classes have a default constructor building an empty object. There are two global helper functions: **`fileExists`** checks if the file with given path exists using _stat_ structure, and **`freeMemory`** deallocates the memory block previously allocated by the library.
