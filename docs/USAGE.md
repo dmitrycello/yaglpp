@@ -167,19 +167,18 @@ int main(int argc, char** argv)
 	GLWindow window(800, 600, "Overloaded Event Application");
 	//...
 ```
-Finally, the example of the library usage in AFX-alike layout. The global application variable is defined as an anonymous class derived from **`glfw::WindowThread`**:
+Finally, the example of the library usage in AFX-alike layout. The global application variable is defined as an anonymous class derived from **`glfw::Thread`**:
 ```
 // main.cpp
 #include <yaglpp/yaglpp.h>
 
-class : public glfw::WindowThread
+class : public glfw::Thread
 {
-	void onInitThread()   // Create window
+	void onInit()   // Create window
 	{
-		m_pWindow = new glfw::Window(800, 600, "AFX-alike Mode Application");
-		m_pWindow->makeContextCurrent(this);
+		context = new glfw::Window(800, 600, "AFX-alike Mode Application");
 	}
-	void onRenderWindow() // Rendering loop
+	void onRender() // Rendering loop
 	{
 		gl::clearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		gl::clear(gl::BufferBitMask::ColorBufferBit);
@@ -187,7 +186,7 @@ class : public glfw::WindowThread
 } application;
 ```
 > [!NOTE]
-> AFX-alike layout is rather experimental, and at the moment can be used only with two classes. But it could become very promising direction for development in the future. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [yaglpp.h](../include/yaglpp.h) library header file, and rebuild the library.
+> AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become very promising direction for development in the future. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [yaglpp.h](../include/yaglpp.h) library header file, and rebuild the library.
 
 ### 6. Create YAGL++ project template
 At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work within the same solution, or within a solution with similar path layout. Download the project icon file [icon.png](icon.png), or use any other with transparent background. Click **`Project menu -> Export Template...`**:
