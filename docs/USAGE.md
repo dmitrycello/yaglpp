@@ -177,6 +177,7 @@ class : public glfw::Thread
 	void onInit()   // Create window
 	{
 		context = new glfw::Window(800, 600, "AFX-alike Mode Application");
+		context->makeContextCurrent();
 	}
 	void onRender() // Rendering loop
 	{
