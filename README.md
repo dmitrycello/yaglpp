@@ -44,7 +44,7 @@ in YAGL++ library become:
 gl::disableSampleCoverage()
 gl::enableScissorTest()
 gl::getColorClearValue(color)
-gl::isPolygonSmoothEnabled()
+gl::isPolygonSmooth()
 gl::setUnpackRowLength(length)
 glfw::setVisible(visible)
 ```
