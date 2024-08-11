@@ -75,7 +75,7 @@ Every methode or enum member in the library is provided with the comment shown i
 If the description starts with the number in parentheses, it means either the supported OpenGL context version (as floating point number), or the number of overloaded function (as integer number). If the version number is missing, OpenGL 2.0 support is assumed. For example, the description of a function starting with **`(3.0) (18)`** means the support of OpenGL version 3.0 and above, plus it specifies that this is the 18's overloaded function. The description of the GLFW object function may also start with **`(M)`** symbol meaning that it could be only called from the main thread.
 
 > [!IMPORTANT]
-> If you don't know the function, you should visit Khronos website to read its whole dedicated info.
+> The provided comments are brief, and if the function looks unfamiliar, it is recommended to consult its official documentation.
 
 ### The main switches
 The symbols defined right after **`#pragma once`** directive in the [yaglpp.h](include/yaglpp.h) file are the main switches, they affect the build of the library. The first eight switches could be commented, the others could be only altered:
