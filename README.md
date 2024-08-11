@@ -53,7 +53,7 @@ Some of the functions are duplicated as a static members of a class, it helps to
 GLfloat gl::getMaxTextureLodBias();            // Global function
 GLfloat gl::Texture2D::getMaxTextureLodBias(); // Static member function
 ```
-The YAGL++ classes are supplied with the [Class Properties](https://learn.microsoft.com/en-us/cpp/cpp/property-cpp?view=msvc-170), which is rather a syntactical "suger", but could also simplify the access to the object with a number of getters and setters. In case if this feature is not supported by the compiler, or if the YAGL++ library is used as a part of another library, it is necessary to comment the **`YAGLPP_CLASS_PROPERTIES`** switch in the [yaglpp.h](include/yaglpp.h) file, and to use the function calls instead. The property name is obtained by stripping the "set", "get" or "is" prefix. All propreties have read-only or read-write access. For the following function calls:
+To handle the object parameters and states, along with classical setters and getters, the YAGL++ classes are supplied with the [Class Properties](https://learn.microsoft.com/en-us/cpp/cpp/property-cpp?view=msvc-170), which are known as the _"C++ syntactical suger"_, at some point simplifiying the readability of the code. In case if this feature is not supported by the compiler, or if the YAGL++ library is used as a part of another library, it is necessary to comment the **`YAGLPP_CLASS_PROPERTIES`** switch in the [yaglpp.h](include/yaglpp.h) file, and to use the function calls instead. The property name is obtained by stripping the "set", "get" or "is" prefix. All propreties have read-only or read-write access. For the following function calls:
 ```
 texture2D.setTextureBaseLevel(0);
 GLfloat f = texture2D.getTextureMaxLod();
