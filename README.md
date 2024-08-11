@@ -147,7 +147,10 @@ The ***UniformBlock*** class allows to operate many uniform variables at once, i
 ### GLFW objects
 The classes in _::glfw_ namespace are counterparts of GLFW API. They all have the default constructor creating an empty class object, but unlike the GLAD objects, GLFW objects do not require binding, they always control their lifetime, and thus, they must be explicitly created or selected via their methods. Consisting of multiple data members, these cumbersome objects are less suitable to be combined into a stucture or another class. According to the GLFW ducumentation, the most part of the GLFW API functions are intended to be called only from the main thread. Despite the fact that the GLFW library itself does not raise an error, the YAGL++ library will always assert the proper calling of these functions in Debug mode only, because their behaviour is not guaranteed while called from the secondary thread on the different platforms.
 
-The **_Cursor_** class operates a GLFW [Cursor](https://www.glfw.org/docs/3.3/input_guide.html#cursor_object) object. It has only **`createStandardCursor`** method and five overloaded **`createCursor`** methods to explicitly create the GLFW cursor object from different sources. The appropriate constructors exist as well. The **`destroyCursor`** method is called from the class destructor, if the object was not cleared before.
+The **_Cursor_** class operates a GLFW [Cursor](https://www.glfw.org/docs/3.3/input_guide.html#cursor_object) object. It has only **`createStandardCursor`** method and up to five overloaded **`createCursor`** methods to explicitly create the GLFW cursor object from different sources. The appropriate constructors exist as well. The **`destroyCursor`** method is called from the class destructor, if the object was not cleared before.
+
+> [!NOTE]
+> The _FreeImage_ class is not available by default, therefore some of the functions using this class are hidden.
 
 The **_Joystick_** class controls a GLFW [Joystick](https://www.glfw.org/docs/3.3/input_guide.html#joystick) input functionality, which exist from the GLFW initialization, and terefore its lifetime could not be controlled. Instead, the joystick device could be _selected_ via appropriate constructor, two overloaded **`selectJoystick`** or **`selectJoystickGUID`** methods, and _deselected_ via class destructor or **`deselectJoystick`** method. It is not possible to have multiple Joystick classes referencing the same joystick device, the class previously selecting that device will be automatically deselected when another class picks it up. The _gamepad_ methods work only for the devices supporting the [Gamepad](https://www.glfw.org/docs/3.3/input_guide.html#gamepad) input, to find out if this is the case, call **`joystickIsGamepad`** method. The Joystick class supports event handling, the single **`onDisconnect`** virtual function notifies the class object when associated physical device is disconnected, before that object is being voided. It is also possible to catch the joystick device connected event by setting **`JoystickConnectedCallback`** procedure via **`setJoystickConnectedCallback`** global function or static method.
 
@@ -178,6 +181,9 @@ while (dispatchMessage(&msg))
     }
 }
 ```
+
+> [!NOTE]
+> The _FreeImage_ class is not available by default, therefore some of the functions using this class are hidden.
 
 ### Helper classes
 The YAGL++ library classes in global namespace are not a part of GLAD or GLFW API, they are included to simplify the I/O data handling. The _DataStore_ class is managing the client memory block, the _FreeImage_ and _StbImage_ are designed to manage the image data. All these helper classes have a default constructor building an empty object. There are two global helper functions: **`fileExists`** checks if the file with given path exists using _stat_ structure, and **`freeMemory`** deallocates the memory block previously allocated by the library.
