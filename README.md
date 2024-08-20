@@ -133,7 +133,7 @@ The most of classes in **`gl::`** namespace are derived from **`gl::_Object`**, 
 ![25.png](docs/25.png)
 
 > [!NOTE]
-> Despite the OpenGL id is unsigned integer, the data member **`m_iId`** is signed integer. This allows to differentiate single and reference objects, being negative or positive value. Zero value means an empty object. The pointers in Win32 application are 4-byte long. So will be the size of the class object being a pointer.
+> Despite the OpenGL id is unsigned integer, the data member **`_miId`** is signed integer. This allows to differentiate single and reference objects, being negative or positive value. Zero value means an empty object. The pointers in Win32 application are 4-byte long. So will be the size of the class object being a pointer.
 
 > [!CAUTION]
 > The names starting with underscore character stand for the base abstract classes, they could NOT be used.
