@@ -246,7 +246,7 @@ Right-click _Header Files_ filter icon, click **`Add -> Existing Item (Shift+Alt
 ![28.png](28.png)
 
 > [!NOTE]
-> The header files here are irrelevant for the build, and may not be included at all. The [yaglpp.h](../include/yaglpp.h) file is added just to toggle the main switches.
+> The header files here are irrelevant for the build, and may not be included at all. The [yaglpp.h](../include/yaglpp.h) file is added just to access the main switches.
 
 Next, right-click _Source Files_ filter icon, click **`Add -> Existing Item (Shift+Alt+A)`**. Navigate to **`$(SolutionDir)\Common\src\yaglpp`** directory, and select all **`.cpp`** files:
 
