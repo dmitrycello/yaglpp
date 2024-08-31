@@ -22,7 +22,7 @@ void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value)
 	YAGLPP_GLAD_ERROR;                                 // Error checking macro
 }
 ```
-The most valuable library's feature is the **_"lasy" creation and binding concept_**. It means, the OpenGL object is automatically created and binded only when required. The creation of a class object does not mean the OpenGL object immediate creation or binding. This allows to use a YAGL++ objects before the creation of OpenGL context. The appropriate functions for creation and bindind are no longer needed, but still preserved to allow the programmer to create or bind the OpenGL object at anytime. The object status is saved using [Thread Local Storage](https://learn.microsoft.com/en-us/cpp/c-language/thread-local-storage), which makes the library thread safe.
+The most valuable library's feature is the **_"lasy" creation and binding concept_**. It means, the OpenGL object is automatically created and binded only when required. The creation of a class object does not mean the OpenGL object immediate creation or binding. This allows to use a YAGL++ objects before the creation of OpenGL context. The appropriate functions for creation and bindind are no longer needed, but still preserved to allow the programmer to create or bind the OpenGL object at anytime.
 
 > [!NOTE]
 > Some of YAGL++ objects do not follow this rule, since their lifetime and behaviour are different. Thus, the **`gl::VertexArray`** and **`gl::Sampler`** objects must be _bound_ explicitly at a certain point of the code, the **`gl::Sync`** object must be _created_ explicitly with **`fenceSync`** method, where as multi-objects and all **`glfw::`** objects have to be _created_ with specified parameters.
