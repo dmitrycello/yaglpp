@@ -255,9 +255,9 @@ public:
 	@return True if uniform location found, false otherwise*/
 	GLboolean getUniformLocation(Program& program, _In_z_ const GLchar* name);
 
-	/*Checks if retrieved uniform is valid. Used as a getter of <uniform2> property
+	/*Checks if retrieved uniform location is valid. Used as a getter of <uniformLocation> property
 	@param True if valid uniform, false otherwise*/
-	GLboolean isUniform()
+	GLboolean isUniformLocation()
 	{
 		return _miLocation > -1;
 	}
@@ -376,8 +376,8 @@ public:
 	}
 
 #ifdef YAGLPP_CLASS_PROPERTIES
-	/*Read-only property to check if retrieved uniform is valid*/
-	__declspec(property(get = isUniform)) GLboolean uniform2;
+	/*Read-only property to check if retrieved uniform location is valid*/
+	__declspec(property(get = isUniformLocation)) GLboolean uniformLocation;
 #endif // #ifdef YAGLPP_CLASS_PROPERTIES
 
 #ifdef GL_VERSION_2_1

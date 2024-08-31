@@ -26,7 +26,7 @@ public:
 	@param Specifies the index of texture unit to make active, initial is 0*/
 	void activeTexture(TextureUnit index)
 	{
-		_activeTexture(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, index);
+		_activeTexture(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, index);
 	}
 
 	/*(3.1) Set an empty texture object as a reference to an element of the texture multi-object
@@ -41,10 +41,10 @@ public:
 #endif // #ifdef _DEBUG
 	}
 
-	/*(3.1) Explicitly binds texture object to its target*/
+	/*(3.1) Explicitly binds texture object to its target. Does nothing if specified texture is bound*/
 	void bindTexture()
 	{
-		_texture_rebind(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE);
+		_bindTexture(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE);
 	}
 
 	/*(3.1) Replaces a rectangular portion of a rectangle texture image with pixels from the current read buffer
@@ -54,15 +54,9 @@ public:
 	@param Specifies the window y coordinate of the lower left corner of the rectangular region of pixels to be copied
 	@param Specifies the width of the texture subimage
 	@param Specifies the height of the texture subimage*/
-	void copyTexSubImage2D(GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height)
+	void copyTexSubImage(GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height)
 	{
-		_copyTexSubImage2D(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, xoffset, yoffset, x, y, width, height);
-	}
-
-	/*(3.1) Unbinds any previously bound texture object, and restores the default texture for its target. Does nothing if no such texture is bound*/
-	static void defaultTexture()
-	{
-		_texture_unbind(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE);
+		_copyTexSubImage2D(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, xoffset, yoffset, x, y, width, height);
 	}
 
 	/*(3.1) Get a rough estimate of the largest rectangular texture that the GL can handle. The value must be at least 1024. Use <getTextureWidthProxy> or <getTextureHeightProxy> to determine if a texture is too large
@@ -78,7 +72,7 @@ public:
 	@param [out] Specifies a pointer to store the texture image*/
 	void getTexImage(GetTexFormat format, GetTexType type, _Out_ void* pixels)
 	{
-		_getTexImage(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, (GLenum)format, (GLenum)type, pixels);
+		_getTexImage(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, (GLenum)format, (GLenum)type, pixels);
 	}
 
 	/*(3.1) (2) Returns a two-dimensional rectangle texture image into pixel pack buffer data store
@@ -88,14 +82,14 @@ public:
 	@param Specifies the byte offset into PBO data store*/
 	void getTexImage(PixelPackBuffer& buffer, GetTexFormat format, GetTexType type, GLintptr offset)
 	{
-		_getTexImage(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, (GLenum)format, (GLenum)type, (_Buffer&)buffer, offset);
+		_getTexImage(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, (GLenum)format, (GLenum)type, (_Buffer&)buffer, offset);
 	}
 
 	/*(3.1) Returns internal storage resolution of ALPHA component of the texture image
 	@return The internal storage resolution of ALPHA component. The initial value is 0*/
 	GLint getTextureAlphaSize()
 	{
-		return _getTexLevelParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, GL_TEXTURE_ALPHA_SIZE);
+		return _getTexLevelParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, GL_TEXTURE_ALPHA_SIZE);
 	}
 
 	/*(3.1) Returns internal storage resolution of ALPHA component of the proxy texture
@@ -109,7 +103,7 @@ public:
 	@return The type of ALPHA component of the texture image*/
 	TextureComponentType getTextureAlphaType()
 	{
-		return (TextureComponentType)_getTexLevelParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, GL_TEXTURE_ALPHA_TYPE);
+		return (TextureComponentType)_getTexLevelParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, GL_TEXTURE_ALPHA_TYPE);
 	}
 
 	/*(3.1) Returns the type of ALPHA component of the proxy texture
@@ -123,7 +117,7 @@ public:
 	@return The internal storage resolution of BLUE component. The initial value is 0*/
 	GLint getTextureBlueSize()
 	{
-		return _getTexLevelParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, GL_TEXTURE_BLUE_SIZE);
+		return _getTexLevelParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, GL_TEXTURE_BLUE_SIZE);
 	}
 
 	/*(3.1) Returns internal storage resolution of BLUE component of the proxy texture
@@ -137,7 +131,7 @@ public:
 	@return The type of BLUE component of the texture image*/
 	TextureComponentType getTextureBlueType()
 	{
-		return (TextureComponentType)_getTexLevelParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, GL_TEXTURE_BLUE_TYPE);
+		return (TextureComponentType)_getTexLevelParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, GL_TEXTURE_BLUE_TYPE);
 	}
 
 	/*(3.1) Returns the type of BLUE component of the proxy texture
@@ -151,35 +145,35 @@ public:
 	@param [out] Stores four integer texture color values. The initial value is (0, 0, 0, 0)*/
 	void getTextureBorderColor(_Out_writes_(4) GLint* color)
 	{
-		_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_BORDER_COLOR, color);
+		_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_BORDER_COLOR, color);
 	}
 
 	/*(3.1) (2) Returns four float values that comprise the current RGBA color of the texture border
 	@param [out] Stores four float texture color values. The initial value is (0.0, 0.0, 0.0, 0.0)*/
 	void getTextureBorderColor(_Out_writes_(4) GLfloat* color)
 	{
-		_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_BORDER_COLOR, color);
+		_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_BORDER_COLOR, color);
 	}
 
 	/*(3.1) Returns the current texture comparison function. Used as the getter of <textureCompareFunc> property
 	@return The texture comparison function value. The initial value is <Lequal>*/
 	CompareFunc getTextureCompareFunc()
 	{
-		return (CompareFunc)_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_COMPARE_FUNC);
+		return (CompareFunc)_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_COMPARE_FUNC);
 	}
 
 	/*(3.1) Gets the texture comparison mode for currently bound depth textures. Used as the getter of <textureCompareMode> property
 	@return Returns one of the selected texture compare mode values*/
 	TextureCompareMode getTextureCompareMode()
 	{
-		return (TextureCompareMode)_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_COMPARE_MODE);
+		return (TextureCompareMode)_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_COMPARE_MODE);
 	}
 
 	/*(3.1) Returns internal storage resolution of DEPTH component of the texture image
 	@return The internal storage resolution of DEPTH component. The initial value is 0*/
 	GLint getTextureDepthSize()
 	{
-		return _getTexLevelParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, GL_TEXTURE_DEPTH_SIZE);
+		return _getTexLevelParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, GL_TEXTURE_DEPTH_SIZE);
 	}
 
 	/*(3.1) Returns internal storage resolution of DEPTH component of the proxy texture
@@ -193,7 +187,7 @@ public:
 	@return The type of DEPTH component of the texture image*/
 	TextureComponentType getTextureDepthType()
 	{
-		return (TextureComponentType)_getTexLevelParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, GL_TEXTURE_DEPTH_TYPE);
+		return (TextureComponentType)_getTexLevelParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, GL_TEXTURE_DEPTH_TYPE);
 	}
 
 	/*(3.1) Returns the type of DEPTH component of the proxy texture
@@ -207,7 +201,7 @@ public:
 	@return The internal storage resolution of GREEN component. The initial value is 0*/
 	GLint getTextureGreenSize()
 	{
-		return _getTexLevelParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, GL_TEXTURE_GREEN_SIZE);
+		return _getTexLevelParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, GL_TEXTURE_GREEN_SIZE);
 	}
 
 	/*(3.1) Returns internal storage resolution of GREEN component of the proxy texture
@@ -221,7 +215,7 @@ public:
 	@return The type of GREEN component of the texture image*/
 	TextureComponentType getTextureGreenType()
 	{
-		return (TextureComponentType)_getTexLevelParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, GL_TEXTURE_GREEN_TYPE);
+		return (TextureComponentType)_getTexLevelParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, GL_TEXTURE_GREEN_TYPE);
 	}
 
 	/*(3.1) Returns the type of GREEN component of the proxy texture
@@ -235,7 +229,7 @@ public:
 	@return The height of the texture image. The initial value is 0*/
 	GLsizei getTextureHeight()
 	{
-		return _getTexLevelParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, GL_TEXTURE_HEIGHT);
+		return _getTexLevelParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, GL_TEXTURE_HEIGHT);
 	}
 
 	/*(3.1) Returns the height of the proxy texture
@@ -249,7 +243,7 @@ public:
 	@return The internal format of the texture image*/
 	TexInternalformat getTextureInternalFormat()
 	{
-		return (TexInternalformat)_getTexLevelParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, GL_TEXTURE_INTERNAL_FORMAT);
+		return (TexInternalformat)_getTexLevelParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, GL_TEXTURE_INTERNAL_FORMAT);
 	}
 
 	/*(3.1) Returns the internal format capacity of the proxy texture
@@ -263,21 +257,21 @@ public:
 	@return The texture magnification function value. The initial value is <Linear>*/
 	TextureMagFilter getTextureMagFilter()
 	{
-		return (TextureMagFilter)_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER);
+		return (TextureMagFilter)_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_MAG_FILTER);
 	}
 
 	/*(3.1) Gets the current texture minifying function. Used as the getter of <textureMinFilter> property
 	@return The texture minifying function value. The initial value is <NearestMipmapLinear>*/
 	TextureMinFilter getTextureMinFilter()
 	{
-		return (TextureMinFilter)_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER);
+		return (TextureMinFilter)_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_MIN_FILTER);
 	}
 
 	/*(3.1) Returns internal storage resolution of RED component of the texture image
 	@return The internal storage resolution of RED component. The initial value is 0*/
 	GLint getTextureRedSize()
 	{
-		return _getTexLevelParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, GL_TEXTURE_RED_SIZE);
+		return _getTexLevelParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, GL_TEXTURE_RED_SIZE);
 	}
 
 	/*(3.1) Returns internal storage resolution of RED component of the proxy texture
@@ -291,7 +285,7 @@ public:
 	@return The type of RED component of the texture image*/
 	TextureComponentType getTextureRedType()
 	{
-		return (TextureComponentType)_getTexLevelParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, GL_TEXTURE_RED_TYPE);
+		return (TextureComponentType)_getTexLevelParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, GL_TEXTURE_RED_TYPE);
 	}
 
 	/*(3.1) Returns the type of RED component of the proxy texture
@@ -305,7 +299,7 @@ public:
 	@return The width of the texture image. The initial value is 0*/
 	GLsizei getTextureWidth()
 	{
-		return _getTexLevelParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, GL_TEXTURE_WIDTH);
+		return _getTexLevelParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, GL_TEXTURE_WIDTH);
 	}
 
 	/*(3.1) Returns the width of the proxy texture
@@ -319,91 +313,98 @@ public:
 	@return The current wrap mode for texture coordinate r. The initial value is <Repeat>*/
 	TextureWrapMode getTextureWrapR()
 	{
-		return (TextureWrapMode)_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_R);
+		return (TextureWrapMode)_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_WRAP_R);
 	}
 
 	/*(3.1) Returns the wrapping function for texture coordinate s. Used as the getter of <textureWrapS> property
 	@return The current wrap mode for texture coordinate s. The initial value is <Repeat>*/
 	TextureWrapMode getTextureWrapS()
 	{
-		return (TextureWrapMode)_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S);
+		return (TextureWrapMode)_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_WRAP_S);
 	}
 
 	/*(3.1) Returns the wrapping function for texture coordinate t. Used as the getter of <textureWrapT> property
 	@return The current wrap mode for texture coordinate t. The initial value is <Repeat>*/
 	TextureWrapMode getTextureWrapT()
 	{
-		return (TextureWrapMode)_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T);
+		return (TextureWrapMode)_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_WRAP_T);
 	}
 
 	/*(3.1) Determines if the texture object is currently bound to its target. Used as a getter of <textureBinding> property
 	@return True if texture object currently bound to its target, or false otherwise*/
 	GLboolean isTextureBinding()
 	{
-		return _object_id() == _getInteger(GL_TEXTURE_BINDING_RECTANGLE);
+		return _object_id() == (GLuint)_getInteger(GL_TEXTURE_BINDING_RECTANGLE);
+	}
+
+	/*(3.1) Sets the binding state of the texture object, only if current state is opposite. Used as a setter of <textureBinding> property
+	@param True to bind the object to its target, false to unbind*/
+	void setTextureBinding(GLboolean bind)
+	{
+		_setTextureBinding(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, bind);
 	}
 
 	/*(3.1) (1) Specifies four integer values that should be used for border texels
 	@param [in] Loads four integer texture color values. The initial value is (0, 0, 0, 0)*/
 	void setTextureBorderColor(_In_reads_(4) const GLint* color)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_BORDER_COLOR, color);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_BORDER_COLOR, color);
 	}
 
 	/*(3.1) (2) Specifies four float values that should be used for border texels
 	@param [in] Loads four float texture color values. The initial value is (0.0, 0.0, 0.0, 0.0)*/
 	void setTextureBorderColor(_In_reads_(4) const GLfloat* color)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_BORDER_COLOR, color);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_BORDER_COLOR, color);
 	}
 
 	/*(3.1) Specifies the comparison operator used when texture compare mode flag is set. The result is always assigned to the red channel. In the following equations the <r> is the current interpolated texture coordinate, and <Dt> is the depth texture value sampled from the currently bound depth texture. Equal: result = {1.0: r = Dt, 0.0: r != Dt}, Notequal: result = {1.0: r != Dt, 0.0: r = Dt}, Less: result = {1.0: r < Dt, 0.0: r >= Dt}, Greater: result = {1.0: r > Dt, 0.0: r <= Dt}, Lequal: result = {1.0: r <= Dt, 0.0: r > Dt}, Gequal: result = {1.0: r >= Dt, 0.0: r < Dt}, Always: result = {1.0}, Never: result = {0.0}. Used as the setter of <textureCompareFunc> property
 	@param The texture comparison function value. The initial value is <Lequal>*/
 	void setTextureCompareFunc(CompareFunc func)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_COMPARE_FUNC, (GLint)func);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_COMPARE_FUNC, (GLint)func);
 	}
 
 	/*(3.1) Sets the texture comparison mode for currently bound depth textures. Used as the setter of <textureCompareMode> property
 	@param Specifies the texture compare mode value*/
 	void setTextureCompareMode(TextureCompareMode mode)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_COMPARE_MODE, (GLint)mode);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_COMPARE_MODE, (GLint)mode);
 	}
 
 	/*(3.1) Sets the texture magnification function value. Used as the setter of <textureMagFilter> property
 	@param Specifies the texture magnification function's value. The initial value is linear*/
 	void setTextureMagFilter(TextureMagFilter filter)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, (GLint)filter);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_MAG_FILTER, (GLint)filter);
 	}
 
 	/*(3.1) The texture minifying function is used whenever the level-of-detail function used when sampling from the texture determines that the texture should be minified. Used as the setter of <textureMinFilter> property
 	@param The texture minifying function value. The initial value is <NearestMipmapLinear>*/
 	void setTextureMinFilter(TextureMinFilter filter)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, (GLint)filter);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_MIN_FILTER, (GLint)filter);
 	}
 
 	/*(3.1) Sets the wrapping function for texture coordinate r. Used as the setter of <textureWrapR> property
 	@param The texture wrap mode for coordinate r*/
 	void setTextureWrapR(TextureWrapMode wrap)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_R, (GLint)wrap);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_WRAP_R, (GLint)wrap);
 	}
 
 	/*(3.1) Sets the wrapping function for texture coordinate s. Used as the setter of <textureWrapS> property
 	@param The texture wrap mode for coordinate s*/
 	void setTextureWrapS(TextureWrapMode wrap)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, (GLint)wrap);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_WRAP_S, (GLint)wrap);
 	}
 
 	/*(3.1) Sets the wrapping function for texture coordinate t. Used as the setter of <textureWrapT> property
 	@param The texture wrap mode for coordinate t*/
 	void setTextureWrapT(TextureWrapMode wrap)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, (GLint)wrap);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_WRAP_T, (GLint)wrap);
 	}
 
 	/*(3.1) Set an empty texture object as a reference to the texture object from another context
@@ -416,9 +417,9 @@ public:
 	/*(3.1) (1) Specifies a two-dimensional rectangle texture image initialized from the StbImage object. (2.1) Unbinds pixel unpack buffer from its target
 	@param Specifies the StbImage object with loaded image
 	@param Specifies the texture internal formats*/
-	void texImage2D(StbImage& image, GLint level, TexInternalformat internalformat)
+	void texImage(StbImage& image, GLint level, TexInternalformat internalformat)
 	{
-		_texImage2D(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, (GLint)internalformat, image);
+		_texImage2D(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, (GLint)internalformat, image);
 	}
 
 	/*(3.1) (2) Specifies a two-dimensional rectangle texture image initialized from client's memory. (2.1) Unbinds pixel unpack buffer from its target
@@ -428,9 +429,9 @@ public:
 	@param Specifies the format of the pixel data
 	@param Specifies the data type of the pixel data
 	@param [in] Specifies a pointer to the image data in memory*/
-	void texImage2D(GLint level, TexInternalformat internalformat, GLsizei width, GLsizei height, TexFormat format, TexType type, _In_ const void* data)
+	void texImage(GLint level, TexInternalformat internalformat, GLsizei width, GLsizei height, TexFormat format, TexType type, _In_ const void* data)
 	{
-		_texImage2D(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, (GLint)internalformat, width, height, (GLenum)format, (GLenum)type, data);
+		_texImage2D(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, (GLint)internalformat, width, height, (GLenum)format, (GLenum)type, data);
 	}
 
 	/*(3.1) (3) Specifies a one-dimensional rectangle texture image initialized from pixel unpack buffer data store
@@ -441,9 +442,9 @@ public:
 	@param Specifies the format of the pixel data
 	@param Specifies the data type of the pixel data
 	@param Specifies the byte offset into PBO data store*/
-	void texImage2D(PixelUnpackBuffer& buffer, GLint level, TexInternalformat internalformat, GLsizei width, GLsizei height, TexFormat format, TexType type, GLintptr offset)
+	void texImage(PixelUnpackBuffer& buffer, GLint level, TexInternalformat internalformat, GLsizei width, GLsizei height, TexFormat format, TexType type, GLintptr offset)
 	{
-		_texImage2D(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_RECTANGLE, 0, (GLint)internalformat, width, height, (GLenum)format, (GLenum)type, (_Buffer&)buffer, offset);
+		_texImage2D(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, 0, (GLint)internalformat, width, height, (GLenum)format, (GLenum)type, (_Buffer&)buffer, offset);
 	}
 
 	/*(3.1) Recalculates the capacity for a two-dimensional rectangle texture image using proxy target
@@ -452,14 +453,26 @@ public:
 	@param Specifies the height of the texture image
 	@param Specifies the format of the pixel data
 	@param Specifies the data type of the pixel data*/
-	static void texImage2DProxy(GLint level, TexInternalformat internalformat, GLsizei width, GLsizei height, TexFormat format, TexType type)
+	static void texImageProxy(GLint level, TexInternalformat internalformat, GLsizei width, GLsizei height, TexFormat format, TexType type)
 	{
 		_texImage2D(GL_PROXY_TEXTURE_RECTANGLE, 0, (GLint)internalformat, width, height, (GLenum)format, (GLenum)type, nullptr);
 	}
 
+	/*(3.1) Explicitly unbinds any texture object of specified type bound to its target. Does nothing if no such texture is bound*/
+	static void unbindTarget()
+	{
+		_unbindTarget(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE);
+	}
+
+	/*(3.1) Explicitly unbinds specified texture object from its target. Does nothing if specified texture is not bound*/
+	void unbindTexture()
+	{
+		_unbindTexture(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE);
+	}
+
 #ifdef YAGLPP_CLASS_PROPERTIES
-	/*(3.1) Read-only property to determine if the texture object is currently bound to its target*/
-	__declspec(property(get = isTextureBinding)) GLboolean textureBinding;
+	/*(3.1) Read-write property for state of the texture binding*/
+	__declspec(property(get = isTextureBinding, put = setTextureBinding)) GLboolean textureBinding;
 
 	/*(3.1) Read-write property for current texture comparison function*/
 	__declspec(property(get = getTextureCompareFunc, put = setTextureCompareFunc)) CompareFunc textureCompareFunc;
@@ -488,70 +501,70 @@ public:
 	@return The alpha component swizzle value. The initial value is <Alpha>*/
 	TextureSwizzleMask getTextureSwizzleA()
 	{
-		return (TextureSwizzleMask)_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_SWIZZLE_A);
+		return (TextureSwizzleMask)_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_SWIZZLE_A);
 	}
 
 	/*(3.3) Returns the current blue component swizzle value. Used as the getter of <textureSwizzleB> property
 	@return The blue component swizzle value. The initial value is <Blue>*/
 	TextureSwizzleMask getTextureSwizzleB()
 	{
-		return (TextureSwizzleMask)_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_SWIZZLE_B);
+		return (TextureSwizzleMask)_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_SWIZZLE_B);
 	}
 
 	/*(3.3) Returns the current green component swizzle value. Used as the getter of <textureSwizzleG> property
 	@return The green component swizzle value. The initial value is <Green>*/
 	TextureSwizzleMask getTextureSwizzleG()
 	{
-		return (TextureSwizzleMask)_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_SWIZZLE_G);
+		return (TextureSwizzleMask)_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_SWIZZLE_G);
 	}
 
 	/*(3.3) Returns the current red component swizzle value. Used as the getter of <textureSwizzleR> property
 	@return The red component swizzle value. The initial value is <Red>*/
 	TextureSwizzleMask getTextureSwizzleR()
 	{
-		return (TextureSwizzleMask)_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_SWIZZLE_R);
+		return (TextureSwizzleMask)_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_SWIZZLE_R);
 	}
 
 	/*(3.3) Returns the component swizzle for red, green, blue, and alpha channels in a single query
 	@param [out] Stores four TextureSwizzleMask values. The initial value is (<Red>, <Green>, <Blue>, <Alpha>)*/
 	void getTextureSwizzleRGBA(_Out_writes_(4) TextureSwizzleMask* swizzle)
 	{
-		_getTexParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_SWIZZLE_RGBA, (GLint*)swizzle);
+		_getTexParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_SWIZZLE_RGBA, (GLint*)swizzle);
 	}
 
 	/*(3.3) Sets the swizzle that will be applied to the alpha component of a texel before it is returned to the shader. Used as the setter of <textureSwizzleA> property
 	@param The alpha component swizzle value. The initial value is <Alpha>*/
 	void setTextureSwizzleA(TextureSwizzleMask swizzle)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_SWIZZLE_A, (GLint)swizzle);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_SWIZZLE_A, (GLint)swizzle);
 	}
 
 	/*(3.3) Sets the swizzle that will be applied to the blue component of a texel before it is returned to the shader. Used as the setter of <textureSwizzleB> property
 	@param The blue component swizzle value. The initial value is <Blue>*/
 	void setTextureSwizzleB(TextureSwizzleMask swizzle)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_SWIZZLE_B, (GLint)swizzle);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_SWIZZLE_B, (GLint)swizzle);
 	}
 
 	/*(3.3) Sets the swizzle that will be applied to the green component of a texel before it is returned to the shader. Used as the setter of <textureSwizzleG> property
 	@param The green component swizzle value. The initial value is <Green>*/
 	void setTextureSwizzleG(TextureSwizzleMask swizzle)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_SWIZZLE_G, (GLint)swizzle);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_SWIZZLE_G, (GLint)swizzle);
 	}
 
 	/*(3.3) Sets the swizzle that will be applied to the red component of a texel before it is returned to the shader. Used as the setter of <textureSwizzleR> property
 	@param The red component swizzle value. The initial value is <Red>*/
 	void setTextureSwizzleR(TextureSwizzleMask swizzle)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_SWIZZLE_R, (GLint)swizzle);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_SWIZZLE_R, (GLint)swizzle);
 	}
 
 	/*(3.3) Sets the swizzles that will be applied to the red, green, blue, and alpha components of a texel before they are returned to the shader
 	@param [in] Loads four TextureSwizzleMask values. The initial value is (<Red>, <Green>, <Blue>, <Alpha>)*/
 	void setTextureSwizzleRGBA(_In_reads_(4) const TextureSwizzleMask* swizzle)
 	{
-		_texParameter(_tlsTextureRectangle(), GL_TEXTURE_RECTANGLE, GL_TEXTURE_SWIZZLE_RGBA, (const GLint*)swizzle);
+		_texParameter(GL_TEXTURE_RECTANGLE, GL_TEXTURE_BINDING_RECTANGLE, GL_TEXTURE_SWIZZLE_RGBA, (const GLint*)swizzle);
 	}
 
 #ifdef YAGLPP_CLASS_PROPERTIES
@@ -569,5 +582,11 @@ public:
 #endif // #ifdef YAGLPP_CLASS_PROPERTIES
 #endif // #ifdef GL_VERSION_3_3
 }; // class TextureRectangle : public _Texture
-} // namespace gl {
+
+/*(3.1) Explicitly unbinds any texture object of specified type bound to its target. Does nothing if no such texture is bound*/
+inline void unbindTextureRectangle()
+{
+	TextureRectangle::unbindTarget();
+}
+} // namespace gl
 #endif // #ifdef GL_VERSION_3_1

@@ -295,9 +295,9 @@ public:
 	@return The attribute's previously specified memory byte offset*/
 	GLintptr getVertexAttribPointer();
 
-	/*Checks if retrieved attribute is valid. Used as a getter of <vertexAttrib2> property
+	/*Checks if retrieved attribute location is valid. Used as a getter of <attribLocation> property
 	@return True if valid attribute, false otherwise*/
-	GLboolean isVertexAttrib()
+	GLboolean isAttribLocation()
 	{
 		return _miLocation > -1;
 	}
@@ -485,8 +485,8 @@ public:
 	void vertexAttribPointer(VertexAttribSize size, VertexAttribType type, GLboolean normalized, GLsizei stride, GLintptr offset);
 
 #ifdef YAGLPP_CLASS_PROPERTIES
-	/*Read-only property to check if retrieved attribute is valid*/
-	__declspec(property(get = isVertexAttrib)) GLboolean vertexAttrib2;
+	/*Read-only property to check if retrieved attribute location is valid*/
+	__declspec(property(get = isAttribLocation)) GLboolean attribLocation;
 
 	/*Read-only property for vertex attribute enabled flag*/
 	__declspec(property(get = getVertexAttribArrayEnabled)) GLboolean vertexAttribArrayEnabled;

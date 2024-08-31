@@ -48,7 +48,6 @@ private:
         double dEventsTimeout; // Render loop idle timeout
         volatile LONG* pLocks; // Spinlock array
         volatile HANDLE* pEvents; // Event array
-        //GLFWallocator allocator; // GLFW allocator struct
         bool initialize(Thread* thread);
         void syncEnter(int ref);
         void syncLeave(int ref);
@@ -72,7 +71,7 @@ private:
         Window* pWindow; // Current window
 
 #ifdef _DEBUG
-        bool _bDispatch; // Dispatch flag
+        int _iDispatch; // Dispatch flag
 #endif // #ifdef _DEBUG
     } _m;
 
@@ -153,6 +152,13 @@ public:
     @return The null-terminating string of specified command line argument*/
     static _Ret_notnull_ const char* getArgValue(int index);
 
+    /*Gets the thread object block message flag of the specified thread. Used as a getter of <blockMessage> property
+    @param True if thread messages are blocked, false otherwise*/
+    bool getBlockMessage() const
+    {
+        return _m.bBlockMessage;
+    }
+
     /*Returns the window object currently associated with specified thread. Used as a setter of <context> property
     @return The associated window object*/
     _Ret_notnull_ Window* getContext() const;
@@ -178,7 +184,7 @@ public:
         return _s.dEventsTimeout;
     }
 
-    /*Retrieves the termination status of the specified thread. Applicable only for the secondary thread
+    /*Retrieves the termination status of the specified thread. Applicable only for the secondary thread, after it exits
     @return The thread termination status*/
     DWORD getExitCodeThread();
 
@@ -245,11 +251,12 @@ public:
 
     /*Adds the custom message to specified thread object's message queue. The method should not be called from the current thread
     @param Message id number
-    @param Additional message-specific data
-    @param Additional message-specific data
-    @param Additional message-specific data
-    @param Additional message-specific data*/
-    void postMessage(int msgid, Param x, Param y, Param z, Param w);
+    @param The message specific x value
+    @param The message specific y value
+    @param The message specific z value
+    @param The message specific w value
+    @return True if message was added to message queue, false otherwise*/
+    bool postMessage(int msgid, Param x, Param y, Param z, Param w);
 
     /*Decrements a thread's suspend count. When the suspend count is decremented to zero, the execution of the thread is resumed
     @return The thread's previous suspend count*/
@@ -331,8 +338,8 @@ public:
     void wakeThread();
 
 #ifdef YAGLPP_CLASS_PROPERTIES
-    /*Write-only property for block message flag of the specified thread*/
-    __declspec(property(put = setBlockMessage)) bool blockMessage;
+    /*Read-writ property for block message flag of the specified thread*/
+    __declspec(property(get = getBlockMessage, put = setBlockMessage)) bool blockMessage;
 
     /*Read-write property for window object currently associated with specified thread. Could be set only once*/
     __declspec(property(get = getContext, put = setContext)) Window* context;
@@ -439,7 +446,7 @@ inline HANDLE Thread::_handle() const
 
 inline void Thread::closeHandle()
 {
-    CloseHandle(_m.hThread); _m.hThread = NULL; _m.nThreadId = 0;
+    CloseHandle(_m.hThread); _m.hThread = NULL;
 }
 
 inline void Thread::exitThread(DWORD exitcode)
@@ -482,9 +489,9 @@ inline void Thread::joinThread()
     WaitForSingleObject(_handle(), INFINITE);
 }
 
-inline void Thread::postMessage(int msgid, Param x, Param y, Param z, Param w)
+inline bool Thread::postMessage(int msgid, Param x, Param y, Param z, Param w)
 {
-    Message msg = { msgid, x, y, z, w, *_tlsThread() }; _message(&msg);
+    Message msg = { msgid, x, y, z, w, *_tlsThread() }; return _message(&msg);
 }
 
 inline int Thread::resumeThread()

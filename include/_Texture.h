@@ -1,5 +1,4 @@
 #pragma once
-#include "gladpp.h"
 #include "_Object.h"
 namespace gl {
 /*GLAD texture output pixel type enumerator used in <gexTexImage>*/
@@ -766,161 +765,118 @@ class _Texture : public _Object
 	friend _Framebuffer;
 #endif // #ifdef GL_VERSION_3_0
 protected:
+	void _activeTexture(GLenum target, GLenum binding, TextureUnit index);
+	void _bindTexture(GLenum target, GLenum binding);
+	static void _compressedTexImage1D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei imageSize, const void* data);
+	void _compressedTexImage1D(GLenum target, GLenum binding, GLint level, GLenum internalformat, GLsizei width, GLsizei imageSize, const void* data);
+	static void _compressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, const void* data);
+	void _compressedTexImage2D(GLenum target, GLenum binding, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, const void* data);
+	void _compressedTexImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, const void* data);
+	static void _compressedTexImage3D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLsizei imageSize, const void* data);
+	void _compressedTexImage3D(GLenum target, GLenum binding, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLsizei imageSize, const void* data);
+	static void _compressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum internalformat, GLsizei imageSize, const void* data);
+	void _compressedTexSubImage1D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLsizei width, GLenum internalformat, GLsizei imageSize, const void* data);
+	static void _compressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum internalformat, GLsizei imageSize, const void* data);
+	void _compressedTexSubImage2D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum internalformat, GLsizei imageSize, const void* data);
+	void _compressedTexSubImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum internalformat, GLsizei imageSize, const void* data);
+	static void _compressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum internalformat, GLsizei imageSize, const void* data);
+	void _compressedTexSubImage3D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum internalformat, GLsizei imageSize, const void* data);
+	void _copyTexImage1D(GLenum target, GLenum binding, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width);
+	void _copyTexImage2D(GLenum target, GLenum binding, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height);
+	void _copyTexImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height);
+	void _copyTexSubImage1D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width);
+	void _copyTexSubImage2D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
+	void _copyTexSubImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
+	void _copyTexSubImage3D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height);
+	static void _getCompressedTexImage(GLenum target, GLint level, void* pixels);
+	void _getCompressedTexImage(GLenum target, GLenum binding, GLint level, void* pixels);
+	void _getCompressedTexImage(GLenum target, GLenum binding, GLenum plane, GLint level, void* pixels);
+	static void _getTexImage(GLenum target, GLint level, GLenum format, GLenum type, void* pixels);
+	void _getTexImage(GLenum target, GLenum binding, GLint level, GLenum format, GLenum type, void* pixels);
+	void _getTexImage(GLenum target, GLenum binding, GLenum plane, GLint level, GLenum format, GLenum type, void* pixels);
+	static GLint _getTexLevelParameter(GLenum target, GLint level, GLenum pname);
+	GLint _getTexLevelParameter(GLenum target, GLenum binding, GLint level, GLenum pname);
+	GLint _getTexLevelParameter(GLenum target, GLenum binding, GLenum plane, GLint level, GLenum pname);
+	GLint _getTexParameter(GLenum target, GLenum binding, GLenum pname);
+	GLfloat _getTexParameterFloat(GLenum target, GLenum binding, GLenum pname);
+	void _getTexParameter(GLenum target, GLenum binding, GLenum pname, GLint* param);
+	void _getTexParameter(GLenum target, GLenum binding, GLenum pname, GLfloat* param);
+	static GLenum _siFormat(StbImage& image);
+	static GLenum _siType(StbImage& image);
+	static void _texImage1D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLenum format, GLenum type, const void* data);
+	void _texImage1D(GLenum target, GLenum binding, GLint level, GLint internalformat, StbImage& image);
+	void _texImage1D(GLenum target, GLenum binding, GLint level, GLint internalformat, GLsizei width, GLenum format, GLenum type, const void* data);
+	static void _texImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* data);
+	void _texImage2D(GLenum target, GLenum binding, GLint level, GLint internalformat, StbImage& image);
+	void _texImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLint internalformat, StbImage& image);
+	void _texImage2D(GLenum target, GLenum binding, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* data);
+	void _texImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* data);
+	static void _texImage3D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void* data);
+	void _texImage3D(GLenum target, GLenum binding, GLint level, GLint internalformat, GLsizei layers, StbImage& image);
+	void _texImage3D(GLenum target, GLenum binding, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void* data);
+	void _texParameter(GLenum target, GLenum binding, GLenum pname, GLint param);
+	void _texParameter(GLenum target, GLenum binding, GLenum pname, GLfloat param);
+	void _texParameter(GLenum target, GLenum binding, GLenum pname, const GLint* param);
+	void _texParameter(GLenum target, GLenum binding, GLenum pname, const GLfloat* param);
+	static void _texSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const void* pixels);
+	void _texSubImage1D(GLenum target, GLenum binding, GLint level, GLint xoffset, StbImage& image);
+	void _texSubImage1D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const void* pixels);
+	static void _texSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* pixels);
+	void _texSubImage2D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, StbImage& image);
+	void _texSubImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLint xoffset, GLint yoffset, StbImage& image);
+	void _texSubImage2D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* pixels);
+	void _texSubImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* pixels);
+	static void _texSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void* pixels);
+	void _texSubImage3D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei layers, StbImage& image);
+	void _texSubImage3D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void* pixels);
+	static void _unbindTarget(GLenum target, GLenum binding);
+	void _unbindTexture(GLenum target, GLenum binding);
 	GLuint _texture_id()
 	{
 		return _object_id(glGenTextures);
 	}
 
-	void _texture_bind(GLuint* tls, GLenum target)
+	void _setTextureBinding(GLenum target, GLenum binding, GLboolean bind)
 	{
-		_bindTexture(tls, target, _texture_id());
+		(bind) ? _bindTexture(target, binding) : _unbindTexture(target, binding);
 	}
-
-	void _texture_rebind(GLuint* tls, GLenum target)
-	{
-		*tls = 0;  _texture_bind(tls, target);
-	}
-
-	static void _texture_unbind(GLuint* tls, GLenum target)
-	{
-		_bindTexture(tls, target, 0);
-	}
-
-	static GLuint* _tlsTexture1D()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static GLuint* _tlsTexture2D()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static GLuint* _tlsTexture3D()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static GLuint* _tlsTextureCubeMap()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	void _activeTexture(GLuint* tls, GLenum target, TextureUnit index);
-	static void _bindTexture(GLuint* tls, GLenum target, GLuint texture);
-	static void _compressedTexImage1D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei imageSize, const void* data);
-	void _compressedTexImage1D(GLuint* tls, GLint level, GLenum internalformat, GLsizei width, GLsizei imageSize, const void* data);
-	static void _compressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, const void* data);
-	void _compressedTexImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, const void* data);
-	static void _compressedTexImage3D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLsizei imageSize, const void* data);
-	void _compressedTexImage3D(GLuint* tls, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLsizei imageSize, const void* data);
-	static void _compressedTexSubImage1D(GLint level, GLint xoffset, GLsizei width, GLenum internalformat, GLsizei imageSize, const void* data);
-	void _compressedTexSubImage1D(GLuint* tls, GLint level, GLint xoffset, GLsizei width, GLenum internalformat, GLsizei imageSize, const void* data);
-	static void _compressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum internalformat, GLsizei imageSize, const void* data);
-	void _compressedTexSubImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum internalformat, GLsizei imageSize, const void* data);
-	static void _compressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum internalformat, GLsizei imageSize, const void* data);
-	void _compressedTexSubImage3D(GLuint* tls, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum internalformat, GLsizei imageSize, const void* data);
-	void _copyTexImage1D(GLuint* tls, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width);
-	void _copyTexImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height);
-	void _copyTexSubImage1D(GLuint* tls, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width);
-	void _copyTexSubImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-	void _copyTexSubImage3D(GLuint* tls, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-	static void _getCompressedTexImage(GLenum target, GLint level, void* pixels);
-	void _getCompressedTexImage(GLuint* tls, GLenum target, GLenum plane, GLint level, void* pixels);
-	static void _getTexImage(GLenum target, GLint level, GLenum format, GLenum type, void* pixels);
-	void _getTexImage(GLuint* tls, GLenum target, GLenum plane, GLint level, GLenum format, GLenum type, void* pixels);
-	static GLint _getTexLevelParameter(GLenum target, GLint level, GLenum pname);
-	GLint _getTexLevelParameter(GLuint* tls, GLenum target, GLenum plane, GLint level, GLenum pname);
-	GLint _getTexParameter(GLuint* tls, GLenum target, GLenum pname);
-	GLfloat _getTexParameterFloat(GLuint* tls, GLenum target, GLenum pname);
-	void _getTexParameter(GLuint* tls, GLenum target, GLenum pname, GLint* param);
-	void _getTexParameter(GLuint* tls, GLenum target, GLenum pname, GLfloat* param);
-	static GLenum _siFormat(StbImage& image);
-	static GLenum _siType(StbImage& image);
-	static void _texImage1D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLenum format, GLenum type, const void* data);
-	void _texImage1D(GLuint* tls, GLint level, GLint internalformat, StbImage& image);
-	void _texImage1D(GLuint* tls, GLint level, GLint internalformat, GLsizei width, GLenum format, GLenum type, const void* data);
-	static void _texImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* data);
-	void _texImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint internalformat, StbImage& image);
-	void _texImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* data);
-	static void _texImage3D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void* data);
-	void _texImage3D(GLuint* tls, GLenum target, GLint level, GLint internalformat, GLsizei layers, StbImage& image);
-	void _texImage3D(GLuint* tls, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void* data);
-	void _texParameter(GLuint* tls, GLenum target, GLenum pname, GLint param);
-	void _texParameter(GLuint* tls, GLenum target, GLenum pname, GLfloat param);
-	void _texParameter(GLuint* tls, GLenum target, GLenum pname, const GLint* param);
-	void _texParameter(GLuint* tls, GLenum target, GLenum pname, const GLfloat* param);
-	static void _texSubImage1D(GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const void* pixels);
-	void _texSubImage1D(GLuint* tls, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const void* pixels);
-	void _texSubImage1D(GLuint* tls, GLint level, GLint xoffset, StbImage& image);
-	static void _texSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* pixels);
-	void _texSubImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint xoffset, GLint yoffset, StbImage& image);
-	void _texSubImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* pixels);
-	static void _texSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void* pixels);
-	void _texSubImage3D(GLuint* tls, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei layers, StbImage& image);
-	void _texSubImage3D(GLuint* tls, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void* pixels);
 
 #ifdef GL_VERSION_2_1
-	void _compressedTexImage1D(GLuint* tls, GLint level, GLenum internalformat, GLsizei width, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
-	void _compressedTexImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
-	void _compressedTexImage3D(GLuint* tls, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
-	void _compressedTexSubImage1D(GLuint* tls, GLint level, GLint xoffset, GLsizei width, GLenum internalformat, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
-	void _compressedTexSubImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum internalformat, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
-	void _compressedTexSubImage3D(GLuint* tls, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum internalformat, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
-	void _getCompressedTexImage(GLuint* tls, GLenum target, GLenum plane, GLint level, _Buffer& buffer, GLintptr offset);
-	void _getTexImage(GLuint* tls, GLenum target, GLenum plane, GLint level, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
-	void _texImage1D(GLuint* tls, GLint level, GLint internalformat, GLsizei width, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
-	void _texImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
-	void _texImage3D(GLuint* tls, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
-	void _texSubImage1D(GLuint* tls, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
-	void _texSubImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
-	void _texSubImage3D(GLuint* tls, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
+	void _compressedTexImage1D(GLenum target, GLenum binding, GLint level, GLenum internalformat, GLsizei width, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
+	void _compressedTexImage2D(GLenum target, GLenum binding, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
+	void _compressedTexImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
+	void _compressedTexImage3D(GLenum target, GLenum binding, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
+	void _compressedTexSubImage1D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLsizei width, GLenum internalformat, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
+	void _compressedTexSubImage2D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum internalformat, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
+	void _compressedTexSubImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum internalformat, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
+	void _compressedTexSubImage3D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum internalformat, GLsizei imageSize, _Buffer& buffer, GLintptr offset);
+	void _getCompressedTexImage(GLenum target, GLenum binding, GLint level, _Buffer& buffer, GLintptr offset);
+	void _getCompressedTexImage(GLenum target, GLenum binding, GLenum plane, GLint level, _Buffer& buffer, GLintptr offset);
+	void _getTexImage(GLenum target, GLenum binding, GLint level, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
+	void _getTexImage(GLenum target, GLenum binding, GLenum plane, GLint level, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
+	void _texImage1D(GLenum target, GLenum binding, GLint level, GLint internalformat, GLsizei width, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
+	void _texImage2D(GLenum target, GLenum binding, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
+	void _texImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
+	void _texImage3D(GLenum target, GLenum binding, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
+	void _texSubImage1D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
+	void _texSubImage2D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
+	void _texSubImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
+	void _texSubImage3D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset);
 #endif // #ifdef GL_VERSION_2_1
 
 #ifdef GL_VERSION_3_0
-	static GLuint* _tlsTexture1DArray()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static GLuint* _tlsTexture2DArray()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	void _generateMipmap(GLuint* tls, GLenum target);
+	void _generateMipmap(GLenum target, GLenum binding);
 #endif // #ifdef GL_VERSION_3_0
 
 #ifdef GL_VERSION_3_1
-	static GLuint* _tlsBufferTexture()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static GLuint* _tlsTextureRectangle()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static void _texBuffer(GLenum internalformat, GLuint buffer);
-	void _texBuffer(GLenum internalformat, _Buffer& buffer);
+	void _texBuffer(GLenum internalformat, _Buffer* buffer);
 #endif // #ifdef GL_VERSION_3_1
 
 #ifdef GL_VERSION_3_2
-	static GLuint* _tlsTexture2DMultisample()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-	
-	static GLuint* _tlsTexture2DMultisampleArray()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
 	static void _texImage2DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations);
-	void _texImage2DMultisample(GLuint* tls, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations);
+	void _texImage2DMultisample(GLenum target, GLenum binding, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations);
 	static void _texImage3DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations);
-	void _texImage3DMultisample(GLuint* tls, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations);
+	void _texImage3DMultisample(GLenum target, GLenum binding, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations);
 #endif // #ifdef GL_VERSION_3_2
 
 public:
@@ -980,9 +936,13 @@ public:
 		return glIsTexture(_object_id());
 	}
 
+	/*Sets the creation state of the texture object, only if current state is opposite. Depending of the flag value, calls <genTexture> or <deleteTexture> functions. Used as a setter of <texture> property
+	@param True to generate texture object name, false to delete texture object*/
+	void setTexture(GLboolean gen);
+
 #ifdef YAGLPP_CLASS_PROPERTIES
-	/*Read-only property to determine if a name corresponds to a texture object*/
-	__declspec(property(get = isTexture)) GLboolean texture;
+	/*Read-write property for creation state of the texture object*/
+	__declspec(property(get = isTexture, put = setTexture)) GLboolean texture;
 #endif // #ifdef YAGLPP_CLASS_PROPERTIES
 
 #ifdef GL_VERSION_3_0
@@ -1006,62 +966,95 @@ public:
 #include "_Buffer.h"
 #include "StbImage.h"
 namespace gl {
-inline void _Texture::_texImage1D(GLuint* tls, GLint level, GLint internalformat, StbImage& image)
+inline void _Texture::_compressedTexImage2D(GLenum target, GLenum binding, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, const void* data)
 {
-	_texImage1D(tls, level, internalformat, image.getWidth(), _siFormat(image), _siType(image), image.getPixels());
+	_compressedTexImage2D(target, binding, target, level, internalformat, width, height, imageSize, data);
 }
 
-inline void _Texture::_texImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint internalformat, StbImage& image)
+inline void _Texture::_compressedTexSubImage2D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum internalformat, GLsizei imageSize, const void* data)
 {
-	_texImage2D(tls, target, plane, level, internalformat, image.getWidth(), image.getHeight(), _siFormat(image), _siType(image), image.getPixels());
+	_compressedTexSubImage2D(target, binding, target, level, xoffset, yoffset, width, height, internalformat, imageSize, data);
 }
 
-inline void _Texture::_texImage3D(GLuint* tls, GLenum target, GLint level, GLint internalformat, GLsizei layers, StbImage& image)
+inline void _Texture::_copyTexImage2D(GLenum target, GLenum binding, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height)
 {
-	_texImage3D(tls, target, level, internalformat, image.getWidth(), image.getHeight() / layers, layers, _siFormat(image), _siType(image), image.getPixels());
+	_copyTexImage2D(target, binding, target, level, internalformat, x, y, width, height);
 }
 
-inline void _Texture::_texSubImage1D(GLuint* tls, GLint level, GLint xoffset, StbImage& image)
+inline void _Texture::_copyTexSubImage2D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height)
 {
-	_texSubImage1D(tls, level, xoffset, image.getWidth(), _siFormat(image), _siType(image), image.getPixels());
+	_copyTexSubImage2D(target, binding, target, level, xoffset, yoffset, x, y, width, height);
 }
 
-inline void _Texture::_texSubImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint xoffset, GLint yoffset, StbImage& image)
+inline void _Texture::_getCompressedTexImage(GLenum target, GLenum binding, GLint level, void* pixels)
 {
-	_texSubImage2D(tls, target, plane, level, xoffset, yoffset, image.getWidth(), image.getHeight(), _siFormat(image), _siType(image), image.getPixels());
+	_getCompressedTexImage(target, binding, target, level, pixels);
 }
 
-inline void _Texture::_texSubImage3D(GLuint* tls, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei layers, StbImage& image)
+inline void _Texture::_getTexImage(GLenum target, GLenum binding, GLint level, GLenum format, GLenum type, void* pixels)
 {
-	_texSubImage3D(tls, target, level, xoffset, yoffset, zoffset, image.getWidth(), image.getHeight() / layers, layers, _siFormat(image), _siType(image), image.getPixels());
+	_getTexImage(target, binding, target, level, format, type, pixels);
+}
+
+inline GLint _Texture::_getTexLevelParameter(GLenum target, GLenum binding, GLint level, GLenum pname)
+{
+	return _getTexLevelParameter(target, binding, target, level, pname);
+}
+
+inline void _Texture::_texImage1D(GLenum target, GLenum binding, GLint level, GLint internalformat, StbImage& image)
+{
+	_texImage1D(target, binding, level, internalformat, image.getWidth(), _siFormat(image), _siType(image), image.getPixels());
+}
+
+inline void _Texture::_texImage2D(GLenum target, GLenum binding, GLint level, GLint internalformat, StbImage& image)
+{
+	_texImage2D(target, binding, target, level, internalformat, image);
+}
+
+inline void _Texture::_texImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLint internalformat, StbImage& image)
+{
+	_texImage2D(target, binding, plane, level, internalformat, image.getWidth(), image.getHeight(), _siFormat(image), _siType(image), image.getPixels());
+}
+
+inline void _Texture::_texImage2D(GLenum target, GLenum binding, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* data)
+{
+	_texImage2D(target, binding, target, level, internalformat, width, height, format, type, data);
+}
+
+inline void _Texture::_texImage3D(GLenum target, GLenum binding, GLint level, GLint internalformat, GLsizei layers, StbImage& image)
+{
+	_texImage3D(target, binding, level, internalformat, image.getWidth(), image.getHeight() / layers, layers, _siFormat(image), _siType(image), image.getPixels());
+}
+
+inline void _Texture::_texSubImage1D(GLenum target, GLenum binding, GLint level, GLint xoffset, StbImage& image)
+{
+	_texSubImage1D(target, binding, level, xoffset, image.getWidth(), _siFormat(image), _siType(image), image.getPixels());
+}
+
+inline void _Texture::_texSubImage2D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, StbImage& image)
+{
+	_texSubImage2D(target, binding, target, level, xoffset, yoffset, image);
+}
+
+inline void _Texture::_texSubImage2D(GLenum target, GLenum binding, GLenum plane, GLint level, GLint xoffset, GLint yoffset, StbImage& image)
+{
+	_texSubImage2D(target, binding, plane, level, xoffset, yoffset, image.getWidth(), image.getHeight(), _siFormat(image), _siType(image), image.getPixels());
+}
+
+inline void _Texture::_texSubImage2D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* pixels)
+{
+	_texSubImage2D(target, binding, target, level, xoffset, yoffset, width, height, format, type, pixels);
+}
+
+inline void _Texture::_texSubImage3D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei layers, StbImage& image)
+{
+	_texSubImage3D(target, binding, level, xoffset, yoffset, zoffset, image.getWidth(), image.getHeight() / layers, layers, _siFormat(image), _siType(image), image.getPixels());
 }
 
 #ifndef _DEBUG
-inline void _Texture::_activeTexture(GLuint* tls, GLenum target, TextureUnit index)
-{
-	glActiveTexture((GLenum)index + GL_TEXTURE0);
-	_texture_rebind(tls, target);
-}
-
-inline void _Texture::_bindTexture(GLuint* tls, GLenum target, GLuint texture)
-{
-	if (*tls == texture) return;
-	glBindTexture(target, texture); *tls = texture;
-}
-
 inline void _Texture::_compressedTexImage1D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei imageSize, const void* data)
 {
 	glCompressedTexImage1D(target, level, internalformat, width, 0, imageSize, data);
-}
-
-inline void _Texture::_compressedTexImage1D(GLuint* tls, GLint level, GLenum internalformat, GLsizei width, GLsizei imageSize, const void* data)
-{
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, GL_TEXTURE_1D);
-	glCompressedTexImage1D(GL_TEXTURE_1D, level, internalformat, width, 0, imageSize, data);
 }
 
 inline void _Texture::_compressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, const void* data)
@@ -1069,44 +1062,14 @@ inline void _Texture::_compressedTexImage2D(GLenum target, GLint level, GLenum i
 	glCompressedTexImage2D(target, level, internalformat, width, height, 0, imageSize, data);
 }
 
-inline void _Texture::_compressedTexImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, const void* data)
-{
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, target);
-	glCompressedTexImage2D(plane, level, internalformat, width, height, 0, imageSize, data);
-}
-
 inline void _Texture::_compressedTexImage3D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLsizei imageSize, const void* data)
 {
 	glCompressedTexImage3D(target, level, internalformat, width, height, depth, 0, imageSize, data);
 }
 
-inline void _Texture::_compressedTexImage3D(GLuint* tls, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLsizei imageSize, const void* data)
+inline void _Texture::_compressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum internalformat, GLsizei imageSize, const void* data)
 {
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, target);
-	glCompressedTexImage3D(target, level, internalformat, width, height, depth, 0, imageSize, data);
-}
-
-inline void _Texture::_compressedTexSubImage1D(GLint level, GLint xoffset, GLsizei width, GLenum internalformat, GLsizei imageSize, const void* data)
-{
-	glCompressedTexSubImage1D(GL_TEXTURE_1D, level, xoffset, width, internalformat, imageSize, data);
-}
-
-inline void _Texture::_compressedTexSubImage1D(GLuint* tls, GLint level, GLint xoffset, GLsizei width, GLenum internalformat, GLsizei imageSize, const void* data)
-{
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, GL_TEXTURE_1D);
-	glCompressedTexSubImage1D(GL_TEXTURE_1D, level, xoffset, width, internalformat, imageSize, data);
+	glCompressedTexSubImage1D(target, level, xoffset, width, internalformat, imageSize, data);
 }
 
 inline void _Texture::_compressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum internalformat, GLsizei imageSize, const void* data)
@@ -1114,59 +1077,9 @@ inline void _Texture::_compressedTexSubImage2D(GLenum target, GLint level, GLint
 	glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, internalformat, imageSize, data);
 }
 
-inline void _Texture::_compressedTexSubImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum internalformat, GLsizei imageSize, const void* data)
-{
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, target);
-	glCompressedTexSubImage2D(plane, level, xoffset, yoffset, width, height, internalformat, imageSize, data);
-}
-
 inline void _Texture::_compressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum internalformat, GLsizei imageSize, const void* data)
 {
 	glCompressedTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, internalformat, imageSize, data);
-}
-
-inline void _Texture::_compressedTexSubImage3D(GLuint* tls, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum internalformat, GLsizei imageSize, const void* data)
-{
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, target);
-	glCompressedTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, internalformat, imageSize, data);
-}
-
-inline void _Texture::_copyTexImage1D(GLuint* tls, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width)
-{
-	_texture_bind(tls, GL_TEXTURE_1D);
-	glCopyTexImage1D(GL_TEXTURE_1D, level, internalformat, x, y, width, 0);
-}
-
-inline void _Texture::_copyTexImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height)
-{
-	_texture_bind(tls, target);
-	glCopyTexImage2D(plane, level, internalformat, x, y, width, height, 0);
-}
-
-inline void _Texture::_copyTexSubImage1D(GLuint* tls, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width)
-{
-	_texture_bind(tls, GL_TEXTURE_1D);
-	glCopyTexSubImage1D(GL_TEXTURE_1D, level, xoffset, x, y, width);
-}
-
-inline void _Texture::_copyTexSubImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height)
-{
-	_texture_bind(tls, target);
-	glCopyTexSubImage2D(plane, level, xoffset, yoffset, x, y, width, height);
-}
-
-inline void _Texture::_copyTexSubImage3D(GLuint* tls, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height)
-{
-	_texture_bind(tls, target);
-	glCopyTexSubImage3D(target, level, xoffset, yoffset, zoffset, x, y, width, height);
 }
 
 inline void _Texture::_getCompressedTexImage(GLenum target, GLint level, void* pixels)
@@ -1174,64 +1087,14 @@ inline void _Texture::_getCompressedTexImage(GLenum target, GLint level, void* p
 	glGetCompressedTexImage(target, level, pixels);
 }
 
-inline void _Texture::_getCompressedTexImage(GLuint* tls, GLenum target, GLenum plane, GLint level, void* pixels)
-{
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelPackBuffer(), GL_PIXEL_PACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, target);
-	glGetCompressedTexImage(plane, level, pixels);
-}
-
 inline void _Texture::_getTexImage(GLenum target, GLint level, GLenum format, GLenum type, void* pixels)
 {
 	glGetTexImage(target, level, format, type, pixels);
 }
 
-inline void _Texture::_getTexImage(GLuint* tls, GLenum target, GLenum plane, GLint level, GLenum format, GLenum type, void* pixels)
-{
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelPackBuffer(), GL_PIXEL_PACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, target); // +GL_PIXEL_PACK_BUFFER
-	glGetTexImage(plane, level, format, type, pixels);
-}
-
 inline GLint _Texture::_getTexLevelParameter(GLenum target, GLint level, GLenum pname)
 {
-	GLint i; glGetTexLevelParameteriv(target, level, pname, &i); return i;
-}
-
-inline GLint _Texture::_getTexLevelParameter(GLuint* tls, GLenum target, GLenum plane, GLint level, GLenum pname)
-{
-	_texture_bind(tls, target);
-	GLint i; glGetTexLevelParameteriv(plane, level, pname, &i); return i;
-}
-
-inline GLint _Texture::_getTexParameter(GLuint* tls, GLenum target, GLenum pname)
-{
-	_texture_bind(tls, target);
-	GLint i; glGetTexParameteriv(target, pname, &i); return i;
-}
-
-inline GLfloat _Texture::_getTexParameterFloat(GLuint* tls, GLenum target, GLenum pname)
-{
-	_texture_bind(tls, target);
-	GLfloat f; glGetTexParameterfv(target, pname, &f); return f;
-}
-
-inline void _Texture::_getTexParameter(GLuint* tls, GLenum target, GLenum pname, GLint* param)
-{
-	_texture_bind(tls, target);
-	glGetTexParameteriv(target, pname, param);
-}
-
-inline void _Texture::_getTexParameter(GLuint* tls, GLenum target, GLenum pname, GLfloat* param)
-{
-	_texture_bind(tls, target);
-	glGetTexParameterfv(target, pname, param);
+	GLint iData = 0; glGetTexLevelParameteriv(target, level, pname, &iData); return iData;
 }
 
 inline void _Texture::_texImage1D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLenum format, GLenum type, const void* data)
@@ -1239,29 +1102,9 @@ inline void _Texture::_texImage1D(GLenum target, GLint level, GLint internalform
 	glTexImage1D(target, level, internalformat, width, 0, format, type, data);
 }
 
-inline void _Texture::_texImage1D(GLuint* tls, GLint level, GLint internalformat, GLsizei width, GLenum format, GLenum type, const void* data)
-{
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, GL_TEXTURE_1D);
-	glTexImage1D(GL_TEXTURE_1D, level, internalformat, width, 0, format, type, data);
-}
-
 inline void _Texture::_texImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* data)
 {
 	glTexImage2D(target, level, internalformat, width, height, 0, format, type, data);
-}
-
-inline void _Texture::_texImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* data)
-{
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, target);
-	glTexImage2D(plane, level, internalformat, width, height, 0, format, type, data);
 }
 
 inline void _Texture::_texImage3D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void* data)
@@ -1269,53 +1112,9 @@ inline void _Texture::_texImage3D(GLenum target, GLint level, GLint internalform
 	glTexImage3D(target, level, internalformat, width, height, depth, 0, format, type, data);
 }
 
-inline void _Texture::_texImage3D(GLuint* tls, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void* data)
+inline void _Texture::_texSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const void* pixels)
 {
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, target);
-	glTexImage3D(target, level, internalformat, width, height, depth, 0, format, type, data);
-}
-
-inline void _Texture::_texParameter(GLuint* tls, GLenum target, GLenum pname, GLint param)
-{
-	_texture_bind(tls, target);
-	glTexParameteri(target, pname, param);
-}
-
-inline void _Texture::_texParameter(GLuint* tls, GLenum target, GLenum pname, GLfloat param)
-{
-	_texture_bind(tls, target);
-	glTexParameterf(target, pname, param);
-}
-
-inline void _Texture::_texParameter(GLuint* tls, GLenum target, GLenum pname, const GLint* param)
-{
-	_texture_bind(tls, target);
-	glTexParameteriv(target, pname, param);
-}
-
-inline void _Texture::_texParameter(GLuint* tls, GLenum target, GLenum pname, const GLfloat* param)
-{
-	_texture_bind(tls, target);
-	glTexParameterfv(target, pname, param);
-}
-
-inline void _Texture::_texSubImage1D(GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const void* pixels)
-{
-	glTexSubImage1D(GL_TEXTURE_1D, level, xoffset, width, format, type, pixels);
-}
-
-inline void _Texture::_texSubImage1D(GLuint* tls, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const void* pixels)
-{
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, GL_TEXTURE_1D);
-	glTexSubImage1D(GL_TEXTURE_1D, level, xoffset, width, format, type, pixels);
+	glTexSubImage1D(target, level, xoffset, width, format, type, pixels);
 }
 
 inline void _Texture::_texSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* pixels)
@@ -1323,178 +1122,56 @@ inline void _Texture::_texSubImage2D(GLenum target, GLint level, GLint xoffset, 
 	glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
 }
 
-inline void _Texture::_texSubImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* pixels)
-{
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, target); // +GL_PIXEL_UNPACK_BUFFER 
-	glTexSubImage2D(plane, level, xoffset, yoffset, width, height, format, type, pixels);
-}
-
 inline void _Texture::_texSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void* pixels)
 {
 	glTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels);
 }
-
-inline void _Texture::_texSubImage3D(GLuint* tls, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void* pixels)
-{
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	_texture_bind(tls, target); // +GL_PIXEL_UNPACK_BUFFER 
-	glTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels);
-}
+#endif // #ifndef _DEBUG
 
 #ifdef GL_VERSION_2_1
-inline void _Texture::_compressedTexImage1D(GLuint* tls, GLint level, GLenum internalformat, GLsizei width, GLsizei imageSize, _Buffer& buffer, GLintptr offset)
+inline void _Texture::_compressedTexImage2D(GLenum target, GLenum binding, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, _Buffer& buffer, GLintptr offset)
 {
-	buffer._buffer_bind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-	_texture_bind(tls, GL_TEXTURE_1D);
-	glCompressedTexImage1D(GL_TEXTURE_1D, level, internalformat, width, 0, imageSize, (void*)offset);
+	_compressedTexImage2D(target, binding, target, level, internalformat, width, height, imageSize, buffer, offset);
 }
 
-inline void _Texture::_compressedTexImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, _Buffer& buffer, GLintptr offset)
+inline void _Texture::_compressedTexSubImage2D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum internalformat, GLsizei imageSize, _Buffer& buffer, GLintptr offset)
 {
-	buffer._buffer_bind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-	_texture_bind(tls, target);
-	glCompressedTexImage2D(plane, level, internalformat, width, height, 0, imageSize, (void*)offset);
+	_compressedTexSubImage2D(target, binding, target, level, xoffset, yoffset, width, height, internalformat, imageSize, buffer, offset);
 }
 
-inline void _Texture::_compressedTexImage3D(GLuint* tls, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLsizei imageSize, _Buffer& buffer, GLintptr offset)
+inline void _Texture::_getCompressedTexImage(GLenum target, GLenum binding, GLint level, _Buffer& buffer, GLintptr offset)
 {
-	buffer._buffer_bind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-	_texture_bind(tls, target);
-	glCompressedTexImage3D(target, level, internalformat, width, height, depth, 0, imageSize, (void*)offset);
+	_getCompressedTexImage(target, binding, target, level, buffer, offset);
 }
 
-inline void _Texture::_compressedTexSubImage1D(GLuint* tls, GLint level, GLint xoffset, GLsizei width, GLenum internalformat, GLsizei imageSize, _Buffer& buffer, GLintptr offset)
+inline void _Texture::_getTexImage(GLenum target, GLenum binding, GLint level, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset)
 {
-	buffer._buffer_bind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-	_texture_bind(tls, GL_TEXTURE_1D);
-	glCompressedTexSubImage1D(GL_TEXTURE_1D, level, xoffset, width, internalformat, imageSize, (void*)offset);
+	_getTexImage(target, binding, target, level, format, type, buffer, offset);
 }
 
-inline void _Texture::_compressedTexSubImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum internalformat, GLsizei imageSize, _Buffer& buffer, GLintptr offset)
+inline void _Texture::_texImage2D(GLenum target, GLenum binding, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset)
 {
-	buffer._buffer_bind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-	_texture_bind(tls, target);
-	glCompressedTexSubImage2D(plane, level, xoffset, yoffset, width, height, internalformat, imageSize, (void*)offset);
+	_texImage2D(target, binding, target, level, internalformat, width, height, format, type, buffer, offset);
 }
 
-inline void _Texture::_compressedTexSubImage3D(GLuint* tls, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum internalformat, GLsizei imageSize, _Buffer& buffer, GLintptr offset)
+inline void _Texture::_texSubImage2D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset)
 {
-	buffer._buffer_bind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-	_texture_bind(tls, target);
-	glCompressedTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, internalformat, imageSize, (void*)offset);
-}
-
-inline void _Texture::_getCompressedTexImage(GLuint* tls, GLenum target, GLenum plane, GLint level, _Buffer& buffer, GLintptr offset)
-{
-	buffer._buffer_bind(_Buffer::_tlsPixelPackBuffer(), GL_PIXEL_PACK_BUFFER);
-	_texture_bind(tls, target);
-	glGetCompressedTexImage(plane, level, (void*)offset);
-}
-
-inline void _Texture::_getTexImage(GLuint* tls, GLenum target, GLenum plane, GLint level, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset)
-{
-	buffer._buffer_bind(_Buffer::_tlsPixelPackBuffer(), GL_PIXEL_PACK_BUFFER);
-	_texture_bind(tls, target);
-	glGetTexImage(plane, level, format, type, (void*)offset);
-}
-
-inline void _Texture::_texImage1D(GLuint* tls, GLint level, GLint internalformat, GLsizei width, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset)
-{
-	buffer._buffer_bind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-	_texture_bind(tls, GL_TEXTURE_1D);
-	glTexImage1D(GL_TEXTURE_1D, level, internalformat, width, 0, format, type, (void*)offset);
-}
-
-inline void _Texture::_texImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset)
-{
-	buffer._buffer_bind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-	_texture_bind(tls, target);
-	glTexImage2D(plane, level, internalformat, width, height, 0, format, type, (void*)offset);
-}
-
-inline void _Texture::_texImage3D(GLuint* tls, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset)
-{
-	buffer._buffer_bind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-	_texture_bind(tls, target);
-	glTexImage3D(target, level, internalformat, width, height, depth, 0, format, type, (void*)offset);
-}
-
-inline void _Texture::_texSubImage1D(GLuint* tls, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset)
-{
-	buffer._buffer_bind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-	_texture_bind(tls, GL_TEXTURE_1D);
-	glTexSubImage1D(GL_TEXTURE_1D, level, xoffset, width, format, type, (void*)offset);
-}
-
-inline void _Texture::_texSubImage2D(GLuint* tls, GLenum target, GLenum plane, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset)
-{
-	buffer._buffer_bind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-	_texture_bind(tls, target);
-	glTexSubImage2D(plane, level, xoffset, yoffset, width, height, format, type, (void*)offset);
-}
-
-inline void _Texture::_texSubImage3D(GLuint* tls, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, _Buffer& buffer, GLintptr offset)
-{
-	buffer._buffer_bind(_Buffer::_tlsPixelUnpackBuffer(), GL_PIXEL_UNPACK_BUFFER);
-	_texture_bind(tls, target);
-	glTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, (void*)offset);
+	_texSubImage2D(target, binding, target, level, xoffset, yoffset, width, height, format, type, buffer, offset);
 }
 #endif // #ifdef GL_VERSION_2_1
 
-#ifdef GL_VERSION_3_0
-inline void _Texture::_generateMipmap(GLuint* tls, GLenum target)
-{
-	_texture_bind(tls, target);
-	glGenerateMipmap(target);
-}
-#endif // #ifdef GL_VERSION_3_0
-
-#ifdef GL_VERSION_3_1
-inline void _Texture::_texBuffer(GLenum internalformat, GLuint buffer)
-{
-	glTexBuffer(GL_TEXTURE_BUFFER, internalformat, buffer);
-}
-
-inline void _Texture::_texBuffer(GLenum internalformat, _Buffer& buffer)
-{
-	buffer._buffer_bind(_Buffer::_tlsTextureBuffer(), GL_TEXTURE_BUFFER);
-	_texture_bind(_tlsBufferTexture(), GL_TEXTURE_BUFFER);
-	glTexBuffer(GL_TEXTURE_BUFFER, internalformat, buffer._buffer_id());
-}
-#endif // #ifdef GL_VERSION_3_1
-
-#ifdef GL_VERSION_3_2
+#if !defined(_DEBUG) && defined(GL_VERSION_3_2)
 inline void _Texture::_texImage2DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations)
 {
 	glTexImage2DMultisample(target, samples, internalformat, width, height, fixedsamplelocations);
-}
-
-inline void _Texture::_texImage2DMultisample(GLuint* tls, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations)
-{
-	_texture_bind(tls, GL_TEXTURE_2D_MULTISAMPLE);
-	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, internalformat, width, height, fixedsamplelocations);
 }
 
 inline void _Texture::_texImage3DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations)
 {
 	glTexImage3DMultisample(target, samples, internalformat, width, height, depth, fixedsamplelocations);
 }
-
-inline void _Texture::_texImage3DMultisample(GLuint* tls, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations)
-{
-	_texture_bind(tls, GL_TEXTURE_2D_MULTISAMPLE_ARRAY);
-	glTexImage3DMultisample(GL_TEXTURE_2D_MULTISAMPLE_ARRAY, samples, internalformat, width, height, depth, fixedsamplelocations);
-}
-#endif // #ifdef GL_VERSION_3_2
-#endif // #ifndef _DEBUG
-}
+#endif // #if !defined(_DEBUG) && defined(GL_VERSION_3_2)
+} // namespace gl
 
 #ifndef YAGLPP_BUILD_LIB
 #include "Texture1D.h"

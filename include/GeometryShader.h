@@ -185,6 +185,13 @@ public:
 		_object_share((_Object&)shader);
 	}
 
+	/*(3.2) Sets the creation state of the shader object, only if current state is opposite. Depending of the flag value, calls <createShader> or <deleteShader> functions. Used as a setter of <shader> property
+	@param True to generate shader object name, false to delete shader object*/
+	void setShader(GLboolean gen)
+	{
+		_setShader(GL_GEOMETRY_SHADER, gen);
+	}
+
 #ifdef YAGLPP_CLASS_PROPERTIES
 	/*(3.2) Read-only property for shader compile status parameter*/
 	__declspec(property(get = getCompileStatus)) GLboolean compileStatus;
@@ -194,6 +201,9 @@ public:
 
 	/*(3.2) Read-only property for number parameter of characters in the information log for shader including the null termination character*/
 	__declspec(property(get = getInfoLogLength)) GLsizei infoLogLength;
+
+	/*(3.2) Read-write property for creation state of the shader object*/
+	__declspec(property(get = isShader, put = setShader)) GLboolean shader;
 
 	/*(3.2) Read-only property for length parameter of the concatenation of the source strings that make up the shader source for the shader, including the null termination character*/
 	__declspec(property(get = getShaderSourceLength)) GLsizei shaderSourceLength;

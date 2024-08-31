@@ -938,16 +938,16 @@ struct Message
 	/*Message id number*/
 	int msgid = 0;
 
-	/*The message specific data*/
+	/*The message specific x value*/
 	Param x = 0;
 
-	/*The message specific data*/
+	/*The message specific y value*/
 	Param y = 0;
 
-	/*The message specific data*/
+	/*The message specific z value*/
 	Param z = 0;
 
-	/*The message specific data*/
+	/*The message specific w value*/
 	Param w = 0;
 
 	/*The sender thread object*/

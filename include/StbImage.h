@@ -87,7 +87,7 @@ private:
 		int iComp; // Channels p/pixel
 		int iWidth; // Image width
 		int iHeight; // Image height
-		void* pPixels = nullptr; // Pixel data
+		void* pPixels; // Pixel data
 	} _m;
 
 public:

@@ -1,5 +1,4 @@
 #pragma once
-#include "gladpp.h"
 #include "_Object.h"
 #ifdef GL_VERSION_3_0
 namespace gl {
@@ -8,28 +7,11 @@ class Renderbuffer : public _Object
 {
 protected:
 	friend _Framebuffer;
+	GLint _getRenderbufferParameter(GLenum pname);
 	GLuint _renderbuffer_id()
 	{
 		return _object_id(glGenRenderbuffers);
 	}
-
-	void _renderbuffer_bind(GLuint* tls)
-	{
-		_bindRenderbuffer(tls, _renderbuffer_id());
-	}
-
-	void _renderbuffer_rebind(GLuint* tls)
-	{
-		*tls = 0;  _renderbuffer_bind(tls);
-	}
-
-	static GLuint* _tlsRenderbuffer()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static void _bindRenderbuffer(GLuint* tls, GLuint renderbuffer);
-	GLint _getRenderbufferParameter(GLenum pname);
 
 public:
 	/*(3.0) (1) Constructs an empty renderbuffer object*/
@@ -68,11 +50,8 @@ public:
 #endif // #ifdef _DEBUG
 	}
 
-	/*(3.0) Explicitly binds renderbuffer object to its target*/
-	void bindRenderbuffer()
-	{
-		_renderbuffer_rebind(_tlsRenderbuffer());
-	}
+	/*(3.0) Explicitly binds renderbuffer object to its target. Does nothing if specified renderbuffer is bound*/
+	void bindRenderbuffer();
 
 	/*(3.0) Explicitly deletes previously generated single renderbuffer object*/
 	void deleteRenderbuffer()
@@ -190,6 +169,17 @@ public:
 	@param Specifies the height of the renderbuffer, in pixels*/
 	void renderbufferStorageMultisample(GLsizei samples, ColorDepthStencilFormat internalformat, GLsizei width, GLsizei height);
 
+	/*(3.0) Sets the creation state of the renderbuffer object, only if current state is opposite. Depending of the flag value, calls <genRenderbuffer> or <deleteRenderbuffer> functions. Used as a setter of <renderbuffer> property
+	@param True to generate renderbuffer object name, false to delete renderbuffer object*/
+	void setRenderbuffer(GLboolean gen);
+
+	/*(3.0) Sets the binding state of the buffer object, only if current state is opposite. Used as a setter of <bufferBinding> property
+	@param True to bind the object to its target, false to unbind*/
+	void setRenderbufferBinding(GLboolean bind)
+	{
+		(bind) ? bindRenderbuffer() : unbindRenderbuffer();
+	}
+
 	/*(3.0) Set an empty renderbuffer object as a reference to the renderbuffer object from another context
 	@param The renderbuffer object to share, must not be empty*/
 	void shareRenderbuffer(Renderbuffer& renderbuffer)
@@ -197,21 +187,21 @@ public:
 		_object_share((_Object&)renderbuffer);
 	}
 
-	/*(3.0) Unbinds any previously bound renderbuffer object from its target. Does nothing if no renderbuffer is bound*/
-	static void unbindRenderbuffer()
-	{
-		_bindRenderbuffer(_tlsRenderbuffer(), 0);
-	}
+	/*(3.0) Explicitly unbinds specified renderbuffer object from its target. Does nothing if specified renderbuffer is not bound*/
+	void unbindRenderbuffer();
+
+	/*(3.0) Explicitly unbinds any renderbuffer object of specified type bound to its target. Does nothing if no such renderbuffer is bound*/
+	static void unbindTarget();
 
 #ifdef YAGLPP_CLASS_PROPERTIES
-	/*(3.0) Read-only property to determine if a name corresponds to a renderbuffer object*/
-	__declspec(property(get = isFramebuffer)) GLboolean renderbuffer;
+	/*(3.0) Read-write property for creation state of the renderbuffer object*/
+	__declspec(property(get = isRenderbuffer, put = setRenderbuffer)) GLboolean renderbuffer;
 
 	/*(3.0) Read-only property for renderbuffer actual resolution for the ALPHA component*/
 	__declspec(property(get = getRenderbufferAlphaSize)) GLsizei renderbufferAlphaSize;
 
-	/*(3.0) Read-only property to determine if the renderbuffer object is currently bound to its target*/
-	__declspec(property(get = isRenderbufferBinding)) GLboolean renderbufferBinding;
+	/*(3.0) Read-write property for binding state of the renderbuffer object*/
+	__declspec(property(get = isRenderbufferBinding, put = setRenderbufferBinding)) GLboolean renderbufferBinding;
 
 	/*(3.0) Read-only property for renderbuffer actual resolution for the BLUE component*/
 	__declspec(property(get = getRenderbufferBlueSize)) GLsizei renderbufferBlueSize;
@@ -242,30 +232,10 @@ public:
 #endif // #ifdef YAGLPP_CLASS_PROPERTIES
 }; // class Renderbuffer : public _Object
 
-#ifndef _DEBUG
-inline void Renderbuffer::_bindRenderbuffer(GLuint* tls, GLuint renderbuffer)
+/*(3.0) Explicitly unbinds any renderbuffer object bound to its target. Does nothing if no renderbuffer is bound*/
+inline void unbindRenderbuffer()
 {
-	if (*tls == renderbuffer) return;
-	glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer); *tls = renderbuffer;
+	Renderbuffer::unbindTarget();
 }
-
-inline GLint Renderbuffer::_getRenderbufferParameter(GLenum pname)
-{
-	_renderbuffer_bind(_tlsRenderbuffer());
-	GLint i; glGetRenderbufferParameteriv(GL_RENDERBUFFER, pname, &i); return i;
-}
-
-inline void Renderbuffer::renderbufferStorage(ColorDepthStencilFormat internalformat, GLsizei width, GLsizei height)
-{
-	_renderbuffer_bind(_tlsRenderbuffer());
-	glRenderbufferStorage(GL_RENDERBUFFER, (GLenum)internalformat, width, height);
-}
-
-inline void Renderbuffer::renderbufferStorageMultisample(GLsizei samples, ColorDepthStencilFormat internalformat, GLsizei width, GLsizei height)
-{
-	_renderbuffer_bind(_tlsRenderbuffer());
-	glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, (GLenum)internalformat, width, height);
-}
-#endif // #ifndef _DEBUG
 } // namespace gl
 #endif // #ifdef GL_VERSION_3_0

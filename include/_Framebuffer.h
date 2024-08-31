@@ -1,5 +1,4 @@
 #pragma once
-#include "gladpp.h"
 #include "_Object.h"
 #ifdef GL_VERSION_3_0
 namespace gl {
@@ -17,6 +16,115 @@ enum class FramebufferAttachmentType : GLenum
 
 	/*(3.0) The default framebuffer is used for drawing*/
 	FramebufferDefault = GL_FRAMEBUFFER_DEFAULT,
+};
+
+/*(3.0) GLAD type and color framebuffer attachment point enumerator*/
+enum class FramebufferAttachment : GLenum
+{
+	/*(3.0) Framebuffer depth attachment type*/
+	DepthAttachment = GL_DEPTH_ATTACHMENT,
+
+	/*(3.0) Framebuffer stencil attachment type*/
+	StencilAttachment = GL_STENCIL_ATTACHMENT,
+
+	/*(3.0) Framebuffer depth and stencil attachment type*/
+	DepthStencilAttachment = GL_DEPTH_STENCIL_ATTACHMENT,
+
+	/*(3.0) Framebuffer color attachment unit 0*/
+	ColorAttachment0 = GL_COLOR_ATTACHMENT0,
+
+	/*(3.0) Framebuffer color attachment unit 1*/
+	ColorAttachment1 = GL_COLOR_ATTACHMENT1,
+
+	/*(3.0) Framebuffer color attachment unit 2*/
+	ColorAttachment2 = GL_COLOR_ATTACHMENT2,
+
+	/*(3.0) Framebuffer color attachment unit 3*/
+	ColorAttachment3 = GL_COLOR_ATTACHMENT3,
+
+	/*(3.0) Framebuffer color attachment unit 4*/
+	ColorAttachment4 = GL_COLOR_ATTACHMENT4,
+
+	/*(3.0) Framebuffer color attachment unit 5*/
+	ColorAttachment5 = GL_COLOR_ATTACHMENT5,
+
+	/*(3.0) Framebuffer color attachment unit 6*/
+	ColorAttachment6 = GL_COLOR_ATTACHMENT6,
+
+	/*(3.0) Framebuffer color attachment unit 7*/
+	ColorAttachment7 = GL_COLOR_ATTACHMENT7,
+
+	/*(3.0) Framebuffer color attachment unit 8*/
+	ColorAttachment8 = GL_COLOR_ATTACHMENT8,
+
+	/*(3.0) Framebuffer color attachment unit 9*/
+	ColorAttachment9 = GL_COLOR_ATTACHMENT9,
+
+	/*(3.0) Framebuffer color attachment unit 10*/
+	ColorAttachment10 = GL_COLOR_ATTACHMENT10,
+
+	/*(3.0) Framebuffer color attachment unit 11*/
+	ColorAttachment11 = GL_COLOR_ATTACHMENT11,
+
+	/*(3.0) Framebuffer color attachment unit 12*/
+	ColorAttachment12 = GL_COLOR_ATTACHMENT12,
+
+	/*(3.0) Framebuffer color attachment unit 13*/
+	ColorAttachment13 = GL_COLOR_ATTACHMENT13,
+
+	/*(3.0) Framebuffer color attachment unit 14*/
+	ColorAttachment14 = GL_COLOR_ATTACHMENT14,
+
+	/*(3.0) Framebuffer color attachment unit 15*/
+	ColorAttachment15 = GL_COLOR_ATTACHMENT15,
+
+	/*(3.0) Framebuffer color attachment unit 16*/
+	ColorAttachment16 = GL_COLOR_ATTACHMENT16,
+
+	/*(3.0) Framebuffer color attachment unit 17*/
+	ColorAttachment17 = GL_COLOR_ATTACHMENT17,
+
+	/*(3.0) Framebuffer color attachment unit 18*/
+	ColorAttachment18 = GL_COLOR_ATTACHMENT18,
+
+	/*(3.0) Framebuffer color attachment unit 19*/
+	ColorAttachment19 = GL_COLOR_ATTACHMENT19,
+
+	/*(3.0) Framebuffer color attachment unit 20*/
+	ColorAttachment20 = GL_COLOR_ATTACHMENT20,
+
+	/*(3.0) Framebuffer color attachment unit 21*/
+	ColorAttachment21 = GL_COLOR_ATTACHMENT21,
+
+	/*(3.0) Framebuffer color attachment unit 22*/
+	ColorAttachment22 = GL_COLOR_ATTACHMENT22,
+
+	/*(3.0) Framebuffer color attachment unit 23*/
+	ColorAttachment23 = GL_COLOR_ATTACHMENT23,
+
+	/*(3.0) Framebuffer color attachment unit 24*/
+	ColorAttachment24 = GL_COLOR_ATTACHMENT24,
+
+	/*(3.0) Framebuffer color attachment unit 25*/
+	ColorAttachment25 = GL_COLOR_ATTACHMENT25,
+
+	/*(3.0) Framebuffer color attachment unit 26*/
+	ColorAttachment26 = GL_COLOR_ATTACHMENT26,
+
+	/*(3.0) Framebuffer color attachment unit 27*/
+	ColorAttachment27 = GL_COLOR_ATTACHMENT27,
+
+	/*(3.0) Framebuffer color attachment unit 28*/
+	ColorAttachment28 = GL_COLOR_ATTACHMENT28,
+
+	/*(3.0) Framebuffer color attachment unit 29*/
+	ColorAttachment29 = GL_COLOR_ATTACHMENT29,
+
+	/*(3.0) Framebuffer color attachment unit 30*/
+	ColorAttachment30 = GL_COLOR_ATTACHMENT30,
+
+	/*(3.0) Framebuffer color attachment unit 31*/
+	ColorAttachment31 = GL_COLOR_ATTACHMENT31,
 };
 
 /*(3.0) GLAD framebuffer completeness status enumerator*/
@@ -52,54 +160,39 @@ enum class FramebufferCompletenessStatus : GLenum
 #endif // #ifdef GL_VERSION_3_2
 };
 
+/*(3.0) Constant expression converting index value to color attachment unit within <FramebufferAttachment> enumerator
+@param The index of color attachment unit, must be between 0 and value returned by <getMaxColorAttachments> minus 1
+@return Color attachment unit value within <FramebufferAttachment> enumerator*/
+constexpr FramebufferAttachment framebufferAttachment(ColorAttachment index)
+{
+	return (FramebufferAttachment)(GL_COLOR_ATTACHMENT0 + (GLenum)index);
+}
+
 /*(3.0) OpenGL framebuffer object abstract class derived from <_Object>*/
 class _Framebuffer : public _Object
 {
 protected:
+	void _bindFramebuffer(GLenum target, GLenum binding);
+	static void _blitFramebuffer(_Framebuffer& fbo, GLenum target, GLenum binding, GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, BufferBitMask mask, TextureMagFilter filter);
+	GLenum _checkFramebufferStatus(GLenum target, GLenum binding);
+	void _framebufferRenderbuffer(GLenum target, GLenum binding, GLenum attachment, Renderbuffer* renderbuffer);
+	void _framebufferTexture1D(GLenum target, GLenum binding, GLenum attachment, _Texture& texture, GLint level);
+	void _framebufferTexture2D(GLenum target, GLenum binding, GLenum attachment, GLenum textarget, _Texture& texture, GLint level);
+	void _framebufferTexture3D(GLenum target, GLenum binding, GLenum attachment, _Texture& texture, GLint level, GLint layer);
+	void _framebufferTextureLayer(GLenum target, GLenum binding, GLenum attachment, _Texture& texture, GLint level, GLint layer);
+	GLint _getFramebufferAttachmentParameter(GLenum target, GLenum binding, GLenum attachment, GLenum pname);
+	GLboolean _isFramebufferBinding(GLenum binding);
+	void _unbindFramebuffer(GLenum target, GLenum binding);
+	static void _unbindTarget(GLenum target, GLenum binding);
 	GLuint _framebuffer_id()
 	{
 		return _object_id(glGenFramebuffers);
 	}
 
-	void _framebuffer_bind(GLuint* tls, GLenum target)
+	void _setFramebufferBinding(GLenum target, GLenum binding, GLboolean bind)
 	{
-		_bindFramebuffer(tls, target, _framebuffer_id());
+		(bind) ? _bindFramebuffer(target, binding) : _unbindFramebuffer(target, binding);
 	}
-
-	void _framebuffer_rebind(GLuint* tls, GLenum target)
-	{
-		*tls = 0; _framebuffer_bind(tls, target);
-	}
-
-	static void _framebuffer_unbind(GLuint* tls, GLenum target)
-	{
-		_bindFramebuffer(tls, target, 0);
-	}
-
-	static GLuint* _tlsDrawFramebuffer()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static GLuint* _tlsFramebuffer()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static GLuint* _tlsReadFramebuffer()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static void _bindFramebuffer(GLuint* tls, GLenum target, GLuint id);
-	static void _blitFramebuffer(_Framebuffer& fbo, GLuint* tls, GLenum target, GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, BufferBitMask mask, TextureMagFilter filter);
-	GLenum _checkFramebufferStatus(GLuint* tls, GLenum target);
-	void _framebufferRenderbuffer(GLuint* tls, GLenum target, ColorAttachment index, Renderbuffer& renderbuffer);
-	void _framebufferTexture1D(GLuint* tls, GLenum target, ColorAttachment index, GLenum textarget, _Texture& texture, GLint level);
-	void _framebufferTexture2D(GLuint* tls, GLenum target, ColorAttachment index, GLenum textarget, _Texture& texture, GLint level);
-	void _framebufferTexture3D(GLuint* tls, GLenum target, ColorAttachment index, GLenum textarget, _Texture& texture, GLint level, GLint layer);
-	void _framebufferTextureLayer(GLuint* tls, GLenum target, ColorAttachment index, _Texture& texture, GLint level, GLint layer);
-	GLint _getFramebufferAttachmentParameter(GLuint* tls, GLenum target, ColorAttachment index, GLenum pname);
 
 public:
 	/*(3.0) Cleans up the valid framebuffer object*/
@@ -156,70 +249,20 @@ public:
 		return _isEnabled(GL_FRAMEBUFFER_SRGB);
 	}
 
+	/*Sets the creation state of the framebuffer object, only if current state is opposite. Depending of the flag value, calls <genFramebuffer> or <deleteFramebuffer> functions. Used as a setter of <framebuffer> property
+	@param True to generate framebuffer object name, false to delete framebuffer object*/
+	void setFramebuffer(GLboolean gen);
+
 #ifdef YAGLPP_CLASS_PROPERTIES
-	/*Read-only property to determine if a name corresponds to a framebuffer object*/
-	__declspec(property(get = isFramebuffer)) GLboolean framebuffer;
+	/*Read-write property for creation state of the framebuffer object*/
+	__declspec(property(get = isFramebuffer, put = setFramebuffer)) GLboolean framebuffer;
 #endif // #ifdef YAGLPP_CLASS_PROPERTIES
 }; // class _Framebuffer : public _Object
-} // namespace gl
-
-#include "_Texture.h"
-#include "Renderbuffer.h"
-namespace gl {
-#ifndef _DEBUG
-inline void _Framebuffer::_blitFramebuffer(_Framebuffer& fbo, GLuint* tls, GLenum target, GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, BufferBitMask mask, TextureMagFilter filter)
-{
-	fbo._framebuffer_bind(tls, target);
-	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, (GLbitfield)mask, (GLenum)filter);
-}
-
-inline GLenum _Framebuffer::_checkFramebufferStatus(GLuint* tls, GLenum target)
-{
-	_framebuffer_bind(tls, target);
-	return glCheckFramebufferStatus(target);
-}
-
-inline void _Framebuffer::_framebufferRenderbuffer(GLuint* tls, GLenum target, ColorAttachment index, Renderbuffer& renderbuffer)
-{
-	_framebuffer_bind(tls, target);
-	glFramebufferRenderbuffer(target, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER + (GLenum)index, renderbuffer._renderbuffer_id());
-}
-
-inline void _Framebuffer::_framebufferTexture1D(GLuint* tls, GLenum target, ColorAttachment index, GLenum textarget, _Texture& texture, GLint level)
-{
-	_framebuffer_bind(tls, target);
-	glFramebufferTexture1D(target, GL_COLOR_ATTACHMENT0 + (GLenum)index, textarget, texture._texture_id(), level);
-}
-
-inline void _Framebuffer::_framebufferTexture2D(GLuint* tls, GLenum target, ColorAttachment index, GLenum textarget, _Texture& texture, GLint level)
-{
-	_framebuffer_bind(tls, target);
-	glFramebufferTexture2D(target, GL_COLOR_ATTACHMENT0 + (GLenum)index, textarget, texture._texture_id(), level);
-}
-
-inline void _Framebuffer::_framebufferTexture3D(GLuint* tls, GLenum target, ColorAttachment index, GLenum textarget, _Texture& texture, GLint level, GLint layer)
-{
-	_framebuffer_bind(tls, target);
-	glFramebufferTexture3D(target, GL_COLOR_ATTACHMENT0 + (GLenum)index, textarget, texture._texture_id(), level, layer);
-}
-
-inline void _Framebuffer::_framebufferTextureLayer(GLuint* tls, GLenum target, ColorAttachment index, _Texture& texture, GLint level, GLint layer)
-{
-	_framebuffer_bind(tls, target);
-	glFramebufferTextureLayer(target, GL_COLOR_ATTACHMENT0 + (GLenum)index, texture._texture_id(), level, layer);
-}
-
-inline GLint _Framebuffer::_getFramebufferAttachmentParameter(GLuint* tls, GLenum target, ColorAttachment index, GLenum pname)
-{
-	_framebuffer_bind(tls, target);
-	GLint i; glGetFramebufferAttachmentParameteriv(target, GL_COLOR_ATTACHMENT0 + (GLenum)index, pname, &i); return i;
-}
-#endif // #ifndef _DEBUG
 } // namespace gl
 #endif // #ifdef GL_VERSION_3_0
 
 #ifndef YAGLPP_BUILD_LIB
-#include "DrawFramebuffer.h"
 #include "Framebuffer.h"
+#include "DrawFramebuffer.h"
 #include "ReadFramebuffer.h"
 #endif // #ifdef YAGLPP_BUILD

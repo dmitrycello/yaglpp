@@ -21,11 +21,6 @@ enum class ShaderType : GLenum
 class _Shader : public _Object
 {
 protected:
-	GLuint _shader_id(GLenum shaderType)
-	{
-		return _object_id(&_glCreateShader, shaderType);
-	}
-
 	void _attachShader(GLenum shaderType, Program& program);
 	void _compileShader(GLenum shaderType);
 	void _detachShader(GLenum shaderType, Program& program);
@@ -34,9 +29,14 @@ protected:
 	void _getShaderSource(GLenum shaderType, GLsizei bufSize, GLsizei* length, GLchar* source);
 	static void WINAPI _glCreateShader(GLsizei shaderType, GLuint* id);
 	static void WINAPI _glDeleteShader(GLsizei unused, const GLuint* id);
+	void _setShader(GLenum type, GLboolean gen);
 	void _shaderSource(GLenum shaderType, int rcid);
 	void _shaderSource(GLenum shaderType, const char* filepath);
 	void _shaderSource(GLenum shaderType, GLsizei count, const GLchar** string, const GLint* length);
+	GLuint _shader_id(GLenum shaderType)
+	{
+		return _object_id(&_glCreateShader, shaderType);
+	}
 
 public:
 	/*Explicitly deletes previously generated shader object*/
@@ -51,11 +51,6 @@ public:
 	{
 		return glIsShader(_object_id());
 	}
-
-#ifdef YAGLPP_CLASS_PROPERTIES
-	/*Read-only property to determine if a name corresponds to a shader object*/
-	__declspec(property(get = isShader)) GLboolean shader;
-#endif // #ifdef YAGLPP_CLASS_PROPERTIES
 }; // class _Shader
 
 #ifndef _DEBUG
@@ -72,6 +67,16 @@ inline GLint _Shader::_getShader(GLenum shaderType, GLenum pname)
 inline void _Shader::_getShaderSource(GLenum shaderType, GLsizei bufSize, GLsizei* length, GLchar* source)
 {
 	glGetShaderSource(_shader_id(shaderType), bufSize, length, source);
+}
+
+inline void WINAPI _Shader::_glCreateShader(GLsizei shaderType, GLuint* id)
+{
+	*id = glCreateShader((GLenum)shaderType);
+}
+
+inline void WINAPI _Shader::_glDeleteShader(GLsizei unused, const GLuint* id)
+{
+	glDeleteShader(*id);
 }
 
 inline void _Shader::_shaderSource(GLenum shaderType, GLsizei count, const GLchar** string, const GLint* length)

@@ -1,5 +1,4 @@
 #pragma once
-#include "gladpp.h"
 #include "_Object.h"
 #ifdef GL_VERSION_3_3
 namespace gl {
@@ -7,15 +6,14 @@ namespace gl {
 class Sampler : public _Object
 {
 protected:
-	GLuint _sampler_id()
-	{
-		return _object_id(glGenSamplers);
-	}
-
 	GLint _getSamplerParameter(GLenum pname);
 	GLfloat _getSamplerParameterFloat(GLenum pname);
 	void _samplerParameter(GLenum pname, GLint param);
 	void _samplerParameter(GLenum pname, GLfloat param);
+	GLuint _sampler_id()
+	{
+		return _object_id(glGenSamplers);
+	}
 
 public:
 	/*(3.3) (1) Constructs an empty sampler object*/
@@ -164,12 +162,16 @@ public:
 		return glIsSampler(_object_id());
 	}
 
-	/*(3.3) Determines if the sampler object is currently bound to its target. Used as a getter of <samplerBinding> property
+	/*(3.3) Determines if the sampler object is currently bound to the active texture unit. Used as a getter of <samplerBinding> property
 	@return True if sampler object currently bound to its target, or false otherwise*/
 	GLboolean isSamplerBinding()
 	{
 		return _object_id() == _getInteger(GL_SAMPLER_BINDING);
 	}
+
+	/*(3.3) Sets the creation state of the sampler object, only if current state is opposite. Depending of the flag value, calls <genSampler> or <deleteSampler> functions. Used as a setter of <sampler> property
+	@param True to generate sampler object name, false to delete sampler object*/
+	void setSampler(GLboolean gen);
 
 	/*(3.3) (1) Specifies four integer values that should be used for border texels
 	@param [in] Loads four integer texture color values. The initial value is (0, 0, 0, 0)*/
@@ -261,10 +263,10 @@ public:
 	static void unbindSampler(TextureUnit index);
 
 #ifdef YAGLPP_CLASS_PROPERTIES
-	/*(3.3) Read-only property to determine if a name corresponds to a sampler object*/
-	__declspec(property(get = isSampler)) GLboolean sampler;
+	/*(3.3) Read-write property for creation state of the sampler object*/
+	__declspec(property(get = isSampler, put = setSampler)) GLboolean sampler;
 
-	/*(3.3) Read-only property to determine if the sampler object is currently bound to its target*/
+	/*(3.3) Read-only property to determine if the sampler object is currently bound to the active texture unit*/
 	__declspec(property(get = isSamplerBinding)) GLboolean samplerBinding;
 
 	/*(3.3) Read-write property for current texture comparison function*/
@@ -307,7 +309,7 @@ inline GLint Sampler::_getSamplerParameter(GLenum pname)
 
 inline GLfloat Sampler::_getSamplerParameterFloat(GLenum pname)
 {
-	GLfloat f; glGetSamplerParameterfv(_sampler_id(), pname, &f); return f;
+	GLfloat f = 0.0f; glGetSamplerParameterfv(_sampler_id(), pname, &f); return f;
 }
 
 inline void Sampler::_samplerParameter(GLenum pname, GLint param)

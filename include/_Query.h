@@ -1,5 +1,4 @@
 #pragma once
-#include "gladpp.h"
 #include "_Object.h"
 namespace gl {
 #ifdef GL_VERSION_3_0
@@ -24,15 +23,14 @@ enum class QueryConditionalRenderMode : GLenum
 class _Query : public _Object
 {
 protected:
-	GLuint _query_id()
-	{
-		return _object_id(glGenQueries);
-	}
-
 	void _beginQuery(GLenum target);
 	static void _endQuery(GLenum target);
 	static GLint _getQuery(GLenum target, GLenum pname);
 	GLint _getQueryObject(GLenum pname);
+	GLuint _query_id()
+	{
+		return _object_id(glGenQueries);
+	}
 
 #ifdef GL_VERSION_3_0
 	void _beginConditionalRender(QueryConditionalRenderMode mode);
@@ -86,9 +84,13 @@ public:
 		return glIsQuery(_object_id());
 	}
 
+	/*Sets the creation state of the query object, only if current state is opposite. Depending of the flag value, calls <genQuery> or <deleteQuery> functions. Used as a setter of <query> property
+	@param True to generate query object name, false to delete query object*/
+	void setQuery(GLboolean gen);
+
 #ifdef YAGLPP_CLASS_PROPERTIES
-	/*Read-only property to determine if a name corresponds to a query object*/
-	__declspec(property(get = isQuery)) GLboolean query;
+	/*Read-write property for creation state of the query object*/
+	__declspec(property(get = isQuery, put = setQuery)) GLboolean query;
 
 	/*Read-only property for value of the query object's passed samples counter*/
 	__declspec(property(get = getQueryResult)) GLint queryResult;

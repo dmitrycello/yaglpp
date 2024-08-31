@@ -129,7 +129,7 @@ public:
 	@param Specifies the index of texture unit to make active, initial is 0*/
 	void activeTexture(TextureUnit index)
 	{
-		_activeTexture(_tlsBufferTexture(), GL_TEXTURE_BUFFER, index);
+		_activeTexture(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, index);
 	}
 
 	/*(3.1) Set an empty texture object as a reference to an element of the texture multi-object
@@ -144,113 +144,114 @@ public:
 #endif // #ifdef _DEBUG
 	}
 
-	/*(3.1) Explicitly binds texture object to its target*/
+	/*(3.1) Explicitly binds texture object to its target. Does nothing if specified texture is bound*/
 	void bindTexture()
 	{
-		_texture_rebind(_tlsBufferTexture(), GL_TEXTURE_BUFFER);
-	}
-
-	/*(3.1) Unbinds any previously bound texture object, and restores the default texture for its target. Does nothing if no such texture is bound*/
-	static void defaultTexture()
-	{
-		_texture_unbind(_tlsBufferTexture(), GL_TEXTURE_BUFFER);
+		_bindTexture(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER);
 	}
 
 	/*(3.1) Detatch a texture buffer (buffer) object's data store currently attached to buffer texture (texture) object*/
-	static void detachTexBuffer()
+	void detachTexBuffer()
 	{
-		_texBuffer(0, 0);
+		_texBuffer(0, nullptr);
 	}
 
 	/*(3.1) Returns internal storage resolution of ALPHA component of the texture image
 	@return The internal storage resolution of ALPHA component. The initial value is 0*/
 	GLint getTextureAlphaSize()
 	{
-		return _getTexLevelParameter(_tlsBufferTexture(), GL_TEXTURE_BUFFER, GL_TEXTURE_BUFFER, 0, GL_TEXTURE_ALPHA_SIZE);
+		return _getTexLevelParameter(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, 0, GL_TEXTURE_ALPHA_SIZE);
 	}
 
 	/*(3.1) Returns the type of ALPHA component of the texture image
 	@return The type of ALPHA component of the texture image*/
 	TextureComponentType getTextureAlphaType()
 	{
-		return (TextureComponentType)_getTexLevelParameter(_tlsBufferTexture(), GL_TEXTURE_BUFFER, GL_TEXTURE_BUFFER, 0, GL_TEXTURE_ALPHA_TYPE);
+		return (TextureComponentType)_getTexLevelParameter(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, 0, GL_TEXTURE_ALPHA_TYPE);
 	}
 
 	/*(3.1) Returns internal storage resolution of BLUE component of the texture image
 	@return The internal storage resolution of BLUE component. The initial value is 0*/
 	GLint getTextureBlueSize()
 	{
-		return _getTexLevelParameter(_tlsBufferTexture(), GL_TEXTURE_BUFFER, GL_TEXTURE_BUFFER, 0, GL_TEXTURE_BLUE_SIZE);
+		return _getTexLevelParameter(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, 0, GL_TEXTURE_BLUE_SIZE);
 	}
 
 	/*(3.1) Returns the type of BLUE component of the texture image
 	@return The type of BLUE component of the texture image*/
 	TextureComponentType getTextureBlueType()
 	{
-		return (TextureComponentType)_getTexLevelParameter(_tlsBufferTexture(), GL_TEXTURE_BUFFER, GL_TEXTURE_BUFFER, 0, GL_TEXTURE_BLUE_TYPE);
+		return (TextureComponentType)_getTexLevelParameter(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, 0, GL_TEXTURE_BLUE_TYPE);
 	}
 
 	/*(3.1) Returns internal storage resolution of DEPTH component of the texture image
 	@return The internal storage resolution of DEPTH component. The initial value is 0*/
 	GLint getTextureDepthSize()
 	{
-		return _getTexLevelParameter(_tlsBufferTexture(), GL_TEXTURE_BUFFER, GL_TEXTURE_BUFFER, 0, GL_TEXTURE_DEPTH_SIZE);
+		return _getTexLevelParameter(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, 0, GL_TEXTURE_DEPTH_SIZE);
 	}
 
 	/*(3.1) Returns the type of DEPTH component of the texture image
 	@return The type of DEPTH component of the texture image*/
 	TextureComponentType getTextureDepthType()
 	{
-		return (TextureComponentType)_getTexLevelParameter(_tlsBufferTexture(), GL_TEXTURE_BUFFER, GL_TEXTURE_BUFFER, 0, GL_TEXTURE_DEPTH_TYPE);
+		return (TextureComponentType)_getTexLevelParameter(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, 0, GL_TEXTURE_DEPTH_TYPE);
 	}
 
 	/*(3.1) Returns internal storage resolution of GREEN component of the texture image
 	@return The internal storage resolution of GREEN component. The initial value is 0*/
 	GLint getTextureGreenSize()
 	{
-		return _getTexLevelParameter(_tlsBufferTexture(), GL_TEXTURE_BUFFER, GL_TEXTURE_BUFFER, 0, GL_TEXTURE_GREEN_SIZE);
+		return _getTexLevelParameter(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, 0, GL_TEXTURE_GREEN_SIZE);
 	}
 
 	/*(3.1) Returns the type of GREEN component of the texture image
 	@return The type of GREEN component of the texture image*/
 	TextureComponentType getTextureGreenType()
 	{
-		return (TextureComponentType)_getTexLevelParameter(_tlsBufferTexture(), GL_TEXTURE_BUFFER, GL_TEXTURE_BUFFER, 0, GL_TEXTURE_GREEN_TYPE);
+		return (TextureComponentType)_getTexLevelParameter(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, 0, GL_TEXTURE_GREEN_TYPE);
 	}
 
 	/*(3.1) Returns the internal format of the texture image
 	@return The internal format of the texture image*/
 	TexInternalformat getTextureInternalFormat()
 	{
-		return (TexInternalformat)_getTexLevelParameter(_tlsBufferTexture(), GL_TEXTURE_BUFFER, GL_TEXTURE_BUFFER, 0, GL_TEXTURE_INTERNAL_FORMAT);
+		return (TexInternalformat)_getTexLevelParameter(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, 0, GL_TEXTURE_INTERNAL_FORMAT);
 	}
 
 	/*(3.1) Returns internal storage resolution of RED component of the texture image
 	@return The internal storage resolution of RED component. The initial value is 0*/
 	GLint getTextureRedSize()
 	{
-		return _getTexLevelParameter(_tlsBufferTexture(), GL_TEXTURE_BUFFER, GL_TEXTURE_BUFFER, 0, GL_TEXTURE_RED_SIZE);
+		return _getTexLevelParameter(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, 0, GL_TEXTURE_RED_SIZE);
 	}
 
 	/*(3.1) Returns the type of RED component of the texture image
 	@return The type of RED component of the texture image*/
 	TextureComponentType getTextureRedType()
 	{
-		return (TextureComponentType)_getTexLevelParameter(_tlsBufferTexture(), GL_TEXTURE_BUFFER, GL_TEXTURE_BUFFER, 0, GL_TEXTURE_RED_TYPE);
+		return (TextureComponentType)_getTexLevelParameter(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, 0, GL_TEXTURE_RED_TYPE);
 	}
 
 	/*(3.1) Returns the width of the texture image
 	@return The width of the texture image. The initial value is 0*/
 	GLsizei getTextureWidth()
 	{
-		return _getTexLevelParameter(_tlsBufferTexture(), GL_TEXTURE_BUFFER, GL_TEXTURE_BUFFER, 0, GL_TEXTURE_WIDTH);
+		return _getTexLevelParameter(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, 0, GL_TEXTURE_WIDTH);
 	}
 
 	/*(3.1) Determines if the texture object is currently bound to its target. Used as a getter of <textureBinding> property
 	@return True if texture object currently bound to its target, or false otherwise*/
 	GLboolean isTextureBinding()
 	{
-		return _object_id() == _getInteger(GL_TEXTURE_BINDING_BUFFER);
+		return _object_id() == (GLuint)_getInteger(GL_TEXTURE_BINDING_BUFFER);
+	}
+
+	/*(3.1) Sets the binding state of the texture object, only if current state is opposite. Used as a setter of <textureBinding> property
+	@param True to bind the object to its target, false to unbind*/
+	void setTextureBinding(GLboolean bind)
+	{
+		_setTextureBinding(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, bind);
 	}
 
 	/*(3.1) Set an empty texture object as a reference to the texture object from another context
@@ -265,13 +266,31 @@ public:
 	@param Specifies the internal format of the data in the store belonging to buffer*/
 	void texBuffer(TextureBuffer& buffer, TexBufferInternalformat internalformat)
 	{
-		_texBuffer((GLenum)internalformat, (_Buffer&)buffer);
+		_texBuffer((GLenum)internalformat, &buffer);
+	}
+
+	/*(3.1) Explicitly unbinds any texture object of specified type bound to its target. Does nothing if no such texture is bound*/
+	static void unbindTarget()
+	{
+		_unbindTarget(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER);
+	}
+
+	/*(3.1) Explicitly unbinds specified texture object from its target. Does nothing if specified texture is not bound*/
+	void unbindTexture()
+	{
+		_unbindTexture(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER);
 	}
 
 #ifdef YAGLPP_CLASS_PROPERTIES
-	/*(3.1) Read-only property to determine if the texture object is currently bound to its target*/
-	__declspec(property(get = isTextureBinding)) GLboolean textureBinding;
+	/*(3.1) Read-write property for state of the texture binding*/
+	__declspec(property(get = isTextureBinding, put = setTextureBinding)) GLboolean textureBinding;
 #endif // #ifdef YAGLPP_CLASS_PROPERTIES
 }; // class BufferTexture : public _Texture
-} // namespace gl {
+
+/*(3.1) Explicitly unbinds any texture object of specified type bound to its target. Does nothing if no such texture is bound*/
+inline void unbindBufferTexture()
+{
+	BufferTexture::unbindTarget();
+}
+} // namespace gl
 #endif // #ifdef GL_VERSION_3_1

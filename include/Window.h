@@ -160,10 +160,12 @@ constexpr bool operator & (KeyModifier mod, KeyModifier mask)
 	return (bool)((int)mod & (int)mask);
 }
 
-/*This function returns via API the pointer to window object whose OpenGL or OpenGL ES context is current on the calling thread
+/*This function returns the pointer to window object whose OpenGL or OpenGL ES context is current on the calling thread
 @return The pointer to current context window object, or NULL*/
 inline _Ret_maybenull_ Window* getCurrentContext()
 {
+	//Thread* pThread = Thread::getCurrentThread();
+	//return (pThread->isContextCurrent()) ? pThread->getContext() : nullptr;
 	GLFWwindow* pContext = glfwGetCurrentContext();
 	return (pContext != nullptr) ? (Window*)glfwGetWindowUserPointer(pContext) : nullptr;
 }
@@ -791,6 +793,10 @@ public:
 		return _m.iWindowPosY;
 	}
 
+	/*This function returns the value of the close flag of the specified window. Used as a getter of <windowShouldClose> property
+	@return The window close flag*/
+	bool getWindowShouldClose();
+
 	/*This function gets the immediate size, in screen coordinates, of the content area of the specified window. It uses direct GLFW API call and saves the result in window object, which can be retreived via <getWindowSizeWidth> and <getWindowSizeHeight> calls. Ignored in fullscreen mode. When called from the secondary thread, performs the API transfer to the main thread*/
 	void getWindowSize();
 
@@ -829,6 +835,13 @@ public:
 		return (bool)(_m.iKeyMods & (int)mod);
 	}
 
+	/*Check if valid window object. Used as a getter of <window> property
+	@return True if window object, false otherwise*/
+	bool isWindow() const
+	{
+		return _m.pWindow != nullptr;
+	}
+
 	/*Checks if window receives focus since last window focus event. Used as a getter of <windowFocused> property
 	@return True if window is focused, false otherwise*/
 	bool isWindowFocused() const
@@ -850,13 +863,6 @@ public:
 		return (bool)_m.iWindowIconified;
 	}
 
-	/*Checks if window is visible since the creation or last show/hide operation. Used as a getter of <windowVisible> property
-	@return True if window in fullscreen mode, false otherwise*/
-	bool isWindowVisible() const
-	{
-		return (bool)_m.iWindowVisible;
-	}
-
 	/*Checks if window is maximized since last window maximize event. Used as a getter of <windowMaximized> property
 	@return True if window maximized since last maximize event, false otherwise*/
 	bool isWindowMaximized() const
@@ -864,11 +870,11 @@ public:
 		return (bool)_m.iWindowMaximized;
 	}
 
-	/*Check if valid window object. Used as a getter of <window> property
-	@return True if window object, false otherwise*/
-	bool isWindow() const
+	/*Checks if window is visible since the creation or last show/hide operation. Used as a getter of <windowVisible> property
+	@return True if window in fullscreen mode, false otherwise*/
+	bool isWindowVisible() const
 	{
-		return _m.pWindow != nullptr;
+		return (bool)_m.iWindowVisible;
 	}
 
 	/*This function makes the OpenGL or OpenGL ES context of the specified window current on the main thread. A context must only be made current on a single thread at a time and each thread can have only a single current context at a time. Associates the window with the calling thread, at the first call initializes OpenGL*/
@@ -974,6 +980,10 @@ public:
 	@param The denominator of the desired aspect ratio*/
 	void setWindowAspectRatio(int numer, int denom);
 
+	/*Sets the fullscreen state of the specified window, only if current state is opposite. Depending of the flag value, calls <setWindowMonitor> or <unsetWindowMonitor> functions. Used as a setter of <windowFullscreen> property
+	@param True to set the window into fullscreen state, false otherwise*/
+	void setWindowFullscreen(bool fullscreen);
+
 	/*(M) This function sets the icon of the specified window with an array of candidate images, from which the system selects the closest to the desired sizes
 	@param The number of images in the specified array
 	@param [in] The array of images to create the icon from*/
@@ -996,6 +1006,14 @@ public:
 	@param [in] Path to the icon file*/
 	void setWindowIcon(_In_z_ const char* filepath);
 #endif // #ifndef YAGLPP_NO_FREEIMAGE
+
+	/*Sets the iconified state of the specified window, only if current state is opposite. Depending of the flag value, calls <iconifyWindow> or <restoreWindow> functions. Used as a setter of <windowIconified> property
+	@param True to set the window into iconified state, false otherwise*/
+	void setWindowIconified(bool visible);
+
+	/*Sets the maximized state of the specified window, only if current state is opposite. Depending of the flag value, calls <maximizeWindow> or <restoreWindow> functions. Used as a setter of <windowMaximize> property
+	@param True to set the window into maximized state, false otherwise*/
+	void setWindowMaximize(bool maximized);
 
 	/*(1) This function sets the primary monitor that the window uses for full screen mode. When called from the secondary thread, performs the API transfer to the main thread*/
 	void setWindowMonitor();
@@ -1036,6 +1054,10 @@ public:
 	@param [in] The UTF-8 encoded window title*/
 	void setWindowTitle(_In_z_ const char* title);
 
+	/*Sets the visible state of the specified window, only if current state is opposite. Depending of the flag value, calls <showWindow> or <hideWindow> functions. Used as a setter of <windowVisible> property
+	@param True to set the window into visible state, false otherwise*/
+	void setWindowVisible(bool visible);
+
 	/*This function makes the specified window visible if it was previously hidden. When called from the secondary thread, performs the API transfer to the main thread*/
 	void showWindow();
 
@@ -1061,10 +1083,6 @@ public:
 
 	/*This function unsets the monitor that the window uses for full screen mode, setting it into windowed mode. When called from the secondary thread, performs the API transfer to the main thread*/
 	void unsetWindowMonitor();
-
-	/*This function returns the value of the close flag of the specified window
-	@return The window close flag*/
-	bool windowShouldClose();
 
 #ifdef YAGLPP_CLASS_PROPERTIES
 	/*(M) Read-write property for auto iconify window attribute flag*/
@@ -1220,14 +1238,14 @@ public:
 	/*Read-only property to check if window receives focus since last window focus event*/
 	__declspec(property(get = isWindowFocused)) bool windowFocused;
 
-	/*Read-only property to check if window in fullscreen state since the creation or last monitor operation*/
-	__declspec(property(get = isWindowFullscreen)) bool windowFullscreen;
+	/*Read-write property for fullscreen state of the specified window*/
+	__declspec(property(get = isWindowFullscreen, put = setWindowFullscreen)) bool windowFullscreen;
 
-	/*Read-only property to check if window is iconified since last window iconify event*/
-	__declspec(property(get = isWindowIconified)) bool windowIconified;
+	/*Read-write property for iconified state of the specified window*/
+	__declspec(property(get = isWindowIconified, put = setWindowIconified)) bool windowIconified;
 
-	/*Read-only property to check if window is maximized since last window maximize event*/
-	__declspec(property(get = isWindowMaximized)) bool windowMaximized;
+	/*Read-write property for maximized state of the specified window*/
+	__declspec(property(get = isWindowMaximized, put = setWindowMaximize)) bool windowMaximized;
 
 	/*(M) Read-write property for window opacity value. Could be set via API transfer*/
 	__declspec(property(get = getWindowOpacity, put = setWindowOpacity)) float windowOpacity;
@@ -1244,8 +1262,11 @@ public:
 	/*Read-only property for height of window content area since last window size event, or <getWindowSize> call*/
 	__declspec(property(get = getWindowHeight)) int windowHeight;
 
-	/*Read-only property to check if window is visible since the creation or last show/hide operation*/
-	__declspec(property(get = isWindowVisible)) bool windowVisible;
+	/*Read-write property for close flag of the specified window*/
+	__declspec(property(get = getWindowShouldClose, put = setWindowShouldClose)) bool windowShouldClose;
+
+	/*Read-write property for visible state of the specified window*/
+	__declspec(property(get = isWindowVisible, put = setWindowVisible)) bool windowVisible;
 #endif // #ifdef YAGLPP_CLASS_PROPERTIES
 
 #ifdef YAGLPP_NO_GLFW_LEGACY
@@ -1275,7 +1296,7 @@ public:
 	__declspec(property(get = getWindowTitle, put = setWindowTitle)) const char* windowTitle;
 #endif // #ifdef YAGLPP_CLASS_PROPERTIES
 
-#elif defined(YAGLPP_CLASS_PROPERTIES)
+#elif defined(YAGLPP_CLASS_PROPERTIES) // #ifdef YAGLPP_CLASS_PROPERTIES
 	/*(M) Write-only property for window title, encoded as UTF-8, of the specified window*/
 	__declspec(property(put = setWindowTitle)) const char* windowTitle;
 #endif // #ifdef YAGLPP_NO_GLFW_LEGACY

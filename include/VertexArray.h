@@ -1,17 +1,10 @@
 #pragma once
-#include "gladpp.h"
 #include "_Object.h"
 #ifdef GL_VERSION_3_0
 namespace gl {
 /*(3.0) OpenGL vertex array object class (VAO) derived from <_Object>*/
 class VertexArray : public _Object
 {
-protected:
-	GLuint _array_id()
-	{
-		return _object_id(glGenVertexArrays);
-	}
-
 public:
 	/*(3.0) (1) Constructs an empty vertex array object*/
 	VertexArray() {}
@@ -43,7 +36,7 @@ public:
 #endif // #ifdef _DEBUG
 	}
 
-	/*(3.0) Binds a vertex array object. Vertex array object must call this method explicitly*/
+	/*(3.0) Explicitly binds vertex array object to its target. Does nothing if specified vertex array is bound*/
 	void bindVertexArray();
 
 	/*(3.0) Explicitly deletes previously generated single vertex array object*/
@@ -72,28 +65,36 @@ public:
 		return _object_id() == _getInteger(GL_VERTEX_ARRAY_BINDING);
 	}
 
-	/*(3.0) Breaks the existing vertex array object binding*/
-	static void unbindVertexArray();
+	/*(3.0) Sets the creation state of the vertex array object, only if current state is opposite. Depending of the flag value, calls <genVertexArray> or <deleteVertexArray> functions. Used as a setter of <vertexArray> property
+	@param True to generate vertex array object name, false to delete vertex array object*/
+	void setVertexArray(GLboolean gen);
+
+	/*(3.0) Sets the binding state of the vertex array object, only if current state is opposite. Used as a setter of <vertexArrayBinding> property
+	@param True to bind the object to its target, false to unbind*/
+	void setVertexArrayBinding(GLboolean bind)
+	{
+		(bind) ? bindVertexArray() : unbindVertexArray();
+	}
+
+	/*(3.0) Explicitly unbinds specified vertex array object from its target. Does nothing if specified vertex array is not bound*/
+	void unbindVertexArray();
+
+	/*(3.0) Explicitly unbinds any vertex array object of specified type bound to its target. Does nothing if no such vertex array is bound*/
+	static void unbindTarget();
 
 #ifdef YAGLPP_CLASS_PROPERTIES
-	/*(3.0) Read-only property to determine if a name corresponds to a vertex array object*/
-	__declspec(property(get = isVertexArray)) GLboolean vertexArray;
+	/*(3.0) Read-write property for creation state of the vertex array object*/
+	__declspec(property(get = isVertexArray, put = setVertexArray)) GLboolean vertexArray;
 
-	/*(3.0) Read-only property to determine if the vertex array object is currently bound to its target*/
-	__declspec(property(get = isVertexArrayBinding)) GLboolean vertexArrayBinding;
+	/*(3.0) Read-write property for binding state of the vertex array object*/
+	__declspec(property(get = isVertexArrayBinding, put = setVertexArrayBinding)) GLboolean vertexArrayBinding;
 #endif // #ifdef YAGLPP_CLASS_PROPERTIES
 }; // class VertexArray : public _Object
 
-#ifndef _DEBUG
-inline void VertexArray::bindVertexArray()
+/*(3.0) Explicitly unbinds any vertex array object bound to its target. Does nothing if no vertex array is bound*/
+inline void unbindVertexArray()
 {
-	glBindVertexArray(_array_id());
+	VertexArray::unbindTarget();
 }
-
-inline void VertexArray::unbindVertexArray()
-{
-	glBindVertexArray(0);
-}
-#endif // #ifndef _DEBUG
 } // namespace gl
 #endif // #ifdef GL_VERSION_3_0

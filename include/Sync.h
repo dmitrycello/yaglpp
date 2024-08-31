@@ -70,12 +70,16 @@ public:
 		return glIsSync(_mpSync);
 	}
 
+	/*(3.2) Sets the creation state of the sync object, only if current state is opposite. Depending of the flag value, calls <fenceSync> or <deleteSync> functions. Used as a setter of <sync> property
+	@param True to generate sync object name, false to delete sync object*/
+	void setSync(GLboolean gen);
+
 	/*(3.2) Instruct the GL server to block until the specified synchronization object becomes signaled*/
 	void waitSync();
 
 #ifdef YAGLPP_CLASS_PROPERTIES
-	/*(3.2) Read-only property for determine if a name corresponds to a sync object*/
-	__declspec(property(get = isSync)) GLboolean sync;
+	/*(3.2) Read-write property for creation state of the sync object*/
+	__declspec(property(get = isSync, put = setSync)) GLboolean sync;
 
 	/*(3.2) Read-only property for flag representing the status of the synchronization object*/
 	__declspec(property(get = getSyncStatus)) GLboolean syncStatus;
@@ -90,13 +94,12 @@ inline GLsync Sync::_sync()
 
 inline SyncStatus Sync::clientWaitSync(GLuint64 timeout)
 {
-	return (SyncStatus)glClientWaitSync(_mpSync, GL_SYNC_FLUSH_COMMANDS_BIT, timeout);;
+	return (SyncStatus)glClientWaitSync(_mpSync, GL_SYNC_FLUSH_COMMANDS_BIT, timeout);
 }
 
 inline void Sync::deleteSync()
 {
-	glDeleteSync(_mpSync);
-	_mpSync = nullptr;
+	glDeleteSync(_mpSync); _mpSync = nullptr;
 }
 
 inline void Sync::fenceSync()
@@ -106,7 +109,7 @@ inline void Sync::fenceSync()
 
 inline GLboolean Sync::getSyncStatus()
 {
-	GLint i; glGetSynciv(_mpSync, GL_SYNC_STATUS, 1, nullptr, &i); return (i == GL_SIGNALED);
+	GLint i = 0; glGetSynciv(_mpSync, GL_SYNC_STATUS, 1, nullptr, &i); return (i == GL_SIGNALED);
 }
 
 inline void Sync::waitSync()

@@ -2902,7 +2902,7 @@ enum class TransformFeedbackPrimitiveMode : GLenum
 	Triangles = GL_TRIANGLES,
 };
 
-/*(3.0) Constant expression converting index value to color attachment unit within <DrawBuffer> enumerator
+/*(3.0) Constant expression converting index value to color attachment unit within <DrawBufferUnit> enumerator
 @param The index of color attachment unit between 0 and value returned by <getMaxColorAttachments> minus 1
 @return Color attachment unit value within <DrawBuffer> enumerator*/
 constexpr DrawBufferUnit drawBufferAttachment(ColorAttachment index)
@@ -2910,7 +2910,7 @@ constexpr DrawBufferUnit drawBufferAttachment(ColorAttachment index)
 	return (DrawBufferUnit)(GL_COLOR_ATTACHMENT0 + (GLenum)index);
 }
 
-/*(3.0) Constant expression converting index value to color attachment unit within <DrawBuffers> enumerator
+/*(3.0) Constant expression converting index value to color attachment unit within <DrawBuffersUnit> enumerator
 @param The index of color attachment unit between 0 and value returned by <getMaxColorAttachments> minus 1
 @return Color attachment unit value within <DrawBuffers> enumerator*/
 constexpr DrawBuffersUnit drawBuffersAttachment(ColorAttachment index)

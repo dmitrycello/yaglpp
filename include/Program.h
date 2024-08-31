@@ -237,6 +237,10 @@ public:
 		_object_share((_Object&)program);
 	}
 
+	/*Sets the creation state of the program object, only if current state is opposite. Depending of the flag value, calls <createProgram> or <deleteProgram> functions. Used as a setter of <program> property
+	@param True to generate program object name, false to delete program object*/
+	void setProgram(GLboolean gen);
+
 	/*Installs a program object as part of current rendering state*/
 	void useProgram();
 
@@ -259,7 +263,7 @@ public:
 	/*Read-only property for number of attached shaders program parameter*/
 	__declspec(property(get = getAttachedShaders)) GLint attachedShaders;
 
-	/*Read-only property to if the program object is currently active*/
+	/*Read-only property to check if the program object is currently active*/
 	__declspec(property(get = isCurrentProgram)) GLboolean currentProgram;
 
 	/*Read-only property for delete status program parameter*/
@@ -271,8 +275,8 @@ public:
 	/*Read-only property for link status program parameter*/
 	__declspec(property(get = getLinkStatus)) GLboolean linkStatus;
 
-	/*Read-only property to determine if a name corresponds to a program object*/
-	__declspec(property(get = isProgram)) GLboolean program;
+	/* Read-write property for creation state of the program object*/
+	__declspec(property(get = isProgram, put = setProgram)) GLboolean program;
 
 	/*Read-only property for validate status program parameter*/
 	__declspec(property(get = getValidateStatus)) GLboolean validateStatus;
@@ -293,7 +297,7 @@ public:
 	@param [out] Pointer to the <ActiveAttribInfo> structure receiving the varying variable info*/
 	void getTransformFeedbackVarying(GLuint index, _Out_ ActiveAttribInfo* info);
 
-	/*(3.0) Gets transform feedback varyings program parameter. Returns the number of varying variables to capture in transform feedback mode for the program. Used as a getter of <transformFeedbackVaryings2> property
+	/*(3.0) Gets transform feedback varyings program parameter. Returns the number of varying variables to capture in transform feedback mode for the program. Used as a getter of <transformFeedbackVaryings> property
 	@return The number of varying variables selected for transform feedback*/
 	GLuint getTransformFeedbackVaryings()
 	{
@@ -318,11 +322,11 @@ public:
 	@param The number of varying variables used for transform feedback
 	@param [in] An array of count zero-terminated strings specifying the names of the varying variables to use for transform feedback
 	@param Identifies the mode used to capture the varying variables when transform feedback is active*/
-	void transformFeedbackVaryings(GLsizei count, _In_reads_(count) const GLchar** varyings, TransformFeedbackBufferMode bufferMode);
+	void setTransformFeedbackVaryings(GLsizei count, _In_reads_(count) const GLchar** varyings, TransformFeedbackBufferMode bufferMode);
 
 #ifdef YAGLPP_CLASS_PROPERTIES
 	/*(3.0) Read-only property for number of varying variables to capture in transform feedback mode for the program*/
-	__declspec(property(get = getTransformFeedbackVaryings)) GLuint transformFeedbackVaryings2;
+	__declspec(property(get = getTransformFeedbackVaryings)) GLuint transformFeedbackVaryings;
 
 	/*(3.0) Read-only property for length of the longest variable name to be used for transform feedback, including the null-terminator*/
 	__declspec(property(get = getTransformFeedbackVaryingMaxLength)) GLsizei transformFeedbackVaryingMaxLength;
@@ -478,6 +482,16 @@ inline GLint Program::_getProgram(GLenum pname)
 	GLint i; glGetProgramiv(_program_id(), pname, &i); return i;
 }
 
+inline void WINAPI Program::_glCreateProgram(GLsizei unused, GLuint* id)
+{
+	*id = glCreateProgram();
+}
+
+inline void WINAPI Program::_glDeleteProgram(GLsizei unused, const GLuint* id)
+{
+	glDeleteProgram(*id);
+}
+
 inline void Program::getActiveAttrib(GLuint index, _Out_ ActiveAttribInfo* info)
 {
 	glGetActiveAttrib(_program_id(), index, MAX_PATH, &info->length, &info->size, (GLenum*)&info->type, info->name);
@@ -515,7 +529,7 @@ inline ColorNumber Program::getFragDataLocation(_In_z_ const GLchar* name)
 	return (ColorNumber)glGetFragDataLocation(_program_id(), name);;
 }
 
-inline void Program::transformFeedbackVaryings(GLsizei count, _In_reads_(count) const GLchar** varyings, TransformFeedbackBufferMode bufferMode)
+inline void Program::setTransformFeedbackVaryings(GLsizei count, _In_reads_(count) const GLchar** varyings, TransformFeedbackBufferMode bufferMode)
 {
 	glTransformFeedbackVaryings(_program_id(), count, varyings, (GLenum)bufferMode);
 }

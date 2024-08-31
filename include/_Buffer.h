@@ -1,6 +1,6 @@
 #pragma once
-#include "gladpp.h"
 #include "_Object.h"
+#include "DataStore.h"
 #ifndef GL_COPY_READ_BUFFER_BINDING
 #define GL_COPY_READ_BUFFER_BINDING 0x8F36
 #endif // #ifndef GL_COPY_READ_BUFFER_BINDING
@@ -76,7 +76,7 @@ void readPixels(GLint x, GLint y, GLsizei width, GLsizei height, ReadPixelsForma
 @param Specifies the format of the pixel data
 @param Specifies the data type of the pixel data
 @param Specifies the byte offset into the PBO object's data store*/
-void readPixels(PixelPackBuffer& buffer, GLint x, GLint y, GLsizei width, GLsizei height, ReadPixelsFormat format, ReadPixelsType type, GLintptr offset);
+void readPixels(PixelPackBuffer& ppb, GLint x, GLint y, GLsizei width, GLsizei height, ReadPixelsFormat format, ReadPixelsType type, GLintptr offset);
 #endif // #ifdef GL_VERSION_2_1
 
 #ifdef GL_VERSION_3_0
@@ -127,109 +127,44 @@ class _Buffer : public _Object
 protected:
 	friend class _Texture;
 	friend class VertexAttrib;
+	void _bindBuffer(GLenum target, GLenum binding);
+	void _bufferData(GLenum target, GLenum binding, GLsizeiptr size, const void* data, GLenum usage);
+	void _bufferSubData(GLenum target, GLenum binding, GLintptr offset, GLsizeiptr size, const void* data);
+	GLint _getBufferParameter(GLenum target, GLenum binding, GLenum pname);
+	void* _getBufferPointer(GLenum target, GLenum binding);
+	void _getBufferSubData(GLenum target, GLenum binding, GLintptr offset, GLsizeiptr size, void* data);
+	void* _mapBuffer(GLenum target, GLenum binding, GLenum access);
+	void _unbindBuffer(GLenum target, GLenum binding);
+	static void _unbindTarget(GLenum target, GLenum binding);
+	GLboolean _unmapBuffer(GLenum target, GLenum binding);
 	GLuint _buffer_id()
 	{
 		return _object_id(glGenBuffers);
 	}
 
-	void _buffer_bind(GLuint* tls, GLenum target)
+	void _setBufferBinding(GLenum target, GLenum binding, GLboolean bind)
 	{
-		_bindBuffer(tls, target, _buffer_id());
+		(bind) ? _bindBuffer(target, binding) : _unbindBuffer(target, binding);
 	}
-
-	void _buffer_rebind(GLuint* tls, GLenum target)
-	{
-		*tls = 0; _buffer_bind(tls, target);
-	}
-
-	static void _buffer_unbind(GLuint* tls, GLenum target)
-	{
-		_bindBuffer(tls, target, 0);
-	}
-
-	static GLuint* _tlsArrayBuffer()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static GLuint* _tlsElementArrayBuffer()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static void _bindBuffer(GLuint* tls, GLenum target, GLuint buffer);
-	void _bufferData(GLuint* tls, GLenum target, GLsizeiptr size, const void* data, GLenum usage);
-	void _bufferSubData(GLuint* tls, GLenum target, GLintptr offset, GLsizeiptr size, const void* data);
-	GLint _getBufferParameter(GLuint* tls, GLenum target, GLenum pname);
-	void* _getBufferPointer(GLuint* tls, GLenum target);
-	void _getBufferSubData(GLuint* tls, GLenum target, GLintptr offset, GLsizeiptr size, void* data);
-	void* _mapBuffer(GLuint* tls, GLenum target, GLenum access);
-	GLboolean _unmapBuffer(GLuint* tls, GLenum target);
 
 #ifdef GL_VERSION_2_1
 	friend void readPixels(GLint, GLint, GLsizei, GLsizei, ReadPixelsFormat, ReadPixelsType, _Out_ void*);
 	friend void readPixels(PixelPackBuffer&, GLint, GLint, GLsizei, GLsizei, ReadPixelsFormat, ReadPixelsType, GLintptr);
-	static GLuint* _tlsPixelPackBuffer()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static GLuint* _tlsPixelUnpackBuffer()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
 #endif // #ifdef GL_VERSION_2_1
 
 #ifdef GL_VERSION_3_0
-	GLuint _buffer_base(GLuint* tls, GLenum target)
-	{
-		GLuint u = _buffer_id(); *tls = u; return u;
-	}
-
-	static GLuint* _tlsTransformFeedbackBuffer()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	void _bindBufferBase(GLuint* tls, GLenum target, GLuint index);
-	void _bindBufferRange(GLuint* tls, GLenum target, GLuint index, GLintptr offset, GLsizeiptr size);
-	void _flushMappedBufferRange(GLuint* tls, GLenum target, GLintptr offset, GLsizeiptr length);
-	void* _mapBufferRange(GLuint* tls, GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
+	void _bindBufferBase(GLenum target, GLuint index);
+	void _bindBufferRange(GLenum target, GLuint index, GLintptr offset, GLsizeiptr size);
+	void _flushMappedBufferRange(GLenum target, GLenum binding, GLintptr offset, GLsizeiptr length);
+	void* _mapBufferRange(GLenum target, GLenum binding, GLintptr offset, GLsizeiptr length, GLbitfield access);
 #endif // #ifdef GL_VERSION_3_0
 
 #ifdef GL_VERSION_3_1
-	static GLuint* _tlsCopyReadBuffer()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static GLuint* _tlsCopyWriteBuffer()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static GLuint* _tlsTextureBuffer()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	static GLuint* _tlsUniformBuffer()
-	{
-		thread_local GLuint tls = 0; return &tls;
-	}
-
-	void _buffer_copy(GLuint* tls, GLuint* ntls, GLenum ntarget)
-	{
-		GLuint u = _buffer_id(); if (*tls == u) *tls = 0;
-		_bindBuffer(ntls, ntarget, u);
-	}
-
-	void _copyBufferSubData(GLuint* rtls, GLenum rtarget, GLuint* wtls, GLenum wtarget, _Buffer& wbuffer, GLintptr roffset, GLintptr woffset, GLsizeiptr size);
-	void _copyWriteBufferData(GLuint* tls, GLsizeiptr size, const void* data, GLenum usage);
+	void _copyBufferSubData(GLenum rtarget, GLenum rbinding, GLenum wtarget, GLenum wbinding, _Buffer& wbuffer, GLintptr roffset, GLintptr woffset, GLsizeiptr size);
 #endif // #ifdef GL_VERSION_3_1
 
 #ifdef GL_VERSION_3_2
-	GLint64 _getBufferParameter64(GLuint* tls, GLenum target, GLenum pname);
+	GLint64 _getBufferParameter64(GLenum target, GLenum binding, GLenum pname);
 #endif // #ifdef 
 
 public:
@@ -261,134 +196,79 @@ public:
 		return glIsBuffer(_object_id());
 	}
 
+	/*Sets the creation state of the buffer object, only if current state is opposite. Depending of the flag value, calls <genBuffer> or <deleteBuffer> functions. Used as a setter of <buffer> property
+	@param True to generate buffer object name, false to delete buffer object*/
+	void setBuffer(GLboolean gen);
+
 #ifdef YAGLPP_CLASS_PROPERTIES
-	/*Read-only property to determine if a name corresponds to a buffer object*/
-	__declspec(property(get = isBuffer)) GLboolean buffer;
+	/*Read-write property for creation state of the buffer object*/
+	__declspec(property(get = isBuffer, put = setBuffer)) GLboolean buffer;
 #endif // #ifdef YAGLPP_CLASS_PROPERTIES
 
 #ifdef GL_VERSION_3_1
-	/*(3.1) Determines via API if the buffer object is currently bound to copy read buffer target
-	@return True if buffer object currently bound to copy read buffer target, or false otherwise*/
+	/*(3.1) (1) Directly binds and initializes buffer object using copy-write target with the valid DataStore object
+	@param Specifies the DataStore object who's data and size will be used for the buffer initialization
+	@param Specifies the expected usage pattern of the data store enumerator*/
+	void copyWriteBufferData(DataStore& dataStore, BufferUsage usage)
+	{
+		copyWriteBufferData((GLsizeiptr)dataStore.getSize(), dataStore.getData(0), usage);
+	}
+
+	/*(3.1) (2) Directly initializes buffer object using copy-write target
+	@param Specifies the size in bytes of the buffer object's new data store
+	@param [in] Specifies a pointer to data that will be copied into the data store for initialization, or NULL if no data is to be copied
+	@param Specifies the expected usage pattern of the data store enumerator*/
+	void copyWriteBufferData(GLsizeiptr size, _Pre_maybenull_ const void* data, BufferUsage usage);
+
+	/*(3.1) Determines if the buffer object is currently bound to copy read buffer target. Used as a getter of <copyReadBufferBinding> property
+	@return True if buffer object currently bound to copy read buffer target, false otherwise*/
 	GLboolean isCopyReadBufferBinding()
 	{
 		return _object_id() == _getInteger(GL_COPY_READ_BUFFER_BINDING);
 	}
 
-	/*(3.1) Determines via API if the buffer object is currently bound to copy write buffer target
-	@return True if buffer object currently bound to copy write buffer target, or false otherwise*/
+	/*(3.1) Determines if the buffer object is currently bound to copy write buffer target. Used as a setter of <copyWriteBufferBinding> property
+	@return True if buffer object currently bound to copy write buffer target, false otherwise*/
 	GLboolean isCopyWriteBufferBinding()
 	{
 		return _object_id() == _getInteger(GL_COPY_WRITE_BUFFER_BINDING);
 	}
+
+	/*(3.1) Sets the copy read binding state of the buffer object, only if current state is opposite. Used as a setter of <copyReadBufferBinding> property
+	@param True to bind the object to copy read target, false to unbind*/
+	void setCopyReadBufferBinding(GLboolean bind)
+	{
+		_setBufferBinding(GL_COPY_READ_BUFFER, GL_COPY_READ_BUFFER_BINDING, bind);
+	}
+
+	/*(3.1) Sets the copy write binding state of the buffer object, only if current state is opposite. Used as a setter of <copyWriteBufferBinding> property
+	@param True to bind the object to copy write target, false to unbind*/
+	void setCopyWriteBufferBinding(GLboolean bind)
+	{
+		_setBufferBinding(GL_COPY_WRITE_BUFFER, GL_COPY_WRITE_BUFFER_BINDING, bind);
+	}
+
+#ifdef YAGLPP_CLASS_PROPERTIES
+	/*(3.1) Read-write property for copy read binding state of the buffer object*/
+	__declspec(property(get = isCopyReadBufferBinding, put = setCopyReadBufferBinding)) GLboolean copyReadBufferBinding;
+
+	/*(3.1) Read-write property for copy write binding state of the buffer object*/
+	__declspec(property(get = isCopyWriteBufferBinding, put = setCopyWriteBufferBinding)) GLboolean copyWriteBufferBinding;
+#endif // #ifdef YAGLPP_CLASS_PROPERTIES
 #endif // #ifdef GL_VERSION_3_1
 }; // class _Buffer : public _Object
 
-#ifndef _DEBUG
-inline void readPixels(GLint x, GLint y, GLsizei width, GLsizei height, ReadPixelsFormat format, ReadPixelsType type, _Out_ void* data)
+#if !defined(_DEBUG) && defined(GL_VERSION_3_0)
+inline void _Buffer::_bindBufferBase(GLenum target, GLuint index)
 {
-#ifdef GL_VERSION_2_1
-	_Buffer::_buffer_unbind(_Buffer::_tlsPixelPackBuffer(), GL_PIXEL_PACK_BUFFER);
-#endif // #ifdef GL_VERSION_2_1
-
-	glReadPixels(x, y, width, height, (GLenum)format, (GLenum)type, data);
+	glBindBufferBase(target, index, _buffer_id());
 }
 
-inline void _Buffer::_bindBuffer(GLuint* tls, GLenum target, GLuint buffer)
+inline void _Buffer::_bindBufferRange(GLenum target, GLuint index, GLintptr offset, GLsizeiptr size)
 {
-	if (*tls == buffer) return;
-	glBindBuffer(target, buffer); *tls = buffer;
+	glBindBufferRange(target, index, _buffer_id(), offset, size);
 }
-
-inline void _Buffer::_bufferData(GLuint* tls, GLenum target, GLsizeiptr size, const void* data, GLenum usage)
-{
-	_buffer_bind(tls, target);
-	glBufferData(target, size, data, usage);
-}
-
-inline void _Buffer::_bufferSubData(GLuint* tls, GLenum target, GLintptr offset, GLsizeiptr size, const void* data)
-{
-	_buffer_bind(tls, target);
-	glBufferSubData(target, offset, size, data);
-}
-
-inline GLint _Buffer::_getBufferParameter(GLuint* tls, GLenum target, GLenum pname)
-{
-	_buffer_bind(tls, target);
-	GLint i; glGetBufferParameteriv(target, pname, &i); return i;
-}
-
-inline void* _Buffer::_getBufferPointer(GLuint* tls, GLenum target)
-{
-	_buffer_bind(tls, target);
-	void* p; glGetBufferPointerv(target, GL_BUFFER_MAP_POINTER, &p); return p;
-}
-
-inline void _Buffer::_getBufferSubData(GLuint* tls, GLenum target, GLintptr offset, GLsizeiptr size, void* data)
-{
-	_buffer_bind(tls, target);
-	glGetBufferSubData(target, offset, size, data);
-}
-
-inline void* _Buffer::_mapBuffer(GLuint* tls, GLenum target, GLenum access)
-{
-	_buffer_bind(tls, target);
-	return glMapBuffer(target, access);
-}
-
-inline GLboolean _Buffer::_unmapBuffer(GLuint* tls, GLenum target)
-{
-	_buffer_bind(tls, target);
-	return glUnmapBuffer(target);
-}
-#endif // #ifndef _DEBUG
-
-#if !defined _DEBUG && defined GL_VERSION_2_1
-inline void readPixels(PixelPackBuffer& buffer, GLint x, GLint y, GLsizei width, GLsizei height, ReadPixelsFormat format, ReadPixelsType type, GLintptr offset)
-{
-	((_Buffer&)buffer)._buffer_bind(_Buffer::_tlsPixelPackBuffer(), GL_PIXEL_PACK_BUFFER);
-	glReadPixels(x, y, width, height, (GLenum)format, (GLenum)type, (void*)offset);
-}
-#endif // #if !defined _DEBUG && defined GL_VERSION_2_1
-
-#if !defined _DEBUG && defined GL_VERSION_3_0
-inline void _Buffer::_bindBufferBase(GLuint* tls, GLenum target, GLuint index)
-{
-	glBindBufferBase(target, index, _buffer_base(tls, target));
-}
-
-inline void _Buffer::_bindBufferRange(GLuint* tls, GLenum target, GLuint index, GLintptr offset, GLsizeiptr size)
-{
-	glBindBufferRange(target, index, _buffer_base(tls, target), offset, size);
-}
-
-inline void _Buffer::_flushMappedBufferRange(GLuint* tls, GLenum target, GLintptr offset, GLsizeiptr length)
-{
-	_buffer_bind(tls, target);
-	glFlushMappedBufferRange(target, offset, length);
-}
-
-inline void* _Buffer::_mapBufferRange(GLuint* tls, GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access)
-{
-	_buffer_bind(tls, target);
-	return glMapBufferRange(target, offset, length, access);
-}
-#endif // #if !defined _DEBUG && defined GL_VERSION_3_0
-
-#if !defined _DEBUG && defined GL_VERSION_3_1
-inline void _Buffer::_copyWriteBufferData(GLuint* tls, GLsizeiptr size, const void* data, GLenum usage)
-{
-	_buffer_copy(tls, _tlsCopyWriteBuffer(), GL_COPY_WRITE_BUFFER);
-	glBufferData(GL_COPY_WRITE_BUFFER, size, data, usage);
-}
-#endif // #if !defined _DEBUG && defined GL_VERSION_3_1
-
-#if !defined _DEBUG && defined GL_VERSION_3_2
-inline GLint64 _Buffer::_getBufferParameter64(GLuint* tls, GLenum target, GLenum pname)
-{
-	_buffer_bind(tls, target);
-	GLint64 i; glGetBufferParameteri64v(target, pname, &i); return i;
-}
-#endif // #if !defined _DEBUG && defined GL_VERSION_3_2
+#endif // #if defined(_DEBUG) && defined(GL_VERSION_3_0)
 } // namespace gl
 
 #ifndef YAGLPP_BUILD_LIB
