@@ -2,6 +2,21 @@
 #include <yaglpp/_Query.h>
 #pragma comment(lib, "opengl32.lib")
 namespace gl {
+void _Query::setQuery(GLboolean gen)
+{
+	if (isObject())
+	{
+		if (gen == GL_FALSE)
+		{
+			deleteQuery();
+		}
+	}
+	else if (gen == GL_TRUE)
+	{
+		genQuery();
+	}
+}
+
 #ifdef _DEBUG
 void _Query::_beginQuery(GLenum target)
 {

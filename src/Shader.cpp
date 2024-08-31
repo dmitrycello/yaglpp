@@ -19,14 +19,19 @@ GLchar* _Shader::_getShaderSource(GLenum shaderType)
 	return pBuffer;
 }
 
-void WINAPI _Shader::_glCreateShader(GLsizei shaderType, GLuint* id)
+void _Shader::_setShader(GLenum type, GLboolean gen)
 {
-	*id = glCreateShader((GLenum)shaderType);
-}
-
-void WINAPI _Shader::_glDeleteShader(GLsizei unused, const GLuint* id)
-{
-	glDeleteShader(*id);
+	if (isObject())
+	{
+		if (gen == GL_FALSE)
+		{
+			_object_delete(&_glDeleteShader);
+		}
+	}
+	else if (gen == GL_TRUE)
+	{
+		_object_gen(&_glCreateShader, type);
+	}
 }
 
 void _Shader::_shaderSource(GLenum shaderType, int rcid)
@@ -88,6 +93,18 @@ GLint _Shader::_getShader(GLenum shaderType, GLenum pname)
 void _Shader::_getShaderSource(GLenum shaderType, GLsizei bufSize, GLsizei* length, GLchar* source)
 {
 	glGetShaderSource(_shader_id(shaderType), bufSize, length, source);
+	_YAGLPP_GLAD_ERROR_;
+}
+
+void WINAPI _Shader::_glCreateShader(GLsizei shaderType, GLuint* id)
+{
+	*id = glCreateShader((GLenum)shaderType);
+	_YAGLPP_GLAD_ERROR_;
+}
+
+void WINAPI _Shader::_glDeleteShader(GLsizei unused, const GLuint* id)
+{
+	glDeleteShader(*id);
 	_YAGLPP_GLAD_ERROR_;
 }
 

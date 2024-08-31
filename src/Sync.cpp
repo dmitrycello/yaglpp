@@ -3,6 +3,28 @@
 #pragma comment(lib, "opengl32.lib")
 #if defined _DEBUG && defined GL_VERSION_3_2
 namespace gl {
+void Sync::setSync(GLboolean gen)
+{
+	if (isSync())
+	{
+		if (gen == GL_FALSE)
+		{
+			deleteSync();
+		}
+	}
+	else if (gen == GL_TRUE)
+	{
+		fenceSync();
+	}
+}
+
+#ifdef _DEBUG
+GLsync Sync::_sync()
+{
+	_YAGLPP_ASSERT_(_mpSync != NULL); // OPENGL SYNC OBJECT IS EMPTY
+	return _mpSync;
+}
+
 SyncStatus Sync::clientWaitSync(GLuint64 timeout)
 {
 	GLenum eStatus = glClientWaitSync(_sync(), GL_SYNC_FLUSH_COMMANDS_BIT, timeout);
@@ -37,13 +59,6 @@ void Sync::waitSync()
 {
 	glWaitSync(_sync(), 0, GL_TIMEOUT_IGNORED);
 	_YAGLPP_GLAD_ERROR_;
-}
-
-#ifdef _DEBUG
-GLsync Sync::_sync()
-{
-	_YAGLPP_ASSERT_(_mpSync != NULL); // OPENGL SYNC OBJECT IS EMPTY
-	return _mpSync;
 }
 #endif // #ifdef _DEBUG
 } // namespace gl

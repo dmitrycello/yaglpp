@@ -2,16 +2,6 @@
 #include <yaglpp/Program.h>
 #pragma comment(lib, "opengl32.lib")
 namespace gl {
-void WINAPI Program::_glCreateProgram(GLsizei unused, GLuint* id)
-{
-	*id = glCreateProgram();
-}
-
-void WINAPI Program::_glDeleteProgram(GLsizei unused, const GLuint* id)
-{
-	glDeleteProgram(*id);
-}
-
 void Program::detachShaders()
 {
 	GLint iCount; GLuint uId = _program_id();
@@ -29,6 +19,21 @@ void Program::detachShaders()
 	_YAGLPP_GLAD_ERROR_;
 }
 
+void Program::setProgram(GLboolean gen)
+{
+	if (isObject())
+	{
+		if (gen == GL_FALSE)
+		{
+			_object_delete(&_glDeleteProgram);
+		}
+	}
+	else if (gen == GL_TRUE)
+	{
+		_object_gen(&_glCreateProgram);
+	}
+}
+
 #ifdef _DEBUG
 GLint Program::_getProgram(GLenum pname)
 {
@@ -36,6 +41,18 @@ GLint Program::_getProgram(GLenum pname)
 	glGetProgramiv(_program_id(), pname, &iResult);
 	_YAGLPP_GLAD_ERROR_;
 	return iResult;
+}
+
+void WINAPI Program::_glCreateProgram(GLsizei unused, GLuint* id)
+{
+	*id = glCreateProgram();
+	_YAGLPP_GLAD_ERROR_;
+}
+
+void WINAPI Program::_glDeleteProgram(GLsizei unused, const GLuint* id)
+{
+	glDeleteProgram(*id);
+	_YAGLPP_GLAD_ERROR_;
 }
 
 void Program::getActiveAttrib(GLuint index, _Out_ ActiveAttribInfo* info)
@@ -114,7 +131,7 @@ void Program::getTransformFeedbackVarying(GLuint index, _Out_ ActiveAttribInfo* 
 	_YAGLPP_GLAD_ERROR_;
 }
 
-void Program::transformFeedbackVaryings(GLsizei count, _In_reads_(count) const GLchar** varyings, TransformFeedbackBufferMode bufferMode)
+void Program::setTransformFeedbackVaryings(GLsizei count, _In_reads_(count) const GLchar** varyings, TransformFeedbackBufferMode bufferMode)
 {
 	glTransformFeedbackVaryings(_program_id(), count, varyings, (GLenum)bufferMode);
 	_YAGLPP_GLAD_ERROR_;

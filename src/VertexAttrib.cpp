@@ -39,7 +39,7 @@ GLboolean VertexAttrib::getAttribLocation(Program& program, _In_z_ const GLchar*
 {
 	_miLocation = glGetAttribLocation(program._program_id(), name);
 	_YAGLPP_GLAD_ERROR_;
-	return isVertexAttrib();
+	return isAttribLocation();
 }
 
 void VertexAttrib::getCurrentVertexAttrib(_Out_writes_(4) GLint* params)

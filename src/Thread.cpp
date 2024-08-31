@@ -272,7 +272,7 @@ bool Thread::dispatchMessage(_Out_ Message* msg)
     _s.syncLeave(_m.iRef);
 
 #ifdef _DEBUG
-    _m._bDispatch = false;
+    _m._iDispatch = 0;
 #endif // #ifdef _DEBUG
 
     memset(msg, 0, sizeof(Message)); // SAL requirment
@@ -283,43 +283,32 @@ bool Thread::isContextCurrent() const
 {
     if (_m.pWindow != nullptr)
     {
-        return _m.pWindow->_m.pThread != nullptr;
+        return _m.pWindow->_m.pThread == this;
     }
-    else return false;
+    return false;
 }
 
 DWORD Thread::onRun()
 {
     Message msg;
-    onInit();
+    onInit(); // init thread processing
     if (getExitcode() > 0) return getExitcode();
+    _YAGLPP_ASSERT_(isContextCurrent()); // THE CONTEXT HAS NOT BEEN MADE CURRENT
     bool bMain = isMainThread();
-    bool bClose = getContext()->windowShouldClose();
-    double dLast = glfwGetTime();
-    while (!bClose)
+    double dLast = getTime();
+    while (!getContext()->getWindowShouldClose())
     {
-        // input processing
-        if (bMain)
+        if (bMain) // input processing
         {
-            double dNew = glfwGetTime();
+            double dNew = getTime();
             onInput(dNew - dLast);
             if (getExitcode() > 0) return getExitcode();
             dLast = dNew;
         }
-
-        // window renedering loop
-        onRender();
+        onRender(); // window renedering loop and swap buffers
         if (getExitcode() > 0) return getExitcode();
-
-        // swap buffers and check window
         getContext()->swapBuffers();
-        if (bClose = getContext()->windowShouldClose())
-        {
-            setBlockMessage(true);
-        }
-
-        // thread event processing
-        while (dispatchMessage(&msg))
+        while (dispatchMessage(&msg)) // thread event processing
         {
             if (!translateMessage(&msg))
             {
@@ -327,22 +316,26 @@ DWORD Thread::onRun()
                 if (getExitcode() > 0) return getExitcode();
             }
         }
-
-        // window event processing
-        if (bMain)
+        if (bMain) // window event processing
         {
-            if ((getEventsTimeout() > 0.0) && !bClose)
+            if (getEventsTimeout() > 0.0)
             {
-                // idle thread processing
-                onIdle();
+                onIdle(); // idle thread processing
                 if (getExitcode() > 0) return getExitcode();
                 waitEventsTimeout();
             }
             else pollEvents();
         }
     }
-
-    // exit thread processing
+    setBlockMessage(true); // void thread message queue and exit
+    while (dispatchMessage(&msg))
+    {
+        if (!translateMessage(&msg))
+        {
+            onMessage(&msg);
+            if (getExitcode() > 0) return getExitcode();
+        }
+    }
     onExit();
     return getExitcode();
 }
@@ -369,9 +362,11 @@ void Thread::wakeThread()
 #ifdef _DEBUG
 bool Thread::_dispatch()
 {
-    bool bResult = _m._bDispatch && (_m.iCount > 0);
-    _m._bDispatch = true;
-    return bResult;
+    if (_m.bBlockMessage == false)
+    {
+        return _m._iDispatch++ < YAGLPP_INIT_SIZE;
+    }
+    return true;
 }
 
 HANDLE Thread::_handle() const
@@ -385,7 +380,6 @@ void Thread::closeHandle()
     BOOL bResult = CloseHandle(_handle());
     _YAGLPP_ASSERT_(bResult != 0); // FAILED TO CLOSE THREAD HANDLE
     _m.hThread = NULL;
-    _m.nThreadId = 0;
 }
 
 void Thread::exitThread(DWORD exitcode)
@@ -442,10 +436,11 @@ void Thread::joinThread()
     _YAGLPP_ASSERT_(dwResult != WAIT_FAILED); // FAILED TO WAIT FOR SINGLE OBJECT
 }
 
-void Thread::postMessage(int msgid, Param x, Param y, Param z, Param w)
+bool Thread::postMessage(int msgid, Param x, Param y, Param z, Param w)
 {
     _YAGLPP_ASSERT_(msgid >= 0); // MESSAGE ID MUST NOT BE NEGATIVE
-    Message msg = { msgid, x, y, z, w, *_tlsThread() }; _message(&msg);
+    Message msg = { msgid, x, y, z, w, *_tlsThread() };
+    return _message(&msg);
 }
 
 int Thread::resumeThread()

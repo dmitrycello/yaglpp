@@ -25,7 +25,7 @@ GLboolean Uniform::getUniformLocation(Program& program, _In_z_ const GLchar* nam
 {
 	_miLocation = glGetUniformLocation(program._program_id(), name);
 	_YAGLPP_GLAD_ERROR_;
-	return isUniform();
+	return isUniformLocation();
 }
 
 void Uniform::setUniformLocation(GLuint location)

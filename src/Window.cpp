@@ -411,6 +411,7 @@ void Window::focusWindow()
 {
 	if (isMainThreadCurrent())
 	{
+		_YAGLPP_ASSERT_(isWindowVisible() && !isWindowIconified()); // WINDOW SHOULD BE VISIBLE AND NOT ICONIFIEd
 		glfwFocusWindow(_window());
 		_m.iWindowFocused = GLFW_TRUE;
 	}
@@ -491,6 +492,19 @@ void Window::getWindowPos()
 		}
 		else _apiTransfer(YAGLPP_GET_WINDOW_POS, 0, 0, 0, 0);
 	}
+}
+
+bool Window::getWindowShouldClose()
+{
+	_YAGLPP_ASSERT_(getCurrentThread()->_dispatch()); // DISPATCH MISSING FOR A THREAD RECEIVING MESSAGES
+	if (isWindow())
+	{
+		if (glfwWindowShouldClose(_window()))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 void Window::getWindowSize()
@@ -618,6 +632,21 @@ void Window::setWindowAspectRatio(int numer, int denom)
 	else _apiTransfer(YAGLPP_SET_WINDOW_ASPECT_RATIO, numer, denom, 0, 0);
 }
 
+void Window::setWindowFullscreen(bool fullscreen)
+{
+	if (_m.iWindowFullscreen == GLFW_TRUE)
+	{
+		if (fullscreen == false)
+		{
+			unsetWindowMonitor();
+		}
+	}
+	else if (fullscreen == true)
+	{
+		setWindowMonitor();
+	}
+}
+
 void Window::setWindowIcon(StbImage& si)
 {
 	_YAGLPP_ASSERT_(isMainThreadCurrent()); // MUST BE CALLED ONLY FROM THE MAIN THREAD
@@ -653,6 +682,36 @@ void Window::setWindowIcon(_In_z_ const char* filepath)
 	if (freeImage.loadIcon(filepath) > 0) setWindowIcon(freeImage);
 }
 #endif // #ifndef YAGLPP_NO_FREEIMAGE
+
+void Window::setWindowIconified(bool iconified)
+{
+	if (_m.iWindowIconified == GLFW_TRUE)
+	{
+		if (iconified == false)
+		{
+			restoreWindow();
+		}
+	}
+	else if (iconified == true)
+	{
+		iconifyWindow();
+	}
+}
+
+void Window::setWindowMaximize(bool maximized)
+{
+	if (_m.iWindowMaximized == GLFW_TRUE)
+	{
+		if (maximized == false)
+		{
+			restoreWindow();
+		}
+	}
+	else if (maximized == true)
+	{
+		maximizeWindow();
+	}
+}
 
 void Window::setWindowMonitor()
 {
@@ -736,6 +795,21 @@ void Window::setWindowTitle(_In_z_ const char* title)
 		{
 			_YAGLPP_FREE_(pString); // Cleanup if message blocked
 		}
+	}
+}
+
+void Window::setWindowVisible(bool visible)
+{
+	if (_m.iWindowVisible == GLFW_TRUE)
+	{
+		if (visible == false)
+		{
+			hideWindow();
+		}
+	}
+	else if (visible == true)
+	{
+		showWindow();
 	}
 }
 
@@ -1056,19 +1130,6 @@ void Window::unsetWindowMonitor()
 	else _apiTransfer(YAGLPP_UNSET_WINDOW_MONITOR, 0, 0, 0, 0);
 }
 
-bool Window::windowShouldClose()
-{
-	//_YAGLPP_ASSERT_(!getCurrentThread()->_dispatch()); // DISPATCH IS MISSING FOR A THREAD WITH NON-EMPTY QUEUE
-	if (isWindow())
-	{
-		if (glfwWindowShouldClose(_window()))
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
 #ifdef YAGLPP_NO_GLFW_LEGACY
 _Ret_maybenull_z_ const char* Window::getWindowTitle()
 {
@@ -1099,7 +1160,7 @@ KeyAction Window::getKey(KeyboardKey key) const
 	_YAGLPP_ASSERT_(isMainThreadCurrent()); // MUST BE CALLED ONLY FROM THE MAIN THREAD
 	return (KeyAction)glfwGetKey(_window(), (int)key);
 }
-
+\
 MouseAction Window::getMouseButton(MouseButton button)
 {
 	_YAGLPP_ASSERT_(isMainThreadCurrent()); // MUST BE CALLED ONLY FROM THE MAIN THREAD

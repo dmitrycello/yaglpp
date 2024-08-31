@@ -1,88 +1,135 @@
 #define YAGLPP_BUILD_LIB
 #include <yaglpp/_Framebuffer.h>
+#include <yaglpp/_Texture.h>
+#include <yaglpp/Renderbuffer.h>
 #pragma comment(lib, "opengl32.lib")
 #ifdef GL_VERSION_3_0
 namespace gl {
-void _Framebuffer::_bindFramebuffer(GLuint* tls, GLenum target, GLuint id)
+void _Framebuffer::_bindFramebuffer(GLenum target, GLenum binding)
 {
-	if (*tls == id)
+	if (!_isFramebufferBinding(binding))
 	{
-		return;
+		glBindFramebuffer(target, _framebuffer_id());
+		_YAGLPP_GLAD_ERROR_;
 	}
-	if (target == GL_FRAMEBUFFER)
-	{
-		*_tlsDrawFramebuffer() = 0;
-		*_tlsReadFramebuffer() = 0;
-	}
-	else
-	{
-		*_tlsFramebuffer() = 0;
-	}
-	glBindFramebuffer(target, id);
-	_YAGLPP_GLAD_ERROR_;
-	*tls = id;
 }
 
-#ifdef _DEBUG
-void _Framebuffer::_blitFramebuffer(_Framebuffer& fbo, GLuint* tls, GLenum target, GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, BufferBitMask mask, TextureMagFilter filter)
+void _Framebuffer::_blitFramebuffer(_Framebuffer& fbo, GLenum target, GLenum binding, GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, BufferBitMask mask, TextureMagFilter filter)
 {
-	fbo._framebuffer_bind(tls, target);
+	fbo._bindFramebuffer(target, binding);
 	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, (GLbitfield)mask, (GLenum)filter);
 	_YAGLPP_GLAD_ERROR_;
 }
 
-GLenum _Framebuffer::_checkFramebufferStatus(GLuint* tls, GLenum target)
+GLenum _Framebuffer::_checkFramebufferStatus(GLenum target, GLenum binding)
 {
 	GLenum eResult = 0;
-	_framebuffer_bind(tls, target);
+	_bindFramebuffer(target, binding);
 	eResult = glCheckFramebufferStatus(target);
 	_YAGLPP_GLAD_ERROR_;
 	return eResult;
 }
 
-void _Framebuffer::_framebufferRenderbuffer(GLuint* tls, GLenum target, ColorAttachment index, Renderbuffer& renderbuffer)
+void _Framebuffer::_framebufferRenderbuffer(GLenum target, GLenum binding, GLenum attachment, Renderbuffer* renderbuffer)
 {
-	_framebuffer_bind(tls, target);
-	glFramebufferRenderbuffer(target, GL_COLOR_ATTACHMENT0 + (GLenum)index, GL_RENDERBUFFER, renderbuffer._renderbuffer_id());
+	_bindFramebuffer(target, binding);
+	GLuint uId = (renderbuffer != nullptr) ? renderbuffer->_renderbuffer_id() : 0;
+	glFramebufferRenderbuffer(target, attachment, GL_RENDERBUFFER, uId);
 	_YAGLPP_GLAD_ERROR_;
 }
 
-void _Framebuffer::_framebufferTexture1D(GLuint* tls, GLenum target, ColorAttachment index, GLenum textarget, _Texture& texture, GLint level)
+void _Framebuffer::_framebufferTexture1D(GLenum target, GLenum binding, GLenum attachment, _Texture& texture, GLint level)
 {
-	_framebuffer_bind(tls, target);
-	glFramebufferTexture1D(target, GL_COLOR_ATTACHMENT0 + (GLenum)index, textarget, texture._texture_id(), level);
+	_bindFramebuffer(target, binding);
+	glFramebufferTexture1D(target, attachment, GL_TEXTURE_1D, texture._texture_id(), level);
 	_YAGLPP_GLAD_ERROR_;
 }
 
-void _Framebuffer::_framebufferTexture2D(GLuint* tls, GLenum target, ColorAttachment index, GLenum textarget, _Texture& texture, GLint level)
+void _Framebuffer::_framebufferTexture2D(GLenum target, GLenum binding, GLenum attachment, GLenum textarget, _Texture& texture, GLint level)
 {
-	_framebuffer_bind(tls, target);
-	glFramebufferTexture2D(target, GL_COLOR_ATTACHMENT0 + (GLenum)index, textarget, texture._texture_id(), level);
+	_bindFramebuffer(target, binding);
+	glFramebufferTexture2D(target, attachment, textarget, texture._texture_id(), level);
 	_YAGLPP_GLAD_ERROR_;
 }
 
-void _Framebuffer::_framebufferTexture3D(GLuint* tls, GLenum target, ColorAttachment index, GLenum textarget, _Texture& texture, GLint level, GLint layer)
+void _Framebuffer::_framebufferTexture3D(GLenum target, GLenum binding, GLenum attachment, _Texture& texture, GLint level, GLint layer)
 {
-	_framebuffer_bind(tls, target);
-	glFramebufferTexture3D(target, GL_COLOR_ATTACHMENT0 + (GLenum)index, textarget, texture._texture_id(), level, layer);
+	_bindFramebuffer(target, binding);
+	glFramebufferTexture3D(target, attachment, GL_TEXTURE_3D, texture._texture_id(), level, layer);
 	_YAGLPP_GLAD_ERROR_;
 }
 
-void _Framebuffer::_framebufferTextureLayer(GLuint* tls, GLenum target, ColorAttachment index, _Texture& texture, GLint level, GLint layer)
+void _Framebuffer::_framebufferTextureLayer(GLenum target, GLenum binding, GLenum attachment, _Texture& texture, GLint level, GLint layer)
 {
-	_framebuffer_bind(tls, target);
-	glFramebufferTextureLayer(target, GL_COLOR_ATTACHMENT0 + (GLenum)index, texture._texture_id(), level, layer);
+	_bindFramebuffer(target, binding);
+	glFramebufferTextureLayer(target, attachment, texture._texture_id(), level, layer);
 	_YAGLPP_GLAD_ERROR_;
 }
 
-GLint _Framebuffer::_getFramebufferAttachmentParameter(GLuint* tls, GLenum target, ColorAttachment index, GLenum pname)
+GLint _Framebuffer::_getFramebufferAttachmentParameter(GLenum target, GLenum binding, GLenum attachment, GLenum pname)
 {
 	GLint iResult = 0;
-	_framebuffer_bind(tls, target);
-	glGetFramebufferAttachmentParameteriv(target, GL_COLOR_ATTACHMENT0 + (GLenum)index, pname, &iResult);
+	_bindFramebuffer(target, binding);
+	glGetFramebufferAttachmentParameteriv(target, attachment, pname, &iResult);
 	_YAGLPP_GLAD_ERROR_;
 	return iResult;
 }
-#endif // #ifdef _DEBUG
+
+GLboolean _Framebuffer::_isFramebufferBinding(GLenum binding)
+{
+	GLuint uBound, uId = _object_id();
+	glGetIntegerv(binding, (GLint*)&uBound);
+	_YAGLPP_GLAD_ERROR_;
+	if (uBound == uId)
+	{
+		if (binding == GL_FRAMEBUFFER_BINDING)
+		{
+			glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, (GLint*)&uBound);
+			_YAGLPP_GLAD_ERROR_;
+			return uBound == uId;
+		}
+		return GL_TRUE;
+	}
+	return GL_FALSE;
+}
+
+void _Framebuffer::_unbindFramebuffer(GLenum target, GLenum binding)
+{
+	GLuint uBound, uId = _object_id();
+	glGetIntegerv(binding, (GLint*)&uBound);
+	_YAGLPP_GLAD_ERROR_;
+	if (uBound == uId)
+	{
+		glBindFramebuffer(target, 0);
+		_YAGLPP_GLAD_ERROR_;
+	}
+}
+
+void _Framebuffer::_unbindTarget(GLenum target, GLenum binding)
+{
+	GLuint uBound;
+	glGetIntegerv(binding, (GLint*)&uBound);
+	_YAGLPP_GLAD_ERROR_;
+	if (uBound != 0)
+	{
+		glBindFramebuffer(target, 0);
+		_YAGLPP_GLAD_ERROR_;
+	}
+}
+
+void _Framebuffer::setFramebuffer(GLboolean gen)
+{
+	if (isObject())
+	{
+		if (gen == GL_FALSE)
+		{
+			deleteFramebuffer();
+		}
+	}
+	else if (gen == GL_TRUE)
+	{
+		genFramebuffer();
+	}
+}
 } // namespace gl
 #endif // #ifdef GL_VERSION_3_0

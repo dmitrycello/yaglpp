@@ -1,8 +1,24 @@
 #define YAGLPP_BUILD_LIB
 #include <yaglpp/Sampler.h>
 #pragma comment(lib, "opengl32.lib")
-#if defined _DEBUG && defined GL_VERSION_3_3
+#ifdef GL_VERSION_3_3
 namespace gl {
+void Sampler::setSampler(GLboolean gen)
+{
+	if (isObject())
+	{
+		if (gen == GL_FALSE)
+		{
+			deleteSampler();
+		}
+	}
+	else if (gen == GL_TRUE)
+	{
+		genSampler();
+	}
+}
+
+#ifdef _DEBUG
 GLint Sampler::_getSamplerParameter(GLenum pname)
 {
 	GLint iData = 0;
@@ -13,7 +29,7 @@ GLint Sampler::_getSamplerParameter(GLenum pname)
 
 GLfloat Sampler::_getSamplerParameterFloat(GLenum pname)
 {
-	GLfloat fData = 0;
+	GLfloat fData = 0.0f;
 	glGetSamplerParameterfv(_sampler_id(), pname, &fData);
 	_YAGLPP_GLAD_ERROR_;
 	return fData;
@@ -66,5 +82,6 @@ void Sampler::unbindSampler(TextureUnit index)
 	glBindSampler((GLuint)index, 0);
 	_YAGLPP_GLAD_ERROR_;
 }
+#endif // #ifdef _DEBUG
 } // namespace gl
-#endif // #if defined _DEBUG && defined GL_VERSION_3_3
+#endif // #ifdef GL_VERSION_3_3
