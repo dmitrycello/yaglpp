@@ -221,4 +221,7 @@ Make sure to set filters to _All languages_, _All platforms_ and _All project ty
 > [!NOTE]
 > Unfortunatelly, the Visual Studio does not allow to add the _tags_ to a custom template. Therefore it does not show up immediately in the _Add a new project_ dialog, ousted by the built-in templates. But after some time, it will appear under _Recent project templates_, where it could be then pinned.
 
+### 7. Adding Visual Studio GLSL add-on.
+Optionally, download the [GLSL language integration](https://marketplace.visualstudio.com/items?itemName=DanielScherzer.GLSL) add-on by Daniel Scherzer, and run the file. This allows to view the .vert and .frag files with the appropriate color highlighting.
+
 [&uarr; TOP](USAGE.md#usage) [EXAMPLES &rarr;](EXAMPLES.md)
