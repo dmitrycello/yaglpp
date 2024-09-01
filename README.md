@@ -2,6 +2,7 @@
 # Yet Another GL++ library
 [INSTALLATION &rarr;](docs/INSTALLATION.md)<br>
 [USAGE &rarr;](docs/USAGE.md)<br>
+[EXAMPLES &rarr;](docs/EXAMPLES.md)<br>
 - [Naming concept](README.md#naming-concept)
 - [IntelliSense](README.md#intellisense)
 - [The main switches](README.md#the-main-switches)
