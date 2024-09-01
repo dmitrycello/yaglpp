@@ -6,7 +6,7 @@
 - [4. Add the source file to the application project](USAGE.md#4-add-the-source-file-to-the-application-project)
 - [5. Type the code](USAGE.md#5-type-the-code)
 - [6. Create YAGL++ project template](USAGE.md#6-create-yagl-project-template)
-- [7. Adding Visual Studio GLSL add-on](USAGE.md#7-adding-visual-studio-glsl-add-on)
+- [7. Add Visual Studio GLSL add-on](USAGE.md#7-add-visual-studio-glsl-add-on)
 
 The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
@@ -222,7 +222,7 @@ Make sure to set filters to _All languages_, _All platforms_ and _All project ty
 > [!NOTE]
 > Unfortunatelly, the Visual Studio does not allow to add the _tags_ to a custom template. Therefore it does not show up immediately in the _Add a new project_ dialog, ousted by the built-in templates. But after some time, it will appear under _Recent project templates_, where it could be then pinned.
 
-### 7. Add Visual Studio GLSL add-on
+### 7. Install Visual Studio GLSL add-on
 Optionally, download the [GLSL language integration](https://marketplace.visualstudio.com/items?itemName=DanielScherzer.GLSL) add-on by Daniel Scherzer, or extract from **`Common.7z`** archive, and run the file. This allows to view the .vert and .frag files with the appropriate color highlighting.
 
 [&uarr; TOP](USAGE.md#usage) [EXAMPLES &rarr;](EXAMPLES.md)
