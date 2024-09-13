@@ -60,7 +60,7 @@ In the Properties window set **`Configuration`** and **`Platform`** drop-down me
 
 ![20.png](20.png)
 
-The application project may be used in one of the 4 platform configurations. In order to change the application platform configuration, it is necessary to set the six (6) project options under that configuration. One of the application Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol).
+The application project may be used in one of the 4 platform configurations. In order to change the application platform configuration, it is necessary to set the six (6) project options under that configuration. The Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to suppress the warning appearing since the YAGL++ library is using only Release versions of external libraries, it saves a lot of disk space.
 
 - **_Debug x64 (EXE)_**:
 ```
@@ -101,9 +101,6 @@ Resources -> Additional Include Directories: $(SolutionDir)Common\res\;
 
 > [!IMPORTANT]
 > Make sure to hit the **`Apply`** button after setting up each platform configuration.
-
-> [!NOTE]
-> The YAGL++ library is using only Release versions of external libraries, it saves a lot of disk space. So, the _NODEFAULTLIB_ linker option is necessary to suppress the warning.
 
 ### 4. Add the source file to the application project
 In the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
