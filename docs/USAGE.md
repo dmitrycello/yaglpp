@@ -68,6 +68,7 @@ Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Console (/SUBSYSTEM:CONSOLE)'
+Linker -> Command Line -> Additional Options: /NODEFAULTLIB:msvcrt.lib
 Resources -> Additional Include Directories: $(SolutionDir)\Common\res\
 ```
 - **_Release x64 (EXE)_**:
@@ -85,6 +86,7 @@ Debugging -> Environment: path=%path%;$(SolutionDir)\Common\bin\Win32\
 VC++ Directories -> Include Directories: $(SolutionDir)\Common\include\;$(IncludePath)
 VC++ Directories -> Library Directories: $(SolutionDir)\Common\lib\Win32\;$(LibraryPath)
 Linker -> System -> SubSystem: 'Console (/SUBSYSTEM:CONSOLE)'
+Linker -> Command Line -> Additional Options: /NODEFAULTLIB:msvcrt.lib
 Resources -> Additional Include Directories: $(SolutionDir)\Common\res\
 ```
 - **_Release Win32 (EXE)_**:
@@ -99,6 +101,9 @@ Resources -> Additional Include Directories: $(SolutionDir)\Common\res\
 
 > [!IMPORTANT]
 > Make sure to hit the **`Apply`** button after setting up each platform configuration.
+
+> [!NOTE]
+> The YAGL++ library is using only Release versions of external libraries, it saves a lot of disk space. So, the _NODEFAULTLIB_ linker option is necessary to suppress the warning.
 
 ### 4. Add the source file to the application project
 In the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
