@@ -2,7 +2,15 @@
 	+---------------------------------------+
 	|   YAGL++: Yet Another GL++ library    |
 	+---------------------------------------+
-
+    v24.9.1
+    Project dependencies:
+    - GLAD v2.0-3.3
+    - GLFW v3.4
+    - GLM v1.0.1
+    - stb_image.h v2.29
+    - stb_image_resize2.h v2.06
+    - stb_image_write.h v1.16
+    - Assimp v5.4.3
 	All information can be found here:
 	https://github.com/dmitrycello/yaglpp/blob/main/README.md
 */
