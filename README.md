@@ -13,7 +13,7 @@
 
 YAGL++ is _"yet another"_ attempt to develop a C++ gear for the OpenGL API, merging its assets into the C++ objects. There are plenty of similar projects on the GitHub. So, why another one? The present project was meant to fill the gap as a _thoughtful_, _transparent_ and _complete_ library, meaning that not a single API asset is missing in its code. Primarily, YAGL++ was designed as a tool to help [learning OpenGL API](https://learnopengl.com/), but after a while it turned out to be quite efficient. It takes care of the routine work, allowing to develop the OpenGL application in less complicated manner, and without substantial overhead. The C++ features make the OpenGL programming more compact, clear and stable, it allows the [function overloading](https://learn.microsoft.com/en-us/cpp/cpp/function-overloading), which is much easier than to recall the every exact API name, such as **`glUniform3fv`**. Intread, it is possible to just call **`uniform`** method with appropriate parameters.
 
-The library consists only of the header files, it requires the C++ 11 compiler or later. It also impliments the [SAL](https://learn.microsoft.com/en-us/cpp/code-quality/using-sal-annotations-to-reduce-c-cpp-code-defects) concept (Microsoft Source Code Annotation Language) in Debug build only. At the moment, it is developped for Visual Studio under OS Windows. The code of the library can be viewed in the repository's [include](include) directory. To install and use the library, follow the instructions in the [INSTALLATION](docs/INSTALLATION.md) and [USAGE](docs/USAGE.md) documents. The library is extremely easy to start up, the following two lines are only needed, where as the first one should be used only once per application:
+The library consists only of the header files, it requires the C++ 11 compiler or later. It also impliments the [SAL](https://learn.microsoft.com/en-us/cpp/code-quality/using-sal-annotations-to-reduce-c-cpp-code-defects) concept (Microsoft Source Code Annotation Language) in Debug build only. At the moment, it is developped for Visual Studio under OS Windows. The code of the library can be viewed in the repository's [include](include) directory. To install and use the library, follow the instructions in the [INSTALLATION](docs/INSTALLATION.md) and [USAGE](docs/USAGE.md) documents. The library is extremely easy to start up, it requires only the two following lines, where as the first one should be used only in the single source file, once per application:
 ```
 #define YAGLPP_IMPLEMENTATION
 #include <yaglpp.h>
@@ -43,7 +43,7 @@ For the sake of transparency, the original API names are carefully preserved, ex
 
 The library assets are defined within **`gl::`** and **`glfw::`** namespaces for GLAD and GLFW APIs respectively. The two helper classes, **`DataStore`** and **`StbImage`**, reside in the global namespace. You may bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them at least while learning the OpenGL API. The prefixes will also prevent name conflict while managing large projects. 
 
-The names in YAGL++ library are obtained by stripping _gl_ or _glwf_ prefixes of the original API names, and applying the camil-case rule for the rest. For the constant names, every underscore symbol is used as a word delimiter. Such an approach ensures the library's _transparency_, it helps learning the original API symbols for potential switching to OpenGL C programming. Some of the API functions such as **`glDisable`**, **`glEnable`**, **`glGet`**, **`glIsEnabled`**, and **`glPixelStore`** are used with the names of their constant values. For example:
+The names in YAGL++ library are obtained by stripping _gl_ or _glwf_ prefixes of the original API names, and applying the camil-case rule for the rest. The member names of the **`StbImage`** class, are obtaining by stripping _stbi_ prefix of the original STB image function names. For the constant names, every underscore symbol is used as a word delimiter. Such an approach ensures the library's _transparency_, it helps learning the original API symbols for potential switching to OpenGL C programming. Some of the API functions such as **`glDisable`**, **`glEnable`**, **`glGet`**, **`glIsEnabled`**, and **`glPixelStore`** are used with the names of their constant values. For example:
 ```
 glDisable(GL_SAMPLE_COVERAGE)
 glEnable(GL_SCISSOR_TEST)
@@ -61,7 +61,7 @@ gl::isPolygonSmooth()
 gl::setUnpackRowLength(length)
 glfw::setVisible(visible)
 ```
-The member names of the **`StbImage`** class, are obtaining by stripping _stbi_ prefix of the original STB image function names. Some global functions in the library are duplicated as a static members of a class, it helps to find them on the context basis, e.g. the two following functions are doing the same:
+Some global functions in the library are duplicated as a static members of a class, it helps to find them on the context basis, e.g. the two following functions are doing the same:
 ```
 GLfloat gl::getMaxTextureLodBias();            // Global function
 GLfloat gl::Texture2D::getMaxTextureLodBias(); // Static member function
