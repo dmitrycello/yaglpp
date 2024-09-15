@@ -352,9 +352,9 @@ Rebuild started...
 1>yaglpp.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\Debug\yaglpp.lib
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
-The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive with the same setting, but the _API gl_ set to **`Version X.X`**, extract its only **`glad.h`** file, rename it to **`gladXX.h`** and move it into **`glad`** directory. The **`XX`** is the number of generated version: 20, 21, 30, 31, 32 for versions 2.0 to 3.2. The context version control is great for backward compatible coding.
+The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive with the same setting, but the _API gl_ set to **`Version X.X`**, extract its only **`glad.h`** file, and move it into a folder named **`X.X`** created within the **`include/glad`** directory. The version numbers supported by YAGL++ library are: _2.0_, _2.1_, _3.0_, _3.1_, _3.2_ and default _3.3_. Note that the default version of the file must always reside in the **`include/glad`** directory, it is referenced by another components of the API. The context version control is great tool for backward compatible coding.
 
 > [!IMPORTANT]
-> It is advised to generate all 6 supported GLAD versions, it's better to do now to avoid the mess later. This allows to quickly set the OpenGL context version by changing the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches. Just set the desired value, and rebuild the library. But to learn OpenGL, always stick to default version 3.3!
+> It is advised to generate all 6 supported GLAD versions, it's better to do now to avoid the mess later. This allows to quickly set the OpenGL context version by changing the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** switches. Just set the desired value, and rebuild the project. But to learn OpenGL, always stick to default version _3.3_!
 
 [&uarr; TOP](INSTALLATION.md#installation) [USAGE &rarr;](USAGE.md)
