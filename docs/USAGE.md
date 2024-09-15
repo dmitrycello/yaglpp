@@ -1,4 +1,4 @@
-## USAGE
+## USAGE (under revision)
 [&nwarr; README](../README.md)<br>
 - [1. Add the application project](USAGE.md#1-add-the-application-project)
 - [2. Add the resources to the application project](USAGE.md#2-add-the-resources-to-the-application-project)
