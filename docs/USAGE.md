@@ -62,8 +62,10 @@ In the Properties window set **`Configuration`** and **`Platform`** drop-down me
 
 The application project may be used in one of the 4 platform configurations. In order to change the application platform configuration, it is necessary to set the six (6) project options under that configuration. The Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to suppress the warning appearing since the YAGL++ library is using only Release versions of external libraries, it saves a lot of disk space.
 
-### Debug x64 (EXE) properties
+> [!IMPORTANT]
+> Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
+### Debug x64 (EXE) configuration properties
 - Debugging -> Environment:
 ```
 path=%path%;$(SolutionDir)Common\bin\;
@@ -76,51 +78,80 @@ $(SolutionDir)Common\include\;
 ```
 $(SolutionDir)Common\lib\;
 ```
-- Linker -> System -> SubSystem: ```Console (/SUBSYSTEM:CONSOLE)```
+- Linker -> System -> SubSystem: select ```Console (/SUBSYSTEM:CONSOLE)```
 - Resources -> Additional Include Directories:
 ```
 $(SolutionDir)Common\res\;
 ```
 
-
+### Release x64 (EXE) configuration properties
+- Debugging -> Environment:
 ```
-Debugging -> Environment: path=%path%;$(SolutionDir)Common\bin\;
-VC++ Directories -> Include Directories: $(SolutionDir)Common\include\;
-VC++ Directories -> Library Directories: $(SolutionDir)Common\lib\;
-Linker -> System -> SubSystem: 'Console (/SUBSYSTEM:CONSOLE)'
-Linker -> Command Line -> Additional Options: /NODEFAULTLIB:msvcrt.lib
-Resources -> Additional Include Directories: $(SolutionDir)Common\res\;
+path=%path%;$(SolutionDir)Common\bin\;
 ```
-- **_Release x64 (EXE)_**:
+- VC++ Directories -> Include Directories:
 ```
-Debugging -> Environment: path=%path%;$(SolutionDir)Common\bin\;
-VC++ Directories -> Include Directories: $(SolutionDir)Common\include\;
-VC++ Directories -> Library Directories: $(SolutionDir)Common\lib\;
-Linker -> System -> SubSystem: 'Windows (/SUBSYSTEM:WINDOWS)'
-Linker -> Advanced -> Entry Point: mainCRTStartup
-Resources -> Additional Include Directories: $(SolutionDir)Common\res\;
+$(SolutionDir)Common\include\;
 ```
-- **_Debug Win32 (EXE)_**:
+- VC++ Directories -> Library Directories:
 ```
-Debugging -> Environment: path=%path%;$(SolutionDir)Common\bin\Win32\;
-VC++ Directories -> Include Directories: $(SolutionDir)Common\include\;
-VC++ Directories -> Library Directories: $(SolutionDir)Common\lib\Win32\;
-Linker -> System -> SubSystem: 'Console (/SUBSYSTEM:CONSOLE)'
-Linker -> Command Line -> Additional Options: /NODEFAULTLIB:msvcrt.lib
-Resources -> Additional Include Directories: $(SolutionDir)Common\res\;
+$(SolutionDir)Common\lib\;
 ```
-- **_Release Win32 (EXE)_**:
+- Linker -> System -> SubSystem: select ```Windows (/SUBSYSTEM:WINDOWS)```
+- Linker -> Advanced -> Entry Point:
 ```
-Debugging -> Environment: path=%path%;$(SolutionDir)Common\bin\Win32\;
-VC++ Directories -> Include Directories: $(SolutionDir)Common\include\;
-VC++ Directories -> Library Directories: $(SolutionDir)Common\lib\Win32\;
-Linker -> System -> SubSystem: 'Windows (/SUBSYSTEM:WINDOWS)'
-Linker -> Advanced -> Entry Point: mainCRTStartup
-Resources -> Additional Include Directories: $(SolutionDir)Common\res\;
+mainCRTStartup
+```
+- Resources -> Additional Include Directories:
+```
+$(SolutionDir)Common\res\;
 ```
 
-> [!IMPORTANT]
-> Make sure to hit the **`Apply`** button after setting up each platform configuration.
+### Debug Win32 (EXE) configuration properties
+- Debugging -> Environment:
+```
+path=%path%;$(SolutionDir)Common\bin\Win32\;
+```
+- VC++ Directories -> Include Directories:
+```
+$(SolutionDir)Common\include\;
+```
+- VC++ Directories -> Library Directories:
+```
+$(SolutionDir)Common\lib\Win32\;
+```
+- Linker -> System -> SubSystem: select ```Console (/SUBSYSTEM:CONSOLE)```
+- Linker -> Command Line -> Additional Options:
+```
+/NODEFAULTLIB:msvcrt.lib
+```
+- Resources -> Additional Include Directories:
+```
+$(SolutionDir)Common\res\;
+```
+
+### Release Win32 (EXE) configuration properties
+- Debugging -> Environment:
+```
+path=%path%;$(SolutionDir)Common\bin\Win32\;
+```
+- VC++ Directories -> Include Directories:
+```
+$(SolutionDir)Common\include\;
+```
+- VC++ Directories -> Library Directories:
+```
+$(SolutionDir)Common\lib\Win32\;
+```
+- Linker -> System -> SubSystem: select ```Windows (/SUBSYSTEM:WINDOWS)```
+- Linker -> Advanced -> Entry Point:
+```
+mainCRTStartup
+```
+- Resources -> Additional Include Directories:
+```
+$(SolutionDir)Common\res\;
+```
 
 ### 4. Add the source file to the application project
 In the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
