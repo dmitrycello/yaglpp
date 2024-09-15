@@ -69,76 +69,24 @@ The application project may be used in one of the 4 platform configurations. In 
 > In the next four sections, copy the property by clicking the rightmost button and paste into the appropriate field. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 ### Debug x64 (EXE) configuration properties
-<table><thead></thead>
-<tbody>
-  <tr>
-    <td>- Debugging -> Environment:</td>
-    <td> 
+Debugging -> Environment:
 ```
 path=%path%;$(SolutionDir)Common\bin\;
 ```
-    </td>
-  </tr>
-  <tr>
-    <td>- VC++ Directories -> Include Directories:</td>
-    <td>
+VC++ Directories -> Include Directories:
 ```
 $(SolutionDir)Common\include\;
 ```
-    </td>
-  </tr>
-  <tr>
-    <td>- VC++ Directories -> Library Directories:</td>
-    <td>
+VC++ Directories -> Library Directories:
 ```
 $(SolutionDir)Common\lib\;
 ```
-    </td>
-  </tr>
-  <tr>
-    <td>- Linker -> System -> SubSystem:</td>
-    <td>select ```Console (/SUBSYSTEM:CONSOLE)```</td>
-  </tr>
-  <tr>
-    <td>- Linker -> Command Line -> Additional Options:</td>
-    <td>
+Linker -> System -> SubSystem: select ```Console (/SUBSYSTEM:CONSOLE)```
+Linker -> Command Line -> Additional Options:
 ```
 /NODEFAULTLIB:msvcrt.lib
 ```
-    </td>
-  </tr>
-  <tr>
-    <td>- Resources -> Additional Include Directories:</td>
-    <td>   
-```
-$(SolutionDir)Common\res\;
-```
-    </td>
-  </tr>
-</tbody>
-</table>
-
-
-
-### Debug x64 (EXE) configuration properties
-- Debugging -> Environment:
-```
-path=%path%;$(SolutionDir)Common\bin\;
-```
-- VC++ Directories -> Include Directories:
-```
-$(SolutionDir)Common\include\;
-```
-- VC++ Directories -> Library Directories:
-```
-$(SolutionDir)Common\lib\;
-```
-- Linker -> System -> SubSystem: select ```Console (/SUBSYSTEM:CONSOLE)```
-- Linker -> Command Line -> Additional Options:
-```
-/NODEFAULTLIB:msvcrt.lib
-```
-- Resources -> Additional Include Directories:
+Resources -> Additional Include Directories:
 ```
 $(SolutionDir)Common\res\;
 ```
