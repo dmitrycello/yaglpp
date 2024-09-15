@@ -91,7 +91,7 @@ If the description starts with the number in parentheses, it means either the su
 > The provided comments are brief, and if the function looks unfamiliar, it is recommended to consult its official documentation.
 
 ### The main switches
-The symbols defined right after **`#pragma once`** directive in the [yaglpp.h](include/yaglpp.h) file are the main switches, they affect the build of the library. The first seven switches could be commented, the others may be altered. The **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** could never be commented, where as commenting the **`YAGLPP_ASSIMP`** or **`YAGLPP_GLFW`** switches will exclude the corresponding library.
+The symbols defined right after **`#pragma once`** directive in the [yaglpp.h](include/yaglpp.h) file are the main switches, they affect the library setup. The first seven switches could be just commented, the others may be altered. The **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** must exist and should never be commented, where as commenting the **`YAGLPP_ASSIMP`** or **`YAGLPP_GLFW`** switches will exclude the corresponding library.
 - Switches **`YAGLPP_COCOA_CHDIR_RESOURCES`**, **`YAGLPP_COCOA_MENUBAR`** and **`YAGLPP_JOYSTICK_HAT_BUTTONS`** are the GLFW hints set at the initialization, they are on by default;
 - Commenting the **`YAGLPP_CLASS_PROPERTIES`** switch will exlude the class properties from the library;
 - Commenting the **`YAGLPP_GLM_HEADERS`** switch will exclude GLM library headers, this allows to include only required GLM headers, while reducing the compile time;
