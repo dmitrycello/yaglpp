@@ -85,24 +85,20 @@ GLboolean b = texture2D.texture;
 ### IntelliSense
 Every class, methode or enum member in the library is provided with the comment shown in Visual Studio by the [IntelliSense](https://learn.microsoft.com/en-us/visualstudio/ide/using-intellisense) with the description, parameter list and return value. So it could be a nice way to briefly recap what the function does, instead of going online time after time. All information is taken from [Khronos website](https://registry.khronos.org/OpenGL-Refpages/gl4/).
 
-If the description starts with the number in parentheses, it means either the supported OpenGL context version (as floating point number), or the number of overloaded function (as integer number). If the version number is missing, OpenGL 2.0 support is assumed. For example, the description of a function starting with **`(3.0) (18)`** means the support of OpenGL version up to 3.0, plus it specifies that this is the 18's overloaded function. The description of the GLFW object function may start with **`(M)`** or **`(S)`** symbols meaning that the function can be only called from the _main_ or _secondary_ threads.
+If the description starts with the number in parentheses, it means either the supported OpenGL context version (as floating point number), or the number of overloaded function (as integer number). If the version number is missing, OpenGL 2.0 support is assumed. For example, the description of a function starting with **`(3.0) (18)`** means the support of OpenGL version up to 3.0, plus it specifies that this is the 18's overloaded function. The description of the GLFW object function may start with **`(M)`** or **`(S)`** symbols meaning that the function can be called only from the _main_ or _secondary_ threads.
 
 > [!IMPORTANT]
 > The provided comments are brief, and if the function looks unfamiliar, it is recommended to consult its official documentation.
 
 ### The main switches
-The symbols defined right after **`#pragma once`** directive in the [yaglpp.h](include/yaglpp.h) file are the main switches, they affect the build of the library. The first eight switches could be commented, the others could be only altered:
+The symbols defined right after **`#pragma once`** directive in the [yaglpp.h](include/yaglpp.h) file are the main switches, they affect the build of the library. The first seven switches could be commented, the others may be altered. The **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** could never be commented, where as commenting the **`YAGLPP_ASSIMP`** or **`YAGLPP_GLFW`** switches will exclude the corresponding library.
 - Switches **`YAGLPP_COCOA_CHDIR_RESOURCES`**, **`YAGLPP_COCOA_MENUBAR`** and **`YAGLPP_JOYSTICK_HAT_BUTTONS`** are the GLFW hints set at the initialization, they are on by default;
 - Commenting the **`YAGLPP_CLASS_PROPERTIES`** switch will exlude the class properties from the library;
 - Commenting the **`YAGLPP_GLM_HEADERS`** switch will exclude GLM library headers, this allows to include only required GLM headers, while reducing the compile time;
 - Commenting the **`YAGLPP_NO_AFX_LAYOUT`** switch will transform the YAGL++ into the AFX-alike environment, without the **`main`** function. Instead, the code must contain the global variable of a class derived from **`glfw::Thread`**. Otherwise, classical layout with the **`main`** function is preserved;
-- Commenting the **`YAGLPP_NO_FREEIMAGE`** switch will add **`FreeImage`** class to the build. This library is no longer maintained, but can deal with more formats compared to included **`StbImage`**;
 - Commenting the **`YAGLPP_NO_GLFW_LEGACY`** switch allows to build YAGL++ with GLFW v3.3.10, the latest version supporting Windows XP. In this case, the recent GLFW features become unavailable;
 - The **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** switches indicate the OpenGL context version supported by the library. Accepted combination of these values are: 2/0, 2/1, 3/0, 3/1, 3/2 and 3/3 to represent the versions 2.0 to 3.3 respectively. In order to change these switches, it is necessary to add other versions of the GLAD header file to **`glad`** folder, as described at the end of the [INSTALLATION](docs/INSTALLATION.md) section;
-- The **`YAGLPP_GLFW_DEBUG`**, **`YAGLPP_GLFW_RELEASE`**, **`YAGLPP_LIB_DEBUG`** and **`YAGLPP_LIB_RELEASE`** switches contain the GLFW and YAGL++ library output paths.
-
-> [!WARNING]
-> Do not alter the last 4 switches, unless you really need to recalibrate the library path layout.
+- The **`YAGLPP_ASSIMP`** or **`YAGLPP_GLFW`** switches contain the Assimp and GLFW and library file names.
 
 ### GLAD objects
 All classes in _gl::_ namespace are counterparts of GLAD API. They all have the default constructor creating an empty class object, this allows to create these objects even before OpenGL initialization. Every class has a single data member, such as a 4-byte _id_ integer. This allows to easily combine them into a stucture or another class. All derived classes have the same data size as their parent classes. The lifetime of the OpenGL object is controlled by the class destructor. It does not always destroy OpenGL object, depening on how this object was created. The class created as a _single object_ does destroy the OpenGL object, where as _reference object_ doesn't. The _multi-object_ creates and destroys many OpenGL objects at once.
