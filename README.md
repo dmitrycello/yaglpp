@@ -108,7 +108,7 @@ All classes in _gl::_ namespace are counterparts of GLAD API. They all have the 
 gl::Renderbuffer rb;                                                 // Empty object
 rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Automatic creation and binding
 ```
-**_Rreference object_** is actually another kind of a _single_ object. It has the same functionality as single object, but it simply copies the id from an already created one. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source single object. When it is deleted, it becomes empty without clearing an id. It is possible to have many of them at the time, referencing the same id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
+**_Rreference object_** is actually another kind of a _single_ object. It has the same functionality as single object, but it simply copies the id from an already created one. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source single object. When it is deleted, it becomes empty without clearing an id. It is possible to have many of them at the same time, referencing the same id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or reference object with **`share..`**, or from a multi-object with **`assing..`** methods:
 ```
 gl::Renderbuffers rbs;    // Empty multi-object
 rbs.genRenderbuffers(10); // Generates 10 object names
@@ -119,7 +119,7 @@ rb2.assignRenderbuffer(rbs, 0); // Reference of rbs[0], will be destroyed by rbs
 ```
 
 > [!TIP]
-> The classes can be shared or assigned directly in a constructor, and the last three lines of the above example could be merged into one:  **`gl::Renderbuffer rb1(rb), rb2(rbs, 0);`**
+> The classes can be created, shared or assigned directly in a constructor. The first two lines of the above example could be merged into one: **`gl::Renderbuffers rbs(10);`**, and the last three lines into one as well:  **`gl::Renderbuffer rb1(rb), rb2(rbs, 0);`**
 
 **_Multi-object_** has the size of a pointer, creating the required array of object ids dynamically in the client memory. In Debug mode, it also checks the object type at every assignment, since the usage of the same id with a different target is not allowed by OpenGL (e.g. _ArrayBuffer_ sould not be later used as _ElementArrayBuffer_). The multi-object could not be used by itself, every object name (id) should be assigned to a reference object, and then used through that object. In addition to its original pair of **`gen..`** and **`delete..`** methods, creating and deleting the entire array, muti-object possesses as well **`insert..`** and **`remove..`** methods modifying its part from the given position, and thus allowing more flexible array manipulation:
 ```
