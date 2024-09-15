@@ -18,12 +18,19 @@ The library consists only of the header files, it requires the C++ 11 compiler o
 #define YAGLPP_IMPLEMENTATION
 #include <yaglpp.h>
 ```
-The library works with [GLAD](https://glad.dav1d.de/) versions 2.0 to 3.3, and [GLFW](https://www.glfw.org/) version 3.4+. It is also integated with the recent [STB](https://github.com/nothings/stb) image library as one of its dependencies. The used version of the GLAD header file affects the final build, making available only the unsupported API assets. It is possible to select the required GLAD version by altering the main switches in the [yaglpp.h](include/yaglpp.h) header file. The library uses two ways of data input: the _file_ and the _binary resource_, which has to be of **`RCDATA`** type. Every call to the API function in the library is provided with the appropriate error checking, which has an effect only in Debug build. On the contrary, the Release build attempts to impliment the inline calls, depending on the compiler setting. Here is the average YAGL++ member function implementation:
+The library works with [GLAD](https://glad.dav1d.de/) versions 2.0 to 3.3, and [GLFW](https://www.glfw.org/) version 3.4+. It is also integated with the recent [STB](https://github.com/nothings/stb) image library as one of its dependencies. The used version of the GLAD header file affects the final build, making available only the supported API assets. It is possible to select the required GLAD version by altering the **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** main switches in the [yaglpp.h](include/yaglpp.h) header file. The library uses two ways of data input: the _file_ and the _binary resource_, which has to be of **`RCDATA`** type. Every call to the API function in the library is provided with the appropriate error checking, which has an effect only in Debug build. On the contrary, under the Release build, the library attempts to impliment the inline calls, depending on the compiler setting. Here is the average YAGL++ member function implementation under the Debug build:
 ```
 void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value)
 {
 	glUniform3fv(_location(), count, (GLfloat*)value); // GLAD API call
 	YAGLPP_GLAD_ERROR;                                 // Error checking macro
+}
+```
+Where as under Release build it compiles as:
+```
+inline void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value)
+{
+	glUniform3fv(_miLocation, count, (GLfloat*)value);
 }
 ```
 The most valuable library's feature is the **_"lasy" creation and binding concept_**. It means, the OpenGL object is automatically created and binded only when required. The creation of a class object does not mean the OpenGL object immediate creation or binding. This allows the YAGL++ objects to exist before the creation of OpenGL context. The appropriate functions for creation and bindind are not always necessary, but still preserved to allow the programmer to create or bind the OpenGL object at the right time. The automatic creation and binding occur before any valid operation with OpenGL object.
