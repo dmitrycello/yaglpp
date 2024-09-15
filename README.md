@@ -39,7 +39,7 @@ The most valuable library's feature is the **_"lasy" creation and binding concep
 > Some of YAGL++ objects do not follow this rule, since their lifetime and behaviour are different. The **`gl::VertexArray`** and **`gl::Sampler`** objects must be _bound_ explicitly at a certain point of the code, the **`gl::Sync`** object must be _created_ explicitly with **`fenceSync`** method, where as _multi-objects_ and all **`glfw::`** objects have to be _created_ with specified parameters.
 
 ### Naming concept
-For the sake of transparency, the original API names are carefully preserved, except very rare conflicting cases: e.g, _BufferTexture_ is a texture, but _TextureBuffer_ is a buffer. The most of the object names are based on the OpenGL _targets_, such as **`Texture2D`** class based on **`GL_TEXTURE_2D`** target. As the API functions are grouped around the classes, the API constants are grouped around the enum classes. This approach allows to clearly understand what the _object_ is, what the _function_ does, and what the _enum_ class member means. It also makes the library less error-prone, since the usage of a wrong object type or enumerator value simply won't compile.
+For the sake of transparency, the original API names are carefully preserved, except very rare conflicting cases: e.g, _BufferTexture_ is a texture, but _TextureBuffer_ is a buffer. The most of the class names are based on the OpenGL _targets_, e.g. **`Texture2D`** class name is based on **`GL_TEXTURE_2D`** target. As the API functions are grouped around the classes, the API constants are grouped around the enum classes. This approach allows to clearly understand what the _object_ is, what the _function_ does, and what the _enum_ class member means. It also makes the library less error-prone, since the usage of a wrong object type or enumerator value won't compile.
 
 The library assets are defined within **`gl::`** and **`glfw::`** namespaces for GLAD and GLFW APIs respectively. The two helper classes, **`DataStore`** and **`StbImage`**, reside in the global namespace. You may bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them at least while learning the OpenGL API. The prefixes will also prevent name conflict while managing large projects. 
 
@@ -61,7 +61,7 @@ gl::isPolygonSmooth()
 gl::setUnpackRowLength(length)
 glfw::setVisible(visible)
 ```
-Some of the functions are duplicated as a static members of a class, it helps to find them on the context basis, e.g. the two following functions are the same:
+The member names of the **`StbImage`** class, are obtaining by stripping _stbi_ prefix of the original STB image function names. Some global functions in the library are duplicated as a static members of a class, it helps to find them on the context basis, e.g. the two following functions are doing the same:
 ```
 GLfloat gl::getMaxTextureLodBias();            // Global function
 GLfloat gl::Texture2D::getMaxTextureLodBias(); // Static member function
