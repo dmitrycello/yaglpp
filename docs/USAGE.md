@@ -66,93 +66,93 @@ The application project may be used in one of the 4 platform configurations. In 
 > In the next four sections, copy the property by clicking the rightmost button and paste into the appropriate field. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 ### 3.1. Debug x64 (EXE) configuration properties
-- Debugging -> Environment:
+- **Debugging -> Environment**:
 ```
 path=%path%;$(SolutionDir)Common\bin\;
 ```
-- VC++ Directories -> Include Directories:
+- **VC++ Directories -> Include Directories**:
 ```
 $(SolutionDir)Common\include\;
 ```
-- VC++ Directories -> Library Directories:
+- **VC++ Directories -> Library Directories**:
 ```
 $(SolutionDir)Common\lib\;
 ```
-- Linker -> System -> SubSystem: select ```Console (/SUBSYSTEM:CONSOLE)```
-- Linker -> Command Line -> Additional Options:
+- **Linker -> System -> SubSystem**: select ```Console (/SUBSYSTEM:CONSOLE)```
+- **Linker -> Command Line -> Additional Options**:
 ```
 /NODEFAULTLIB:msvcrt.lib
 ```
-- Resources -> Additional Include Directories:
+- **Resources -> Additional Include Directories**:
 ```
 $(SolutionDir)Common\res\;
 ```
 
 ### 3.2. Release x64 (EXE) configuration properties
-- Debugging -> Environment:
+- **Debugging -> Environment**:
 ```
 path=%path%;$(SolutionDir)Common\bin\;
 ```
-- VC++ Directories -> Include Directories:
+- **VC++ Directories -> Include Directories**:
 ```
 $(SolutionDir)Common\include\;
 ```
-- VC++ Directories -> Library Directories:
+- **VC++ Directories -> Library Directories**:
 ```
 $(SolutionDir)Common\lib\;
 ```
-- Linker -> System -> SubSystem: select ```Windows (/SUBSYSTEM:WINDOWS)```
-- Linker -> Advanced -> Entry Point:
+- **Linker -> System -> SubSystem**: select ```Windows (/SUBSYSTEM:WINDOWS)```
+- **Linker -> Advanced -> Entry Point**:
 ```
 mainCRTStartup
 ```
-- Resources -> Additional Include Directories:
+- **Resources -> Additional Include Directories**:
 ```
 $(SolutionDir)Common\res\;
 ```
 
 ### 3.3. Debug Win32 (EXE) configuration properties
-- Debugging -> Environment:
+- **Debugging -> Environment**:
 ```
 path=%path%;$(SolutionDir)Common\bin\Win32\;
 ```
-- VC++ Directories -> Include Directories:
+- **VC++ Directories -> Include Directories**:
 ```
 $(SolutionDir)Common\include\;
 ```
-- VC++ Directories -> Library Directories:
+- **VC++ Directories -> Library Directories**:
 ```
 $(SolutionDir)Common\lib\Win32\;
 ```
-- Linker -> System -> SubSystem: select ```Console (/SUBSYSTEM:CONSOLE)```
-- Linker -> Command Line -> Additional Options:
+- **Linker -> System -> SubSystem**: select ```Console (/SUBSYSTEM:CONSOLE)```
+- **Linker -> Command Line -> Additional Options**:
 ```
 /NODEFAULTLIB:msvcrt.lib
 ```
-- Resources -> Additional Include Directories:
+- **Resources -> Additional Include Directories**:
 ```
 $(SolutionDir)Common\res\;
 ```
 
 ### 3.4. Release Win32 (EXE) configuration properties
-- Debugging -> Environment:
+- **Debugging -> Environment**:
 ```
 path=%path%;$(SolutionDir)Common\bin\Win32\;
 ```
-- VC++ Directories -> Include Directories:
+- **VC++ Directories -> Include Directories**:
 ```
 $(SolutionDir)Common\include\;
 ```
-- VC++ Directories -> Library Directories:
+- **VC++ Directories -> Library Directories**:
 ```
 $(SolutionDir)Common\lib\Win32\;
 ```
-- Linker -> System -> SubSystem: select ```Windows (/SUBSYSTEM:WINDOWS)```
-- Linker -> Advanced -> Entry Point:
+- **Linker -> System -> SubSystem**: select ```Windows (/SUBSYSTEM:WINDOWS)```
+- **Linker -> Advanced -> Entry Point**:
 ```
 mainCRTStartup
 ```
-- Resources -> Additional Include Directories:
+- **Resources -> Additional Include Directories**:
 ```
 $(SolutionDir)Common\res\;
 ```
