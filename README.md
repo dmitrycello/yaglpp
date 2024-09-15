@@ -80,12 +80,12 @@ GLboolean b = texture2D.texture;
 ```
 
 > [!CAUTION]
-> The underscore at the beginning of a name means a private assignment, you should NOT be using these names. The global symbols starting with **`YAGLPP_`** are also preserved by the library.
+> The underscore at the beginning of a name means a private assignment, it should NOT be used directly. The global symbols starting with **`YAGLPP_`** are also preserved by the library.
 
 ### IntelliSense
-Every methode or enum member in the library is provided with the comment shown in Visual Studio by the [IntelliSense](https://learn.microsoft.com/en-us/visualstudio/ide/using-intellisense) with the description, parameter list and return value. So it could be a nice way to briefly recap what the function does, instead of going online time after time. All information is taken from [Khronos website](https://registry.khronos.org/OpenGL-Refpages/gl4/).
+Every class, methode or enum member in the library is provided with the comment shown in Visual Studio by the [IntelliSense](https://learn.microsoft.com/en-us/visualstudio/ide/using-intellisense) with the description, parameter list and return value. So it could be a nice way to briefly recap what the function does, instead of going online time after time. All information is taken from [Khronos website](https://registry.khronos.org/OpenGL-Refpages/gl4/).
 
-If the description starts with the number in parentheses, it means either the supported OpenGL context version (as floating point number), or the number of overloaded function (as integer number). If the version number is missing, OpenGL 2.0 support is assumed. For example, the description of a function starting with **`(3.0) (18)`** means the support of OpenGL version 3.0 and above, plus it specifies that this is the 18's overloaded function. The description of the GLFW object function may also start with **`(M)`** or **`(S)`** symbols meaning that the function can be only called from the main or secondary threads.
+If the description starts with the number in parentheses, it means either the supported OpenGL context version (as floating point number), or the number of overloaded function (as integer number). If the version number is missing, OpenGL 2.0 support is assumed. For example, the description of a function starting with **`(3.0) (18)`** means the support of OpenGL version up to 3.0, plus it specifies that this is the 18's overloaded function. The description of the GLFW object function may start with **`(M)`** or **`(S)`** symbols meaning that the function can be only called from the _main_ or _secondary_ threads.
 
 > [!IMPORTANT]
 > The provided comments are brief, and if the function looks unfamiliar, it is recommended to consult its official documentation.
