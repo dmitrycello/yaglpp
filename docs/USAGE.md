@@ -69,9 +69,7 @@ The application project may be used in one of the 4 platform configurations. In 
 > In the next four sections, copy the property by clicking the rightmost button and paste into the appropriate field. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 ### Debug x64 (EXE) configuration properties
-<p line-height: 0.5>
-	Debugging -> Environment:
-</p>
+Debugging -> Environment:
 ```
 path=%path%;$(SolutionDir)Common\bin\;
 ```
