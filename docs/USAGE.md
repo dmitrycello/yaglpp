@@ -63,6 +63,12 @@ In the Properties window set **`Configuration`** and **`Platform`** drop-down me
 The application project may be used in one of the 4 platform configurations. In order to change the application platform configuration, it is necessary to set the six (6) project options under that configuration. The Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to suppress the warning appearing since the YAGL++ library is using only Release versions of external libraries, it saves a lot of disk space.
 
 - **_Debug x64 (EXE)_**:
+Debugging -> Environment:
+```
+path=%path%;$(SolutionDir)Common\bin\;
+```
+
+
 ```
 Debugging -> Environment: path=%path%;$(SolutionDir)Common\bin\;
 VC++ Directories -> Include Directories: $(SolutionDir)Common\include\;
