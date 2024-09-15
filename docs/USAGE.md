@@ -10,6 +10,7 @@
 
 The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
+
 ### 1. Add the application project
 To add the application project to the solution, use the same way as for the static library: in the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add -> New project...`**:
 
@@ -26,6 +27,7 @@ Choose any project name, check the path to the solution, and hit **`Create`**:
 In the _Solution Explorer_, right-click the project's name and click **`Set as Startup Project`**, to set default running output application:
 
 ![38.png](38.png)
+
 
 ### 2. Add the resources to the application project
 The resources allow a quick access to files included into the output execitable as _binary resources_. Setting it up here may be optional, but it is strongly advised for the first time, to be later included in the project template. In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
@@ -51,6 +53,7 @@ and in _Resource.rc_ file:
 > [!NOTE]
 > If the **`Resource.rc`** file isn't added to the project, the _Resource_ option would not be accessible in the project Properties window later on.
 
+
 ### 3. Set the application project properties
 Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to _Debug x64_:
 
@@ -63,7 +66,8 @@ In the Properties window set **`Configuration`** and **`Platform`** drop-down me
 The application project may be used in one of the 4 platform configurations. In order to change the application platform configuration, it is necessary to set the six (6) project options under that configuration. The Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to suppress the warning appearing since the YAGL++ library is using only Release versions of external libraries, it saves a lot of disk space.
 
 > [!IMPORTANT]
-> Make sure to hit the **`Apply`** button after setting up each platform configuration.
+> In the next four sections, copy the property by clicking the rightmost button and paste into the appropriate field. Make sure to hit the **`Apply`** button after setting up each platform configuration.
+
 
 ### Debug x64 (EXE) configuration properties
 - Debugging -> Environment:
@@ -83,6 +87,7 @@ $(SolutionDir)Common\lib\;
 ```
 $(SolutionDir)Common\res\;
 ```
+
 
 ### Release x64 (EXE) configuration properties
 - Debugging -> Environment:
@@ -107,6 +112,7 @@ mainCRTStartup
 $(SolutionDir)Common\res\;
 ```
 
+
 ### Debug Win32 (EXE) configuration properties
 - Debugging -> Environment:
 ```
@@ -129,6 +135,7 @@ $(SolutionDir)Common\lib\Win32\;
 ```
 $(SolutionDir)Common\res\;
 ```
+
 
 ### Release Win32 (EXE) configuration properties
 - Debugging -> Environment:
@@ -153,6 +160,7 @@ mainCRTStartup
 $(SolutionDir)Common\res\;
 ```
 
+
 ### 4. Add the source file to the application project
 In the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
@@ -161,6 +169,7 @@ In the _Solution Explorer_, right-click the project's Source Files filter icon. 
 Select **`Code -> C++ File (.cpp)`**, type  **`main.cpp`** _(as main function)_, check the path, and hit **`Add`**:
 
 ![22b.png](22b.png)
+
 
 ### 5. Type the code
 In the editor window type the minimal YAGL++ application code:
@@ -243,6 +252,7 @@ class : public glfw::Thread
 > [!NOTE]
 > AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become very promising direction for development in the future. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [yaglpp.h](../include/yaglpp.h) library header file, and rebuild the library.
 
+
 ### 6. Create YAGL++ project template
 At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work within the same solution, or within a solution with similar path layout. Download the project icon file [icon.png](icon.png), or use any other with transparent background. Click **`Project menu -> Export Template...`**:
 
@@ -274,6 +284,7 @@ Make sure to set filters to _All languages_, _All platforms_ and _All project ty
 
 > [!NOTE]
 > Unfortunatelly, the Visual Studio does not allow to add the _tags_ to a custom template. Therefore it does not show up immediately in the _Add a new project_ dialog, ousted by the built-in templates. But after some time, it will appear under _Recent project templates_, where it could be then pinned.
+
 
 ### 7. Install Visual Studio GLSL add-on
 Optionally, download the [GLSL language integration](https://marketplace.visualstudio.com/items?itemName=DanielScherzer.GLSL) add-on by Daniel Scherzer, or extract the _GLSL.vsix_ file from **`Common.7z`** archive, then run downloaded file. This allows to view the .vert and .frag files with the appropriate color highlighting.
