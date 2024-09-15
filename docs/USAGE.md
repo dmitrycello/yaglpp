@@ -65,7 +65,9 @@ The application project may be used in one of the 4 platform configurations. In 
 - **_Debug x64 (EXE)_**:
 
 Debugging -> Environment:
-```path=%path%;$(SolutionDir)Common\bin\;```
+```
+path=%path%;$(SolutionDir)Common\bin\;
+```
 
 VC++ Directories -> Include Directories: ```$(SolutionDir)Common\include\;```
 
