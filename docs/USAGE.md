@@ -68,10 +68,14 @@ Debugging -> Environment:
 ```
 path=%path%;$(SolutionDir)Common\bin\;
 ```
-
-VC++ Directories -> Include Directories: ```$(SolutionDir)Common\include\;```
-
-VC++ Directories -> Library Directories: ```$(SolutionDir)Common\lib\;```
+VC++ Directories -> Include Directories:
+```
+$(SolutionDir)Common\include\;
+```
+VC++ Directories -> Library Directories:
+```
+$(SolutionDir)Common\lib\;
+```
 
 
 
