@@ -19,15 +19,15 @@ The installation of YAGL++ library is basically a collection of the original Ope
 ### 1. Create a new solution
 Create the solution for the YAGL++ projects. On the Visual Studio click **`File -> New -> Project... (Ctrl+Shift+N)`**:
 
-![01.png](01.png)
+![01-new-solution-1](01-new-solution-1.png)
 
 Select **`Blanc Solution`**, hit **`Next`**:
 
-![02.png](02.png)
+![01-new-solution-2](01-new-solution-2.png)
 
 Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hit **`Create`**, then close the IDE for now:
 
-![03.png](03.png)
+![01-new-solution-3](01-new-solution-3.png)
 
 ### 2. Download the OpenGL components
 > [!TIP]
@@ -46,7 +46,7 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 ### 3. Prepare the components's folder
 Create the new folder under the name **`Common`** within the newly created solution directory. In that folder create 4 other subfolders: **`bin`**, **`include`**, **`lib`**, and **`res`**. Create two subfolders **`Win32`** within **`Common/bin`** and **`Common/lib`** directories. The folder tree should be as following:
 
-![01d.png](01d.png)
+![02-common-dirs-1](02-common-dirs-1.png)
 
 Extract all downloaded components, and move them into the following subdirectories:
 ```
@@ -60,60 +60,50 @@ Common\include\yaglpp\ <- YAGL++ header files from latest release
 ### 4. Install CMake
 If it was not done before, the CMake application must be installed, in order to build CMake projects. Download the [CMake](https://cmake.org/download/) latest application installer, lunch the wizard, and hit **`Next`**:
 
-![01d.png](01d.png)
+![03-cmake-1](03-cmake-1.png)
 
 Accept the License Agreement, and hit **`Next`**:
 
-![02b.png](02b.png)
+![03-cmake-2](03-cmake-2.png)
 
 Leave the default setting, and hit **`Next`**:
 
-![03b.png](03b.png)
+![03-cmake-3](03-cmake-3.png)
 
 Leave the default destination folder, and hit **`Next`**:
 
-![04b.png](04b.png)
+![03-cmake-4](03-cmake-4.png)
 
 Click **`Install`** to begin the installation:
 
-![05b.png](05b.png)
+![03-cmake-5](03-cmake-5.png)
 
 After installation is complete, hit **`Finish`** to exit the wizard:
 
-![06b.png](06b.png)
+![03-cmake-6](03-cmake-6.png)
 
 ### 5. Generate GLFW project files
 First, the source package of the GLFW library has to be extracted anywhere on the hard drive. In order to save disk space, it is possible to use only Release versions of the dependencies, it will require to set the _/NODEFAULTLIB_ linker option in Deboug mode, to suppress the LNK4098 warning. The YAGL++ respect 4 platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be built only for two of them. Before building from the GLFW Source package, in is necessary to generate its project files with CMake, so let's lunch it first. Hit **`Browse Source...`** and navigate to the directory with the extracted source package, select the **`glfw-3.4`** package folder. Create an empty **`build`** folder anywhere on the hard drive. Next, hit **`Browse Build...`**, navigate and select the created **`build`** folder to set the destination for library files. Then hit **`Configure`**:
 
-![02a2.png](02a3.png)
+![04-glfw-1](04-glfw-1.png)
 
 Choose the appropriate IDE, and select the **`x64`** platform. Then hit **`Finish`**:
 
-![03a.png](03a.png)
+![04-glfw-2](04-glfw-2.png)
 
-Ignore the red background, hit **`Generate`**:
+Ignore the red background, click again **`Configure`** to let errors dissipate, then hit **`Generate`**:
 
-![04a.png](04a.png)
+![04-glfw-3](04-glfw-3.png)
 
 Make sure that the generating is done, do not close the window yet:
 
-![05a.png](05a.png)
+![04-glfw-4](04-glfw-4.png)
 
-Now hit again **`Browse Build...`** and navigate to **`Common/lib/Win32`** directory, select the **`GLFW`** folder to set the destination for _Win32_ library files. Then hit **`Configure`**:
+Now we have to repeat these steps for Win32 platform: create another an empty **`build32`** folder anywhere on the hard drive, hit again **`Browse Build...`** and select that folder, hit **`Configure`**, keep the same IDE, but select the **`Win32`** platform, and click **`Finish`**:
 
-![06a.png](06a.png)
+![04-glfw-5](04-glfw-5.png)
 
-Keep the same IDE, and select the **`Win32`** platform. Then hit **`Finish`**:
-
-![07a.png](07a.png)
-
-As before, don't mind the red background, and hit **`Generate`**:
-
-![08a.png](08a.png)
-
-Make sure that the generating is done, and at this point close the window:
-
-![09a.png](09a.png)
+As before, don't mind the red background, hit again **`Configure`** and **`Generate`**. Make sure that the generating is done, and at this point close the window:
 
 ### 6. Build the GLFW library
 The GLFW project files for _x64_ and _Win32_ platforms are now in **`Common/lib/GLFW`** and **`Common/lib/Win32/GLFW`** folders. To start the build, navigate first to **`Common/lib/GLFW`** folder, and double-click the **`GLFW.sln`** solution file:
