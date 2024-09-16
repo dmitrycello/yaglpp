@@ -99,58 +99,20 @@ Make sure that the generating is done, do not close the window yet:
 
 ![04-glfw-4](04-glfw-4.png)
 
-Now we have to repeat these steps for Win32 platform: create another an empty **`build32`** folder anywhere on the hard drive, hit again **`Browse Build...`** and select that folder, hit **`Configure`**, keep the same IDE, but select the **`Win32`** platform, and click **`Finish`**:
+Now it's time to repeat these steps for Win32 platform. Create another an empty **`build32`** folder anywhere on the hard drive, hit again **`Browse Build...`**, navigate and select the created **`build32`** folder, hit **`Configure`**, keep the same IDE, but select the **`Win32`** platform instead, then click **`Finish`**:
 
 ![04-glfw-5](04-glfw-5.png)
 
 As before, don't mind the red background, hit again **`Configure`** and **`Generate`**. Make sure that the generating is done, and at this point close the window:
 
 ### 6. Build the GLFW library
-The GLFW project files for _x64_ and _Win32_ platforms are now in **`Common/lib/GLFW`** and **`Common/lib/Win32/GLFW`** folders. To start the build, navigate first to **`Common/lib/GLFW`** folder, and double-click the **`GLFW.sln`** solution file:
+The GLFW project files for _x64_ and _Win32_ platforms are now in **`build`** and **`build32`** folders. To start the build, navigate first to **`build`** folder, and double-click the **`GLFW.sln`** solution file:
 
-![10a.png](10a.png)
+![05-glfw-build-1](05-glfw-build-1.png)
 
-In the opened IDE, select _Debug x64_ configuration. In the _Solution Explorer_, right-click the **`glfw`** project, then click **`Rebuild`**:
+In the opened IDE, select _Release x64_ configuration. In the _Solution Explorer_, right-click the **`glfw`** project, then click **`Rebuild`**:
 
-![11a.png](11a.png)
-
-The output should be as follows:
-```
-Rebuild started...
-1>------ Rebuild All started: Project: ZERO_CHECK, Configuration: Debug x64 ------
-1>1>Checking Build System
-2>------ Rebuild All started: Project: glfw, Configuration: Debug x64 ------
-2>Building Custom Rule D:/Path_to_solution/OpenGL/Common/src/glfw-3.4/src/CMakeLists.txt
-2>context.c
-2>init.c
-2>input.c
-2>monitor.c
-2>platform.c
-2>vulkan.c
-2>window.c
-2>egl_context.c
-2>osmesa_context.c
-2>null_init.c
-2>null_monitor.c
-2>null_window.c
-2>null_joystick.c
-2>win32_module.c
-2>win32_time.c
-2>win32_thread.c
-2>win32_init.c
-2>win32_joystick.c
-2>win32_monitor.c
-2>win32_window.c
-2>Generating Code...
-2>Compiling...
-2>wgl_context.c
-2>Generating Code...
-2>glfw.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\GLFW\src\Debug\glfw3.lib
-========== Rebuild All: 2 succeeded, 0 failed, 0 skipped ==========
-```
-Now, select _Release x64_ configuration, and click **`Rebuild`** as before:
-
-![12a.png](12a.png)
+![05-glfw-build-2](05-glfw-build-2.png)
 
 The output should be as follows:
 ```
@@ -158,7 +120,7 @@ Rebuild started...
 1>------ Rebuild All started: Project: ZERO_CHECK, Configuration: Release x64 ------
 1>1>Checking Build System
 2>------ Rebuild All started: Project: glfw, Configuration: Release x64 ------
-2>Building Custom Rule D:/Path_to_solution/OpenGL/Common/src/glfw-3.4/src/CMakeLists.txt
+2>Building Custom Rule D:/Path_to_solution/OpenGL/Common/build/src/CMakeLists.txt
 2>context.c
 2>init.c
 2>input.c
@@ -183,29 +145,17 @@ Rebuild started...
 2>Compiling...
 2>wgl_context.c
 2>Generating Code...
-2>glfw.vcxproj -> D:\Path_to_solution\OpenGL\Common\lib\GLFW\src\Release\glfw3.lib
+2>glfw.vcxproj -> D:\Path_to_solution\OpenGL\Common\build\src\Debug\glfw3.lib
 ========== Rebuild All: 2 succeeded, 0 failed, 0 skipped ==========
 ```
+Close the IDE. Open the **`build`** folder, navigate to **`build/src/Release`** folder, copy the resulting **`glfw3.lib`** file into **`Common/lib`** folder.
+
 > [!NOTE]
 > Rebuild ensures to process the every source file from scratch. Use **`Build (Ctrl+B)`** to update the build.
 
-Close the IDE. It is possible now to clean up the solution, unless it is required to later modify and rebuild the GLFW. If this is not the case, navigate first to **`Common/lib/GLFW`** folder, and delete its content, except the **`src`** subfolder:
+Now repeat these steps for Win32 platform using files in **`build32`** folder. The resulting file should be copied into **`Common/lib/Win32`** folder. Close the IDE, now it is possible to permanently delete **`build`**, **`build32`**, and the whole source package folders.
 
-![13a.png](13a.png)
-
-Then navigate to **`Common/lib/GLFW/src`** folder, and delete its content, except the **`Debug`** and **`Release`** subfolders:
-
-![14a.png](14a.png)
-
-> [!TIP]
-> The GLFW project files are a bit large to keep (~100M), but if these files must be kept for later, just delete the **`.vs`** hidden temporary folder, which is around 95% of total space. Make sure to close the solution before deleting.
-
-To build _Win32_ library, navigate to **`Common/lib/Win32/GLFW`** folder, and double-click the **`GLFW.sln`** solution file from there. Rebuild GLFW the same way for _Debug Win32_ and _Release Win32_ platform configurations, close the IDE, then clean up the solution, if necessary.
-
-> [!WARNING]
-> Do not use the Visual Studio **`Build -> Clean Solution`** option. That deletes the output library files as well.
-
-### 7. Add the static library project
+### 7. Build the Assimp library
 Reopen the previously created blanc solution. In the _Solution Explorer_, right-click the solution name bar (1st line). Click **`Add -> New project...`**:
 
 ![04.png](04.png)
