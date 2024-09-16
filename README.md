@@ -101,7 +101,7 @@ The symbols defined after **`#pragma once`** directive in the [glpp.h](include/g
 - The **`YAGLPP_ASSIMP`** and **`YAGLPP_GLFW`** switches contain the Assimp and GLFW and library file names.
 
 > [!TIP]
-> It is possible to override the glpp.h main swithes, placing them inside a project. To do that, first define a symbol **`YAGLPP_CONFIG`**, then all mentionned above switches, prior to include the main header file.
+> It is possible to override the [glpp.h](include/glpp.h) main swithes, placing them inside a project. To do that, first define a symbol **`YAGLPP_CONFIG`**, then all mentionned above switches, prior to include the main header file.
 
 ### GLAD classes
 All classes in _gl::_ namespace are counterparts of GLAD API. They all have the default constructor creating an empty class object, this allows to create these objects before OpenGL initialization. Every class has a single data member, a 4-byte _id_ integer, or a pointer to a class data. The class object is considered _empty_, if its pointer or id is set to zero. All derived classes have the same data size as their parent classes, this concept allows to easily combine GLAD classes into another stucture or class. The lifetime of the OpenGL object is controlled by the class destructor, it does not always destroy OpenGL object, depening on how this object was created. There are three kinds of GLAD class objects: if the class was created as a _single object_, it does create and destroy the OpenGL object, where as _reference object_ does not. The _multi-object_ works as an array, it creates and destroys many OpenGL objects at once.
