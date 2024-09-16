@@ -153,7 +153,7 @@ Close the IDE. Open the **`build`** folder, navigate to **`build/src/Release`** 
 > [!NOTE]
 > Rebuild ensures to process the every source file from scratch. Use **`Build (Ctrl+B)`** to update the build.
 
-Now repeat these steps for Win32 platform using files in **`build32`** folder. The resulting file should be copied into **`Common/lib/Win32`** folder. Close the IDE, now it is possible to permanently delete **`build`**, **`build32`**, and the whole source package folders.
+Now repeat these steps for Win32 platform using files in **`build32`** folder. Copy the resulting **`glfw3.lib`** file into **`Common/lib/Win32`** folder, and close the IDE. Now it is possible to permanently delete **`build`**, **`build32`**, and the whole source package folders.
 
 ### 7. Build the Assimp library
 Reopen the previously created blanc solution. In the _Solution Explorer_, right-click the solution name bar (1st line). Click **`Add -> New project...`**:
