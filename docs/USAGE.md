@@ -66,11 +66,12 @@ The application project may be used in one of the 4 platform configurations. It 
 
 ![08-project-properties-3](08-project-properties-3d.png)
 
+In the appeared window, type the string value into the first field, check how it expands in the second field, make sure to keep the **`Inherit from parent or project defaults`** flag set, then hit **`OK`**. Note that some property editor windows may look differently:
 
 ![08-project-properties-4](08-project-properties-4.png)
 
 > [!IMPORTANT]
-> In the next four sections, copy the property string value by clicking the rightmost button in the browser, and paste into the appropriate field of the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
+> In the next four sections, copy the property string value by clicking the rightmost button in the browser, then paste into the appropriate field of the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 ### 3.1. Debug x64 (EXE) configuration properties
 - **Debugging -> Environment**:
