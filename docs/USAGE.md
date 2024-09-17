@@ -8,9 +8,10 @@
 - [4.2. Release x64 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#32-release-x64-exe-configuration-properties)
 - [4.3. Debug Win32 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#33-debug-win32-exe-configuration-properties)
 - [4.4. Release Win32 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#34-release-win32-exe-configuration-properties)
-- [5. Type the code](USAGE.md#5-type-the-code)
-- [6. Create YAGL++ project template](USAGE.md#6-create-yagl-project-template)
-- [7. Install Visual Studio GLSL add-on](USAGE.md#7-install-visual-studio-glsl-add-on)
+- [5. Add the project config file]()
+- [6. Type the code](USAGE.md#5-type-the-code)
+- [7. Create YAGL++ project template](USAGE.md#6-create-yagl-project-template)
+- [8. Install Visual Studio GLSL add-on](USAGE.md#7-install-visual-studio-glsl-add-on)
 
 The described earlier library installation setup requires the OpenGL application project to be added to the previously created solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
@@ -53,8 +54,8 @@ and in _Resource.rc_ file:
 > [!NOTE]
 > If the **`Resource.rc`** file isn't added to the project, the _Resource_ option would not be accessible in the _Project Property Pages_ window later on.
 
-### 4. Add the source file to the application project
-In the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+### 3. Add the source files to the application project
+First, let's add a new source file to the application project. In the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
 ![08-source-file-1](08-source-file-1.png)
 
@@ -62,27 +63,32 @@ Select **`Code -> C++ File (.cpp)`**, type  **`main.cpp`** _(as main function)_,
 
 ![08-source-file-2](08-source-file-2.png)
 
-### 3. Set the application project properties
+Second, it is necessary to add the GLAD source file to the project. Open the **`Common/include/glad`** directory, copy the 
+**`glad.c`** file into the project directory. Now, once again in the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> Existing Item... (Shift+Alt+A)`**:
+
+![08-source-file-3](08-source-file-3.png)
+
+### 4. Set the application project properties
 Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to _Debug x64_:
 
-![08-project-properties-1](08-project-properties-1.png)
+![09-project-properties-1](09-project-properties-1.png)
 
 In the Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
 
-![08-project-properties-2](08-project-properties-2.png)
+![09-project-properties-2](09-project-properties-2.png)
 
 The application project may be used in one of the 4 platform configurations. It is necessary to set the six (6) project properties under each configuration. Among the other properties, the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [(Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the Release versions of external libraries is being used. To set up a property, select it, press the rightmost drop-down control, and hit **`<Edit...>`**:
 
-![08-project-properties-3](08-project-properties-3d.png)
+![09-project-properties-3](09-project-properties-3.png)
 
 In the appeared window, type the string value into the first field, check how it expands in the second field, make sure to keep the **`Inherit from parent or project defaults`** flag set, then hit **`OK`**. Note that some property editor windows may look differently:
 
-![08-project-properties-4](08-project-properties-4.png)
+![09-project-properties-4](09-project-properties-4.png)
 
 > [!IMPORTANT]
 > In the next four sections, copy the property string value by clicking the rightmost button in the browser, then paste into the appropriate field of the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
-### 3.1. Debug x64 (EXE) configuration properties
+### 4.1. Debug x64 (EXE) configuration properties
 - **Debugging -> Environment**:
 ```
 path=%path%;$(SolutionDir)Common\bin\;
@@ -105,7 +111,7 @@ $(SolutionDir)Common\lib\;
 $(SolutionDir)Common\res\;
 ```
 
-### 3.2. Release x64 (EXE) configuration properties
+### 4.2. Release x64 (EXE) configuration properties
 - **Debugging -> Environment**:
 ```
 path=%path%;$(SolutionDir)Common\bin\;
@@ -128,7 +134,7 @@ mainCRTStartup
 $(SolutionDir)Common\res\;
 ```
 
-### 3.3. Debug Win32 (EXE) configuration properties
+### 4.3. Debug Win32 (EXE) configuration properties
 - **Debugging -> Environment**:
 ```
 path=%path%;$(SolutionDir)Common\bin\Win32\;
@@ -151,7 +157,7 @@ $(SolutionDir)Common\lib\Win32\;
 $(SolutionDir)Common\res\;
 ```
 
-### 3.4. Release Win32 (EXE) configuration properties
+### 4.4. Release Win32 (EXE) configuration properties
 - **Debugging -> Environment**:
 ```
 path=%path%;$(SolutionDir)Common\bin\Win32\;
@@ -174,7 +180,10 @@ mainCRTStartup
 $(SolutionDir)Common\res\;
 ```
 
-### 5. Type the code
+### 5. Add the project config file
+This is another optional step. But since we are going to create a project template, let's make it all running. The configuration file allows to define the YAGL++ main switches
+
+### 6. Type the code
 In the editor window type the minimal YAGL++ application code:
 ```
 // main.cpp
@@ -255,7 +264,7 @@ class : public glfw::Thread
 > [!NOTE]
 > AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become very promising direction for development in the future. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [yaglpp.h](../include/yaglpp.h) library header file, and rebuild the library.
 
-### 6. Create YAGL++ project template
+### 7. Create YAGL++ project template
 At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work within the same solution, or within a solution with similar path layout. Download the project icon file [icon.png](icon.png), or use any other with transparent background. Click **`Project menu -> Export Template...`**:
 
 ![15a.png](15a.png)
@@ -287,7 +296,7 @@ Make sure to set filters to _All languages_, _All platforms_ and _All project ty
 > [!NOTE]
 > Unfortunatelly, the Visual Studio does not allow to add the _tags_ to a custom template. Therefore it does not show up immediately in the _Add a new project_ dialog, ousted by the built-in templates. But after some time, it will appear under _Recent project templates_, where it could be then pinned.
 
-### 7. Install Visual Studio GLSL add-on
+### 8. Install Visual Studio GLSL add-on
 Optionally, download the [GLSL language integration](https://marketplace.visualstudio.com/items?itemName=DanielScherzer.GLSL) add-on by Daniel Scherzer, or extract the _GLSL.vsix_ file from **`Common.7z`** archive, then run downloaded file. This allows to view the .vert and .frag files with the appropriate color highlighting.
 
 ![33.png](33.png)
