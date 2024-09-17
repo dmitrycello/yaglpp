@@ -190,7 +190,6 @@ double y = glWindow.getCursorPosY(); // Value since the actual API call above
 ```
 Some of the class members allows the _API transfer_ feature, which is the possibility to perform the API call from the secondary thread by sending the appropriate message to the main thread. This requires the use of **`dispatchMessage`** and **`translateMessage`** functions within the main rendering loop. After the API transfer is complete, the main thread is sending a **`onWindowTransfer`** notification back to the sender window:
 ```
-// Main thread rendering loop
 glfw::Message msg;
 while (glfw::dispatchMessage(&msg))
 {
