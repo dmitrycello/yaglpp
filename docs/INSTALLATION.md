@@ -3,11 +3,11 @@
 - [1. Create a new solution](INSTALLATION.md#1-create-a-new-solution)
 - [2. Download the OpenGL components](INSTALLATION.md#2-download-the-opengl-components)
 - [3. Prepare the components's folder](INSTALLATION.md#3-prepare-the-componentss-folder)
-- [4. Install CMake](INSTALLATION.md#4-install-cmake)
-- [5. Generate GLFW project files](INSTALLATION.md#5-generate-glfw-project-files)
-- [6. Build the GLFW library](INSTALLATION.md#6-build-the-glfw-library)
-- [7. Build the Assimp library](INSTALLATION.md#7-build-the-assimp-library)
-- [8. Earlier GLAD versions](INSTALLATION.md#8-earlier-glad-versions)
+- [4. Earlier GLAD versions](INSTALLATION.md#4-earlier-glad-versions)
+- [5. Install CMake](INSTALLATION.md#5-install-cmake)
+- [6. Generate GLFW project files](INSTALLATION.md#6-generate-glfw-project-files)
+- [7. Build the GLFW library](INSTALLATION.md#7-build-the-glfw-library)
+- [8. Build the Assimp library](INSTALLATION.md#8-build-the-assimp-library)
 
 The installation of YAGL++ library is basically a collection of the original OpenGL API components. The library itself includes those, while **`#pragma comments`** directives set the linking of all required libraries. Therefore it is unnecessary to add them everytime to the linker options. The path layout can be different, but it is strongly recommended to use the suggested way, at least for the first time. The offered setup supports _x64_ and _Win32_ platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
@@ -55,7 +55,14 @@ Common/include/KHR/ <- KHR header file (khrplatform.h) from GLAD archive
 Common/include/stb/ <- stb_image three (3) header files
 Common/include/yaglpp/ <- YAGL++ header files from latest release
 ```
-### 4. Install CMake
+
+### 4. Earlier GLAD versions
+The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive with the same setting, but the _API gl_ set to **`Version X.X`**, extract its only **`glad.h`** file, and move it into a subfolder named **`X.X`** created within the **`include/glad`** directory. The version numbers supported by YAGL++ library are: _2.0_, _2.1_, _3.0_, _3.1_, _3.2_ and default. Note that the default version of the file must always reside in the **`include/glad`** directory, it is referenced by another components of the API. The context version control is great tool for backward compatible coding. If the graphic card does not support the default version, it is possible to try an earlier one. Note that prior to version _3.2_, the _OpenGL Core Profile_ is unavailable, the _Any_ or _Compat Profile_ should be used instead.
+
+> [!IMPORTANT]
+> It is advised to generate all 6 supported GLAD versions, it's better to do now to avoid the mess later. This allows to quickly set the OpenGL context version by changing the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** main switches. However, to learn OpenGL always stick to default version!
+
+### 5. Install CMake
 If it was not done before, the CMake application must be installed, in order to build CMake projects. Download the [CMake](https://cmake.org/download/) latest application installer, lunch the wizard, and hit **`Next`**:
 
 ![03-cmake-1](03-cmake-1.png)
@@ -80,7 +87,7 @@ After installation is complete, hit **`Finish`** to exit the wizard:
 
 ![03-cmake-6](03-cmake-6.png)
 
-### 5. Generate GLFW project files
+### 6. Generate GLFW project files
 First, the source package of the GLFW library has to be extracted anywhere on the hard drive. In order to save disk space, it is possible to use only Release versions of the dependencies, it will require to set the _/NODEFAULTLIB_ linker option in Deboug mode, to suppress the LNK4098 warning. The YAGL++ respect 4 platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be built only for two of them. Before building from the GLFW Source package, in is necessary to generate its project files with CMake, so let's lunch it first. Hit **`Browse Source...`** and navigate to the directory with the extracted source package, select the **`glfw-3.4`** package folder. Create an empty **`build`** folder anywhere on the hard drive. Next, hit **`Browse Build...`**, navigate to and select the created **`build`** folder to set the destination for library files. Then hit **`Configure`**:
 
 ![04-glfw-1](04-glfw-1.png)
@@ -103,7 +110,7 @@ Now repeat these steps for Win32 platform. Create another empty **`build32`** fo
 
 As before, don't mind the red background, hit again **`Configure`** and **`Generate`**. Make sure that the generating is done, and at this point close the window:
 
-### 6. Build the GLFW library
+### 7. Build the GLFW library
 The GLFW project files for _x64_ and _Win32_ platforms are now in **`build`** and **`build32`** folders. To start the build, navigate first to **`build`** folder, and double-click the **`GLFW.sln`** solution file:
 
 ![05-glfw-build-1](05-glfw-build-1.png)
@@ -130,7 +137,7 @@ Close the IDE. Open the **`build`** folder, navigate to **`build/src/Release`** 
 
 Now repeat these steps for Win32 platform using files in **`build32`** folder. Copy the resulting **`glfw3.lib`** file into **`Common/lib/Win32`** subfolder, and close the IDE. Now it is possible to permanently delete **`build`**, **`build32`**, and the source package **`glfw-3.4`** folders.
 
-### 7. Build the Assimp library
+### 8. Build the Assimp library
 This process for the Assimp library is identical as in the previous two sections. The Assimp project files have to be first generated by CMake into **`build`** and **`build32`** folders for two platforms: _x64_ and _Win32_. Then the library must be built from each folder using **`Assimp.sln`** solution file under the _Release_ configuration. The Assimp library header files are generated in the process. The build takes quite a while, please be patient! The output should be as follows:
 ```
 Rebuild started...
@@ -170,11 +177,5 @@ After the both builds are completed, follow the following steps:
 
 > [!TIP]
 > If you are unsure about the path layout explained in this document, download the **`Common.7z`** file from the [repository page](https://github.com/dmitrycello/glpp/tree/main), and open it to check its directories.
-
-### 8. Earlier GLAD versions
-The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive with the same setting, but the _API gl_ set to **`Version X.X`**, extract its only **`glad.h`** file, and move it into a subfolder named **`X.X`** created within the **`include/glad`** directory. The version numbers supported by YAGL++ library are: _2.0_, _2.1_, _3.0_, _3.1_, _3.2_ and default. Note that the default version of the file must always reside in the **`include/glad`** directory, it is referenced by another components of the API. The context version control is great tool for backward compatible coding. If the graphic card does not support the default version, it is possible to try an earlier one. Note that prior to version _3.2_, the _OpenGL Core Profile_ is unavailable, the _Any_ or _Compat Profile_ should be used instead.
-
-> [!IMPORTANT]
-> It is advised to generate all 6 supported GLAD versions, it's better to do now to avoid the mess later. This allows to quickly set the OpenGL context version by changing the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** main switches. However, to learn OpenGL always stick to default version!
 
 [&uarr; TOP](INSTALLATION.md#installation) [USAGE &rarr;](USAGE.md)
