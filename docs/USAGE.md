@@ -2,16 +2,16 @@
 [&nwarr; README](../README.md)<br>
 - [1. Add the application project](USAGE.md#1-add-the-application-project)
 - [2. Add the resources to the application project](USAGE.md#2-add-the-resources-to-the-application-project)
-- [3. Add the source files to the application project](USAGE.md#4-add-the-source-file-to-the-application-project)
-- [4. Set the application project properties](USAGE.md#3-set-the-application-project-properties)
-- [4.1. Debug x64 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#31-debug-x64-exe-configuration-properties)
-- [4.2. Release x64 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#32-release-x64-exe-configuration-properties)
-- [4.3. Debug Win32 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#33-debug-win32-exe-configuration-properties)
-- [4.4. Release Win32 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#34-release-win32-exe-configuration-properties)
-- [5. Add the project config file]()
-- [6. Type the code](USAGE.md#5-type-the-code)
-- [7. Create YAGL++ project template](USAGE.md#6-create-yagl-project-template)
-- [8. Install Visual Studio GLSL add-on](USAGE.md#7-install-visual-studio-glsl-add-on)
+- [3. Add the source files to the application project](USAGE.md#3-add-the-source-files-to-the-application-project)
+- [4. Set the application project properties](USAGE.md#4-set-the-application-project-properties)
+- [4.1. Debug x64 (EXE) configuration properties](USAGE.md#41-debug-x64-exe-configuration-properties)
+- [4.2. Release x64 (EXE) configuration properties](USAGE.md#42-release-x64-exe-configuration-properties)
+- [4.3. Debug Win32 (EXE) configuration properties](USAGE.md#43-debug-win32-exe-configuration-properties)
+- [4.4. Release Win32 (EXE) configuration properties](USAGE.md#44-release-win32-exe-configuration-properties)
+- [5. Add the project config file](USAGE.md#5-add-the-project-config-file)
+- [6. Type the code](USAGE.md#6-type-the-code)
+- [7. Create YAGL++ project template](USAGE.md#7-create-yagl-project-template)
+- [8. Install Visual Studio GLSL add-on](USAGE.md#8-install-visual-studio-glsl-add-on)
 
 The described earlier library installation setup requires the OpenGL application project to be added to the previously created solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
