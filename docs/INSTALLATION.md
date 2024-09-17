@@ -162,13 +162,13 @@ Rebuild started...
 ========== Rebuild All: 5 succeeded, 0 failed, 3 skipped ==========
 ```
 After the both builds are completed, follow the following steps: 
-- 1 Copy the entire folder from the source package **`assimp-5.4.3/include/assimp`** into **`Common/include`** folder. These files was generated during the build
-- 2 Copy the two (2) configuration header files from the **`build/include/assimp`** folder into the **`Common/include/assimp`** folder. The header files should be identical in both build folders
-- 3 Copy the two (2) resulting **`*.lib`** and **`*.exp`** files from the **`build/lib/Release`** into the **`Common/lib`** folder
-- 4 Copy the two (2) resulting **`*.lib`** and **`*.exp`** files from the **`build32/lib/Release`** into the **`Common/lib/Win32`** folder
-- 5 Copy the single resulting **`*.dll`** file from the **`build/bin/Release`** into the **`Common/bin`** folder
-- 6 Copy the single resulting **`*.dll`** file from the **`build32/bin/Release`** into the **`Common/bin/Win32`** folder
-- 7 Permanently delete **`build`**, **`build32`**, and **`assimp-5.4.3`** source package folders
+-  Copy the entire folder from the source package **`assimp-5.4.3/include/assimp`** into **`Common/include`** folder. These files was generated during the build
+- Copy the two (2) configuration header files from the **`build/include/assimp`** folder into the **`Common/include/assimp`** folder. The header files should be identical in both build folders
+- Copy the two (2) resulting **`*.lib`** and **`*.exp`** files from the **`build/lib/Release`** into the **`Common/lib`** folder
+- Copy the two (2) resulting **`*.lib`** and **`*.exp`** files from the **`build32/lib/Release`** into the **`Common/lib/Win32`** folder
+- Copy the single resulting **`*.dll`** file from the **`build/bin/Release`** into the **`Common/bin`** folder
+- Copy the single resulting **`*.dll`** file from the **`build32/bin/Release`** into the **`Common/bin/Win32`** folder
+- Permanently delete **`build`**, **`build32`**, and **`assimp-5.4.3`** source package folders
 
 
 
