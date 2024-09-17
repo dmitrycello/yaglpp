@@ -171,14 +171,8 @@ After the both builds are completed, follow the following steps:
 > [!TIP]
 > If you are unsure about the path layout explained in this document, download the **`Common.7z`** file from the [repository page](https://github.com/dmitrycello/glpp/tree/main), and open it to check its directories.
 
-![04.png](04.png)
-
-![33.png](33.png)
-
-![35.png](35.png)
-
 ### 8. Earlier GLAD versions
-The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive with the same setting, but the _API gl_ set to **`Version X.X`**, extract its only **`glad.h`** file, and move it into a folder named **`X.X`** created within the **`include/glad`** directory. The version numbers supported by YAGL++ library are: _2.0_, _2.1_, _3.0_, _3.1_, _3.2_ and default _3.3_. Note that the default version of the file must always reside in the **`include/glad`** directory, it is referenced by another components of the API. The context version control is great tool for backward compatible coding. If the graphic card does not support the default version, it is possible to try an earlier one. Note that prior to version _3.2_, the _OpenGL Core Profile_ is unavailable, the _Any_ or _Compat Profile_ should be used instead.
+The library supports OpenGL versions 2.0 to 3.3. To downgrade the default version (3.3), you must generate a new GLAD archive with the same setting, but the _API gl_ set to **`Version X.X`**, extract its only **`glad.h`** file, and move it into a subfolder named **`X.X`** created within the **`include/glad`** directory. The version numbers supported by YAGL++ library are: _2.0_, _2.1_, _3.0_, _3.1_, _3.2_ and default. Note that the default version of the file must always reside in the **`include/glad`** directory, it is referenced by another components of the API. The context version control is great tool for backward compatible coding. If the graphic card does not support the default version, it is possible to try an earlier one. Note that prior to version _3.2_, the _OpenGL Core Profile_ is unavailable, the _Any_ or _Compat Profile_ should be used instead.
 
 > [!IMPORTANT]
 > It is advised to generate all 6 supported GLAD versions, it's better to do now to avoid the mess later. This allows to quickly set the OpenGL context version by changing the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** main switches. However, to learn OpenGL always stick to default version!
