@@ -25,7 +25,7 @@ Select **`Empty Project (C++)`**, press **`Next`**:
 
 Choose any project name, check the path to the solution, and hit **`Create`**:
 
-![06-new-project-3](06-new-project-3.png)
+![06-new-project-3](06-new-project-3a.png)
 
 In the _Solution Explorer_, right-click the project's name and click **`Set as Startup Project`**, to set default running output application:
 
@@ -67,6 +67,7 @@ The application project may be used in one of the 4 platform configurations. It 
 ![08-project-properties-3](08-project-properties-3b.png)
 
 
+![08-project-properties-4](08-project-properties-4.png)
 
 > [!IMPORTANT]
 > In the next four sections, copy the property string value by clicking the rightmost button in the browser, and paste into the appropriate field of the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
