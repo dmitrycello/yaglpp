@@ -2,7 +2,7 @@
 [&nwarr; README](../README.md)<br>
 - [1. Add the application project](USAGE.md#1-add-the-application-project)
 - [2. Add the resources to the application project](USAGE.md#2-add-the-resources-to-the-application-project)
-- [3. Add the source file to the application project](USAGE.md#4-add-the-source-file-to-the-application-project)
+- [3. Add the source files to the application project](USAGE.md#4-add-the-source-file-to-the-application-project)
 - [4. Set the application project properties](USAGE.md#3-set-the-application-project-properties)
 - [4.1. Debug x64 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#31-debug-x64-exe-configuration-properties)
 - [4.2. Release x64 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#32-release-x64-exe-configuration-properties)
@@ -55,7 +55,7 @@ and in _Resource.rc_ file:
 > If the **`Resource.rc`** file isn't added to the project, the _Resource_ option would not be accessible in the _Project Property Pages_ window later on.
 
 ### 3. Add the source files to the application project
-First, let's add a new source file to the application project. In the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+First, let's add a new source file to the application project. In the _Solution Explorer_, right-click the project's _Source Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
 ![08-source-file-1](08-source-file-1.png)
 
@@ -63,10 +63,12 @@ Select **`Code -> C++ File (.cpp)`**, type  **`main.cpp`** _(as main function)_,
 
 ![08-source-file-2](08-source-file-2.png)
 
-Second, it is necessary to add the GLAD source file to the project. Open the **`Common/include/glad`** directory, copy the 
-**`glad.c`** file into the project directory. Now, once again in the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> Existing Item... (Shift+Alt+A)`**:
+Next, it is necessary to add the GLAD source file to the project. Open the **`Common/include/glad`** directory, copy the 
+**`glad.c`** file into the project directory. Now, once again in the _Solution Explorer_, right-click the project's _Source Files_ filter icon. Click **`Add -> Existing Item... (Shift+Alt+A)`**:
 
 ![08-source-file-3](08-source-file-3.png)
+
+In the opened project directory select the **`glad.c`** file, and hit **`Add`** button.
 
 ### 4. Set the application project properties
 Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to _Debug x64_:
