@@ -1,4 +1,4 @@
-![logo2.png](docs/logo2.png)
+![00-logo-1.png](docs/00-logo-1.png)
 # Yet Another GL++ library
 [INSTALLATION &rarr;](docs/INSTALLATION.md)<br>
 [USAGE &rarr;](docs/USAGE.md)<br>
@@ -147,7 +147,7 @@ GLboolean b2 = rb.isRenderbufferBinding(); // same as glGetIntegerv(GL_RENDERBUF
 ### Class tree
 The most of classes in **`gl::`** namespace are derived from **`gl::_Object`**, operating a single id. These classes control the OpenGL [Buffer](https://www.khronos.org/opengl/wiki/Buffer_Object), [Texture](https://www.khronos.org/opengl/wiki/Texture), [Framebuffer](https://www.khronos.org/opengl/wiki/Framebuffer_Object), [Renderbuffer](https://www.khronos.org/opengl/wiki/Renderbuffer_Object), [Query](https://www.khronos.org/opengl/wiki/Query_Object), [Sampler](https://www.khronos.org/opengl/wiki/Sampler_Object) and [Vertex Array](https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object) objects, they could be automatically _created_ and _binded_ when applicable. Their ids could also be generated once in big number via their _multi-object_ counterparts, which are the classes derived from **`gl::_Objects`**, carriyng an array of OpenGL object ids of varriyng length. The multi-object class data member is single pointer, this is also the case for _Sync_ and _UniformBlock_ classes. Its **`NULL`** value means an _empty_ object. The OpenGL [Program](https://www.khronos.org/opengl/wiki/GLSL_Object#Program_objects) and [Shader](https://www.khronos.org/opengl/wiki/Shader) objects could be automatically _created_, they do not have their multi-object counterparts, but still could be referenced. The Program object must to be explicitly _linked_, where as the Shader object must be explicitly _compiled_, the appropriate constructors exist as well. The data member of _Uniform_ and _VertexAttrib_ classes is a single signed integer, operating a location value. It could be **`-1`**, meaning an _empty_ object. The following class tree exposes the classes's inheritance, as well as their data size in bytes:
 
-![00-class-tree-1](docs/00-class-tree-1.png)
+![00-readme-2](docs/00-readme-2.png)
 
 > [!NOTE]
 > Despite the OpenGL id is unsigned integer, the data member **`_miId`** of the **gl::_Object`** class is signed integer. This allows to differentiate single and reference objects, being negative or positive value. The pointers in Win32 application are 4-byte long. So will be the size of the class object being a pointer.
