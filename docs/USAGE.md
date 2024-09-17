@@ -12,6 +12,12 @@
 - [6. Create YAGL++ project template](USAGE.md#6-create-yagl-project-template)
 - [7. Install Visual Studio GLSL add-on](USAGE.md#7-install-visual-studio-glsl-add-on)
 
+![04.png](04.png)
+
+![33.png](33.png)
+
+![35.png](35.png)
+
 The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
 ### 1. Add the application project
