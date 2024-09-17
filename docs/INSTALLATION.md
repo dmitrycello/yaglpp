@@ -7,7 +7,7 @@
 - [5. Generate GLFW project files](INSTALLATION.md#5-generate-glfw-project-files)
 - [6. Build the GLFW library](INSTALLATION.md#6-build-the-glfw-library)
 - [7. Build the Assimp library](INSTALLATION.md#7-build-the-assimp-library)
-- [8. Earlier GLAD versions](INSTALLATION.md#8-add-application-resources)
+- [8. Earlier GLAD versions](INSTALLATION.md#8-earlier-glad-versions)
 
 The installation of YAGL++ library is basically a collection of the original OpenGL API components. The library itself includes those, while **`#pragma comments`** directives set the linking of all required libraries. Therefore it is unnecessary to add them everytime to the linker options. The path layout can be different, but it is strongly recommended to use the suggested way, at least for the first time. The offered setup supports _x64_ and _Win32_ platforms, producing the console application in Debug mode, and Windows application in Release mode.
 
