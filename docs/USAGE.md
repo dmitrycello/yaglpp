@@ -43,13 +43,11 @@ Select **`Resource -> Resource File (.rc)`**, keep **`Resource.rc`** file name, 
 Open the two newly created flies in the editor window, and replace their content with the following in _resource.h_ file:
 ```
 // resource.h
-
 ```
 and in _Resource.rc_ file:
 ```
 // Resource.rc
 #include "resource.h"
-
 ```
 
 > [!NOTE]
