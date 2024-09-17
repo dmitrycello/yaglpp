@@ -166,7 +166,7 @@ After the both builds are completed, follow the following steps:
 - Copy the two (2) resulting **`*.lib`** and **`*.exp`** files from the **`build32/lib/Release`** subfolder into the **`Common/lib/Win32`** subfolder;
 - Copy the single resulting **`*.dll`** file from the **`build/bin/Release`** subfolder into the **`Common/bin`** subfolder;
 - Copy the single resulting **`*.dll`** file from the **`build32/bin/Release`** subfolder into the **`Common/bin/Win32`** subfolder;
-- Permanently delete **`build`**, **`build32`**, and the source package **`assimp-5.4.3`** folders;
+- Permanently delete **`build`**, **`build32`**, and the source package **`assimp-5.4.3`** folders.
 
 > [!TIP]
 > If you are unsure about the path layout explained in this document, download the **`Common.7z`** file from the [repository page](https://github.com/dmitrycello/glpp/tree/main), and open it to check its directories.
