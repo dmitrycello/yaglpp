@@ -1,4 +1,4 @@
-![00-logo-1.png](docs/00-logo-1.png)
+![00-readme-1.png](docs/00-readme-1.png)
 # Yet Another GL++ library
 [INSTALLATION &rarr;](docs/INSTALLATION.md)<br>
 [USAGE &rarr;](docs/USAGE.md)<br>
