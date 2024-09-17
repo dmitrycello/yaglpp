@@ -2,12 +2,12 @@
 [&nwarr; README](../README.md)<br>
 - [1. Add the application project](USAGE.md#1-add-the-application-project)
 - [2. Add the resources to the application project](USAGE.md#2-add-the-resources-to-the-application-project)
-- [3. Set the application project properties](USAGE.md#3-set-the-application-project-properties)
-- [3.1. Debug x64 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#31-debug-x64-exe-configuration-properties)
-- [3.2. Release x64 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#32-release-x64-exe-configuration-properties)
-- [3.3. Debug Win32 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#33-debug-win32-exe-configuration-properties)
-- [3.4. Release Win32 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#34-release-win32-exe-configuration-properties)
-- [4. Add the source file to the application project](USAGE.md#4-add-the-source-file-to-the-application-project)
+- [3. Add the source file to the application project](USAGE.md#4-add-the-source-file-to-the-application-project)
+- [4. Set the application project properties](USAGE.md#3-set-the-application-project-properties)
+- [4.1. Debug x64 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#31-debug-x64-exe-configuration-properties)
+- [4.2. Release x64 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#32-release-x64-exe-configuration-properties)
+- [4.3. Debug Win32 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#33-debug-win32-exe-configuration-properties)
+- [4.4. Release Win32 (EXE) configuration properties](https://github.com/dmitrycello/yaglpp/blob/main/docs/USAGE.md#34-release-win32-exe-configuration-properties)
 - [5. Type the code](USAGE.md#5-type-the-code)
 - [6. Create YAGL++ project template](USAGE.md#6-create-yagl-project-template)
 - [7. Install Visual Studio GLSL add-on](USAGE.md#7-install-visual-studio-glsl-add-on)
@@ -52,6 +52,15 @@ and in _Resource.rc_ file:
 
 > [!NOTE]
 > If the **`Resource.rc`** file isn't added to the project, the _Resource_ option would not be accessible in the _Project Property Pages_ window later on.
+
+### 4. Add the source file to the application project
+In the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+
+![08-source-file-1](08-source-file-1.png)
+
+Select **`Code -> C++ File (.cpp)`**, type  **`main.cpp`** _(as main function)_, check the path, and hit **`Add`**:
+
+![08-source-file-2](08-source-file-2.png)
 
 ### 3. Set the application project properties
 Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to _Debug x64_:
@@ -164,15 +173,6 @@ mainCRTStartup
 ```
 $(SolutionDir)Common\res\;
 ```
-
-### 4. Add the source file to the application project
-In the _Solution Explorer_, right-click the project's Source Files filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
-
-![41c.png](41c.png)
-
-Select **`Code -> C++ File (.cpp)`**, type  **`main.cpp`** _(as main function)_, check the path, and hit **`Add`**:
-
-![22b.png](22b.png)
 
 ### 5. Type the code
 In the editor window type the minimal YAGL++ application code:
