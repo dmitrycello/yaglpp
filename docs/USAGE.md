@@ -33,7 +33,7 @@ In the _Solution Explorer_, right-click the project's name and click **`Set as S
 ![06-new-project-4](06-new-project-4.png)
 
 ### 2. Add the resources to the application project
-The resources allow a quick access to files included into the output execitable as _binary resources_. Setting it up here may be optional, but it is strongly advised to set it up here, to be included in the project template later on. In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+The resources allow a quick access to files included into the output execitable as _binary resources_. It is an optional step, but it is strongly advised to set it up here, to be included in the project template later on. In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
 ![07-resources-1](07-resources-1.png)
 
