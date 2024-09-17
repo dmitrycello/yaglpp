@@ -12,39 +12,33 @@
 - [6. Create YAGL++ project template](USAGE.md#6-create-yagl-project-template)
 - [7. Install Visual Studio GLSL add-on](USAGE.md#7-install-visual-studio-glsl-add-on)
 
-![04.png](04.png)
-
-![33.png](33.png)
-
-![35.png](35.png)
-
-The described earlier library installation setup requires the OpenGL application project to be added to the same solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
+The described earlier library installation setup requires the OpenGL application project to be added to the previously created solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
 ### 1. Add the application project
-To add the application project to the solution, use the same way as for the static library: in the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add -> New project...`**:
+Reopen the previously created solution, in the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add -> New project...`**:
 
-![04.png](04.png)
+![06-new-project-1](06-new-project-1.png)
 
 Select **`Empty Project (C++)`**, press **`Next`**:
 
-![16.png](16.png)
+![06-new-project-2](06-new-project-2.png)
 
 Choose any project name, check the path to the solution, and hit **`Create`**:
 
-![17.png](17.png)
+![06-new-project-3](06-new-project-3.png)
 
 In the _Solution Explorer_, right-click the project's name and click **`Set as Startup Project`**, to set default running output application:
 
-![38.png](38.png)
+![06-new-project-4](06-new-project-4.png)
 
 ### 2. Add the resources to the application project
-The resources allow a quick access to files included into the output execitable as _binary resources_. Setting it up here may be optional, but it is strongly advised for the first time, to be later included in the project template. In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+The resources allow a quick access to files included into the output execitable as _binary resources_. Setting it up here may be optional, but it is strongly advised to set it up here, to be included in the project template later on. In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
-![41a.png](41a.png)
+![07-resources-1](07-resources-1.png)
 
 Select **`Resource -> Resource File (.rc)`**, keep **`Resource.rc`** file name, check the path, and hit **`Add`**:
 
-![41b.png](41b.png)
+![07-resources-2](07-resources-2.png)
 
 Open the two newly created flies in the editor window, and replace their content with the following in _resource.h_ file:
 ```
@@ -59,16 +53,16 @@ and in _Resource.rc_ file:
 ```
 
 > [!NOTE]
-> If the **`Resource.rc`** file isn't added to the project, the _Resource_ option would not be accessible in the project Properties window later on.
+> If the **`Resource.rc`** file isn't added to the project, the _Resource_ option would not be accessible in the _Project Property Pages_ window later on.
 
 ### 3. Set the application project properties
 Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to _Debug x64_:
 
-![39a.png](39a.png)
+![08-project-properties-1](08-project-properties-1.png)
 
-In the Properties window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
+In the Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
 
-![20.png](20.png)
+![08-project-properties-2](08-project-properties-2.png)
 
 The application project may be used in one of the 4 platform configurations. In order to change the application platform configuration, it is necessary to set the six (6) project options under that configuration. The Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to suppress the warning appearing since the YAGL++ library is using only Release versions of external libraries, it saves a lot of disk space.
 
@@ -291,5 +285,9 @@ Make sure to set filters to _All languages_, _All platforms_ and _All project ty
 
 ### 7. Install Visual Studio GLSL add-on
 Optionally, download the [GLSL language integration](https://marketplace.visualstudio.com/items?itemName=DanielScherzer.GLSL) add-on by Daniel Scherzer, or extract the _GLSL.vsix_ file from **`Common.7z`** archive, then run downloaded file. This allows to view the .vert and .frag files with the appropriate color highlighting.
+
+![33.png](33.png)
+
+![35.png](35.png)
 
 [&uarr; TOP](USAGE.md#usage) [EXAMPLES &rarr;](EXAMPLES.md)
