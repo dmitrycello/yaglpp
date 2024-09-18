@@ -177,7 +177,7 @@ The configuration file contains the YAGL++ main switches valid only for its proj
 ```
 
 ### 6. Type the code
-Open the project **`main.cpp`** file. In the editor window type the minimal YAGL++ application code:
+Open the project's **`main.cpp`** file. In the editor window type the minimal YAGL++ application code:
 ```
 // main.cpp
 #include "config.h"
@@ -206,6 +206,7 @@ Rebuild the project, the output should look like this:
 Rebuild started...
 1>------ Rebuild All started: Project: Project1, Configuration: Debug x64 ------
 1>main.cpp
+1>YAGL++: Compiling with OpenGL 3.3 context version support...
 1>Project1.vcxproj -> D:\Path_to_solution\OpenGL\x64\Debug\Project1.exe
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
@@ -250,25 +251,20 @@ class : public glfw::Thread
 } application;
 ```
 > [!NOTE]
-> AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become very promising direction for development in the future. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the configuration file, and rebuild the library.
+> AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become very promising direction for development in the future. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the configuration file, and rebuild the project.
 
 ### 7. Create YAGL++ project template
-At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work within the same solution, or within a solution with similar path layout. Download the project icon file [icon.png](icon.png), or use any other with transparent background. Click **`Project menu -> Export Template...`**:
+At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work with the similar solution path layout. Download the project icon file [icon.png](icon.png), or use any other with transparent background. Click **`Project menu -> Export Template...`**:
 
-![15a.png](15a.png)
+![12-project-template-1](12-project-template-1.png)
 
 In the opened window, keep the template type as _Project template_, select the project to export from, then hit **`Next`**:
 
-![18.png](18.png)
+![12-project-template-2](12-project-template-2.png)
 
-In the next window, type the project name (or any other):
-```
-YAGL++ Application
-```
-Type the project description (or any other):
-```
-Windows and Console C++ Application using YAGL++ library
-```
+In the next window, type the project name and description (or any other):
+```YAGL++ Application```
+```Windows and Console C++ Application using YAGL++ library```
 Hit **`Browse...`** to select the path to downloaded project icon for both _Icon image_ and _Preview image_ edit boxes. Then hit **`Finish`**:
 
 ![19.png](19.png)
