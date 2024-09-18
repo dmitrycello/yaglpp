@@ -262,7 +262,7 @@ In the opened window, keep the template type as _Project template_, select the p
 
 ![12-project-template-2](12-project-template-2.png)
 
-In the next window, type the project name and description (or any other):
+In the next window, copy the project name and description (or type any other):
 
 ```YAGL++ Application```
 
@@ -270,24 +270,20 @@ In the next window, type the project name and description (or any other):
 
 Hit **`Browse...`** to select the path to downloaded project icon for both _Icon image_ and _Preview image_ edit boxes. Then hit **`Finish`**:
 
-![19.png](19.png)
+![12-project-template-3](12-project-template-3.png)
 
-Close the opened folder with the new template _.zip_ archive, and restart the IDE. In the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add -> New Project...`**:
+Close the opened folder with the new template _.zip_ archive, and restart the IDE. Now, in the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add -> New Project...`**:
 
-![24.png](24.png)
+![12-project-template-3](12-project-template-3.png)
 
 Make sure to set filters to _All languages_, _All platforms_ and _All project types_. This will show all project templates. Alternatively, type **`yagl`** in the search bar:
 
-![35.png](35.png)
+![12-project-template-4](12-project-template-4.png)
 
 > [!NOTE]
 > Unfortunatelly, the Visual Studio does not allow to add the _tags_ to a custom template. Therefore it does not show up immediately in the _Add a new project_ dialog, ousted by the built-in templates. But after some time, it will appear under _Recent project templates_, where it could be then pinned.
 
 ### 8. Install Visual Studio GLSL add-on
 Optionally, download the [GLSL language integration](https://marketplace.visualstudio.com/items?itemName=DanielScherzer.GLSL) add-on by Daniel Scherzer, or extract the _GLSL.vsix_ file from **`Common.7z`** archive, then run downloaded file. This allows to view the .vert and .frag files with the appropriate color highlighting.
-
-![33.png](33.png)
-
-![35.png](35.png)
 
 [&uarr; TOP](USAGE.md#usage) [EXAMPLES &rarr;](EXAMPLES.md)
