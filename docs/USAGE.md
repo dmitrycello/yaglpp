@@ -90,7 +90,7 @@ In the appeared window, type the string value into the first field, check how it
 > [!IMPORTANT]
 > In the next four sections, copy the property string value by clicking the rightmost button in the browser, then paste into the appropriate field of the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
-### 4.1. Debug x64 (EXE) configuration properties
+#### Debug x64 (EXE) configuration properties
 - **Debugging -> Environment**:
 ```
 path=%path%;$(SolutionDir)Common\bin\;
@@ -113,7 +113,7 @@ $(SolutionDir)Common\lib\;
 $(SolutionDir)Common\res\;
 ```
 
-### 4.2. Release x64 (EXE) configuration properties
+#### Release x64 (EXE) configuration properties
 - **Debugging -> Environment**:
 ```
 path=%path%;$(SolutionDir)Common\bin\;
@@ -136,7 +136,7 @@ mainCRTStartup
 $(SolutionDir)Common\res\;
 ```
 
-### 4.3. Debug Win32 (EXE) configuration properties
+#### Debug Win32 (EXE) configuration properties
 - **Debugging -> Environment**:
 ```
 path=%path%;$(SolutionDir)Common\bin\Win32\;
@@ -159,7 +159,7 @@ $(SolutionDir)Common\lib\Win32\;
 $(SolutionDir)Common\res\;
 ```
 
-### 4.4. Release Win32 (EXE) configuration properties
+#### Release Win32 (EXE) configuration properties
 - **Debugging -> Environment**:
 ```
 path=%path%;$(SolutionDir)Common\bin\Win32\;
