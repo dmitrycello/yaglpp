@@ -183,14 +183,64 @@ $(SolutionDir)Common\res\;
 ```
 
 ### 5. Add the project config file
-This is another optional step. But since we are going to create a project template, let's make it all running. The configuration file allows to define the YAGL++ main switches
+This is another optional step. But since we are going to create a project template, let's make it all running. In the _Solution Explorer_, right-click the project's _Header Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+
+![10-config-file-1](10-config-file-1.png)
+
+Select **`Code -> Header File (.h)`**, type the file name **`config.h`**, check the path, and hit **`Add`**:
+
+![10-config-file-2](10-config-file-2.png)
+
+The configuration file contains the YAGL++ main switches inside the project. Define the **`YAGLPP_CONFIG`** symbol before including the main library file. Since the project has only one source file inluding the YAGL++, it make sense to define the **`YAGLPP_IMPLEMENTATION`** symbol as well. The main switches could be taken from [glpp.h](../include/glpp.h) file, they reside between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. Finally, include the main library file. You can copy the content of the configuration file here:
+```
+// config.h
+#define YAGLPP_IMPLEMENTATION // Comment this line if multiple YAGL++ inclusions
+
+/*Custom project config override*/
+#define YAGLPP_CONFIG
+
+/*Define <CocoaChdirResources> pre-initialize GLFW hint*/
+#define YAGLPP_COCOA_CHDIR_RESOURCES
+
+/*Define <CocoaMenubar> pre-initialize GLFW hint*/
+#define YAGLPP_COCOA_MENUBAR
+
+/*Define <JoystickHatButtons> pre-initialize GLFW hint*/
+#define YAGLPP_JOYSTICK_HAT_BUTTONS
+
+/*Include the class properties along with existing getters and setters*/
+#define YAGLPP_CLASS_PROPERTIES
+
+/*Include all GLM library headers, slightly affects the compilation time*/
+#define YAGLPP_GLM_HEADERS
+
+/*Do not include main entry point into YAGL++ library*/
+#define YAGLPP_NO_AFX_LAYOUT
+
+/*Compile with the most recent GLFW nonlegacy library*/
+#define YAGLPP_NO_GLFW_LEGACY
+
+/*Define the minimum supported OpenGL context major version value, do not comment*/
+#define YAGLPP_CONTEXT_VERSION_MAJOR 3
+
+/*Define the minimum supported OpenGL context minor version value, do not comment*/
+#define YAGLPP_CONTEXT_VERSION_MINOR 3
+
+/*Define Assimp library file name, comment to exclude Assimp*/
+#define YAGLPP_ASSIMP "assimp-vc142-mt.lib"
+
+/*Define GLFW library file name, comment to exclude GLFW*/
+#define YAGLPP_GLFW "glfw3.lib"
+
+/*Include YAGL++*/
+#include <yaglpp/glpp.h>
+```
 
 ### 6. Type the code
-In the editor window type the minimal YAGL++ application code:
+Open the project **`main.cpp`** file. In the editor window type the minimal YAGL++ application code:
 ```
 // main.cpp
-#include <yaglpp/yaglpp.h>
-
+#include "config.h"
 int main(int argc, char** argv)
 {
 	glfw::Window window(800, 600, "YAGL++ Application");
@@ -207,11 +257,9 @@ int main(int argc, char** argv)
 ```
 
 > [!WARNING]
-> The original API assets are still available in the source file, but the combination of thoses with the YAGL++ objects in most cases will affect the proper functionality of the library, since some its routine work is performed on the background.
+> The original API assets are still available in the source file, but the combination of thoses with the YAGL++ objects in most cases will affect the proper functionality of the library, since some its routine work is performed on the background. Now the IntelliSense shows the description of every library member:
 
-Now the IntelliSense shows the description of every library member:
-
-![44b.png](44b.png)
+![11-type-code-1](11-type-code-1a.png)
 
 Rebuild the project, the output should look like this:
 ```
@@ -223,13 +271,12 @@ Rebuild started...
 ```
 Now hit **`F5`** to run the application:
 
-![23a.png](23a.png)
+![11-type-code-2.png](11-type-code-2.png)
 
 To overload window events, use the new window class derived from **`glfw::Window`**:
 ```
 // main.cpp
-#include <yaglpp/yaglpp.h>
-
+#include "config.h"
 class GLWindow : public glfw::Window
 {
 	using Window::Window;                     // Base constructors
@@ -248,7 +295,6 @@ Finally, the example of the library usage in AFX-alike layout. The global applic
 ```
 // main.cpp
 #include <yaglpp/yaglpp.h>
-
 class : public glfw::Thread
 {
 	void onInit()   // Create window
@@ -264,7 +310,7 @@ class : public glfw::Thread
 } application;
 ```
 > [!NOTE]
-> AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become very promising direction for development in the future. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the [yaglpp.h](../include/yaglpp.h) library header file, and rebuild the library.
+> AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become very promising direction for development in the future. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the configuration file, and rebuild the library.
 
 ### 7. Create YAGL++ project template
 At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work within the same solution, or within a solution with similar path layout. Download the project icon file [icon.png](icon.png), or use any other with transparent background. Click **`Project menu -> Export Template...`**:
