@@ -73,7 +73,7 @@ In the opened project directory select the **`glad.c`** file, and hit **`Add`** 
 ### 4. Set the application project properties
 Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to _Debug x64_:
 
-![09-project-properties-1](09-project-properties-1.png)
+![09-project-properties-1](09-project-properties-1a.png)
 
 In the Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
 
