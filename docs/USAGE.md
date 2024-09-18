@@ -134,10 +134,8 @@ Select **`Code -> Header File (.h)`**, type the file name **`config.h`**, check 
 The configuration file contains the YAGL++ main switches valid only for its project. Define the **`YAGLPP_CONFIG`** symbol before including the main library file. Since the project has only one source file inluding the YAGL++, it make sense to define the **`YAGLPP_IMPLEMENTATION`** symbol as well. The main switches could be copied from [glpp.h](../include/glpp.h) file, between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. Finally, include the main library file. The entire content of the configuration file could be copied here:
 ```
 // config.h
-#define YAGLPP_IMPLEMENTATION // Comment the line if multiple YAGL++ inclusions
-
-/*Custom project config override*/
-#define YAGLPP_CONFIG
+#define YAGLPP_CONFIG // Custom project config override
+#define YAGLPP_IMPLEMENTATION // Comment this line if multiple YAGL++ inclusions
 
 /*Define <CocoaChdirResources> pre-initialize GLFW hint*/
 #define YAGLPP_COCOA_CHDIR_RESOURCES
