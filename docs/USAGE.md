@@ -91,12 +91,12 @@ In the appeared window, type the string value into the first field, check how it
 > In the next four sections, copy the property string value by clicking the rightmost button in the browser, then paste into the appropriate field of the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 #### Debug x64 (EXE) configuration properties
-- **Debugging -> Environment**: ``` path=%path%;$(SolutionDir)Common\bin\;```
-- **VC++ Directories -> Include Directories**: ```$(SolutionDir)Common\include\;```
-- **VC++ Directories -> Library Directories**: ```$(SolutionDir)Common\lib\;```
-- **Linker -> System -> SubSystem**: select _Console (/SUBSYSTEM:CONSOLE)_
-- **Linker -> Command Line -> Additional Options**: ```/NODEFAULTLIB:msvcrt.lib```
-- **Resources -> Additional Include Directories**:```$(SolutionDir)Common\res\;```
+- Debugging &rarr; Environment: ``` path=%path%;$(SolutionDir)Common\bin\;```
+- VC++ Directories &rarr; Include Directories: ```$(SolutionDir)Common\include\;```
+- VC++ Directories &rarr; Library Directories: ```$(SolutionDir)Common\lib\;```
+- Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_
+- Linker &rarr; Command Line &rarr; Additional Options: ```/NODEFAULTLIB:msvcrt.lib```
+- Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
 #### Release x64 (EXE) configuration properties
 - **Debugging -> Environment**:
