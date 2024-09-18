@@ -263,8 +263,11 @@ In the opened window, keep the template type as _Project template_, select the p
 ![12-project-template-2](12-project-template-2.png)
 
 In the next window, type the project name and description (or any other):
+
 ```YAGL++ Application```
+
 ```Windows and Console C++ Application using YAGL++ library```
+
 Hit **`Browse...`** to select the path to downloaded project icon for both _Icon image_ and _Preview image_ edit boxes. Then hit **`Finish`**:
 
 ![19.png](19.png)
