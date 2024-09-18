@@ -3,8 +3,8 @@
 - [1. Add the application project](USAGE.md#1-add-the-application-project)
 - [2. Add the resources to the application project](USAGE.md#2-add-the-resources-to-the-application-project)
 - [3. Add the source files to the application project](USAGE.md#3-add-the-source-files-to-the-application-project)
-- [4. Add the project config file](USAGE.md#5-add-the-project-config-file)
-- [5. Set the application project properties](USAGE.md#4-set-the-application-project-properties)
+- [4. Add the project config file](USAGE.md#4-add-the-project-config-file)
+- [5. Set the application project properties](USAGE.md#5-set-the-application-project-properties)
 	- [Debug x64 (EXE) configuration properties](USAGE.md#debug-x64-exe-configuration-properties)
 	- [Release x64 (EXE) configuration properties](USAGE.md#release-x64-exe-configuration-properties)
 	- [Debug Win32 (EXE) configuration properties](USAGE.md#debug-win32-exe-configuration-properties)
@@ -73,11 +73,11 @@ In the opened project directory select the **`glad.c`** file, and hit **`Add`** 
 ### 4. Add the project config file
 This is another optional step. But since we are going to create a project template, let's make it all running. In the _Solution Explorer_, right-click the project's _Header Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
-![10-config-file-1](10-config-file-1.png)
+![09-config-file-1](09-config-file-1.png)
 
 Select **`Code -> Header File (.h)`**, type the file name **`config.h`**, check the path, and hit **`Add`**:
 
-![10-config-file-2](10-config-file-2.png)
+![09-config-file-2](09-config-file-2.png)
 
 The configuration file contains the YAGL++ main switches valid only for its project. Define the **`YAGLPP_CONFIG`** symbol before including the main library file. Since the project has only one source file inluding the YAGL++, it make sense to define the **`YAGLPP_IMPLEMENTATION`** symbol as well. The main switches could be copied from [glpp.h](../include/glpp.h) file, between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. Finally, include the main library file. The entire content of the configuration file could be copied here:
 ```
@@ -125,19 +125,19 @@ The configuration file contains the YAGL++ main switches valid only for its proj
 ### 5. Set the application project properties
 Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to _Debug x64_:
 
-![09-project-properties-1](09-project-properties-1a.png)
+![10-project-properties-1](10-project-properties-1.png)
 
 In the Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
 
-![09-project-properties-2](09-project-properties-2.png)
+![10-project-properties-2](10-project-properties-2.png)
 
 The application project may be used in one of the 4 platform configurations. It is necessary to set the six (6) project properties under each configuration. Among the other properties, the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [(Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the Release versions of external libraries is being used. To set up a property, select it, press the rightmost drop-down control, and hit **`<Edit...>`**:
 
-![09-project-properties-3](09-project-properties-3.png)
+![10-project-properties-3](10-project-properties-3.png)
 
 In the appeared window, type the string value into the first field, check how it expands in the second field, make sure to keep the **`Inherit from parent or project defaults`** flag set, then hit **`OK`**. Note that some property editor windows may look differently:
 
-![09-project-properties-4](09-project-properties-4.png)
+![10-project-properties-4](10-project-properties-4.png)
 
 > [!IMPORTANT]
 > In the next four subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window, as explained in the above section. Make sure to hit the **`Apply`** button after setting up each platform configuration.
