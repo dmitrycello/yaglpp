@@ -110,7 +110,7 @@ In the appeared window, type the string value into the first field, check how it
 - Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\Win32\;```
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
-- Linker &rarr; System &rarr; SubSystem**: select _Console (/SUBSYSTEM:CONSOLE)_ option
+- Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
 - Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
