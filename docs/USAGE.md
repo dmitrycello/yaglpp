@@ -107,20 +107,20 @@ In the appeared window, type the string value into the first field, check how it
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
 #### Debug Win32 (EXE) configuration properties
-- Debugging -> Environment:```path=%path%;$(SolutionDir)Common\bin\Win32\;```
-- VC++ Directories -> Include Directories:```$(SolutionDir)Common\include\;```
-- VC++ Directories -> Library Directories:```$(SolutionDir)Common\lib\Win32\;```
-- Linker -> System -> SubSystem**: select _Console (/SUBSYSTEM:CONSOLE)_ option
-- Linker -> Command Line -> Additional Options:```/NODEFAULTLIB:msvcrt.lib```
-- Resources -> Additional Include Directories:```$(SolutionDir)Common\res\;```
+- Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\Win32\;```
+- VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
+- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
+- Linker &rarr; System &rarr; SubSystem**: select _Console (/SUBSYSTEM:CONSOLE)_ option
+- Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
+- Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
 #### Release Win32 (EXE) configuration properties
-- Debugging -> Environment:```path=%path%;$(SolutionDir)Common\bin\Win32\;```
-- VC++ Directories -> Include Directories:```$(SolutionDir)Common\include\;```
-- VC++ Directories -> Library Directories:```$(SolutionDir)Common\lib\Win32\;```
-- Linker -> System -> SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
-- Linker -> Advanced -> Entry Point:```mainCRTStartup```
-- Resources -> Additional Include Directories:```$(SolutionDir)Common\res\;```
+- Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\Win32\;```
+- VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
+- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
+- Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
+- Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
+- Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
 ### 5. Add the project config file
 This is another optional step. But since we are going to create a project template, let's make it all running. In the _Solution Explorer_, right-click the project's _Header Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
