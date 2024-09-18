@@ -219,8 +219,8 @@ To overload window events, use the new window class derived from **`glfw::Window
 #include "config.h"
 class GLWindow : public glfw::Window
 {
-	using Window::Window;                     // Base constructors
-	void onFramebuffer(int width, int height) // Framebuffer callback
+	using Window::Window;                         // Base constructors
+	void onFramebufferSize(int width, int height) // Framebuffer callback
 	{
 		gl::viewport(0, 0, width, height);
 	}
