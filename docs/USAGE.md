@@ -274,11 +274,11 @@ Hit **`Browse...`** to select the path to downloaded project icon for both _Icon
 
 Close the opened folder with the new template _.zip_ archive, and restart the IDE. Now, in the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add -> New Project...`**:
 
-![12-project-template-3](12-project-template-3.png)
+![12-project-template-4](12-project-template-4.png)
 
 Make sure to set filters to _All languages_, _All platforms_ and _All project types_. This will show all project templates. Alternatively, type **`yagl`** in the search bar:
 
-![12-project-template-4](12-project-template-4.png)
+![12-project-template-5](12-project-template-5.png)
 
 > [!NOTE]
 > Unfortunatelly, the Visual Studio does not allow to add the _tags_ to a custom template. Therefore it does not show up immediately in the _Add a new project_ dialog, ousted by the built-in templates. But after some time, it will appear under _Recent project templates_, where it could be then pinned.
