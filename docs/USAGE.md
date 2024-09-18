@@ -5,9 +5,9 @@
 - [3. Add the source files to the application project](USAGE.md#3-add-the-source-files-to-the-application-project)
 - [4. Set the application project properties](USAGE.md#4-set-the-application-project-properties)
 	- [Debug x64 (EXE) configuration properties](USAGE.md#debug-x64-exe-configuration-properties)
-	- [Release x64 (EXE) configuration properties](USAGE.md#42-release-x64-exe-configuration-properties)
-	- [Debug Win32 (EXE) configuration properties](USAGE.md#43-debug-win32-exe-configuration-properties)
-	- [Release Win32 (EXE) configuration properties](USAGE.md#44-release-win32-exe-configuration-properties)
+	- [Release x64 (EXE) configuration properties](USAGE.md#release-x64-exe-configuration-properties)
+	- [Debug Win32 (EXE) configuration properties](USAGE.md#debug-win32-exe-configuration-properties)
+	- [Release Win32 (EXE) configuration properties](USAGE.md#release-win32-exe-configuration-properties)
 - [5. Add the project config file](USAGE.md#5-add-the-project-config-file)
 - [6. Type the code](USAGE.md#6-type-the-code)
 - [7. Create YAGL++ project template](USAGE.md#7-create-yagl-project-template)
@@ -33,7 +33,7 @@ In the _Solution Explorer_, right-click the project's name and click **`Set as S
 ![06-new-project-4](06-new-project-4.png)
 
 ### 2. Add the resources to the application project
-The resources allow a quick access to files included into the output execitable as _binary resources_. It is an optional step, but it is strongly advised to set it up here, to be included in the project template later on. In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+The resources allow a quick access to files included into the output execitable as _binary resources_. It is an optional step, but it is strongly advised to set it up here, to be included in the _project template_ later on. In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
 
 ![07-resources-1](07-resources-1.png)
 
@@ -88,37 +88,37 @@ In the appeared window, type the string value into the first field, check how it
 ![09-project-properties-4](09-project-properties-4.png)
 
 > [!IMPORTANT]
-> In the next four sections, copy the property string value by clicking the rightmost button in the browser, then paste into the appropriate field of the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
+> In the next four subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window, as explained in the above section. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
-### Debug x64 (EXE) configuration properties
+#### Debug x64 (EXE) configuration properties
 - Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\;```
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
-- Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_
+- Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
 - Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
-### Release x64 (EXE) configuration properties
+#### Release x64 (EXE) configuration properties
 - Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\;```
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
-- Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_
+- Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
 - Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
-### Debug Win32 (EXE) configuration properties
+#### Debug Win32 (EXE) configuration properties
 - Debugging -> Environment:```path=%path%;$(SolutionDir)Common\bin\Win32\;```
 - VC++ Directories -> Include Directories:```$(SolutionDir)Common\include\;```
 - VC++ Directories -> Library Directories:```$(SolutionDir)Common\lib\Win32\;```
-- Linker -> System -> SubSystem**: select _Console (/SUBSYSTEM:CONSOLE)_
+- Linker -> System -> SubSystem**: select _Console (/SUBSYSTEM:CONSOLE)_ option
 - Linker -> Command Line -> Additional Options:```/NODEFAULTLIB:msvcrt.lib```
 - Resources -> Additional Include Directories:```$(SolutionDir)Common\res\;```
 
-### Release Win32 (EXE) configuration properties
+#### Release Win32 (EXE) configuration properties
 - Debugging -> Environment:```path=%path%;$(SolutionDir)Common\bin\Win32\;```
 - VC++ Directories -> Include Directories:```$(SolutionDir)Common\include\;```
 - VC++ Directories -> Library Directories:```$(SolutionDir)Common\lib\Win32\;```
-- Linker -> System -> SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_
+- Linker -> System -> SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
 - Linker -> Advanced -> Entry Point:```mainCRTStartup```
 - Resources -> Additional Include Directories:```$(SolutionDir)Common\res\;```
 
@@ -131,10 +131,10 @@ Select **`Code -> Header File (.h)`**, type the file name **`config.h`**, check 
 
 ![10-config-file-2](10-config-file-2.png)
 
-The configuration file contains the YAGL++ main switches inside the project. Define the **`YAGLPP_CONFIG`** symbol before including the main library file. Since the project has only one source file inluding the YAGL++, it make sense to define the **`YAGLPP_IMPLEMENTATION`** symbol as well. The main switches could be taken from [glpp.h](../include/glpp.h) file, they reside between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. Finally, include the main library file. You can copy the content of the configuration file here:
+The configuration file contains the YAGL++ main switches valid only for its project. Define the **`YAGLPP_CONFIG`** symbol before including the main library file. Since the project has only one source file inluding the YAGL++, it make sense to define the **`YAGLPP_IMPLEMENTATION`** symbol as well. The main switches could be copied from [glpp.h](../include/glpp.h) file, between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. Finally, include the main library file. The entire content of the configuration file could be copied here:
 ```
 // config.h
-#define YAGLPP_IMPLEMENTATION // Comment this line if multiple YAGL++ inclusions
+#define YAGLPP_IMPLEMENTATION // Comment the line if multiple YAGL++ inclusions
 
 /*Custom project config override*/
 #define YAGLPP_CONFIG
@@ -197,7 +197,7 @@ int main(int argc, char** argv)
 ```
 
 > [!WARNING]
-> The original API assets are still available in the source file, but the combination of thoses with the YAGL++ objects in most cases will affect the proper functionality of the library, since some its routine work is performed on the background. Now the IntelliSense shows the description of every library member:
+> The original API assets are still available in the source file, but the combination of thoses with the YAGL++ objects in some cases may affect the proper functionality of the library, since some of its routine work is performed on the background. Now the IntelliSense shows the description of every library member:
 
 ![11-type-code-1](11-type-code-1a.png)
 
