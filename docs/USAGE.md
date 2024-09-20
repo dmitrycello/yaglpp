@@ -233,7 +233,7 @@ int main(int argc, char** argv)
 Finally, the example of the library usage in AFX-alike layout. The global application variable is defined as an anonymous class derived from **`glfw::Thread`**:
 ```
 // main.cpp
-#include <yaglpp/yaglpp.h>
+#include "config.h"
 class : public glfw::Thread
 {
 	void onInit()   // Create window
