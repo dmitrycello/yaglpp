@@ -212,7 +212,7 @@ Rebuild started...
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
 
-> [!TIP]
+> [!NOTE]
 > The **`glad.c`** source file was spotted to be seen by IDE as being altered. _This makes the project to be rebuit everytime_. Replacing this file with a newer version could fix the issue. Generate a newer GLAD archive, or take the file from **`Common.7z`** archive.
 
 Now hit **`F5`** to run the application:
