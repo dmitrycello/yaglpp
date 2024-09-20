@@ -83,7 +83,7 @@ The configuration file contains the YAGL++ main switches used only for the local
 ```
 // config.h
 #define YAGLPP_CONFIG // Custom project config override
-#define YAGLPP_IMPLEMENTATION // Comment this line if multiple YAGL++ inclusions
+#define YAGLPP_IMPLEMENTATION // Comment if multiple YAGL++ inclusions
 
 /*Define <CocoaChdirResources> pre-initialize GLFW hint*/
 #define YAGLPP_COCOA_CHDIR_RESOURCES
