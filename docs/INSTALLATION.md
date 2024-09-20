@@ -31,7 +31,7 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 > [!TIP]
 > For the quick testing, all the following steps of the installation may be skipped, while using the repository **`Common.7z`** archive. In this case, download it on the [repository page](https://github.com/dmitrycello/glpp/tree/main), and extract into **`Common`** folder within the newly created solution directory. However, it is still recommended to follow all steps, at least for the first time, not just to feel the process, but also to understand how it works. This is also the way the most programmers do, to ensure that each component is up to date and fit to computer's environment.
 
-- [GLAD](https://glad.dav1d.de) archive generated with _Specification_ set to **`OpenGL`**, _Profile_ set to **`Core`**, _API gl_ set to **`Version 3.3`**. Keep _API gles1, gles2, glsc2_ as **`None`**. Do not select any extension;
+- [GLAD](https://glad.dav1d.de) archive generated with _Specification_ set to **`OpenGL`**, _Profile_ set to **`Core`**, _API gl_ set to **`Version 4.6`**. Keep _API gles1, gles2, glsc2_ as **`None`**. Do not select any extension;
 - [GLFW](https://www.glfw.org/download) Source package archive v3.4 or later. Older versions could be found [here](https://github.com/glfw/glfw/releases);
 - [GLM](https://github.com/g-truc/glm/releases) pack v1.0.1 or later;
 - [Assimp](https://github.com/assimp/assimp/releases) release v5.4.3 or later;
@@ -42,17 +42,17 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 - [Latest release](https://github.com/dmitrycello/yaglpp/releases) of YAGL++ library.
 
 ### 3. Prepare the components's folder
-Create the new folder under the name **`Common`** within the newly created solution directory. In that folder create 4 other subfolders: **`bin`**, **`include`**, **`lib`**, and **`res`**. Create two subfolders **`Win32`** within **`Common/bin`** and **`Common/lib`** directories. The last **`Common/res`** contains the common project resources of different kind. To follow the [Learn OpenGL tutorial](https://learnopengl.com/), download the resources, and move to this subfolder from [here](https://github.com/JoeyDeVries/LearnOpenGL/tree/master/resources). At the moment it could be left empty. The folder tree should be as following:
+Create the new folder under the name **`Common`** within the newly created solution directory. In that folder create four (4) subfolders: **`bin`**, **`include`**, **`lib`**, and **`res`**. Create two subfolders **`Win32`** within **`Common/bin`** and **`Common/lib`** directories. The last **`Common/res`** directory contains the common project resources of different kind. To follow the [Learn OpenGL tutorial](https://learnopengl.com/), download the resources from [here](https://github.com/JoeyDeVries/LearnOpenGL/tree/master/resources), and move to this subfolder. At the moment it could be left empty. The folder tree should be as following:
 
 ![02-common-dirs-1](02-common-dirs-1.png)
 
-Extract all downloaded components, and move them into the following subdirectories:
+Extract all downloaded components, and copy into the following subdirectories:
 ```
 Common/include/glad/ <- Header (glad.h) and source (glad.c) files from GLAD archive
-Common/include/GLFW/ <- Copy of two (2) header files from GLFW Source package
+Common/include/GLFW/ <- Two (2) header files from GLFW Source package
 Common/include/glm/ <- The entire subfolder from the GLM archive
 Common/include/KHR/ <- KHR header file (khrplatform.h) from GLAD archive
-Common/include/stb/ <- stb_image three (3) header files
+Common/include/stb/ <- three (3) header files from stb_image library
 Common/include/yaglpp/ <- YAGL++ header files from latest release
 ```
 
