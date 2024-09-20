@@ -16,7 +16,7 @@
 The described earlier library installation setup requires the OpenGL application project to be added to the previously created solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
 
 ### 1. Add the application project
-Reopen the previously created solution, in the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add &rarr; New project...`**:
+Reopen the previously created solution, in the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add`** &rarr; **`New project...`**:
 
 ![06-new-project-1](06-new-project-1.png)
 
