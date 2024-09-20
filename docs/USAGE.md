@@ -79,7 +79,7 @@ Select **`Code`** &rarr; **`Header File (.h)`**, type the file name **`config.h`
 
 ![09-config-file-2](09-config-file-2.png)
 
-The configuration file contains the YAGL++ main switches used only for its project. Define the **`YAGLPP_CONFIG`** symbol before including the main library file. Since the project has only one source file inluding the YAGL++, it make sense to define the **`YAGLPP_IMPLEMENTATION`** symbol here as well. Default main switches could be copied from [glpp.h](../include/glpp.h) file, between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. Finally, include the main library file. The entire content of the configuration file could be copied here:
+The configuration file contains the YAGL++ main switches used only for the local project. Define the **`YAGLPP_CONFIG`** symbol before including the main library file, this will override the default main swithces. Since the project has only one source file inluding the YAGL++, it make sense to define the **`YAGLPP_IMPLEMENTATION`** symbol here as well. Default main switches could be copied from [glpp.h](../include/glpp.h) file, between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. Finally, include the main library file. The entire content of the configuration file should look as follows:
 ```
 // config.h
 #define YAGLPP_CONFIG // Custom project config override
