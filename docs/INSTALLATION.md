@@ -84,7 +84,7 @@ After installation is complete, hit **`Finish`** to exit the wizard:
 ![03-cmake-6](03-cmake-6.png)
 
 ### 5. Generate GLFW project files
-The GLFW source package has to be extracted anywhere on the hard drive. In order to save disk space, the offered installation is using only Release version of its dependencies, this requires to set the _/NODEFAULTLIB_ linker option in Debug mode, to remove the LNK4098 warning. The YAGL++ respects four (4) platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be built only for two of them. Before building from the GLFW Source package, in is necessary to generate its project files with CMake, so let's lunch it first.
+The GLFW source package has to be extracted anywhere on the hard drive. In order to save disk space, the offered installation is using only _Release_ version of its dependencies, this requires to set the _/NODEFAULTLIB_ linker option in Debug mode, to remove the LNK4098 warning. The YAGL++ respects four (4) platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be built only for two of them. Before building from the GLFW Source package, in is necessary to generate its project files with CMake, so let's lunch it first.
 
 Hit **`Browse Source...`** and navigate to the directory with the extracted source package, select the **`glfw-3.4`** package folder. Create an empty **`build`** folder anywhere on the hard drive. Hit **`Browse Build...`**, navigate to and select the created **`build`** folder to set the destination for library files. Then hit **`Configure`**:
 
