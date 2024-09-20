@@ -205,6 +205,7 @@ Rebuild the project, the output should look like this:
 ```
 Rebuild started...
 1>------ Rebuild All started: Project: Project1, Configuration: Debug x64 ------
+1>glad.c
 1>main.cpp
 1>YAGL++: Compiling with OpenGL 3.3 context version support...
 1>Project1.vcxproj -> D:\Path_to_solution\OpenGL\x64\Debug\Project1.exe
