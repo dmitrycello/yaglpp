@@ -258,7 +258,7 @@ class : public glfw::Thread
 AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become very promising direction for development in the future.
 
 ### 7. Create YAGL++ project template
-At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work with the similar solution path layout. Download the project icon file [icon.png](icon.png), or use any other with transparent background. Click **`Project menu -> Export Template...`**:
+At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work with the similar solution path layout. Download the [project icon file](icon.png), or use any other with transparent background. Click **`Project menu -> Export Template...`**:
 
 ![12-project-template-1](12-project-template-1.png)
 
