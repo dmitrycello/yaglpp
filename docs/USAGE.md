@@ -232,7 +232,7 @@ int main(int argc, char** argv)
 	GLWindow window(800, 600, "Overloaded Event Application");
 	//...
 ```
-Finally, the example of the library usage in AFX-alike layout. The global application variable is defined as an anonymous class derived from **`glfw::Thread`**:
+Finally, here is the example of the library usage in AFX-alike layout. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the configuration file prior to build the project. The global application variable is defined as an anonymous class derived from **`glfw::Thread`**:
 ```
 // main.cpp
 #include "config.h"
@@ -250,8 +250,10 @@ class : public glfw::Thread
 	}
 } application;
 ```
-> [!NOTE]
-> AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become very promising direction for development in the future. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the configuration file, and rebuild the project.
+AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become very promising direction for development in the future.
+
+> [!TIP]
+> The **`glad.c`** source file was spotted to be seen by IDE as being altered. _This makes the project to be rebuit everytime_. Replacing this file with a newer version could fix the issue. Generate a newer GLAD archive, or take the file from **`Common.7z`** archive.
 
 ### 7. Create YAGL++ project template
 At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work with the similar solution path layout. Download the project icon file [icon.png](icon.png), or use any other with transparent background. Click **`Project menu -> Export Template...`**:
