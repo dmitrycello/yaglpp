@@ -71,7 +71,7 @@ Next, it is necessary to add the GLAD source file to the project. Open the **`Co
 In the opened project directory select the **`glad.c`** file, and hit **`Add`** button.
 
 ### 4. Add the project configuration file
-This is another optional step. But since we are going to create a project template, let's make it all running. In the _Solution Explorer_, right-click the project's _Header Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
+This is another optional step. But since we are going to create a [Project Template](USAGE.md#7-create-yagl-project-template), let's make it all running. In the _Solution Explorer_, right-click the project's _Header Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
 
 ![09-config-file-1](09-config-file-1.png)
 
