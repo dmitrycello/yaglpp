@@ -123,7 +123,7 @@ The configuration file contains the YAGL++ main switches used only for the local
 ```
 
 ### 5. Set the application project properties
-Right-click application project name bar and press **`Proprties (Alt+Enter)`**. In the Properties window set Configuration and Platform to _Debug x64_:
+Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![10-project-properties-1](10-project-properties-1.png)
 
