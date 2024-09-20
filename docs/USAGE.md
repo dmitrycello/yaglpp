@@ -210,6 +210,10 @@ Rebuild started...
 1>Project1.vcxproj -> D:\Path_to_solution\OpenGL\x64\Debug\Project1.exe
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
+
+> [!TIP]
+> The **`glad.c`** source file was spotted to be seen by IDE as being altered. _This makes the project to be rebuit everytime_. Replacing this file with a newer version could fix the issue. Generate a newer GLAD archive, or take the file from **`Common.7z`** archive.
+
 Now hit **`F5`** to run the application:
 
 ![11-type-code-2.png](11-type-code-2.png)
@@ -251,9 +255,6 @@ class : public glfw::Thread
 } application;
 ```
 AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become very promising direction for development in the future.
-
-> [!TIP]
-> The **`glad.c`** source file was spotted to be seen by IDE as being altered. _This makes the project to be rebuit everytime_. Replacing this file with a newer version could fix the issue. Generate a newer GLAD archive, or take the file from **`Common.7z`** archive.
 
 ### 7. Create YAGL++ project template
 At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work with the similar solution path layout. Download the project icon file [icon.png](icon.png), or use any other with transparent background. Click **`Project menu -> Export Template...`**:
