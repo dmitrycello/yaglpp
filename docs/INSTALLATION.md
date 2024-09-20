@@ -47,12 +47,12 @@ Create the new folder under the name **`Common`** within the newly created solut
 
 Extract all downloaded components, and copy into the following subdirectories:
 ```
-Common/include/glad/ <- Header (glad.h) and source (glad.c) files from GLAD archive
-Common/include/GLFW/ <- Two (2) header files from GLFW Source package
-Common/include/glm/ <- The entire subfolder from the GLM archive
-Common/include/KHR/ <- KHR header file (khrplatform.h) from GLAD archive
-Common/include/stb/ <- Three (3) header files from stb_image library
-Common/include/yaglpp/ <- YAGL++ header files from latest release
+Common/include/glad/   &larr; Header (glad.h) and source (glad.c) files from GLAD archive
+Common/include/GLFW/   &larr; Two (2) header files from GLFW Source package
+Common/include/glm/    &larr; The entire subfolder from the GLM archive
+Common/include/KHR/    &larr; KHR header file (khrplatform.h) from GLAD archive
+Common/include/stb/    &larr; Three (3) header files from stb_image library
+Common/include/yaglpp/ &larr; YAGL++ header files from latest release
 ```
 
 > [!NOTE]
