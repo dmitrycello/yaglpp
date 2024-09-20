@@ -20,9 +20,6 @@ The library is designed to be integrated into an OpenGL application in the very 
 ```
 The library works with [GLAD](https://glad.dav1d.de/) versions 2.0 to 3.3, and [GLFW](https://www.glfw.org/) version 3.4+. It is also integated with the [STB](https://github.com/nothings/stb) image library as one of its direct dependencies. The two indirect dependencies, the [Assimp](https://github.com/assimp/assimp) and [GLM](https://github.com/g-truc/glm) libraries, are silently included in the main header file [glpp.h](include/glpp.h), since they are both written in C++. The used version of the GLAD header file affects the final build, making available only the supported API assets. It is possible to select the required OpenGL context version by altering the **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** main switches in the [glpp.h](include/glpp.h) header file.
 
-> [!TIP]
-> In order to change the above-mentioned switches, it is necessary to add other versions of the GLAD header file to the **`Common/include/glad`** subfolder, as described in [this section](docs/INSTALLATION.md#4-earlier-glad-versionss).
-
 The library uses two ways of data input: the _file_ and the _binary resource_, which has to be of **`RCDATA`** type. Every call to the API function in the library is provided with the appropriate error checking, which has an effect only in Debug mode. On the contrary, under the Release build, the library attempts to impliment the inline calls, depending on the compiler setting. Here is the average YAGL++ member function implementation under the Debug mode:
 ```
 void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value)
