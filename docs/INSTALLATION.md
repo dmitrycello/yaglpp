@@ -34,7 +34,7 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 - [GLFW](https://www.glfw.org/download) Source package archive v3.4 or later. Older versions could be found [here](https://github.com/glfw/glfw/releases);
 - [GLM](https://github.com/g-truc/glm/releases) pack v1.0.1 or later;
 - [Assimp](https://github.com/assimp/assimp/releases) release v5.4.3 or later;
-- [stb_image](https://github.com/nothings/stb/tree/master) library. It is important to use the file versions tested with the current release. Every newer version of a file may require additional testings. If there is no such version, try using newer version (it usually works), or get the one preserved in **`Common.7z`** archive of this repository. Currently required files are:
+- [stb_image](https://github.com/nothings/stb/tree/master) library. It is important to use the file versions tested with the current release. Every newer version of a file may require additional testings. If there is no such version, try using newer version (it usually works), or get the one preserved in **`Common.7z`** archive of this repository. The required files are:
 	+ **stb_image.h** v2.29,
 	+ **stb_image_resize2.h** v2.06,
 	+ **stb_image_write.h** v1.16;
@@ -56,7 +56,7 @@ Common/include/yaglpp/ <- YAGL++ header files from latest release
 ```
 
 > [!IMPORTANT]
-> The library supports OpenGL versions 2.0 to 3.3. It is still possible to set the context version up to 4.6 using the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** main switches, but at the moment the library code includes only the assets from OpenGL 3.3 (Core Profile) standard. If the graphic card does not support the default version (3.3), it is possible to try an earlier one. Note that prior to version _3.2_, the _OpenGL Core Profile_ is unavailable, the _Any Profile_ or _Compat Profile_ should be used instead.
+> The library works with OpenGL versions 2.0 to 3.3. It is still possible to set the context version up to 4.6 using the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** main switches, but at the moment the library code includes only the assets from OpenGL 3.3 (Core Profile) standard. If the graphic card does not support the default version (3.3), it is possible to try an earlier one. Note that prior to version _3.2_, the _OpenGL Core Profile_ is unavailable, the _Any Profile_ or _Compat Profile_ should be used instead.
 
 ### 4. Install CMake
 If it was not done before, the CMake application must be installed, in order to build CMake projects. Download the [CMake](https://cmake.org/download/) latest application installer, lunch the wizard, and hit **`Next`**:
@@ -84,7 +84,7 @@ After installation is complete, hit **`Finish`** to exit the wizard:
 ![03-cmake-6](03-cmake-6.png)
 
 ### 5. Generate GLFW project files
-First, the source package of the GLFW library has to be extracted anywhere on the hard drive. In order to save disk space, it is possible to use only Release versions of the dependencies, it will require to set the _/NODEFAULTLIB_ linker option in Deboug mode, to remove the LNK4098 warning. The YAGL++ respect 4 platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be built only for two of them. Before building from the GLFW Source package, in is necessary to generate its project files with CMake, so let's lunch it first. Hit **`Browse Source...`** and navigate to the directory with the extracted source package, select the **`glfw-3.4`** package folder. Create an empty **`build`** folder anywhere on the hard drive. Next, hit **`Browse Build...`**, navigate to and select the created **`build`** folder to set the destination for library files. Then hit **`Configure`**:
+First, the source package of the GLFW library has to be extracted anywhere on the hard drive. In order to save disk space, the offered installation is using only Release versions of its dependencies, this requires to set the _/NODEFAULTLIB_ linker option in Debug mode to remove the LNK4098 warning. The YAGL++ respects four (4) platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be built only for two of them. Before building from the GLFW Source package, in is necessary to generate its project files with CMake, so let's lunch it first. Hit **`Browse Source...`** and navigate to the directory with the extracted source package, select the **`glfw-3.4`** package folder. Create an empty **`build`** folder anywhere on the hard drive. Next, hit **`Browse Build...`**, navigate to and select the created **`build`** folder to set the destination for library files. Then hit **`Configure`**:
 
 ![04-glfw-1](04-glfw-1.png)
 
