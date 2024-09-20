@@ -1,9 +1,9 @@
 ## USAGE
 [&nwarr; README](../README.md)<br>
 - [1. Add the application project](USAGE.md#1-add-the-application-project)
-- [2. Add the resources to the application project](USAGE.md#2-add-the-resources-to-the-application-project)
-- [3. Add the source files to the application project](USAGE.md#3-add-the-source-files-to-the-application-project)
-- [4. Add the project config file](USAGE.md#4-add-the-project-config-file)
+- [2. Add resources to the application project](USAGE.md#2-add-resources-to-the-application-project)
+- [3. Add source files to the application project](USAGE.md#3-add-source-files-to-the-application-project)
+- [4. Add the project configuration file](USAGE.md#4-add-the-project-configuration-file)
 - [5. Set the application project properties](USAGE.md#5-set-the-application-project-properties)
 	- [Debug x64 (EXE) configuration properties](USAGE.md#debug-x64-exe-configuration-properties)
 	- [Release x64 (EXE) configuration properties](USAGE.md#release-x64-exe-configuration-properties)
@@ -32,12 +32,12 @@ In the _Solution Explorer_, right-click the project's name and click **`Set as S
 
 ![06-new-project-4](06-new-project-4.png)
 
-### 2. Add the resources to the application project
-The resources allow a quick access to files included into the output execitable as _binary resources_. It is an optional step, but it is strongly advised to set it up here, to be included in the _project template_ later on. In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+### 2. Add resources to the application project
+The resources allow a quick access to files included into the output execitable as [Binary Resources](https://learn.microsoft.com/en-us/windows/win32/menurc/resources). It is an optional step, but it is strongly advised to set it up here, to be included in the _project template_ later on. In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
 
 ![07-resources-1](07-resources-1.png)
 
-Select **`Resource -> Resource File (.rc)`**, keep **`Resource.rc`** file name, check the path, and hit **`Add`**:
+Select **`Resource`** &rarr; **`Resource File (.rc)`**, keep **`Resource.rc`** file name, check the path, and hit **`Add`**:
 
 ![07-resources-2](07-resources-2.png)
 
@@ -54,32 +54,32 @@ and in _Resource.rc_ file:
 > [!NOTE]
 > If the **`Resource.rc`** file isn't added to the project, the _Resource_ option would not be accessible in the _Project Property Pages_ window later on.
 
-### 3. Add the source files to the application project
-First, let's add a new source file to the application project. In the _Solution Explorer_, right-click the project's _Source Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+### 3. Add source files to the application project
+First, let's add a new source file to the application project. In the _Solution Explorer_, right-click the project's _Source Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
 
 ![08-source-file-1](08-source-file-1.png)
 
-Select **`Code -> C++ File (.cpp)`**, type  **`main.cpp`** _(as main function)_, check the path, and hit **`Add`**:
+Select **`Code`** &rarr; **`C++ File (.cpp)`**, type  **`main.cpp`** _(as main function)_, check the path, and hit **`Add`**:
 
 ![08-source-file-2](08-source-file-2.png)
 
 Next, it is necessary to add the GLAD source file to the project. Open the **`Common/include/glad`** directory, copy the 
-**`glad.c`** file into the project directory. Now, once again in the _Solution Explorer_, right-click the project's _Source Files_ filter icon. Click **`Add -> Existing Item... (Shift+Alt+A)`**:
+**`glad.c`** file into the project directory. Now, once again in the _Solution Explorer_, right-click the project's _Source Files_ filter icon. Click **`Add`** &rarr; **`Existing Item... (Shift+Alt+A)`**:
 
 ![08-source-file-3](08-source-file-3.png)
 
 In the opened project directory select the **`glad.c`** file, and hit **`Add`** button.
 
-### 4. Add the project config file
-This is another optional step. But since we are going to create a project template, let's make it all running. In the _Solution Explorer_, right-click the project's _Header Files_ filter icon. Click **`Add -> New Item... (Ctrl+Shift+A)`**:
+### 4. Add the project configuration file
+This is another optional step. But since we are going to create a project template, let's make it all running. In the _Solution Explorer_, right-click the project's _Header Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
 
 ![09-config-file-1](09-config-file-1.png)
 
-Select **`Code -> Header File (.h)`**, type the file name **`config.h`**, check the path, and hit **`Add`**:
+Select **`Code`** &rarr; **`Header File (.h)`**, type the file name **`config.h`**, check the path, and hit **`Add`**:
 
 ![09-config-file-2](09-config-file-2.png)
 
-The configuration file contains the YAGL++ main switches valid only for its project. Define the **`YAGLPP_CONFIG`** symbol before including the main library file. Since the project has only one source file inluding the YAGL++, it make sense to define the **`YAGLPP_IMPLEMENTATION`** symbol as well. The main switches could be copied from [glpp.h](../include/glpp.h) file, between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. Finally, include the main library file. The entire content of the configuration file could be copied here:
+The configuration file contains the YAGL++ main switches used only for its project. Define the **`YAGLPP_CONFIG`** symbol before including the main library file. Since the project has only one source file inluding the YAGL++, it make sense to define the **`YAGLPP_IMPLEMENTATION`** symbol here as well. Default main switches could be copied from [glpp.h](../include/glpp.h) file, between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. Finally, include the main library file. The entire content of the configuration file could be copied here:
 ```
 // config.h
 #define YAGLPP_CONFIG // Custom project config override
