@@ -274,7 +274,7 @@ In the next window, copy the project name and description (or type any other):
 
 Hit **`Browse...`** to select the path to downloaded project icon for both _Icon image_ and _Preview image_ edit boxes. Then hit **`Finish`**:
 
-![12-project-template-3](12-project-template-3a.png)
+![12-project-template-3](12-project-template-3b.png)
 
 Close the opened folder with the new template _.zip_ archive, and restart the IDE. Now, in the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add -> New Project...`**:
 
