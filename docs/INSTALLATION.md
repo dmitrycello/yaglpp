@@ -84,7 +84,9 @@ After installation is complete, hit **`Finish`** to exit the wizard:
 ![03-cmake-6](03-cmake-6.png)
 
 ### 5. Generate GLFW project files
-First, the source package of the GLFW library has to be extracted anywhere on the hard drive. In order to save disk space, the offered installation is using only Release versions of its dependencies, this requires to set the _/NODEFAULTLIB_ linker option in Debug mode to remove the LNK4098 warning. The YAGL++ respects four (4) platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be built only for two of them. Before building from the GLFW Source package, in is necessary to generate its project files with CMake, so let's lunch it first. Hit **`Browse Source...`** and navigate to the directory with the extracted source package, select the **`glfw-3.4`** package folder. Create an empty **`build`** folder anywhere on the hard drive. Next, hit **`Browse Build...`**, navigate to and select the created **`build`** folder to set the destination for library files. Then hit **`Configure`**:
+The GLFW source package has to be extracted anywhere on the hard drive. In order to save disk space, the offered installation is using only Release version of its dependencies, this requires to set the _/NODEFAULTLIB_ linker option in Debug mode to remove the LNK4098 warning. The YAGL++ respects four (4) platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be built only for two of them. Before building from the GLFW Source package, in is necessary to generate its project files with CMake, so let's lunch it first.
+
+Hit **`Browse Source...`** and navigate to the directory with the extracted source package, select the **`glfw-3.4`** package folder. Create an empty **`build`** folder anywhere on the hard drive. Hit **`Browse Build...`**, navigate to and select the created **`build`** folder to set the destination for library files. Then hit **`Configure`**:
 
 ![04-glfw-1](04-glfw-1.png)
 
@@ -92,7 +94,7 @@ Choose the appropriate IDE, and select the **`x64`** platform. Then hit **`Finis
 
 ![04-glfw-2](04-glfw-2.png)
 
-Ignore the red background, click again **`Configure`** to let errors dissipate, then hit **`Generate`**:
+Ignore the red background, and click again **`Configure`** to let errors dissipate. Then hit **`Generate`**:
 
 ![04-glfw-3](04-glfw-3.png)
 
@@ -100,11 +102,11 @@ Make sure that the generating is done, do not close the window yet:
 
 ![04-glfw-4](04-glfw-4.png)
 
-Now repeat these steps for Win32 platform. Create another empty **`build32`** folder anywhere on the hard drive, hit again **`Browse Build...`**, navigate to and select the created **`build32`** folder, hit **`Configure`**, keep the same IDE, but select the **`Win32`** platform instead, then click **`Finish`**:
+Now repeat these steps for Win32 platform. Create another empty **`build32`** folder anywhere on the hard drive, once again hit **`Browse Build...`**, navigate to and select the created **`build32`** folder, hit **`Configure`**, keep the same IDE, but select the **`Win32`** platform instead. Then click **`Finish`**:
 
 ![04-glfw-5](04-glfw-5.png)
 
-As before, don't mind the red background, hit again **`Configure`** and **`Generate`**. Make sure that the generating is done, and at this point close the window:
+As before, don't mind the red background, once again hit **`Configure`** and **`Generate`**. Make sure that the generating is done, and at this point close the window:
 
 ### 6. Build the GLFW library
 The GLFW project files for _x64_ and _Win32_ platforms are now in **`build`** and **`build32`** folders. To start the build, navigate first to **`build`** folder, and double-click the **`GLFW.sln`** solution file:
