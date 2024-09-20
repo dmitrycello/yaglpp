@@ -195,7 +195,9 @@ int main(int argc, char** argv)
 ```
 
 > [!WARNING]
-> The original API assets are still available in the source file, but the combination of thoses with the YAGL++ objects in some cases may affect the proper functionality of the library, since some of its routine work is performed on the background. Now the IntelliSense shows the description of every library member:
+> The original API assets are still available in the source file, but the combination of thoses with the YAGL++ objects in some cases may affect the proper functionality of the library, since some of its routine work is performed on the background.
+
+Now the IntelliSense shows the description of every library member:
 
 ![11-type-code-1](11-type-code-1a.png)
 
