@@ -1,0 +1,2 @@
+// Resource.rc
+GLFW_ICON ICON "icons/gpu.ico"
