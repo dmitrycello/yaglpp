@@ -195,14 +195,9 @@ namespace gl {
 class _Object
 {
 private:
-	GLint _miId;
+	GLint _miId = 0;
 
 protected:
-	_Object()
-	{
-		_miId = 0;
-	}
-
 	void _object_delete(YAGLPP_GLAD_PFNDELETE pfnDelete);
 	void _object_gen(YAGLPP_GLAD_PFNGEN pfnGen, GLenum param = 1); // param used by Shader class
 	GLuint _object_id();
