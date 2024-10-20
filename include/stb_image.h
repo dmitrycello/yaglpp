@@ -494,10 +494,10 @@ public:
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_ASSERT(e) YAGLPP_ASSERT(e)
-#define YAGLPP_STBIMAGE_HEADER (sizeof(int)*5)
-#define STBI_MALLOC(s) _allocate(s,(void*)YAGLPP_STBIMAGE_HEADER)
-#define STBI_REALLOC(p,s) _reallocate(p,s,(void*)YAGLPP_STBIMAGE_HEADER)
-#define STBI_FREE(p) _deallocate(p,(void*)YAGLPP_STBIMAGE_HEADER)
+#define YAGLPP_STBI_HEADER (sizeof(int)*5)
+#define STBI_MALLOC(s) _allocate(s,(void*)YAGLPP_STBI_HEADER)
+#define STBI_REALLOC(p,s) _reallocate(p,s,(void*)YAGLPP_STBI_HEADER)
+#define STBI_FREE(p) _deallocate(p,(void*)YAGLPP_STBI_HEADER)
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 #define STBIR_ASSERT(e) YAGLPP_ASSERT(e)
 #define STBIR_FREE(p,c) ((void)(c), _deallocate(p,nullptr))
@@ -510,9 +510,9 @@ public:
 #define STBIW_REALLOC(p,s) _reallocate(p,s,nullptr)
 #endif // #ifdef YAGLPP_IMPLEMENTATION
 
-#include <stb/stb_image.h> // v2.29
-#include <stb/stb_image_resize2.h> // v2.06
+#include <stb/stb_image.h> // v2.30
 #include <stb/stb_image_write.h> // v1.16
+#include <stb/stb_image_resize2.h> // v2.12
 static int YAGLPP_STBIMAGE_JPEG = 80;
 inline void StbImage::convertIphonePngToRgb(bool convert)
 {
