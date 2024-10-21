@@ -4,17 +4,17 @@
 - [2. Add resources to the application project](USAGE.md#2-add-resources-to-the-application-project)
 - [3. Add source files to the application project](USAGE.md#3-add-source-files-to-the-application-project)
 - [4. Add the project configuration file](USAGE.md#4-add-the-project-configuration-file)
-- [5. Setup precompiled headers](USAGE.md#5-setup-precompiled-headers)
-- [6. Set the application project properties](USAGE.md#6-set-the-application-project-properties)
+- [5. Set the application project properties](USAGE.md#5-set-the-application-project-properties)
 	- [Debug x64 (EXE) configuration properties](USAGE.md#debug-x64-exe-configuration-properties)
 	- [Release x64 (EXE) configuration properties](USAGE.md#release-x64-exe-configuration-properties)
 	- [Debug Win32 (EXE) configuration properties](USAGE.md#debug-win32-exe-configuration-properties)
 	- [Release Win32 (EXE) configuration properties](USAGE.md#release-win32-exe-configuration-properties)
+- [6. Setup precompiled headers](USAGE.md#6-setup-precompiled-headers)
 - [7. Type the code](USAGE.md#7-type-the-code)
 - [8. Create YAGL++ project template](USAGE.md#8-create-yagl-project-template)
 - [9. Install Visual Studio GLSL add-on](USAGE.md#9-install-visual-studio-glsl-add-on)
 
-The described earlier library installation setup requires the OpenGL application project to be added to the previously created solution. It is possible to create a large number of projects under the same solution, so the reinstallation of the library in not required. The project described below may seem complicated, but at the end there will be a section about creating a [Project Template](USAGE.md#7-create-yagl-project-template). This allows to save all the work, and later reuse it in a few clicks. Therefore, it is advised to accuratelly follow the present project setup, at least for the fires time. After creating the template, it would be easy to undo all unnecessary features. The offered project will contain main source file, resources, YAGL++ configuration file, and precompiled headers setup.
+The described earlier library installation setup requires the OpenGL application project to be added to the previously created solution. It is possible to create a large number of projects under the same solution, so the reinstallation of the library in not required. The project described below may seem complicated, but at the end there will be a section about creating a [Project Template](USAGE.md#7-create-yagl-project-template). This allows to save all the work, and later reuse it in a few clicks. Therefore, it is advised to accuratelly follow the present project setup, at least for the fires time. After creating the template, it would be easy to undo all unnecessary features. The offered project will be contain resources, the main source file, YAGL++ configuration file, and precompiled headers setup.
 
 ### 1. Add the application project
 Reopen the previously created solution. In the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add`** &rarr; **`New project...`**:
@@ -124,12 +124,6 @@ The configuration file contains the YAGL++ main switches used only for the local
 #include <yaglpp/glpp.h>
 ```
 
-### 5. Setup precompiled headers
-The precompiled headers feature allows the faster compilation, which is critical for a large projects.
-
-### 6. Set the application project properties
-Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
-
 ![10-project-properties-1](10-project-properties-1.png)
 
 In the Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
@@ -186,6 +180,12 @@ In the appeared window, type the string value into the first field, check how it
 - Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
 - Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
+
+### 6. Setup precompiled headers
+The precompiled headers feature allows the faster compilation, which is critical for a large projects.
+
+### 5. Set the application project properties
+Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 ### 7. Type the code
 Open the project's **`main.cpp`** file. In the editor window type the minimal YAGL++ application code:
