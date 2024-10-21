@@ -4,16 +4,17 @@
 - [2. Add resources to the application project](USAGE.md#2-add-resources-to-the-application-project)
 - [3. Add source files to the application project](USAGE.md#3-add-source-files-to-the-application-project)
 - [4. Add the project configuration file](USAGE.md#4-add-the-project-configuration-file)
-- [5. Set the application project properties](USAGE.md#5-set-the-application-project-properties)
+- [5. Setup precompiled headers](USAGE.md#5-setup-precompiled-headers)
+- [6. Set the application project properties](USAGE.md#6-set-the-application-project-properties)
 	- [Debug x64 (EXE) configuration properties](USAGE.md#debug-x64-exe-configuration-properties)
 	- [Release x64 (EXE) configuration properties](USAGE.md#release-x64-exe-configuration-properties)
 	- [Debug Win32 (EXE) configuration properties](USAGE.md#debug-win32-exe-configuration-properties)
 	- [Release Win32 (EXE) configuration properties](USAGE.md#release-win32-exe-configuration-properties)
-- [6. Type the code](USAGE.md#6-type-the-code)
-- [7. Create YAGL++ project template](USAGE.md#7-create-yagl-project-template)
-- [8. Install Visual Studio GLSL add-on](USAGE.md#8-install-visual-studio-glsl-add-on)
+- [7. Type the code](USAGE.md#7-type-the-code)
+- [8. Create YAGL++ project template](USAGE.md#8-create-yagl-project-template)
+- [9. Install Visual Studio GLSL add-on](USAGE.md#9-install-visual-studio-glsl-add-on)
 
-The described earlier library installation setup requires the OpenGL application project to be added to the previously created solution. It is possible to create mutiple projects under the same solution, so the reinstallation of the library in not required.
+The described earlier library installation setup requires the OpenGL application project to be added to the previously created solution. It is possible to create a large number of projects under the same solution, so the reinstallation of the library in not required. The project described below may seem complicated, but at the end there will be a section about creating a [Project Template](USAGE.md#7-create-yagl-project-template). This allows to save all the work, and later reuse it in a few clicks. Therefore, it is advised to accuratelly follow the present project setup, at least for the fires time. After creating the template, it would be easy to undo all unnecessary features. The offered project will contain main source file, resources, YAGL++ configuration file, and precompiled headers setup.
 
 ### 1. Add the application project
 Reopen the previously created solution. In the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add`** &rarr; **`New project...`**:
@@ -33,7 +34,9 @@ In the _Solution Explorer_, right-click the project's name and click **`Set as S
 ![06-new-project-4](06-new-project-4.png)
 
 ### 2. Add resources to the application project
-The resources allow a quick access to files included into the output execitable as [Binary Resources](https://learn.microsoft.com/en-us/windows/win32/menurc/resources). It is an optional step, but it is strongly advised to set it up here, to be included in the [Project Template](USAGE.md#7-create-yagl-project-template) later on. In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
+This is an optional step, but it is strongly advised to set it up here, to be included in the [Project Template](USAGE.md#7-create-yagl-project-template) later on. The resources allow a quick access to files included into the output execitable as [Binary Resources](https://learn.microsoft.com/en-us/windows/win32/menurc/resources), this also allows the build a portable application.
+
+In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
 
 ![07-resources-1](07-resources-1.png)
 
@@ -52,7 +55,7 @@ and in _Resource.rc_ file:
 ```
 
 > [!NOTE]
-> If the **`Resource.rc`** file isn't added to the project, the _Resource_ option would not be accessible in the _Project Property Pages_ window later on.
+> If the resources aren't added to the project, the _Resource_ option would not be accessible in the _Project Property Pages_ window later on.
 
 ### 3. Add source files to the application project
 First, let's add a new source file to the application project. In the _Solution Explorer_, right-click the project's _Source Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
@@ -63,8 +66,7 @@ Select **`Code`** &rarr; **`C++ File (.cpp)`**, type  **`main.cpp`** _(as main f
 
 ![08-source-file-2](08-source-file-2.png)
 
-Next, it is necessary to add the GLAD source file to the project. Open the **`Common/include/glad`** directory, copy the 
-**`glad.c`** file into the project directory. Now, once again in the _Solution Explorer_, right-click the project's _Source Files_ filter icon. Click **`Add`** &rarr; **`Existing Item... (Shift+Alt+A)`**:
+Next, it is necessary to add the GLAD source file to the project. Copy the **`glad.c`** file from the **`Common/include/glad`** directory into the project directory. Now, once again in the _Solution Explorer_, right-click the project's _Source Files_ filter icon. Click **`Add`** &rarr; **`Existing Item... (Shift+Alt+A)`**:
 
 ![08-source-file-3](08-source-file-3.png)
 
@@ -122,7 +124,10 @@ The configuration file contains the YAGL++ main switches used only for the local
 #include <yaglpp/glpp.h>
 ```
 
-### 5. Set the application project properties
+### 5. Setup precompiled headers
+The precompiled headers feature allows the faster compilation, which is critical for a large projects.
+
+### 6. Set the application project properties
 Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![10-project-properties-1](10-project-properties-1.png)
@@ -182,7 +187,7 @@ In the appeared window, type the string value into the first field, check how it
 - Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
-### 6. Type the code
+### 7. Type the code
 Open the project's **`main.cpp`** file. In the editor window type the minimal YAGL++ application code:
 ```
 // main.cpp
@@ -230,7 +235,7 @@ Now hit **`F5`** to run the application:
 To overload window events, use the new window class derived from **`glfw::Window`**:
 ```
 // main.cpp
-#include "config.h"
+#include "stdafx.h"
 class GLWindow : public glfw::Window
 {
 	using Window::Window;                         // Base constructors
@@ -248,7 +253,7 @@ int main(int argc, char** argv)
 Finally, here is the example of the library usage in AFX-alike layout. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the configuration file prior to build the project. The global application variable is defined as an anonymous class derived from **`glfw::Thread`**:
 ```
 // main.cpp
-#include "config.h"
+#include "stdafx.h"
 class : public glfw::Thread
 {
 	void onInit()   // Create window
@@ -263,9 +268,9 @@ class : public glfw::Thread
 	}
 } application;
 ```
-AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become very promising direction for development in the future.
+AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become a promising trend in future development.
 
-### 7. Create YAGL++ project template
+### 8. Create YAGL++ project template
 At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work with the similar solution path layout. Download the [template icon](template_icon.png) and [template preview](template_preview.png) files, or use any other with transparent background. The source code could be reduced to the following:
 ```
 // main.cpp
@@ -305,7 +310,7 @@ Make sure to set filters to _All languages_, _All platforms_ and _All project ty
 > [!NOTE]
 > Unfortunatelly, the Visual Studio does not allow to add the _tags_ to a custom template. Therefore it does not show up immediately in the _Add a new project_ dialog, ousted by the built-in templates. But after some time, it will appear under _Recent project templates_, where it could be then pinned.
 
-### 8. Install Visual Studio GLSL add-on
+### 9. Install Visual Studio GLSL add-on
 Optionally, download the [GLSL language integration](https://marketplace.visualstudio.com/items?itemName=DanielScherzer.GLSL) add-on by Daniel Scherzer, or from [this repository](GLSL.vsix), then run downloaded file. This allows to view the .vert and .frag files with the appropriate color highlighting.
 
 [&uarr; TOP](USAGE.md#usage) [EXAMPLES &rarr;](EXAMPLES.md)
