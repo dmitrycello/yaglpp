@@ -146,6 +146,8 @@ In the appeared window, type the string value into the first field, check how it
 - Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\;```
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File:```stdafx.h```
 - Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
 - Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
@@ -154,6 +156,8 @@ In the appeared window, type the string value into the first field, check how it
 - Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\;```
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File:```stdafx.h```
 - Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
 - Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
@@ -162,6 +166,8 @@ In the appeared window, type the string value into the first field, check how it
 - Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\Win32\;```
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File:```stdafx.h```
 - Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
 - Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
@@ -170,6 +176,8 @@ In the appeared window, type the string value into the first field, check how it
 - Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\Win32\;```
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File:```stdafx.h```
 - Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
 - Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
