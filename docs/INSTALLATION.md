@@ -35,8 +35,8 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 - [GLM](https://github.com/g-truc/glm/releases) pack v1.0.1 or later;
 - [Assimp](https://github.com/assimp/assimp/releases) release v5.4.3 or later;
 - [stb_image](https://github.com/nothings/stb/tree/master) library. It is important to use the file versions tested with the current release. Every newer version of a file may require additional testings. If there is no such version, try using newer version (it usually works), or get the one preserved in **`Common.7z`** archive of this repository. The required files are:
-	+ **stb_image.h** v2.29,
-	+ **stb_image_resize2.h** v2.06,
+	+ **stb_image.h** v2.30,
+	+ **stb_image_resize2.h** v2.12,
 	+ **stb_image_write.h** v1.16;
 - [Latest release](https://github.com/dmitrycello/yaglpp/releases) of YAGL++ library.
 
