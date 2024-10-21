@@ -34,7 +34,7 @@ In the _Solution Explorer_, right-click the project's name and click **`Set as S
 ![06-new-project-4](06-new-project-4.png)
 
 ### 2. Add resources to the application project
-This is an optional step, but it is strongly advised to set it up here, to be included in the [Project Template](USAGE.md#7-create-yagl-project-template) later on. The resources allow a quick access to files included into the output execitable as [Binary Resources](https://learn.microsoft.com/en-us/windows/win32/menurc/resources), this also allows the build a portable application.
+The resources allow a quick access to files included into the output execitable as [Binary Resources](https://learn.microsoft.com/en-us/windows/win32/menurc/resources), this also allows to build a portable application.
 
 In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
 
@@ -62,7 +62,7 @@ First, let's add a new source file to the application project. In the _Solution 
 
 ![08-source-file-1](08-source-file-1.png)
 
-Select **`Code`** &rarr; **`C++ File (.cpp)`**, type  **`main.cpp`** _(as main function)_, check the path, and hit **`Add`**:
+Select **`Code`** &rarr; **`C++ File (.cpp)`**, type **`main.cpp`** _(as main function)_, check the path, and hit **`Add`**:
 
 ![08-source-file-2](08-source-file-2.png)
 
@@ -71,6 +71,18 @@ Next, it is necessary to add the GLAD source file to the project. Copy the **`gl
 ![08-source-file-3](08-source-file-3.png)
 
 In the opened project directory select the **`glad.c`** file, and hit **`Add`** button.
+
+Finally there are two more files, **`stdafx.cpp`** and **`yaglpp.cpp`**, to be added via the _Source Files_ filter icon. The first file is going to be used by the precompiled header in next steps, and the second one is the YAGL++ implementation source. Both files will always remain unchanged and rarely compiled. Create them the same way as **`main.cpp`**, open in the editor and type or copy-paste the following code:
+```
+// stdafx.cpp
+#include "stdafx.h"
+```
+```
+// yaglpp.cpp
+#define YAGLPP_IMPLEMENTATION
+#include "config.h"
+#include <yaglpp/glpp.h>
+```
 
 ### 4. Add the project configuration file
 This is another optional step. But since we are going to create a [Project Template](USAGE.md#7-create-yagl-project-template), let's make it all running. In the _Solution Explorer_, right-click the project's _Header Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
@@ -81,11 +93,11 @@ Select **`Code`** &rarr; **`Header File (.h)`**, type the file name **`config.h`
 
 ![09-config-file-2](09-config-file-2.png)
 
-The configuration file contains the YAGL++ main switches used only for the local project. Define the **`YAGLPP_CONFIG`** symbol before including the main library file, this will override the default main swithces. Since the project has only one source file inluding the YAGL++, it make sense to define the **`YAGLPP_IMPLEMENTATION`** symbol here as well. Default main switches could be copied from [glpp.h](../include/glpp.h) file, between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. Finally, include the main library file. The entire content of the configuration file should look as follows:
+The configuration file contains the YAGL++ main switches used only for the local project. Define the **`YAGLPP_CONFIG`** symbol before including the main library file, this will override the default main swithces. Since the project has only one source file inluding the YAGL++, it make sense to define the **`YAGLPP_IMPLEMENTATION`** symbol here as well. Default main switches could be copied from [glpp.h](../include/glpp.h) file, between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. The entire content of the configuration file should be as follows:
 ```
 // config.h
+#pragma once
 #define YAGLPP_CONFIG // Custom project config override
-#define YAGLPP_IMPLEMENTATION // Comment if multiple YAGL++ inclusions
 
 /*Define <CocoaChdirResources> pre-initialize GLFW hint*/
 #define YAGLPP_COCOA_CHDIR_RESOURCES
@@ -119,10 +131,24 @@ The configuration file contains the YAGL++ main switches used only for the local
 
 /*Define GLFW library file name, comment to exclude GLFW*/
 #define YAGLPP_GLFW "glfw3.lib"
+```
 
-/*Include YAGL++*/
+Lastly, there is one more header file to be added via the _Header Files_ filter icon: **`stdafx.h`**. It is the project precompiled header, and it is going to be set up later. Create it the same way as **`config.h`**, open in the editor and type or copy-paste the following code:
+```
+// stdafx.h
+#pragma once
+
+// Winows API
+#include <windows.h>
+#include <iostream>
+
+// YAGL++ header
+#include "config.h"
 #include <yaglpp/glpp.h>
 ```
+
+### 5. Set the application project properties
+Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![10-project-properties-1](10-project-properties-1a.png)
 
@@ -140,9 +166,6 @@ In the appeared window, type the string value into the first field, check how it
 
 > [!IMPORTANT]
 > In the next four subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window, as explained in the above section. Make sure to hit the **`Apply`** button after setting up each platform configuration.
-
-### 5. Set the application project properties
-Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 #### Debug x64 (EXE) configuration properties
 - Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\;```
