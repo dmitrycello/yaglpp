@@ -38,7 +38,7 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 	+ **stb_image.h** v2.30,
 	+ **stb_image_resize2.h** v2.12,
 	+ **stb_image_write.h** v1.16;
-- [Latest release](https://github.com/dmitrycello/yaglpp/releases) of YAGL++ library.
+- [Latest YAGL++ archive](https://github.com/dmitrycello/yaglpp/archive/refs/heads/main.zip)
 
 ### 3. Prepare the components's folder
 Create the new folder under the name **`Common`** within the newly created solution directory. In that folder create four (4) subfolders: **`bin`**, **`include`**, **`lib`**, and **`res`**. Create two subfolders **`Win32`** within **`Common/bin`** and **`Common/lib`** directories. The last **`Common/res`** directory contains the common project resources of different kind. To follow the [Learn OpenGL tutorial](https://learnopengl.com/), download the resources from [here](https://github.com/JoeyDeVries/LearnOpenGL/tree/master/resources), and move to this subfolder. At the moment it could be left empty. The folder tree should be as following:
@@ -52,7 +52,7 @@ Common/include/GLFW/   <- Two (2) header files from GLFW Source package
 Common/include/glm/    <- The entire subfolder from the GLM archive
 Common/include/KHR/    <- KHR header file (khrplatform.h) from GLAD archive
 Common/include/stb/    <- Three (3) header files from stb_image library
-Common/include/yaglpp/ <- YAGL++ header files from latest release
+Common/include/yaglpp/ <- YAGL++ header files from repository include folder
 ```
 
 > [!NOTE]
