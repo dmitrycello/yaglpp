@@ -156,7 +156,7 @@ In the Property Pages window set **`Configuration`** and **`Platform`** drop-dow
 
 ![10-project-properties-2](10-project-properties-2.png)
 
-The application project may be used in one of the four (4) platform configurations. It is necessary to set the six (6) project properties under each configuration. Among the other properties, the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the _Release_ version of external libraries is being used. To set up a property, select it, press the rightmost drop-down control, and hit **`<Edit...>`**:
+The application project may be used in one of the four (4) platform configurations. It is necessary to set the eight (8) project properties under each configuration. Among the other properties, the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the _Release_ version of external libraries is being used. To set up a property, select it, press the rightmost drop-down control, and hit **`<Edit...>`**:
 
 ![10-project-properties-3](10-project-properties-3.png)
 
