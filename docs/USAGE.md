@@ -141,6 +141,9 @@ In the appeared window, type the string value into the first field, check how it
 > [!IMPORTANT]
 > In the next four subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window, as explained in the above section. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
+### 5. Set the application project properties
+Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
+
 #### Debug x64 (EXE) configuration properties
 - Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\;```
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
@@ -183,9 +186,6 @@ In the appeared window, type the string value into the first field, check how it
 
 ### 6. Setup precompiled headers
 The precompiled headers feature allows the faster compilation, which is critical for a large projects.
-
-### 5. Set the application project properties
-Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 ### 7. Type the code
 Open the project's **`main.cpp`** file. In the editor window type the minimal YAGL++ application code:
