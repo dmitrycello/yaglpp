@@ -124,7 +124,7 @@ The configuration file contains the YAGL++ main switches used only for the local
 #include <yaglpp/glpp.h>
 ```
 
-![10-project-properties-1](10-project-properties-1.png)
+![10-project-properties-1](10-project-properties-1a.png)
 
 In the Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
 
