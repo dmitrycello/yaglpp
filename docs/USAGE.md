@@ -228,7 +228,7 @@ In the _glad.c_ Property Pages window set **`Configuration`** and **`Platform`**
 
 ![10-project-properties-6](10-project-properties-6.png)
 
-Set the **`Precompiled Header`** file property of the **`yaglpp.cpp`** file to **`Not Using Precompiled Headers`** (as well), where as for the **`stdafx.cpp`** file, set it to **`Create (/Yc)`**. Make sure that the **`Precompiled Header File`** file property remains set to **`stdafx.h`**.
+Repeat these steps to set the **`Precompiled Header`** file property of the **`yaglpp.cpp`** file to **`Not Using Precompiled Headers`** (as well), where as for the **`stdafx.cpp`** file, set it to **`Create (/Yc)`**. Make sure that the **`Precompiled Header File`** file property remains set to **`stdafx.h`**.
 
 ### 7. Type the code
 Open the project's **`main.cpp`** file. In the editor window type the minimal YAGL++ application code:
