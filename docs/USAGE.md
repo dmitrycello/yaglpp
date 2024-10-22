@@ -324,7 +324,7 @@ int main(int argc, char** argv)
 }
 ```
 
-Click **`Project menu -> Export Template...`**:
+Click **`Project`** menu &rarr; **`Export Template...`**:
 
 ![12-project-template-1](12-project-template-1.png)
 
