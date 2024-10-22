@@ -213,7 +213,7 @@ In the appeared window, type the string value into the first field, check how it
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
 ### 6. Setup the precompiled header
-The [Precompiled header files](https://learn.microsoft.com/en-us/cpp/build/creating-precompiled-header-files?view=msvc-170) feature allows the faster compilation, which is critical for a large projects. The modern IDEs are using **`pch.h`** as precompiled header name. In fact, it is possible to use any name, as long as it is set in the project properties. In the present setup the default name **`stdafx.h`** is left unchanged.
+The [Precompiled header files](https://learn.microsoft.com/en-us/cpp/build/creating-precompiled-header-files?view=msvc-170) feature allows the faster compilation, which is critical for large projects. The modern IDEs are using **`pch.h`** as precompiled header name. In fact, it is possible to use any name, as long as it is set in the project properties. In the present setup the default name **`stdafx.h`** is left unchanged.
 
 In the previous step, the precompiled header project options was set. And from now on, the every new source file added to the project will automatically use the precompiled header. It is only required to include the **`stdafx.h`** file at the beginning. Lastly, there are three (3) particular files to be adjusted individually:
 - **`glad.c`** - it does not need any includes, and should not use precompiled header;
