@@ -44,11 +44,10 @@ Select **`Resource`** &rarr; **`Resource File (.rc)`**, keep **`Resource.rc`** f
 
 ![07-resources-2](07-resources-2.png)
 
-Open the two newly created flies in the editor window, and replace their content with the following in _resource.h_ file:
+Open the two newly created flies in the editor window, and replace their content with the following code:
 ```
 // resource.h
 ```
-and in _Resource.rc_ file:
 ```
 // Resource.rc
 #include "resource.h"
@@ -56,6 +55,9 @@ and in _Resource.rc_ file:
 
 > [!NOTE]
 > If the resources aren't added to the project, the _Resource_ option would not be accessible in the _Project Property Pages_ window later on.
+
+> [!TIP]
+> For simplicity, the first line of each code exemple in the presented tutorial, is a comment with its file name.
 
 ### 3. Add source files to the application project
 First, let's add a new source file to the application project. In the _Solution Explorer_, right-click the project's _Source Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
