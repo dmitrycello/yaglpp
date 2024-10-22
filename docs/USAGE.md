@@ -87,7 +87,9 @@ Finally there are two more files, **`stdafx.cpp`** and **`yaglpp.cpp`**, to be a
 ```
 
 ### 4. Add the project configuration file
-This is another optional step. But since we are going to create a [Project Template](USAGE.md#7-create-yagl-project-template), let's make it all running. In the _Solution Explorer_, right-click the project's _Header Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
+The YAGL++ project configuration file is the convenient way of keeping the main library switches in the project file, without the need to modify the library itself when necessary. To do that, the **`YAGLPP_CONFIG`** symbol has to be defined prior to include the main library file, which will override the main file switches.
+
+In the _Solution Explorer_, right-click the project's _Header Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
 
 ![09-config-file-1](09-config-file-1.png)
 
