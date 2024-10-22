@@ -34,7 +34,7 @@ In the _Solution Explorer_, right-click the project's name and click **`Set as S
 ![06-new-project-4](06-new-project-4.png)
 
 ### 2. Add resources to the application project
-The resources allow a quick access to files included into the output execitable as [Binary Resources](https://learn.microsoft.com/en-us/windows/win32/menurc/resources), this also allows to build a portable application. Such files as GLSL shader script files could be then hidden within the executable.
+The resources allow a quick access to files included into the output execitable as [Binary Resources](https://learn.microsoft.com/en-us/windows/win32/menurc/resources), this also allows to build a portable application. Such files as GLSL shader script files could be then hidden within the executable, and therefore can't be accidentally modified.
 
 > [!TIP]
 > If the resources aren't added to the project, the _Resource_ option would not be accessible in the _Project Property Pages_ window later on.
