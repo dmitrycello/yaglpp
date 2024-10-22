@@ -157,7 +157,7 @@ Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![10-project-properties-1](10-project-properties-1a.png)
 
-In the Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
+In the _Project1_ Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
 
 ![10-project-properties-2](10-project-properties-2.png)
 
