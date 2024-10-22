@@ -101,7 +101,8 @@ The default main switches could be copied from [glpp.h](../include/glpp.h) file,
 ```
 // config.h
 #pragma once
-#define YAGLPP_CONFIG // Custom project config override
+/*Custom config override*/
+#define YAGLPP_CONFIG
 
 /*Define <CocoaChdirResources> pre-initialize GLFW hint*/
 #define YAGLPP_COCOA_CHDIR_RESOURCES
