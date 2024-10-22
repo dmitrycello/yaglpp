@@ -87,7 +87,7 @@ Finally there are two more files, **`stdafx.cpp`** and **`yaglpp.cpp`**, to be a
 ```
 
 ### 4. Add the project configuration file
-The YAGL++ project configuration file is the convenient way of keeping the main library switches in the project file, without the need to modify the library file when necessary. The configuration file swithes will be then applied only for the local project. To do that, the **`YAGLPP_CONFIG`** symbol has to be defined prior to include the main library file, which will override the main file switches.
+The YAGL++ project configuration file is the convenient way of keeping the main library switches in the project file, rather than to modify the library's main header file. From the other hand, the configuration file swithes will be applied only for the local project. To do that, the **`YAGLPP_CONFIG`** symbol has to be defined prior to include the main library file, which will override the main file switches.
 
 In the _Solution Explorer_, right-click the project's _Header Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
 
@@ -257,7 +257,7 @@ Now the IntelliSense shows the description of every library member:
 
 ![11-type-code-1](11-type-code-1a.png)
 
-Rebuild the project, the output should look like this:
+Rebuild the project under the **`Debug x64`** platform configuration. It would be wise to build it under every platform configuration, to check if there were no errors in the setting. The output should look like this:
 ```
 Rebuild started...
 1>------ Rebuild All started: Project: Project1, Configuration: Debug x64 ------
@@ -269,7 +269,7 @@ Rebuild started...
 ```
 
 > [!NOTE]
-> The **`glad.c`** source file was spotted to be seen by IDE as being altered. _This makes the project to be rebuit everytime_. Replacing this file with a newer version could fix the issue. Generate a newer GLAD archive, or take the file from **`Common.7z`** archive.
+> The **`glad.c`** source file was spotted to be seen by IDE as being altered. _This makes the project to be rebuit everytime_. Replacing this file with a newer version could fix the issue. Generate a newer GLAD archive, or take the one from **`Common.7z`** archive.
 
 Now hit **`F5`** to run the application:
 
@@ -293,7 +293,7 @@ int main(int argc, char** argv)
 	GLWindow window(800, 600, "Overloaded Event Application");
 	//...
 ```
-Finally, here is the example of the library usage in AFX-alike layout. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the configuration file prior to build the project. The global application variable is defined as an anonymous class derived from **`glfw::Thread`**:
+Finally, here is the example of the library usage in _AFX-alike layout_. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the configuration file prior to build the project. The global application variable is defined as an anonymous class derived from **`glfw::Thread`**:
 ```
 // main.cpp
 #include "stdafx.h"
