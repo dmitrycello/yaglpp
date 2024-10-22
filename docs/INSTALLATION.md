@@ -56,7 +56,7 @@ Common/include/yaglpp/ <- YAGL++ header files from repository include folder
 ```
 
 > [!NOTE]
-> The library works with OpenGL versions 2.0 to 3.3. However, it is still possible to set the context version up to 4.6 using the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** main switches. For the time being, the library only includes the assets of the OpenGL 3.3 (Core Profile) standard. On the contrary, if the graphic card does not support the default version (3.3), it is possible to try an earlier one. Note that prior to version 3.2 the _OpenGL Core Profile_ is unavailable, the _Any Profile_ or _Compat Profile_ should be used instead.
+> The library works with OpenGL versions 2.0 to 3.3. However, it is still possible to set the context version up to 4.6 using the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** main switches. For the time being, the library only includes the assets of the OpenGL 3.3 (Core Profile) standard. On the contrary, if the graphic card does not support the default version (3.3), it is possible to try an earlier one. Note that prior to version 3.2 the _OpenGL Core Profile_ is unavailable, the _Any Profile_ (default) or _Compat Profile_ should be used instead.
 
 ### 4. Install CMake
 If it was not done before, the CMake application must be installed, in order to build CMake projects. Download the [CMake](https://cmake.org/download/) latest application installer, lunch the wizard, and hit **`Next`**:
