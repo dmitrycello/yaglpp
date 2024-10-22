@@ -217,7 +217,7 @@ The [Precompiled header files](https://learn.microsoft.com/en-us/cpp/build/creat
 
 In the previous step, the precompiled header project options was set. And from now on, the every new source file added to the project will automatically use the precompiled header. It is only required to include the **`stdafx.h`** file at the beginning. Lastly, there are three (3) particular files to be adjusted individually:
 - **`glad.c`** - it does not need any includes, and should not use precompiled header;
-- **`yaglpp.cpp`** - it is built once with the YAGL++ implementation flag, and should not use precompiled header;
+- **`yaglpp.cpp`** - it is built with the YAGL++ implementation flag, and should not use precompiled header;
 - **`stdafx.cpp`** - it is used by the precompiled header, and should be set to create the precompiled header.
 
 Under the project's _Source Files_ filter icon, right-click the **`glad.c`** file, and press **`Proprties (Alt+Enter)`**:
@@ -228,7 +228,7 @@ Set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurati
 
 ![10-project-properties-6](10-project-properties-6.png)
 
-Next, repeat this steps for **`yaglpp.cpp`** file.
+Repeat these steps first for the **`yaglpp.cpp`** file, and then for the **`stdafx.cpp`** file with the **`Precompiled Header`** project property set to **`Create (/Yc)`**.
 
 ### 7. Type the code
 Open the project's **`main.cpp`** file. In the editor window type the minimal YAGL++ application code:
