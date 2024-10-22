@@ -166,7 +166,7 @@ Rebuild started...
 ```
 After both builds are completed, follow the following steps: 
 - Copy the entire **`assimp-5.4.3/include/assimp`** subfolder from the source package into **`Common/include`** subfolder. These files was generated during the build;
-- Copy the two (2) configuration header files from the **`build/include/assimp`** subfolder into the **`Common/include/assimp`** subfolder. The header files should be identical in both build folders;
+- Copy the two (2) configuration header files from the **`build/include/assimp`** subfolder into the **`Common/include/assimp`** subfolder. The header files are identical in both build folders;
 - Copy the two (2) resulting **`*.lib`** and **`*.exp`** files from the **`build/lib/Release`** subfolder into the **`Common/lib`** subfolder;
 - Copy the two (2) resulting **`*.lib`** and **`*.exp`** files from the **`build32/lib/Release`** subfolder into the **`Common/lib/Win32`** subfolder;
 - Copy the single resulting **`*.dll`** file from the **`build/bin/Release`** subfolder into the **`Common/bin`** subfolder;
