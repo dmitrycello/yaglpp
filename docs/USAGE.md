@@ -74,7 +74,7 @@ Next, it is necessary to add the GLAD source file to the project. Copy the **`gl
 
 In the opened project directory select the **`glad.c`** file, and hit **`Add`** button.
 
-Finally there are two more files, **`stdafx.cpp`** and **`yaglpp.cpp`**, to be added via the _Source Files_ filter icon. The first file is going to be used by the precompiled header in next steps, and the second one is the YAGL++ implementation source. Both files will always remain unchanged and rarely compiled. Create them the same way as **`main.cpp`**, open in the editor and type or copy-paste the following code:
+Finally there are two more files, **`stdafx.cpp`** and **`yaglpp.cpp`**, to be added via the _Source Files_ filter icon. The first file is being used by the precompiled header, and the second one is the YAGL++ implementation source. Both files will always remain unchanged and rarely compiled. Create them the same way as **`main.cpp`**, open in the editor and type or copy-paste the following code:
 ```
 // stdafx.cpp
 #include "stdafx.h"
