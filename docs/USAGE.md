@@ -224,11 +224,11 @@ Under the project's _Source Files_ filter icon, right-click the **`glad.c`** fil
 
 ![10-project-properties-5](10-project-properties-5.png)
 
-In the _glad.c_ Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurations`** and **`All Platforms`**, since it is necessary to apply the setting to each project configurations. Under **`C/C++`** &rarr; **`Precompiled Headers`**, select the **`Precompiled Header`** project property, and set its drop-down menu to **`Not Using Precompiled Headers`**:
+In the _glad.c_ Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurations`** and **`All Platforms`**, since it is necessary to apply the setting to each project configurations. Under **`C/C++`** &rarr; **`Precompiled Headers`**, select the **`Precompiled Header`** file property, and set its drop-down menu to **`Not Using Precompiled Headers`**:
 
 ![10-project-properties-6](10-project-properties-6.png)
 
-Repeat these steps first for the **`yaglpp.cpp`** file, and then for the **`stdafx.cpp`** file with the **`Precompiled Header`** project property set to **`Create (/Yc)`**.
+Set the **`Precompiled Header`** file property of the **`yaglpp.cpp`** to **`Not Using Precompiled Headers`** as well, where as for the **`stdafx.cpp`** file, set it to **`Create (/Yc)`**. Make sure that the **`Precompiled Header File`** file property remains set to **`stdafx.h`**.
 
 ### 7. Type the code
 Open the project's **`main.cpp`** file. In the editor window type the minimal YAGL++ application code:
