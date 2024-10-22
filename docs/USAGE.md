@@ -138,7 +138,7 @@ The default main switches could be copied from [glpp.h](../include/glpp.h) file,
 #define YAGLPP_GLFW "glfw3.lib"
 ```
 
-Lastly, there is one more header file to be added via the _Header Files_ filter icon: **`stdafx.h`**. It is the project precompiled header, and it is going to be set up later. Create it the same way as **`config.h`**, open in the editor and type or copy-paste the following code:
+Finally, there is one more last file to be added via the _Header Files_ filter icon: it is **`stdafx.h`**, the project precompiled header. Create it the same way as **`config.h`**, open in the editor and type or copy-paste the following code:
 ```
 // stdafx.h
 #pragma once
