@@ -57,7 +57,7 @@ Open the two newly created flies in the editor window, and replace their content
 ```
 
 > [!NOTE]
-> For simplicity, the first line of each code exemple in the present tutorial, is a comment with its file name.
+> For simplicity, each code exemple in the present tutorial begins with its commented file name.
 
 ### 3. Add source files to the application project
 In the _Solution Explorer_, right-click the project's _Source Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
