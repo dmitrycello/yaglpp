@@ -87,7 +87,7 @@ Finally there are two more files, **`stdafx.cpp`** and **`yaglpp.cpp`**, to be a
 ```
 
 ### 4. Add the project configuration file
-The YAGL++ project configuration file is the convenient way of keeping the main library switches in the project file, without the need to modify the library itself when necessary. To do that, the **`YAGLPP_CONFIG`** symbol has to be defined prior to include the main library file, which will override the main file switches.
+The YAGL++ project configuration file is the convenient way of keeping the main library switches in the project file, without the need to modify the library file when necessary. The configuration file swithes will be then applied only for the local project. To do that, the **`YAGLPP_CONFIG`** symbol has to be defined prior to include the main library file, which will override the main file switches.
 
 In the _Solution Explorer_, right-click the project's _Header Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
 
@@ -97,7 +97,7 @@ Select **`Code`** &rarr; **`Header File (.h)`**, type the file name **`config.h`
 
 ![09-config-file-2](09-config-file-2.png)
 
-The configuration file contains the YAGL++ main switches used only for the local project. Define the **`YAGLPP_CONFIG`** symbol before including the main library file, this will override the default main swithces. Since the project has only one source file inluding the YAGL++, it make sense to define the **`YAGLPP_IMPLEMENTATION`** symbol here as well. Default main switches could be copied from [glpp.h](../include/glpp.h) file, between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. The entire content of the configuration file should be as follows:
+The default main switches could be copied from [glpp.h](../include/glpp.h) file, between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. The entire content of the configuration file should be as follows:
 ```
 // config.h
 #pragma once
