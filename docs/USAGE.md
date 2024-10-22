@@ -177,7 +177,7 @@ In the appeared window, type the string value into the first field, check how it
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
-- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File:```stdafx.h```
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
 - Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
 - Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
@@ -187,7 +187,7 @@ In the appeared window, type the string value into the first field, check how it
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
-- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File:```stdafx.h```
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
 - Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
 - Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
@@ -197,7 +197,7 @@ In the appeared window, type the string value into the first field, check how it
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
-- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File:```stdafx.h```
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
 - Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
 - Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
@@ -207,13 +207,17 @@ In the appeared window, type the string value into the first field, check how it
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
-- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File:```stdafx.h```
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
 - Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
 - Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
-### 6. Setup precompiled headers
-The precompiled headers feature allows the faster compilation, which is critical for a large projects.
+### 6. Setup the precompiled header
+The [Precompiled header files](https://learn.microsoft.com/en-us/cpp/build/creating-precompiled-header-files?view=msvc-170) feature allows the faster compilation, which is critical for a large projects. The modern IDEs are using **`pch.h`** as precompiled header name. In fact, it is possible to use any name, as long as it is set in the project properties. In the present setup the default name **`stdafx.h`** is left unchanged.
+
+![10-project-properties-5](10-project-properties-5.png)
+
+![10-project-properties-6](10-project-properties-6.png)
 
 ### 7. Type the code
 Open the project's **`main.cpp`** file. In the editor window type the minimal YAGL++ application code:
