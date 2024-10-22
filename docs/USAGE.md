@@ -159,11 +159,11 @@ Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 In the _Project1_ Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
 
-![10-project-properties-2](10-project-properties-2.png)
+![10-project-properties-2](10-project-properties-2a.png)
 
 The application project may be used in one of the four (4) platform configurations. It is necessary to set the eight (8) project properties under each configuration. Among the other properties, the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the _Release_ version of external libraries is being used. To set up a property, select it, press the rightmost drop-down control, and hit **`<Edit...>`**:
 
-![10-project-properties-3](10-project-properties-3.png)
+![10-project-properties-3](10-project-properties-3a.png)
 
 In the appeared window, type the string value into the first field, check how it expands in the second field, make sure to keep the **`Inherit from parent or project defaults`** flag set, then hit **`OK`**. Note that some property editor windows may look differently:
 
@@ -226,7 +226,7 @@ Under the project's _Source Files_ filter icon, right-click the **`glad.c`** fil
 
 In the _glad.c_ Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurations`** and **`All Platforms`**, since it is necessary to apply the setting to each project configurations. Under **`C/C++`** &rarr; **`Precompiled Headers`**, select the **`Precompiled Header`** file property, and set its drop-down menu to **`Not Using Precompiled Headers`**:
 
-![10-project-properties-6](10-project-properties-6.png)
+![10-project-properties-6](10-project-properties-6a.png)
 
 Repeat these steps to set the **`Precompiled Header`** file property of the **`yaglpp.cpp`** file to **`Not Using Precompiled Headers`** (as well), where as for the **`stdafx.cpp`** file, set it to **`Create (/Yc)`**. Make sure that the **`Precompiled Header File`** file property remains set to **`stdafx.h`**.
 
