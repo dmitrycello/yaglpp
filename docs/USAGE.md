@@ -215,6 +215,11 @@ In the appeared window, type the string value into the first field, check how it
 ### 6. Setup the precompiled header
 The [Precompiled header files](https://learn.microsoft.com/en-us/cpp/build/creating-precompiled-header-files?view=msvc-170) feature allows the faster compilation, which is critical for a large projects. The modern IDEs are using **`pch.h`** as precompiled header name. In fact, it is possible to use any name, as long as it is set in the project properties. In the present setup the default name **`stdafx.h`** is left unchanged.
 
+In the previous step, the precompiled header project options was already set. Now, the every new source file added to project will by default inherit this setting. It is only necessary to adjust it for three (3) particulat files:
+- **`glad.c`** - it does not need any includes, and should not use precompiled header;
+- **`yaglpp.cpp`** - it is built once with the YAGL++ implementation flag, and should not use precompiled header;
+- **`stdafx.cpp`** - it is used by the precompiled header, and should be set to create the precompiled header.
+
 ![10-project-properties-5](10-project-properties-5.png)
 
 ![10-project-properties-6](10-project-properties-6.png)
