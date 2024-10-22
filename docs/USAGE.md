@@ -342,7 +342,7 @@ Hit **`Browse...`** to select the path to downloaded project icon for both _Icon
 
 ![12-project-template-3](12-project-template-3c.png)
 
-Close the opened folder with the new template _.zip_ archive, and restart the IDE. Now, in the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add -> New Project...`**:
+Close the opened folder with the new template _.zip_ archive, and restart the IDE. Now, in the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add`** &rarr; **`New Project...`**:
 
 ![12-project-template-4](12-project-template-4a.png)
 
