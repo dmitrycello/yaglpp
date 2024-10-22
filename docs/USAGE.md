@@ -9,7 +9,7 @@
 	- [Release x64 (EXE) configuration properties](USAGE.md#release-x64-exe-configuration-properties)
 	- [Debug Win32 (EXE) configuration properties](USAGE.md#debug-win32-exe-configuration-properties)
 	- [Release Win32 (EXE) configuration properties](USAGE.md#release-win32-exe-configuration-properties)
-- [6. Setup precompiled headers](USAGE.md#6-setup-precompiled-headers)
+- [6. Setup precompiled headers](USAGE.md#6-setup-the-precompiled-header)
 - [7. Type the code](USAGE.md#7-type-the-code)
 - [8. Create YAGL++ project template](USAGE.md#8-create-yagl-project-template)
 - [9. Install Visual Studio GLSL add-on](USAGE.md#9-install-visual-studio-glsl-add-on)
