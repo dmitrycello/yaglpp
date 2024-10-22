@@ -28,7 +28,7 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 
 ### 2. Download the OpenGL components
 > [!TIP]
-> For the quick testing, all the following steps of the installation may be skipped, while using the repository's [Common.7z](https://github.com/dmitrycello/yaglpp/blob/main/Common.7z) archive. In this case, download it, and extract into **`Common`** folder within the newly created solution directory. However, it is still recommended to follow all steps, at least for the first time, not just to feel the process, but also to understand how it works. This is also the way the most programmers do, to ensure that each component is up to date and fit to computer's environment.
+> For the quick testing, all the following steps of the installation may be skipped, while using the repository's [Common.7z](https://github.com/dmitrycello/yaglpp/blob/main/Common.7z) archive. In this case, download it, and extract into **`Common`** folder within the newly created solution directory. However, it is still recommended to follow all steps, at least for the first time, not just to feel the process, but as well to understand how it works. This is also the way the most programmers do, to ensure that each component is up to date and fit to computer's environment.
 
 - [GLAD](https://glad.dav1d.de) archive generated with _Specification_ set to **`OpenGL`**, _Profile_ set to **`Core`**, _API gl_ set to **`Version 4.6`**. Keep _API gles1, gles2, glsc2_ as **`None`**. Do not select any extension;
 - [GLFW](https://www.glfw.org/download) Source package archive v3.4 or later. Older versions could be found [here](https://github.com/glfw/glfw/releases);
