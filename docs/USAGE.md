@@ -224,9 +224,11 @@ Under the project's _Source Files_ filter icon, right-click the **`glad.c`** fil
 
 ![10-project-properties-5](10-project-properties-5.png)
 
-Set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurations`** and **`All Platforms`**, since it is necessary to apply the setting to each project configurations. Under **`C/C++`** &rarr; **`Precompiled Headers`**, select the **`Precompiled Header`** option, and set its drop-down menus to **`Not Using Precompiled Headers`**:
+Set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurations`** and **`All Platforms`**, since it is necessary to apply the setting to each project configurations. Under **`C/C++`** &rarr; **`Precompiled Headers`**, select the **`Precompiled Header`** project property, and set its drop-down menu to **`Not Using Precompiled Headers`**:
 
 ![10-project-properties-6](10-project-properties-6.png)
+
+Next, repeat this steps for **`yaglpp.cpp`** file.
 
 ### 7. Type the code
 Open the project's **`main.cpp`** file. In the editor window type the minimal YAGL++ application code:
@@ -338,7 +340,7 @@ In the next window, copy the project name and description (or type any other):
 
 Hit **`Browse...`** to select the path to downloaded project icon for both _Icon image_ and _Preview image_ edit boxes. Then hit **`Finish`**:
 
-![12-project-template-3](12-project-template-3b.png)
+![12-project-template-3](12-project-template-3c.png)
 
 Close the opened folder with the new template _.zip_ archive, and restart the IDE. Now, in the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add -> New Project...`**:
 
