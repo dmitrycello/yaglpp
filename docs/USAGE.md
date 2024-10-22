@@ -14,7 +14,7 @@
 - [8. Create YAGL++ project template](USAGE.md#8-create-yagl-project-template)
 - [9. Install Visual Studio GLSL add-on](USAGE.md#9-install-visual-studio-glsl-add-on)
 
-The described earlier library installation setup requires the OpenGL application project to be added to the solution created in previous document. The project described below may seem complicated, but at the end there will be a section about creating a [Project Template](USAGE.md#7-create-yagl-project-template). This allows to save all the work, and later reuse it in a few clicks. Therefore, it is advised to accuratelly follow the present project setup, at least for the fires time. After creating the template, it would be easy to undo all unnecessary features. The offered project will be contain resources, the main source file, YAGL++ configuration file, and precompiled header.
+The described earlier library installation setup requires the OpenGL application project to be added to the solution created in previous document. The project described below may seem complicated, but at the end there will be a section about creating a [Project Template](USAGE.md#7-create-yagl-project-template). This allows to save all the work, and later reuse it in a few clicks. Therefore, it is advised to accuratelly follow the present project setup, at least for the fires time. After creating the template, it would be easy to undo all unnecessary features. The offered project will contain resources, main source file, YAGL++ configuration file, and precompiled header.
 
 ### 1. Add the application project
 Reopen the previously created solution. In the _Solution Explorer_ right-click the solution name bar (1st line), click **`Add`** &rarr; **`New project...`**:
@@ -34,7 +34,7 @@ In the _Solution Explorer_, right-click the project's name and click **`Set as S
 ![06-new-project-4](06-new-project-4.png)
 
 ### 2. Add resources to the application project
-The resources allow a quick access to files included into the output execitable as [Binary Resources](https://learn.microsoft.com/en-us/windows/win32/menurc/resources), this also allows to build a portable application.
+The resources allow a quick access to files included into the output execitable as [Binary Resources](https://learn.microsoft.com/en-us/windows/win32/menurc/resources), this also allows to build a portable application. Such files as GLSL shader script files could be then hidden inside the executable.
 
 In the _Solution Explorer_, right-click the project's _Resource Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
 
