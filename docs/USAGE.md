@@ -220,7 +220,11 @@ In the previous step, the precompiled header project options was set. And from n
 - **`yaglpp.cpp`** - it is built once with the YAGL++ implementation flag, and should not use precompiled header;
 - **`stdafx.cpp`** - it is used by the precompiled header, and should be set to create the precompiled header.
 
+Under the project's _Source Files_ filter icon, right-click the **`glad.c`** file, and press **`Proprties (Alt+Enter)`**:
+
 ![10-project-properties-5](10-project-properties-5.png)
+
+Set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurations`** and **`All Platforms`**, since it is necessary to apply the setting to each project configurations. Under **`C/C++`** &rarr; **`Precompiled Headers`**, select the **`Precompiled Header`** option, and set its drop-down menus to **`Not Using Precompiled Headers`**:
 
 ![10-project-properties-6](10-project-properties-6.png)
 
