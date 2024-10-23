@@ -1,5 +1,0 @@
-// Resource.rc
-#include "resource.h"
-GLFW_ICON ICON "icons/gpu.ico"
-IDT_VERT_SHADER RCDATA "shaders_exercise1.vert"
-IDT_FRAG_SHADER RCDATA "shaders_exercise1.frag"
