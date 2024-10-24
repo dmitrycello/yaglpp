@@ -222,7 +222,7 @@ In the previous step, the precompiled header project options was set. And from n
 
 Under the project's _Source Files_ filter icon, right-click the **`glad.c`** file, and press **`Proprties (Alt+Enter)`**:
 
-![10-project-properties-5](10-project-properties-5.png)
+![10-project-properties-5](10-project-properties-5a.png)
 
 In the _glad.c_ Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurations`** and **`All Platforms`**, since it is necessary to apply the setting to each project configurations. Under **`C/C++`** &rarr; **`Precompiled Headers`**, select the **`Precompiled Header`** file property, and set its drop-down menu to **`Not Using Precompiled Headers`**:
 
