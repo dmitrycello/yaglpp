@@ -317,7 +317,7 @@ AFX-alike layout is rather experimental, and at the moment can be used only with
 At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work with the similar solution path layout. Download the [template icon](template.png), or use any other with transparent background. The source code could be reduced to the following:
 ```
 // main.cpp
-#include "config.h"
+#include "stdafx.h"
 int main(int argc, char** argv)
 {
 	return 0;
