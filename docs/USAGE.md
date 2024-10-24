@@ -3,7 +3,7 @@
 - [1. Add the application project](USAGE.md#1-add-the-application-project)
 - [2. Add resources to the application project](USAGE.md#2-add-resources-to-the-application-project)
 - [3. Add source files to the application project](USAGE.md#3-add-source-files-to-the-application-project)
-- [4. Add the project configuration file](USAGE.md#4-add-the-project-configuration-file)
+- [4. Add header files to the application project](USAGE.md#4-add-header-files-to-the-application-project)
 - [5. Set the application project properties](USAGE.md#5-set-the-application-project-properties)
 	- [Debug x64 (EXE) configuration properties](USAGE.md#debug-x64-exe-configuration-properties)
 	- [Release x64 (EXE) configuration properties](USAGE.md#release-x64-exe-configuration-properties)
