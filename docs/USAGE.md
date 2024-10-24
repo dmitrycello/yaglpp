@@ -234,7 +234,7 @@ Repeat these steps to set the **`Precompiled Header`** file property of the **`y
 Open the project's **`main.cpp`** file. In the editor window type the minimal YAGL++ application code:
 ```
 // main.cpp
-#include "config.h"
+#include "stdafx.h"
 int main(int argc, char** argv)
 {
 	glfw::Window window(800, 600, "YAGL++ Application");
@@ -261,15 +261,19 @@ Rebuild the project under the **`Debug x64`** platform configuration. It would b
 ```
 Rebuild started...
 1>------ Rebuild All started: Project: Project1, Configuration: Debug x64 ------
+1>stdafx.cpp
+1>YAGL++: Compiling with OpenGL 3.3 context version support...
 1>glad.c
-1>main.cpp
+1>hello_window.cpp
+1>yaglpp.cpp
+1>YAGL++: Compiling implementation source...
 1>YAGL++: Compiling with OpenGL 3.3 context version support...
 1>Project1.vcxproj -> D:\Path_to_solution\OpenGL\x64\Debug\Project1.exe
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
 
 > [!NOTE]
-> The **`glad.c`** source file was spotted to be seen by IDE as being altered. _This makes the project to be rebuit everytime_. Replacing this file with a newer version could fix the issue. Generate a newer GLAD archive, or take the one from **`Common.7z`** archive.
+> The YAGL++ library headers were compiled twice: the first time it was compiled by the precompiled header source file **`stdafx.cpp`**, and the second time by the **`yaglpp.cpp`** with the implementation flag being defined. Since these files are rarely modified, starting from the next build the IDE will only compile the **`hello_window.cpp`** file.
 
 Now hit **`F5`** to run the application:
 
