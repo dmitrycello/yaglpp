@@ -86,8 +86,8 @@ Finally there are two more files, **`stdafx.cpp`** and **`yaglpp.cpp`**, to be a
 #include <yaglpp/glpp.h>
 ```
 
-### 4. Add the project configuration file
-The YAGL++ project configuration file is the convenient way of keeping the main library switches in the project file, rather than to modify the library's main header file. From the other hand, the configuration file swithes will be applied only for the local project. To do that, the **`YAGLPP_CONFIG`** symbol has to be defined prior to include the main library file, which will override the main file switches.
+### 4. Add header files to the application project
+In addition to the **`resource.h`** header automatically added in previous steps, there are two (2) more files required by the present project. First, the **`config.h`** header file, which is the YAGL++ project configuration file. It provides the convenient way to keep the main library switches in the project file, rather than to modify the library's main header file. From the other hand, the configuration file swithes will be applied only for the local project, without affecting the others. To do that, the **`YAGLPP_CONFIG`** symbol has to be defined prior to include the main library file, which will override the main file switches.
 
 In the _Solution Explorer_, right-click the project's _Header Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
 
