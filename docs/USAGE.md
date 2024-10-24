@@ -350,7 +350,7 @@ Close the opened folder with the new template _.zip_ archive, and restart the ID
 
 Make sure to set filters to _All languages_, _All platforms_ and _All project types_. This will show all project templates. Alternatively, type **`yagl`** in the search bar:
 
-![12-project-template-5](12-project-template-5a.png)
+![12-project-template-5](12-project-template-5b.png)
 
 > [!NOTE]
 > Unfortunatelly, the Visual Studio does not allow to add the _tags_ to a custom template. Therefore it does not show up immediately in the _Add a new project_ dialog, ousted by the built-in templates. But after some time, it will appear under _Recent project templates_, where it could be then pinned.
