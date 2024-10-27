@@ -106,21 +106,29 @@ The symbols defined after **`#pragma once`** directive in the [glpp.h](include/g
 > It is possible to override the main swithes, placing them inside a project. To do that, first define a symbol **`YAGLPP_CONFIG`**, then all the above switches, prior to include the main [glpp.h](include/glpp.h) header file.
 
 ### GLAD classes
-All classes in _gl::_ namespace are counterparts of GLAD API. They all have the default constructor creating an empty class object, this allows to create these objects before OpenGL initialization. Every class has a single data member, a 4-byte _id_ integer, or a pointer to a class data. The class object is considered _empty_, if its pointer or id is set to zero. All derived classes have the same data size as their parent classes, this concept allows to easily combine GLAD classes within another stucture or class. The lifetime of the OpenGL object is controlled by the class destructor, it does not always destroy OpenGL object, depening on how this object was created. There are basically three kinds of GLAD class objects: if the class was created as a _single object_, it does destroy an OpenGL object, where as _reference object_ does not. The _multi-object_ creates and destroys many OpenGL objects at once.
+All classes in _gl::_ namespace are counterparts of GLAD API. They all have the default constructor creating an empty class object, allowing to create these objects before OpenGL initialization. From the other hand, every GLAD class have a copy constructor, duplicating the source object, this allows to use it in an assignment statement, as a function parameter, or as a return value. Every class has a single data member, a 4-byte _id_ integer, or a pointer to a class data. The class object is considered _empty_, if its pointer or id is set to zero. All derived classes have the same data size as their parent classes, this concept allows to easily combine GLAD classes within another stucture or class. The lifetime of the OpenGL object is controlled by the class destructor, it does not always destroy OpenGL object, depening on how this object was created. There are basically three kinds of GLAD class objects: if the class was created as a _single object_, it does destroy an OpenGL object, where as _reference object_ does not. The _multi-object_ creates and destroys many OpenGL objects at once.
 
-**_Single object_** is the object created its own _single_ OpenGL object id. Its reference flag is set to false. There could be only one single object for a single OpenGL id at the time. This is done to avoid duplicate cleanup in a copied objects, which would produce an error. The single object could be copied with **`duplicate..`** method, where its reference flag is transfered to destination object, while its own reference flag is set to true making it a _reference_ object. The same algorithm is used in object's copy constructor, this allows to pass the single object as a return value without prematurely cleaning up its id:
+**_Single object_** is the object creating its own _single_ OpenGL object id. Its reference flag is set to false. There could be only one single object for a single OpenGL id at the time. This is done to avoid duplicate cleanup in a copied objects, which would produce an error. The single object could be copied with **`duplicate..`** method, where its reference flag is transfered to destination object, while its own reference flag is set to true making it a _reference_ object. The same algorithm is used in object's copy constructor, this allows to pass the single object as a return value without prematurely cleaning up its id:
 ```
 gl::Renderbuffer rb;                                                 // Empty object
 rb.renderbufferStorage(gl::ColorDepthStencilFormat::Rgb8, 800, 600); // Automatic creation and binding
 ```
-**_Rreference object_** is actually another kind of a _single_ object. It has the same functionality as single object, but it simply copies the id from an already created one. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source single object. When it is deleted, it becomes empty without clearing object id. It is possible to have many objects referencing the same id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or another reference object with **`reference..`** method. The _multi-object_ provides direct alias to an or from a multi-object with of its **`get..`** methods.
-```
-gl::Renderbuffers rbs;    // Empty multi-object
-rbs.genRenderbuffers(10); // Generates 10 object names
+**_Rreference object_** is actually another kind of a _single_ object. It has the same functionality as single object, but it simply copies the id from an already created one. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source single object. When it is deleted, it becomes empty without clearing object id. In contrary to a single object, it is possible to have many objects referencing the same OpenGL id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or another reference object with **`reference..`** method. The _multi-object_ provides direct alias to 
 
-gl::Renderbuffer rb1, rb2;      // Empty objects
-rb1.shareRenderbuffer(rb);      // Reference of rb, will be destroyed by rb
-rb2.assignRenderbuffer(rbs, 0); // Reference of rbs[0], will be destroyed by rbs
+or from a multi-object with of its **`get..`** methods.
+```
+gl::Texture3D t3, t4, t5; // Empty objects
+t3.bindTexture();         // t3 is a single object
+t4.referenceTexture(t3);  // t4 is a reference object, where t3 remains single object
+t5.duplicateTexture(t4);  // Now t5 become single, where as t4 transforms into reference object
+
+gl::Textures ts;    // Empty multi-object
+ts.genTextures(10); // Generates 10 object names
+
+gl::Texture2D& t1 = texs.getTexture2D(0);   // Alias copy to a reference object
+// gl::Texture1D t2 = texs.getTexture1D(0); // Error: can't re-assign to different object type
+gl::Texture1D t2 = texs.getTexture2D(1);    // Copy constructor for a reference object
+
 ```
 
 > [!TIP]
@@ -147,7 +155,8 @@ The most of classes in **`gl::`** namespace are derived from **`gl::_Object`**, 
 ![00-readme-2](docs/00-readme-2.png)
 
 > [!NOTE]
-> Despite the OpenGL id is unsigned integer, the data member **`_miId`** of the **gl::_Object`** class is signed integer. This allows to differentiate single and reference objects, being negative or positive value. The pointers in Win32 application are 4-byte long. So will be the size of the class object being a pointer.
+> Despite the 
+>  the OpenGL id is unsigned integer, the data member **`_miId`** of the **gl::_Object`** class is signed integer. This allows to differentiate single and reference objects, being negative or positive value. The pointers in Win32 application are 4-byte long. So will be the size of the class object being a pointer.
 
 > [!CAUTION]
 > The names starting with underscore character stand for the base abstract classes, they could NOT be used.
