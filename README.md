@@ -132,9 +132,9 @@ gl::ElementArrayBuffer b2 = bs.getElementArrayBuffer(1);    // Copy of a referen
 ```
 To find out whether or not the class has the OpenGL object(s), use the **`isObject()`** method. The single object is automatically created as soon as it undergo a valid OpenGL operation, the reference object must be created from an existing one. To find out whether or not the single object is a reference object, use the **`isReference()`** method. The classes derived from **`gl::_Object`**, are single objects, most of their methods automatically create and bind an OpenGL object when necessary, except the **`is..`** methods, they work exactly as their API counterparts:
 ```
-GLboolean b1 = rb.isRenderbuffer();                 // same as glIsRenderbuffer(id)
-GLboolean b2 = rb.isRenderbufferBinding();          // same as glGetIntegerv(GL_RENDERBUFFER_BINDING..) == id
-gl::Renderbuffer rb = gl::getRenderbufferBinding(); // returns a reference or empty object
+GLboolean b1 = rb.isRenderbuffer();                 // as glIsRenderbuffer(id)
+GLboolean b2 = rb.isRenderbufferBinding();          // as glGetIntegerv(GL_RENDERBUFFER_BINDING..) == id
+gl::Renderbuffer rb = gl::getRenderbufferBinding(); // as glGetIntegerv(GL_RENDERBUFFER_BINDING..)
 ```
 
 ### Class tree
