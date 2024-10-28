@@ -108,38 +108,30 @@ The symbols defined after **`#pragma once`** directive in the [glpp.h](include/g
 ### GLAD classes
 All classes in the _gl::_ namespace are counterparts of the GLAD API. They all have the default constructor creating an empty class object, allowing to create it before OpenGL initialization. From the other hand, every GLAD class have a copy constructor, duplicating the source object, this allows to use it in an assignment statement, as a function parameter, or as a return value. Every class has a unique data member, a 4-byte _id_ integer, or a _pointer_. The class object is considered _empty_, if its data member is set to zero. All derived classes are guaranteed to have the same data size as their parent classes, this concept allows to easily combine GLAD classes within another stucture or class. The lifetime of the OpenGL object is controlled by the class destructor, it does not always destroy OpenGL object, depening on how this object was created. There are basically three kinds of GLAD class objects: if the class was created as a _single object_, it does destroy an OpenGL object, where as _reference object_ does not. The _multi-object_ creates and destroys many OpenGL objects at once.
 
-**_Single object_** is the object creating its own _single_ OpenGL object id, while its reference flag is set to false. There could be _only one_ single object at the time for each OpenGL id. This is done to avoid duplicate cleanup of a copied objects, which would produce an error. The single object could be copied with **`duplicate..`** method, where its reference flag is copied into destination object making it a _single_ or _reference_ object, while its own reference flag is set to true making it a _reference_ object. The same algorithm is used in object's copy constructor, this allows to pass the single object as a return value without prematurely cleaning up its id:
+**_Single object_** is the object creating its own _single_ OpenGL object id, while its reference flag is set to false. There could be _only one_ single object at the time for each OpenGL id. This is done to avoid duplicate cleanup of a duplicate objects, which would produce an error. The single object could be duplicated with **`duplicate..`** method, where its id and reference flag are copied into destination object making it a _single_ or _reference_ object, while its own reference flag is set to true making it a _reference_ object. The same algorithm is used in object's copy constructor, this allows to pass the single object as a return value without prematurely cleaning up its id:
 ```
 gl::Renderbuffer rb;   // Empty object
-rb.bindRenderbuffer(); // Automatic creation and binding
-return rb;             // Return a dublicated single object
+rb.bindRenderbuffer(); // Creation and binding of a single object
+return rb;             // Return a single object, while rb become a reference object
 ```
-**_Rreference object_** is actually another kind of a _single_ object. It has the same functionality as single object, but it simply copies the id from an already created one. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source single object. When it is deleted, it becomes empty without clearing object id. In contrary to a single object, it is possible to have many objects referencing the same OpenGL id. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or another reference object with **`reference..`** method. The _multi-object_ provides direct alias to 
-
-or from a multi-object with of its **`get..`** methods.
+**_Rreference object_** is actually another kind of a _single_ object. It has the same functionality, but it simply copies the id from an already created one. It does not take any mesures to handle the OpenGL object lifetime, leaving it to the source single object. When it is deleted, it becomes empty without clearing object id. In contrary to a single object, it is possible to have many objects referencing the same OpenGL id at the time. The reference object could be used as temporary asset in a current or another OpenGL context. It could be obtained from a single or another reference object with **`reference..`** method.
 ```
-gl::Texture3D t3, t4, t5; // Empty objects
-t3.bindTexture();         // t3 is a single object
-t4.referenceTexture(t3);  // t4 is a reference object, where t3 remains single object
-t5.duplicateTexture(t4);  // Now t5 become single, where as t4 transforms into reference object
+gl::Texture2D t1, t2, t3; // Empty objects
+t1.bindTexture();         // Create a single object
+t2.referenceTexture(t1);  // t2 is a reference object, where t1 remains a single object
+t3.duplicateTexture(t2);  // Now t3 become a single, where as t2 transforms into a reference object
+```
+**_Multi-object_** has the size of a pointer, creating the required array of object ids dynamically in the client memory.
 
+The _multi-object_ provides a direct alias to a reference object via **`get..`** methods.
+
+In Debug mode, it also checks the object type at every assignment, since the usage of the same id with a different target is not allowed by OpenGL (e.g. _ArrayBuffer_ sould not be later used as _ElementArrayBuffer_). The multi-object could not be used by itself, every object name (id) should be assigned to a reference object, and then used through that object. In addition to the original pair of **`gen..`** and **`delete..`** methods, creating and deleting the entire array, muti-objects possess as well **`insert..`** and **`remove..`** methods modifying its part from the given position, allowing more flexible array manipulation:
+```
 gl::Textures ts;    // Empty multi-object
 ts.genTextures(10); // Generates 10 object names
-
 gl::Texture2D& t1 = texs.getTexture2D(0);   // Alias copy to a reference object
 // gl::Texture1D t2 = texs.getTexture1D(0); // Error: can't re-assign to different object type
 gl::Texture1D t2 = texs.getTexture2D(1);    // Copy constructor for a reference object
-
-```
-
-> [!TIP]
-> The classes can be created, shared or assigned directly in a constructor. The first two lines of the above example could be merged into one: **`gl::Renderbuffers rbs(10);`**, and the last three lines into one as well:  **`gl::Renderbuffer rb1(rb), rb2(rbs, 0);`**
-
-**_Multi-object_** has the size of a pointer, creating the required array of object ids dynamically in the client memory. In Debug mode, it also checks the object type at every assignment, since the usage of the same id with a different target is not allowed by OpenGL (e.g. _ArrayBuffer_ sould not be later used as _ElementArrayBuffer_). The multi-object could not be used by itself, every object name (id) should be assigned to a reference object, and then used through that object. In addition to the original pair of **`gen..`** and **`delete..`** methods, creating and deleting the entire array, muti-objects possess as well **`insert..`** and **`remove..`** methods modifying its part from the given position, allowing more flexible array manipulation:
-```
-gl::Renderbuffers rbs(10);     // ids: 1,2,3,4,5,6,7,8,9,10
-rbs.insertRenderbuffers(3, 3); // ids: 1,2,3,11,12,13,4,5,6,7,8,9,10
-rbs.removeRenderbuffers(3, 6); // ids: 1,2,3,11,12,13,7,8,9,10
 ```
 To find out whether or not the class has the OpenGL object(s), use the **`isObject()`** method. The single object is automatically created as soon as it undergo a valid OpenGL operation, the reference object must be created from already created one. To find out whether or not the single object is a reference object, use the **`isReference()`** method. The classes derived from **`gl::_Object`**, are single objects, most of their methods automatically create and bind an OpenGL object when necessary, except the **`is..`** methods, they work exactly as their API counterparts:
 ```
