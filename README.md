@@ -127,8 +127,8 @@ The multi-object could not be used by itself, every object _id_ should be used t
 ```
 gl::Buffers bs(10);                                         // Generate 10 object names
 gl::ArrayBuffer& b1 = bs.getArrayBuffer(0);                 // Alias to a reference object
-// gl::ElementArrayBuffer b2 = bs.getElementArrayBuffer(0); // Error: can't re-assign to different target
-gl::UniformBuffer b2 = bs.getElementArrayBuffer(1);         // Copy of a reference object
+// gl::ElementArrayBuffer b2 = bs.getElementArrayBuffer(0); // Error: different type
+gl::ElementArrayBuffer b2 = bs.getElementArrayBuffer(1);    // Copy of a reference object
 ```
 To find out whether or not the class has the OpenGL object(s), use the **`isObject()`** method. The single object is automatically created as soon as it undergo a valid OpenGL operation, the reference object must be created from an existing one. To find out whether or not the single object is a reference object, use the **`isReference()`** method. The classes derived from **`gl::_Object`**, are single objects, most of their methods automatically create and bind an OpenGL object when necessary, except the **`is..`** methods, they work exactly as their API counterparts:
 ```
