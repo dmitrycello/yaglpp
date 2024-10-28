@@ -142,7 +142,7 @@ The classes in **`gl::`** namespace are derived mostly from **`gl::_Object`** cl
 ![00-readme-2](docs/00-readme-2a.png)
 
 > [!NOTE]
-> The unsigned integer data member **`_muId`** of the **gl::_Object`** is using its highest bit as a reference flag, allowing to differentiate single and reference objects. The pointers in Win32 application are 4-byte long. So will be the size of the class object using a pointer.
+> The unsigned integer data member **`_muId`** of the **gl::_Object`** class is using its highest bit as a _reference flag_, allowing to differentiate single and reference objects. The pointers in Win32 application are 4-byte long. So will be the size of the class object using a pointer.
 
 > [!CAUTION]
 > The names starting with underscore character stand for the base abstract classes, they have only protected constructors, and therefore could NOT be used.
