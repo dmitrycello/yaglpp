@@ -8,6 +8,7 @@
 - [6. PBR](EXAMPLES.md#6-pbr)
 - [7. In practice](EXAMPLES.md#7-in-practice)
 - [8. Guest](EXAMPLES.md#8-guest)
+- [9. Misc](EXAMPLES.md#9-misc)
 
 All examples in this section are dedicated to a widely popular tutorial [Learn Open GL](https://learnopengl.com/) by Joey de Vries. There are also some additional projects revealing interresting solutions using YAGL++ under **`misc`** category. The original source code of the tutorial, as well as all necessary resources can be found [here](https://github.com/JoeyDeVries/LearnOpenGL). The **`Release / Win32 (EXE)`** version of executable compressed into _.7z_ file is added to every project folder for a demonstrational purpose. The present code uses application resources, allowing to create an independent portable executable file. The resources for every project must be placed into **`Common/res`** subfolder.
 
@@ -35,6 +36,9 @@ To create a project from the present code, use the YAGL++ project template creat
 (under construction)
 
 ### 8. Guest
+(under construction)
+
+### 9. Misc
 (under construction)
 
 [&uarr; TOP](EXAMPLES.md#examples)
