@@ -1,7 +1,0 @@
-// Resource.rc
-#include "resource.h"
-GLFW_ICON ICON "icons/gpu.ico"
-IDT_VERT_SHADER RCDATA "textures_exercise2.vert"
-IDT_FRAG_SHADER RCDATA "textures_exercise2.frag"
-IDI_CONTAINER	RCDATA "textures/container.jpg"
-IDI_AWESOMEFACE	RCDATA "textures/awesomeface.png"
