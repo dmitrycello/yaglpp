@@ -1,0 +1,5 @@
+// resource.h
+#define IDT_VERT_SHADER 256
+#define IDT_FRAG_SHADER 257
+#define IDT_VERT_LIGHT_CUBE 258
+#define IDT_FRAG_LIGHT_CUBE 259
