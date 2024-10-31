@@ -177,7 +177,7 @@ public:
 
 	/*Copies the image of source StbImage object
 	@param [in] The source StbImage object*/
-	void copy(const StbImage& source);
+	void copyImage(const StbImage& source);
 
 	/*(1) Copies a region of currently loaded image replacing the old image
 	@param The region top-left corner x coordinate on the image
@@ -208,7 +208,7 @@ public:
 	@param The new image height
 	@param The new image format
 	@param True to initialize the memory block with zeros, default false*/
-	void create(int width, int height, StbFormat format, bool init = false);
+	void createImage(int width, int height, StbFormat format, bool init = false);
 
 	/*Unloads the last inctance of a previously loaded image, or decrements its reference count*/
 	void deleteImage()
@@ -693,7 +693,7 @@ void StbImage::_stbi_init(int ref, int byte, int comp, int width, int height)
 	_mpData->height = height;
 }
 
-void StbImage::copy(const StbImage& source)
+void StbImage::copyImage(const StbImage& source)
 {
 	if (&source != this)
 	{
@@ -752,7 +752,7 @@ void StbImage::copySprite(const StbImage& source, int width, int height, int ind
 	}
 }
 
-void StbImage::create(int width, int height, StbFormat format, bool init)
+void StbImage::createImage(int width, int height, StbFormat format, bool init)
 {
 	YAGLPP_ASSERT((width > 0) && (height > 0)); // INVALID IMAGE DIMENSIONS
 	YAGLPP_ASSERT((width * height) <= STBI_MAX_DIMENSIONS); // INVALID IMAGE DIMENSIONS
