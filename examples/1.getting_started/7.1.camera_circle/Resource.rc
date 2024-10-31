@@ -1,0 +1,7 @@
+// Resource.rc
+#include "resource.h"
+GLFW_ICON ICON "icons/gpu.ico"
+IDT_VERT_SHADER RCDATA "camera_circle.vert"
+IDT_FRAG_SHADER RCDATA "camera_circle.frag"
+IDI_CONTAINER	RCDATA "textures/container.jpg"
+IDI_AWESOMEFACE	RCDATA "textures/awesomeface.png"
