@@ -1,7 +1,0 @@
-// Resource.rc
-#include "resource.h"
-GLFW_ICON ICON "icons/gpu.ico"
-IDT_VERT_SHADER RCDATA "camera_mouse_zoom.vert"
-IDT_FRAG_SHADER RCDATA "camera_mouse_zoom.frag"
-IDI_CONTAINER	RCDATA "textures/container.jpg"
-IDI_AWESOMEFACE	RCDATA "textures/awesomeface.png"
