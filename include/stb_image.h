@@ -372,7 +372,7 @@ public:
 	/*(1) Resizes loaded image replacing the current image
 	@param The width of a new image
 	@param The height of a new image*/
-	void resize(int width, int height)
+	void resizeImage(int width, int height)
 	{
 		resizeRegion(width, height, 0, 0, getWidth(), getHeight());
 	}
@@ -381,7 +381,7 @@ public:
 	@param [in] The source StbImage object
 	@param The width of a new image
 	@param The height of a new image*/
-	void resize(const StbImage& source, int width, int height)
+	void resizeImage(const StbImage& source, int width, int height)
 	{
 		resizeRegion(source, width, height, 0, 0, source.getWidth(), source.getHeight());
 	}
