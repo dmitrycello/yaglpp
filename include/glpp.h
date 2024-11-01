@@ -243,11 +243,9 @@ void _writeFile(const char* file, const void* data, int size)
 #include <yaglpp/data_store.h>
 #include <yaglpp/stb_image.h>
 #include <yaglpp/gladpp.h>
-#pragma comment(lib, "opengl32.lib")
 
 #ifdef YAGLPP_GLFW
 #include <yaglpp/glfw3pp.h>
-#pragma comment(lib, YAGLPP_GLFW)
 #endif // #ifdef YAGLPP_GLFW
 
 #ifdef YAGLPP_GLM_HEADERS
@@ -260,7 +258,9 @@ void _writeFile(const char* file, const void* data, int size)
 #include <assimp/cimport.h>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#ifdef YAGLPP_IMPLEMENTATION
 #pragma comment(lib, YAGLPP_ASSIMP)
+#endif // #ifdef YAGLPP_IMPLEMENTATION
 #endif // #ifdef YAGLPP_ASSIMP
 
 #else // #ifdef __cplusplus

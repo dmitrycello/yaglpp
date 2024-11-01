@@ -37,13 +37,6 @@
 #if (YAGLPP_CONTEXT_VERSION_MAJOR * 10 + YAGLPP_CONTEXT_VERSION_MINOR) > 45
 #define YAGLPP_VERSION_4_6
 #endif // #if (YAGLPP_CONTEXT_VERSION_MAJOR * 10 + YAGLPP_CONTEXT_VERSION_MINOR) > 45
-#ifdef YAGLPP_IMPLEMENTATION
-#define YAGLPP__STR(x) #x
-#define YAGLPP__XSTR(x) YAGLPP__STR(x)
-#pragma message ("YAGL++: Compiling with OpenGL " YAGLPP__XSTR(YAGLPP_CONTEXT_VERSION_MAJOR) "." YAGLPP__XSTR(YAGLPP_CONTEXT_VERSION_MINOR) " context version support...")
-#undef YAGLPP__STR
-#undef YAGLPP__XSTR
-#endif // #ifdef YAGLPP_IMPLEMENTATION
 
 /*(1) The GLAD loader to be ported into another library with an extern declaration. Prefered version for SFML and GLEW
 @return True if GLAD sucessfully loaded, false otherwise*/
@@ -55,6 +48,12 @@ bool loadGL();
 bool loadGL(void* proc);
 
 #ifdef YAGLPP_IMPLEMENTATION
+#pragma comment(lib, "opengl32.lib")
+#define YAGLPP__STR(x) #x
+#define YAGLPP__XSTR(x) YAGLPP__STR(x)
+#pragma message ("YAGL++: Compiling with OpenGL " YAGLPP__XSTR(YAGLPP_CONTEXT_VERSION_MAJOR) "." YAGLPP__XSTR(YAGLPP_CONTEXT_VERSION_MINOR) " context version support...")
+#undef YAGLPP__STR
+#undef YAGLPP__XSTR
 bool loadGL()
 {
 	return gladLoadGL() != 0;

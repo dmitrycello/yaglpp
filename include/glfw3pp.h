@@ -1283,6 +1283,7 @@ struct ContextSetting
 #include <yaglpp/glfw/thread.h>
 namespace glfw {
 #ifdef YAGLPP_IMPLEMENTATION
+#pragma comment(lib, YAGLPP_GLFW)
 double getTimeDelta()
 {
 	static uint64_t uTimerValue = 0;
