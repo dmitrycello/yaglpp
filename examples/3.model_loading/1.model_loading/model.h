@@ -13,9 +13,9 @@ public:
     bool gammaCorrection;
 
     // constructor, expects a filepath to a 3D model.
-    Model(string const &path, bool gamma = false) : gammaCorrection(gamma)
+    Model(string const &path, string const& dir, bool gamma = false) : gammaCorrection(gamma)
     {
-        loadModel(path);
+        loadModel(path, dir);
     }
 
     // draws the model, and thus all its meshes
@@ -27,8 +27,11 @@ public:
     
 private:
     // loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
-    void loadModel(string const &path)
+    void loadModel(string const &path, string const& dir)
     {
+        // save the directory path of the filepath
+        directory = dir;
+
         // read file via ASSIMP
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(path,
@@ -40,8 +43,6 @@ private:
             cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << endl;
             return;
         }
-        // retrieve the directory path of the filepath
-        directory = path.substr(0, path.find_last_of('\\'));
 
         // process ASSIMP's root node recursively
         processNode(scene->mRootNode, scene);
@@ -175,9 +176,9 @@ private:
             if (!skip)
             {   // if texture hasn't been loaded already, load it
                 Texture texture;
+                string path(this->directory + '\\' + str.C_Str());
                 texture.id.genTexture(GL_FALSE); // no autodelete
-                texture.path = this->directory + '\\' + str.C_Str();
-                load_texture_file(texture.id, texture.path.c_str());
+                load_texture_file(texture.id, path.c_str());
                 texture.type = typeName;
                 texture.path = str.C_Str();
                 textures.push_back(texture);

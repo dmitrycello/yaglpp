@@ -13,8 +13,8 @@ const unsigned int SCR_HEIGHT = 600;
 
 int main()
 {
-    std::string path;
-    if (!open_file(path, "Select 3D Model Object File", "Object Files (*.obj)\0*.obj\0All Files (*.*)\0*.*\0\0"))
+    std::string file, dir;
+    if (!open_file(file, dir, "Select 3D Model Object File", "Object Files (*.obj)\0*.obj\0All Files (*.*)\0*.*\0\0"))
     {
         return -1; // no file selected
     }
@@ -24,7 +24,7 @@ int main()
     gl::enableDepthTest(); // configure global opengl state
     StbImage::setFlipVerticallyOnLoad(true); // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
     Shader ourShader(IDT_VERT_SHADER, IDT_FRAG_SHADER); // build and compile shaders
-    Model ourModel(path); // load models
+    Model ourModel(file, dir); // load models
     //gl::polygonMode(gl::PolygonMode::Line); // draw in wireframe
 
     while (!window.windowShouldClose) // render loop

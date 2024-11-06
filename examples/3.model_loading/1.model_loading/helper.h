@@ -23,7 +23,7 @@ void load_texture_file(gl::Texture2D& texture, const char* path)
     texture.textureMinFilter = gl::TextureMinFilter::LinearMipmapLinear;
 }
 /*LearnOpenGL: utility function showing a dialog box to retreive a file name and path*/
-bool open_file(std::string& path, LPCSTR lpstrTitle, LPCSTR lpstrFilter)
+BOOL open_file(std::string& path, std::string& dir, LPCSTR lpstrTitle, LPCSTR lpstrFilter)
 {
     OPENFILENAMEA ofn;
     char buffer[MAX_PATH];
@@ -35,11 +35,11 @@ bool open_file(std::string& path, LPCSTR lpstrTitle, LPCSTR lpstrFilter)
     ofn.nMaxFile = MAX_PATH;
     ofn.lpstrTitle = lpstrTitle;
     ofn.Flags = OFN_ENABLESIZING | OFN_FILEMUSTEXIST;
-    ofn.nFileOffset = 1;
     if (GetOpenFileNameA(&ofn))
     {
-        path.assign(buffer, MAX_PATH);
-        return true;
+        path.assign(buffer);
+        dir.assign(buffer, ofn.nFileOffset - 1);
+        return TRUE;
     }
-    else return false;
+    else return FALSE;
 }
