@@ -98,7 +98,7 @@ public:
 		_disable(GL_TEXTURE_2D);
 	}
 
-	/*Duplicates a texture object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*Duplicates a texture object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source texture object*/
 	void duplicateTexture(const Texture2D& texture)
 	{
@@ -434,13 +434,6 @@ public:
 	GLboolean isTextureBinding() const
 	{
 		return _object_binding(GL_TEXTURE_BINDING_2D);
-	}
-
-	/*Makes a reference of a texture object, regardless of the source object's reference flag
-	@param Specifies the source texture object*/
-	void referenceTexture(const Texture2D& texture)
-	{
-		_texture_ref((_Object&)texture);
 	}
 
 	/*Specifies the index of the lowest defined mipmap level. Used as the setter of <textureBaseLevel> property

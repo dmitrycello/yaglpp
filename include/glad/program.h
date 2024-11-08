@@ -77,20 +77,20 @@ private:
 	friend class UniformBlock;
 	friend class VertexAttrib;
 	Program(GLint name) { _object_set(name); }
+	void _program_clean() {
+		_object_clean(_glDeleteProgram);
+	}
 	void _program_delete() {
 		_object_delete(_glDeleteProgram);
 	}
 	void _program_dup(_Object& source) {
 		_object_dup(_glDeleteProgram, source);
 	}
-	void _program_gen() {
-		_object_gen(_glCreateProgram, _glDeleteProgram, 1);
+	void _program_gen(GLboolean autodelete) {
+		_object_gen(_glCreateProgram, _glDeleteProgram, 1, autodelete);
 	}
 	GLuint _program_id() {
 		return _object_id(&_glCreateProgram, 1);
-	}
-	void _program_ref(_Object& source) {
-		_object_ref(_glDeleteProgram, source);
 	}
 	static void WINAPI _glCreateProgram(GLsizei unused, GLuint* id);
 	static void WINAPI _glDeleteProgram(GLsizei unused, const GLuint* id);
@@ -115,7 +115,7 @@ public:
 	/*Cleans up the valid program object*/
 	~Program()
 	{
-		_program_delete();
+		_program_clean();
 	}
 
 	/*(1) Attaches vertex and fragment shader objects to specified program
@@ -123,10 +123,11 @@ public:
 	@param Fragment shader object*/
 	void attachShaders(VertexShader& vs, FragmentShader& fs);
 
-	/*Creates a program object that was previously empty*/
-	void createProgram()
+	/*Explicitly creates a program object
+	@True to set the object's autodelete flag, default true*/
+	void createProgram(GLboolean autodelete = GL_TRUE)
 	{
-		_program_gen();
+		_program_gen(autodelete);
 	}
 
 	/*Deletes the program object that was previously created*/
@@ -138,7 +139,7 @@ public:
 	/*Detaches all attached shader objects from specified program*/
 	void detachShaders();
 
-	/*Duplicates a program object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*Duplicates a program object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source program object*/
 	void duplicateProgram(const Program& program)
 	{
@@ -248,13 +249,6 @@ public:
 
 	/*Links a program object. The status of the link operation will be stored as part of the program object's state*/
 	void linkProgram();
-
-	/*Makes a reference of a program object, regardless of the source object's reference flag
-	@param Specifies the source program object*/
-	void referenceProgram(const Program& program)
-	{
-		_program_ref((_Object&)program);
-	}
 
 	/*Sets the creation state of the program object, only if current state is opposite. Depending of the flag value, calls <createProgram> or <deleteProgram> functions. Used as a setter of <program> property
 	@param True to generate program object name, false to delete program object*/
@@ -534,7 +528,7 @@ void Program::setProgram(GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_program_gen();
+		_program_gen(GL_TRUE);
 	}
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION
@@ -587,7 +581,7 @@ void Program::linkProgram()
 		std::cout << "GLAD PROGRAM ID <" << uId << "> LINK ERROR:" << std::endl << pBuffer << std::endl;
 		_deallocate(pBuffer, nullptr);
 		YAGLPP_ASSERT(false); // PROGRAM LINKING FAILED
-}
+	}
 	YAGLPP_GLAD_ERROR;
 }
 

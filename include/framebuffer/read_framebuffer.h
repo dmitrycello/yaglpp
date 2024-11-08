@@ -50,7 +50,7 @@ public:
 		_framebufferRenderbuffer(GL_READ_FRAMEBUFFER, GL_READ_FRAMEBUFFER_BINDING, (GLenum)attachment, nullptr);
 	}
 
-	/*(3.0) Duplicates a framebuffer object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*(3.0) Duplicates a framebuffer object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source framebuffer object*/
 	void duplicateFramebuffer(const ReadFramebuffer& framebuffer)
 	{
@@ -159,13 +159,6 @@ public:
 	GLboolean isFramebufferBinding() const
 	{
 		return _isFramebufferBinding(GL_READ_FRAMEBUFFER_BINDING);
-	}
-
-	/*(3.0) Makes a reference of a framebuffer object, regardless of the source object's reference flag
-	@param Specifies the source framebuffer object*/
-	void referenceFramebuffer(const ReadFramebuffer& framebuffer)
-	{
-		_framebuffer_ref((_Object&)framebuffer);
 	}
 
 	/*(3.0) Sets the binding state of the framebuffer object, only if current state is opposite. Used as a setter of <framebufferBinding> property

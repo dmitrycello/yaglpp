@@ -7,20 +7,20 @@ class Sampler : public _Object
 {
 protected:
 	Sampler(GLint name) { _object_set(name); }
+	void _sampler_clean() {
+		_object_clean(glDeleteSamplers);
+	}
 	void _sampler_delete() {
 		_object_delete(glDeleteSamplers);
 	}
 	void _sampler_dup(_Object& source) {
 		_object_dup(glDeleteSamplers, source);
 	}
-	void _sampler_gen() {
-		_object_gen(glGenSamplers, glDeleteSamplers, 1);
+	void _sampler_gen(GLboolean autodelete) {
+		_object_gen(glGenSamplers, glDeleteSamplers, 1, autodelete);
 	}
 	GLuint _sampler_id() {
 		return _object_id(glGenSamplers, 1);
-	}
-	void _sampler_ref(_Object& source) {
-		_object_ref(glDeleteSamplers, source);
 	}
 	GLint _getSamplerParameter(GLenum pname);
 	GLfloat _getSamplerParameterFloat(GLenum pname);
@@ -40,7 +40,7 @@ public:
 	/*(3.3) Cleans up the valid sampler object*/
 	~Sampler()
 	{
-		_sampler_delete();
+		_sampler_clean();
 	}
 
 	/*(3.3) Binds a sampler to a texture unit by an index value ranging from 0 to the value returned by <getMaxCombinedTextureImageUnits> minus 1
@@ -53,17 +53,18 @@ public:
 		_sampler_delete();
 	}
 
-	/*(3.3) Duplicates a sampler object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*(3.3) Duplicates a sampler object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source sampler object*/
 	void duplicateSampler(const Sampler& sampler)
 	{
 		_sampler_dup((_Object&)sampler);
 	}
 
-	/*(3.3) Explicitly generates single sampler object*/
-	void genSampler()
+	/*(3.3) Explicitly generates single sampler object
+	@param True to set the object's autodelete flag, default true*/
+	void genSampler(GLboolean autodelete = GL_TRUE)
 	{
-		_sampler_gen();
+		_sampler_gen(autodelete);
 	}
 
 	/*(3.3) Gets the maximum supported texture image units that can be used to access texture maps from the vertex shader and the fragment processor combined
@@ -172,13 +173,6 @@ public:
 	GLboolean isSamplerBinding() const
 	{
 		return _object_binding(GL_SAMPLER_BINDING);
-	}
-
-	/*(3.3) Makes a reference of a sampler object, regardless of the source object's reference flag
-	@param Specifies the source sampler object*/
-	void referenceSampler(const Sampler& sampler)
-	{
-		_sampler_ref((_Object&)sampler);
 	}
 
 	/*(3.3) Sets the creation state of the sampler object, only if current state is opposite. Depending of the flag value, calls <genSampler> or <deleteSampler> functions. Used as a setter of <sampler> property
@@ -317,8 +311,8 @@ protected:
 	void _samplers_dup(_Objects& source) {
 		_objects_dup(glDeleteSamplers, source);
 	}
-	void _samplers_gen(GLsizei n) {
-		_objects_gen(glGenSamplers, glDeleteSamplers, n);
+	void _samplers_gen(GLsizei num) {
+		_objects_gen(glGenSamplers, glDeleteSamplers, num);
 	}
 
 public:
@@ -332,9 +326,9 @@ public:
 	}
 
 	/*(3.3) (3) Constucts an initialized sampler multi-object*/
-	Samplers(GLsizei n)
+	Samplers(GLsizei num)
 	{
-		_samplers_gen(n);
+		_samplers_gen(num);
 	}
 
 	/*(3.3) Cleans up the valid sampler multi-object*/
@@ -343,24 +337,24 @@ public:
 		_samplers_delete();
 	}
 
-	/*(3.3) Deletes valid sampler multi-object*/
+	/*(3.3) Explicitly deletes valid sampler multi-object*/
 	void deleteSamplers()
 	{
 		_samplers_delete();
 	}
 
-	/*(3.3) Duplicates a sampler multi-object increasing its reference count
+	/*(3.3) Duplicates a sampler multi-object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source sampler multi-object*/
 	void duplicateSamplers(const Samplers& samplers)
 	{
 		_samplers_dup((_Objects&)samplers);
 	}
 
-	/*(3.3) Generates one or more sampler object names in the empty multi-object
+	/*(3.3) Generates one or more sampler object names in the sampler multi-object
 	@param Specifies the number of object names to be generated*/
-	void genSamplers(GLsizei n)
+	void genSamplers(GLsizei num)
 	{
-		_samplers_gen(n);
+		_samplers_gen(num);
 	}
 
 	/*(3.3) Retrieves a reference to the Sampler object from a valid multi-object
@@ -399,7 +393,7 @@ void Sampler::setSampler(GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_sampler_gen();
+		_sampler_gen(GL_TRUE);
 	}
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION

@@ -46,10 +46,11 @@ public:
 		_compileShader(GL_GEOMETRY_SHADER);
 	}
 
-	/*(3.2) Creates a shader object that was previously empty*/
-	void createShader()
+	/*(3.2) Explicitly creates a shader object
+	@param True to set the object's autodelete flag, default true*/
+	void createShader(GLboolean autodelete = GL_TRUE)
 	{
-		_shader_gen(GL_GEOMETRY_SHADER);
+		_shader_gen(GL_GEOMETRY_SHADER, autodelete);
 	}
 
 	/*(3.2) Detaches a shader object from a program object to which it is attached
@@ -59,7 +60,7 @@ public:
 		_detachShader(GL_GEOMETRY_SHADER, program);
 	}
 
-	/*(3.2) Duplicates a shader object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*(3.2) Duplicates a shader object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source shader object*/
 	void duplicateShader(const GeometryShader& buffer)
 	{
@@ -150,13 +151,6 @@ public:
 	ShaderType getShaderType()
 	{
 		return (ShaderType)_getShader(GL_GEOMETRY_SHADER, GL_SHADER_TYPE);
-	}
-
-	/*(3.2) Makes a reference of a shader object, regardless of the source object's reference flag
-	@param Specifies the source shader object*/
-	void referenceShader(const GeometryShader& shader)
-	{
-		_shader_ref((_Object&)shader);
 	}
 
 	/*(3.2) (1) Replaces the source code in a shader object from the binary resource

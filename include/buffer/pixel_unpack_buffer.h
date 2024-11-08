@@ -66,7 +66,7 @@ public:
 		_bufferSubData(GL_PIXEL_UNPACK_BUFFER, GL_PIXEL_UNPACK_BUFFER_BINDING, offset, size, data);
 	}
 
-	/*(2.1) Duplicates a buffer object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*(2.1) Duplicates a buffer object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source buffer object*/
 	void duplicateBuffer(const PixelUnpackBuffer& buffer)
 	{
@@ -146,13 +146,6 @@ public:
 	_Ret_maybenull_ void* mapBuffer(BufferAccess access)
 	{
 		return _mapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_PIXEL_UNPACK_BUFFER_BINDING, (GLenum)access);
-	}
-
-	/*(2.1) Makes a reference of a buffer object, regardless of the source object's reference flag
-	@param Specifies the source buffer object*/
-	void referenceBuffer(PixelUnpackBuffer& buffer)
-	{
-		_buffer_ref((_Object&)buffer);
 	}
 
 	/*(2.1) Sets the binding state of the buffer object, only if current state is opposite. Used as a setter of <bufferBinding> property

@@ -117,20 +117,20 @@ class _Buffer : public _Object
 protected:
 	friend class _Texture;
 	friend class VertexAttrib;
+	void _buffer_clean() {
+		_object_clean(glDeleteBuffers);
+	}
 	void _buffer_delete() {
 		_object_delete(glDeleteBuffers);
 	}
 	void _buffer_dup(_Object& source) {
 		_object_dup(glDeleteBuffers, source);
 	}
-	void _buffer_gen() {
-		_object_gen(glGenBuffers, glDeleteBuffers, 1);
+	void _buffer_gen(GLboolean autodelete) {
+		_object_gen(glGenBuffers, glDeleteBuffers, 1, autodelete);
 	}
 	GLuint _buffer_id() {
 		return _object_id(glGenBuffers, 1);
-	}
-	void _buffer_ref(_Object& source) {
-		_object_ref(glDeleteBuffers, source);
 	}
 	void _buffer_set(GLenum target, GLenum binding, GLboolean bind) {
 		(bind) ? _bindBuffer(target, binding) : _unbindBuffer(target, binding);
@@ -174,19 +174,20 @@ public:
 	/*Cleans up the valid buffer object*/
 	~_Buffer()
 	{
-		_buffer_delete();
+		_buffer_clean();
 	}
 
-	/*Explicitly deletes previously generated single buffer object*/
+	/*Explicitly deletes single buffer object*/
 	void deleteBuffer()
 	{
 		_buffer_delete();
 	}
 
-	/*Explicitly generates single buffer object*/
-	void genBuffer()
+	/*Explicitly generates single buffer object
+	@param True to set the object's autodelete flag, default true*/
+	void genBuffer(GLboolean autodelete = GL_TRUE)
 	{
-		_buffer_gen();
+		_buffer_gen(autodelete);
 	}
 
 	/*Determines if a name corresponds to a buffer object. Used as a getter of <buffer> property
@@ -265,8 +266,8 @@ protected:
 	void _buffers_dup(_Objects& source) {
 		_objects_dup(glDeleteBuffers, source);
 	}
-	void _buffers_gen(GLsizei n) {
-		_objects_gen(glGenBuffers, glDeleteBuffers, n);
+	void _buffers_gen(GLsizei num) {
+		_objects_gen(glGenBuffers, glDeleteBuffers, num);
 	}
 
 public:
@@ -280,9 +281,9 @@ public:
 	}
 
 	/*(3) Constucts an initialized buffer multi-object*/
-	Buffers(GLsizei n)
+	Buffers(GLsizei num)
 	{
-		_buffers_gen(n);
+		_buffers_gen(num);
 	}
 
 	/*Cleans up the valid buffer multi-object*/
@@ -291,24 +292,24 @@ public:
 		_buffers_delete();
 	}
 
-	/*Deletes valid buffer multi-object*/
+	/*Explicitly deletes valid buffer multi-object*/
 	void deleteBuffers()
 	{
 		_buffers_delete();
 	}
 
-	/*Duplicates a buffer multi-object increasing its reference count
+	/*Duplicates a buffer multi-object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source buffer multi-object*/
 	void duplicateBuffers(const Buffers& buffers)
 	{
 		_buffers_dup((_Objects&)buffers);
 	}
 
-	/*Generates one or more buffer object names in the empty multi-object
+	/*Generates one or more buffer object names in the buffer multi-object
 	@param Specifies the number of object names to be generated*/
-	void genBuffers(GLsizei n)
+	void genBuffers(GLsizei num)
 	{
-		_buffers_gen(n);
+		_buffers_gen(num);
 	}
 
 	/*Retrieves a reference to the ArrayBuffer object from a valid multi-object
@@ -527,7 +528,7 @@ void _Buffer::setBuffer(GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_buffer_gen();
+		_buffer_gen(GL_TRUE);
 	}
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION

@@ -45,9 +45,9 @@ private:
     // Thread object static data structure
     static struct _SDATA {
         int iArgc; // Cmd-line argument count
-        int iESize; // Event array size
-        int iECount; // Event count
         char** pArgv; // Cmd-line argument array
+        int iEventSize; // Event array size
+        int iEventCount; // Event count
         Thread* pMainThread; // Application main thread
         double dEventsTimeout; // Render loop idle timeout
         volatile LONG* pLocks; // Spinlock array
@@ -73,6 +73,7 @@ private:
         HANDLE hThread; // Thread handle
         Message* pQueue; // Queue buffer
         Window* pWindow; // Current window
+
 #ifdef _DEBUG
         int _iDispatch; // Dispatch flag
 #endif // #ifdef _DEBUG
@@ -80,14 +81,13 @@ private:
 
     HANDLE _handle() const;
     bool _message(const Message* msg);
-    static Thread** _tlsThread()
-    {
+    static Thread** _tlsThread() {
         thread_local Thread* tls = nullptr; return &tls;
     }
+
 #ifdef _DEBUG
     bool _dispatch(); // Dispatch flag
 #endif // #ifdef _DEBUG
-
 
 protected:
     /*Thread exit event handler called at the thread termination. If after the function flow the <exitcode> property is set to non-zero, the thread exits immediately*/
@@ -642,8 +642,8 @@ bool Thread::_SDATA::initialize(Thread* thread)
 #endif // #ifdef _DEBUG
 
     iArgc = 0; // Thread sync data
-    iESize = YAGLPP_INIT_SIZE;
-    iECount = 1; // [0] reserved for sync event
+    iEventSize = YAGLPP_INIT_SIZE;
+    iEventCount = 1; // [0] reserved for sync event
     dEventsTimeout = 0.0;
     pMainThread = thread;
     pLocks = (LONG*)_callocate((YAGLPP_INIT_SIZE >> 5) * sizeof(LONG), nullptr);
@@ -673,7 +673,7 @@ bool Thread::_SDATA::initialize(Thread* thread)
 
 void Thread::_SDATA::syncEnter(int ref)
 {
-    YAGLPP_ASSERT((UINT)ref < (UINT)iECount); // INVALID SYNC REFERENCE NUMBER
+    YAGLPP_ASSERT((UINT)ref < (UINT)iEventCount); // INVALID SYNC REFERENCE NUMBER
     LONG lIndex = ref >> 5, lBit = ref & 0x1F;
     while (_interlockedbittestandset(&pLocks[lIndex], lBit))
     {
@@ -686,7 +686,7 @@ void Thread::_SDATA::syncEnter(int ref)
 
 void Thread::_SDATA::syncLeave(int ref)
 {
-    YAGLPP_ASSERT((UINT)ref < (UINT)iECount); // INVALID SYNC REFERENCE NUMBER
+    YAGLPP_ASSERT((UINT)ref < (UINT)iEventCount); // INVALID SYNC REFERENCE NUMBER
     LONG lIndex = ref >> 5, lBit = ref & 0x1F;
     BOOLEAN bBit = _interlockedbittestandreset(&pLocks[lIndex], lBit);
     YAGLPP_ASSERT(bBit != FALSE); // SYNC BIT WAS ALREADY UNSET
@@ -697,17 +697,17 @@ void Thread::_SDATA::syncLeave(int ref)
 int Thread::_SDATA::syncRef()
 {
     _s.syncEnter(0);
-    int iEvent = iECount++;
-    if (iEvent == iESize)
+    int iEvent = iEventCount++;
+    if (iEvent == iEventSize)
     {
-        int iNewLock = iESize >> 4;
-        int iOldLock = iESize >> 5;
-        int iOldSize = iESize;
-        iESize <<= 1; // x2
+        int iNewLock = iEventSize >> 4;
+        int iOldLock = iEventSize >> 5;
+        int iOldSize = iEventSize;
+        iEventSize <<= 1; // x2
         volatile LONG* pOldLocks = pLocks;
         volatile HANDLE* pOldEvents = pEvents;
         pLocks = (LONG*)_callocate(iNewLock * sizeof(LONG), nullptr);
-        pEvents = (HANDLE*)_callocate(iESize * sizeof(HANDLE), nullptr);
+        pEvents = (HANDLE*)_callocate(iEventSize * sizeof(HANDLE), nullptr);
         memcpy((void*)pLocks, (const void*)pOldLocks, iOldLock * sizeof(LONG));
         memcpy((void*)pEvents, (const void*)pOldEvents, iOldSize * sizeof(HANDLE));
         _deallocate((void*)pOldLocks, nullptr);
@@ -721,7 +721,7 @@ int Thread::_SDATA::syncRef()
 
 bool Thread::_SDATA::syncTry(int ref)
 {
-    YAGLPP_ASSERT((UINT)ref < (UINT)iECount); // INVALID SYNC REFERENCE NUMBER
+    YAGLPP_ASSERT((UINT)ref < (UINT)iEventCount); // INVALID SYNC REFERENCE NUMBER
     LONG lIndex = ref >> 5, lBit = ref & 0x1F;
     if (_interlockedbittestandset(&pLocks[lIndex], lBit)) return false;
     BOOL bResult = ResetEvent(pEvents[ref]);
@@ -731,7 +731,7 @@ bool Thread::_SDATA::syncTry(int ref)
 
 void Thread::_SDATA::terminate()
 {
-    for (int i = 0; i < iECount; i++) // Cleanup sync
+    for (int i = 0; i < iEventCount; i++) // Cleanup sync
     {
         CloseHandle(pEvents[i]);
     }

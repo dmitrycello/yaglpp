@@ -65,7 +65,7 @@ public:
 		_bufferSubData(GL_ARRAY_BUFFER, GL_ARRAY_BUFFER_BINDING, offset, size, data);
 	}
 
-	/*Duplicates a buffer object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*Duplicates a buffer object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source buffer object*/
 	void duplicateBuffer(const ArrayBuffer& buffer)
 	{
@@ -145,13 +145,6 @@ public:
 	_Ret_maybenull_ void* mapBuffer(BufferAccess access)
 	{
 		return _mapBuffer(GL_ARRAY_BUFFER, GL_ARRAY_BUFFER_BINDING, (GLenum)access);
-	}
-
-	/*Makes a reference of a buffer object, regardless of the source object's reference flag
-	@param Specifies the source buffer object*/
-	void referenceBuffer(const ArrayBuffer& buffer)
-	{
-		_buffer_ref((_Object&)buffer);
 	}
 
 	/*Sets the binding state of the buffer object, only if current state is opposite. Used as a setter of <bufferBinding> property

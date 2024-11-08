@@ -115,9 +115,7 @@ _Ret_notnull_ void* _callocate(size_t size, void* user);
 _Ret_maybenull_ char* _copyString(const char* source, void* user);
 void _deallocate(void* block, void* user);
 _Ret_notnull_ LPBYTE _loadFile(const char* file, int* size, void* user);
-_Ret_notnull_ LPBYTE _loadResource(int rcid, int* size);
 _Ret_maybenull_ void* _reallocate(void* block, size_t size, void* user);
-void _writeFile(const char* file, const void* data, int size);
 
 #ifdef _DEBUG
 #ifdef YAGLPP_IMPLEMENTATION
@@ -131,20 +129,48 @@ void _writeFile(const char* file, const void* data, int size);
 #define YAGLPP_ASSERT(e) ((void)0)
 #endif // #ifdef _DEBUG
 
+/*YAGL++ helper function, copies the string into allocated memory block, must be cleaned up after use
+@param [in] The pointer to the source string*/
+inline _Ret_maybenull_ char* yaglpp_copyString(_In_z_ const char* source)
+{
+    return _copyString(source, nullptr);
+}
+
 /*YAGL++ helper function, checks if the file with given path exists using <stat> structure
 @param [in] The requested file with given path
 @return True if file exists, false otherwise*/
-inline bool fileExists(_In_z_ const char* file)
+inline bool yaglpp_fileExists(_In_z_ const char* file)
 {
     struct stat buffer; return stat(file, &buffer) == 0;
 }
 
 /*YAGL++ helper function, deallocates the memory block previously allocated by the library
 @param [in] The pointer to freed memory block*/
-inline void freeMemory(_In_ void* block)
+inline void yaglpp_freeMemory(_In_ void* block)
 {
     _deallocate(block, nullptr);
 }
+
+/*YAGL++ helper function, loads a file data into allocated memory block, must be cleaned up after use
+@param [in] The file path
+@param [out] Receives the size of loaded data, in bytes
+@return The pointer to the memory block*/
+inline _Ret_notnull_ void* yaglpp_loadFile(_In_z_ const char* file, _Out_ int* size)
+{
+    return _loadFile(file, size, nullptr);
+}
+
+/*YAGL++ helper function, locates a binary resource of <RCDATA> type
+@param The binary resource id
+@param [out] Receives the size of resource data, in bytes
+@return The pointer to the memory block*/
+_Ret_notnull_ void* yaglpp_loadResource(int rcid, _Out_ int* size);
+
+/*YAGL++ helper function, writes the content of memory block into a file
+@param [in] The file path
+@param [in] The pointer to the memory block
+@param The size of data written into a file, in bytes*/
+void yaglpp_writeFile(_In_z_ const char* file, _In_ const void* data, int size);
 
 #ifdef YAGLPP_IMPLEMENTATION
 _Ret_notnull_ void* _allocate(size_t size, void* user)
@@ -199,17 +225,6 @@ _Ret_notnull_ LPBYTE _loadFile(const char* file, int* size, void* user)
     return lpData;
 }
 
-_Ret_notnull_ LPBYTE _loadResource(int rcid, int* size)
-{
-    static HMODULE hModule = GetModuleHandle(NULL);
-    HRSRC hResource = FindResource(hModule, MAKEINTRESOURCE(rcid), RT_RCDATA);
-    YAGLPP_ASSERT(hResource != NULL); // FAILED TO FIND RESOURCE ID
-    HGLOBAL hMemory = LoadResource(hModule, hResource);
-    YAGLPP_ASSERT(hMemory != NULL); // FAILED TO LOAD RESOURCE ID
-    *size = SizeofResource(hModule, hResource);
-    return (LPBYTE)LockResource(hMemory);
-}
-
 _Ret_maybenull_ void* _reallocate(void* block, size_t size, void* user)
 {
     if (block == nullptr)
@@ -229,7 +244,18 @@ _Ret_maybenull_ void* _reallocate(void* block, size_t size, void* user)
     return pReturn;
 }
 
-void _writeFile(const char* file, const void* data, int size)
+_Ret_notnull_ void* yaglpp_loadResource(int rcid, _Out_ int* size)
+{
+    static HMODULE hModule = GetModuleHandle(NULL);
+    HRSRC hResource = FindResource(hModule, MAKEINTRESOURCE(rcid), RT_RCDATA);
+    YAGLPP_ASSERT(hResource != NULL); // FAILED TO FIND RESOURCE ID
+    HGLOBAL hMemory = LoadResource(hModule, hResource);
+    YAGLPP_ASSERT(hMemory != NULL); // FAILED TO LOAD RESOURCE ID
+    *size = SizeofResource(hModule, hResource);
+    return LockResource(hMemory);
+}
+
+void yaglpp_writeFile(const char* file, const void* data, int size)
 {
     FILE* pFile;
     YAGLPP_ASSERT(file != nullptr); // FILE PARAMETER COULD NOT BE NULL

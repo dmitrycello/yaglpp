@@ -769,20 +769,20 @@ protected:
 	friend _Framebuffer;
 #endif // #ifdef YAGLPP_VERSION_3_0
 
+	void _texture_clean() {
+		_object_clean(glDeleteTextures);
+	}
 	void _texture_delete() {
 		_object_delete(glDeleteTextures);
 	}
 	void _texture_dup(_Object& source) {
 		_object_dup(glDeleteTextures, source);
 	}
-	void _texture_gen() {
-		_object_gen(glGenTextures, glDeleteTextures, 1);
+	void _texture_gen(GLboolean autodelete) {
+		_object_gen(glGenTextures, glDeleteTextures, 1, autodelete);
 	}
 	GLuint _texture_id() {
 		return _object_id(glGenTextures, 1);
-	}
-	void _texture_ref(_Object& source) {
-		_object_ref(glDeleteTextures, source);
 	}
 	void _texture_set(GLenum target, GLenum binding, GLboolean bind) {
 		(bind) ? _bindTexture(target, binding) : _unbindTexture(target, binding);
@@ -897,7 +897,7 @@ public:
 	/*Cleans up the valid texture object*/
 	~_Texture()
 	{
-		_texture_delete();
+		_texture_clean();
 	}
 
 	/*Explicitly deletes previously generated single texture object name*/
@@ -906,10 +906,11 @@ public:
 		_texture_delete();
 	}
 
-	/*Explicitly generates single texture object name in the empty texture object*/
-	void genTexture()
+	/*Explicitly generates single texture object
+	@param True to set the object's autodelete flag, default true*/
+	void genTexture(GLboolean autodelete = GL_TRUE)
 	{
-		_texture_gen();
+		_texture_gen(autodelete);
 	}
 
 	/*Returns the index value of an active multitexture unit ranging from 0 to the value returned by <getMaxCombinedTextureImageUnits> minus 1
@@ -983,8 +984,8 @@ protected:
 	void _textures_dup(_Objects& source) {
 		_objects_dup(glDeleteTextures, source);
 	}
-	void _textures_gen(GLsizei n) {
-		_objects_gen(glGenTextures, glDeleteTextures, n);
+	void _textures_gen(GLsizei num) {
+		_objects_gen(glGenTextures, glDeleteTextures, num);
 	}
 
 public:
@@ -998,9 +999,9 @@ public:
 	}
 
 	/*(3) Constucts an initialized texture multi-object*/
-	Textures(GLsizei n)
+	Textures(GLsizei num)
 	{
-		_textures_gen(n);
+		_textures_gen(num);
 	}
 
 	/*Cleans up the valid texture multi-object*/
@@ -1009,24 +1010,24 @@ public:
 		_textures_delete();
 	}
 
-	/*Cleans up the valid texture multi-object*/
+	/*Explicitly deletes valid texture multi-object*/
 	void deleteTextures()
 	{
 		_textures_delete();
 	}
 
-	/*Duplicates a texture multi-object increasing its reference count
-	@param Specifies the source buffer multi-object*/
+	/*Duplicates a texture multi-object. If the source is a single object, it unconditionally becomes a reference object
+	@param Specifies the source texture multi-object*/
 	void duplicateTextures(const Textures& textures)
 	{
 		_textures_dup((_Objects&)textures);
 	}
 
-	/*Generates one or more texture object names in the empty multi-object
+	/*Generates one or more texture object names in the texture multi-object
 	@param Specifies the number of object names to be generated*/
-	void genTextures(GLsizei n)
+	void genTextures(GLsizei num)
 	{
-		_textures_gen(n);
+		_textures_gen(num);
 	}
 
 	/*Retrieves a reference to the Texture1D object from a valid multi-object
@@ -1630,7 +1631,7 @@ void _Texture::setTexture(GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_texture_gen();
+		_texture_gen(GL_TRUE);
 	}
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION

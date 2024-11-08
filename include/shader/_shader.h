@@ -20,20 +20,20 @@ enum class ShaderType : GLenum
 class _Shader : public _Object
 {
 protected:
+	void _shader_clean() {
+		_object_clean(_glDeleteShader);
+	}
 	void _shader_delete() {
 		_object_delete(_glDeleteShader);
 	}
 	void _shader_dup(_Object& source) {
 		_object_dup(_glDeleteShader, source);
 	}
-	void _shader_gen(GLenum shaderType) {
-		_object_gen(_glCreateShader, _glDeleteShader, shaderType);
+	void _shader_gen(GLenum shaderType, GLboolean autodelete) {
+		_object_gen(_glCreateShader, _glDeleteShader, shaderType, autodelete);
 	}
 	GLuint _shader_id(GLenum shaderType) {
 		return _object_id(_glCreateShader, shaderType);
-	}
-	void _shader_ref(_Object& source) {
-		_object_ref(_glDeleteShader, source);
 	}
 	void _attachShader(GLenum shaderType, Program& program);
 	void _compileShader(GLenum shaderType);
@@ -52,7 +52,7 @@ public:
 	/*Cleans up the valid shader object*/
 	~_Shader()
 	{
-		_shader_delete();
+		_shader_clean();
 	}
 
 	/*Explicitly deletes previously generated shader object*/
@@ -96,14 +96,14 @@ void _Shader::_setShader(GLenum type, GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_shader_gen(type);
+		_shader_gen(type, GL_TRUE);
 	}
 }
 
 void _Shader::_shaderSource(GLenum shaderType, int rcid)
 {
 	int iSize;
-	const GLchar* pData = (GLchar*)_loadResource(rcid, &iSize);
+	const GLchar* pData = (GLchar*)yaglpp_loadResource(rcid, &iSize);
 	glShaderSource(_shader_id(shaderType), 1, &pData, &iSize);
 	YAGLPP_GLAD_ERROR;
 }

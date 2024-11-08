@@ -24,7 +24,7 @@ public:
 		_beginQuery(GL_PRIMITIVES_GENERATED);
 	}
 
-	/*(3.0) Duplicates a query object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*(3.0) Duplicates a query object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source query object*/
 	void duplicateQuery(const PrimitivesGenerated& query)
 	{
@@ -56,13 +56,6 @@ public:
 	GLboolean isCurrentQuery() const
 	{
 		return _isCurrentQuery(GL_PRIMITIVES_GENERATED);
-	}
-
-	/*(3.0) Makes a reference of a query object, regardless of the source object's reference flag
-	@param Specifies the source query object*/
-	void referenceQuery(const PrimitivesGenerated& query)
-	{
-		_query_ref((_Object&)query);
 	}
 
 #ifdef YAGLPP_CLASS_PROPERTIES

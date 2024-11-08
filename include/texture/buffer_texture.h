@@ -134,7 +134,7 @@ public:
 		_bindTexture(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER);
 	}
 
-	/*(3.1) Duplicates a texture object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*(3.1) Duplicates a texture object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source texture object*/
 	void duplicateTexture(const BufferTexture& texture)
 	{
@@ -243,13 +243,6 @@ public:
 	GLboolean isTextureBinding() const
 	{
 		return _object_binding(GL_TEXTURE_BINDING_BUFFER);
-	}
-
-	/*(3.1) Makes a reference of a texture object, regardless of the source object's reference flag
-	@param Specifies the source texture object*/
-	void referenceTexture(const BufferTexture& texture)
-	{
-		_texture_ref((_Object&)texture);
 	}
 
 	/*(3.1) Sets the binding state of the texture object, only if current state is opposite. Used as a setter of <textureBinding> property

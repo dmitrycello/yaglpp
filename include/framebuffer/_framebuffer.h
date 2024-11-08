@@ -172,20 +172,20 @@ constexpr FramebufferAttachment framebufferAttachment(ColorAttachment index)
 class _Framebuffer : public _Object
 {
 protected:
+	void _framebuffer_clean() {
+		_object_clean(glDeleteFramebuffers);
+	}
 	void _framebuffer_delete() {
 		_object_delete(glDeleteFramebuffers);
 	}
 	void _framebuffer_dup(_Object& source) {
 		_object_dup(glDeleteFramebuffers, source);
 	}
-	void _framebuffer_gen() {
-		_object_gen(glGenFramebuffers, glDeleteFramebuffers, 1);
+	void _framebuffer_gen(GLboolean autodelete) {
+		_object_gen(glGenFramebuffers, glDeleteFramebuffers, 1, autodelete);
 	}
 	GLuint _framebuffer_id() {
 		return _object_id(glGenFramebuffers, 1);
-	}
-	void _framebuffer_ref(_Object& source) {
-		_object_ref(glDeleteFramebuffers, source);
 	}
 	void _framebuffer_set(GLenum target, GLenum binding, GLboolean bind) {
 		(bind) ? _bindFramebuffer(target, binding) : _unbindFramebuffer(target, binding);
@@ -208,7 +208,7 @@ public:
 	/*(3.0) Cleans up the valid framebuffer object*/
 	~_Framebuffer()
 	{
-		_framebuffer_delete();
+		_framebuffer_clean();
 	}
 
 	/*(3.0) Explicitly deletes previously generated single framebuffer object*/
@@ -229,10 +229,11 @@ public:
 		_enable(GL_FRAMEBUFFER_SRGB);
 	}
 
-	/*(3.0) Explicitly generates single framebuffer object*/
-	void genFramebuffer()
+	/*(3.0) Explicitly generates single framebuffer object
+	@param True to set the object's autodelete flag, default true*/
+	void genFramebuffer(GLboolean autodelete = GL_TRUE)
 	{
-		_framebuffer_gen();
+		_framebuffer_gen(autodelete);
 	}
 
 	/*(3.0) Gets the maximum number of the color attachment units of the framebuffer. The value must be at least 8
@@ -276,8 +277,8 @@ protected:
 	void _framebuffers_dup(_Objects& source) {
 		_objects_dup(glDeleteFramebuffers, source);
 	}
-	void _framebuffers_gen(GLsizei n) {
-		_objects_gen(glGenFramebuffers, glDeleteFramebuffers, n);
+	void _framebuffers_gen(GLsizei num) {
+		_objects_gen(glGenFramebuffers, glDeleteFramebuffers, num);
 	}
 
 public:
@@ -291,9 +292,9 @@ public:
 	}
 
 	/*(3.0) (3) Constucts an initialized framebuffer multi-object*/
-	Framebuffers(GLsizei n)
+	Framebuffers(GLsizei num)
 	{
-		_framebuffers_gen(n);
+		_framebuffers_gen(num);
 	}
 
 	/*(3.0) Cleans up the valid framebuffer multi-object*/
@@ -302,24 +303,24 @@ public:
 		_framebuffers_delete();
 	}
 
-	/*(3.0) Duplicates a framebuffer multi-object increasing its reference count
+	/*(3.0) Duplicates a framebuffer multi-object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source framebuffer multi-object*/
 	void duplicateFramebuffers(const Framebuffers& framebuffers)
 	{
 		_framebuffers_dup((_Objects&)framebuffers);
 	}
 
-	/*(3.0) Deletes valid framebuffer multi-object*/
+	/*(3.0) Explicitly deletes valid framebuffer multi-object*/
 	void deleteFramebuffers()
 	{
 		_framebuffers_delete();
 	}
 
-	/*(3.0) Generates one or more framebuffer object names in the empty multi-object
+	/*(3.0) Generates one or more framebuffer object names in the framebuffer multi-object
 	@param Specifies the number of object names to be generated*/
-	void genFramebuffers(GLsizei n)
+	void genFramebuffers(GLsizei num)
 	{
-		_framebuffers_gen(n);
+		_framebuffers_gen(num);
 	}
 
 	/*(3.0) Retrieves a reference to the Framebuffer object from a valid multi-object
@@ -488,7 +489,7 @@ void _Framebuffer::setFramebuffer(GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_framebuffer_gen();
+		_framebuffer_gen(GL_TRUE);
 	}
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION

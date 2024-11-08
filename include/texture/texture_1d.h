@@ -85,7 +85,7 @@ public:
 		_copyTexSubImage1D(GL_TEXTURE_1D, GL_TEXTURE_BINDING_1D, level, xoffset, x, y, width);
 	}
 
-	/*Duplicates a texture object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*Duplicates a texture object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source texture object*/
 	void duplicateTexture(const Texture1D& texture)
 	{
@@ -411,13 +411,6 @@ public:
 	GLboolean isTextureBinding() const
 	{
 		return _object_binding(GL_TEXTURE_BINDING_1D);
-	}
-
-	/*Makes a reference of a texture object, regardless of the source object's reference flag
-	@param Specifies the source texture object*/
-	void referenceTexture(const Texture1D& texture)
-	{
-		_texture_ref((_Object&)texture);
 	}
 
 	/*Specifies the index of the lowest defined mipmap level. Used as a setter of <textureBaseLevel> property

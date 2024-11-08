@@ -7,20 +7,20 @@ class VertexArray : public _Object
 {
 protected:
 	VertexArray(GLint name) { _object_set(name); }
+	void _vertex_clean() {
+		_object_clean(glDeleteVertexArrays);
+	}
 	void _vertex_delete() {
 		_object_delete(glDeleteVertexArrays);
 	}
 	void _vertex_dup(_Object& source) {
 		_object_dup(glDeleteVertexArrays, source);
 	}
-	void _vertex_gen() {
-		_object_gen(glGenVertexArrays, glDeleteVertexArrays, 1);
+	void _vertex_gen(GLboolean autodelete) {
+		_object_gen(glGenVertexArrays, glDeleteVertexArrays, 1, autodelete);
 	}
 	GLuint _vertex_id() {
 		return _object_id(glGenVertexArrays, 1);
-	}
-	void _vertex_ref(_Object& source) {
-		_object_ref(glDeleteVertexArrays, source);
 	}
 
 public:
@@ -36,7 +36,7 @@ public:
 	/*(3.0) Cleans up the valid vertex array object*/
 	~VertexArray()
 	{
-		_vertex_delete();
+		_vertex_clean();
 	}
 
 	/*(3.0) Explicitly binds vertex array object to its target. Does nothing if specified vertex array is bound*/
@@ -48,17 +48,18 @@ public:
 		_vertex_delete();
 	}
 
-	/*(3.0) Duplicates a vertex array object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*(3.0) Duplicates a vertex array object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source vertex array object*/
 	void duplicateVertexArray(const VertexArray& vertex)
 	{
 		_vertex_dup((_Object&)vertex);
 	}
 
-	/*(3.0) Explicitly generates single vertex array object*/
-	void genVertexArray()
+	/*(3.0) Explicitly generates single vertex array object
+	@param True to set the object's autodelete flag, default true*/
+	void genVertexArray(GLboolean autodelete = GL_TRUE)
 	{
-		_vertex_gen();
+		_vertex_gen(autodelete);
 	}
 
 	/*(3.0) Returns a reference vertex array object currently bound to the context
@@ -80,13 +81,6 @@ public:
 	GLboolean isVertexArrayBinding() const
 	{
 		return _object_binding(GL_VERTEX_ARRAY_BINDING);
-	}
-
-	/*(3.0) Makes a reference of a vertex array object, regardless of the source object's reference flag
-	@param Specifies the source vertex array object*/
-	void referenceVertexArray(const VertexArray& vertex)
-	{
-		_vertex_ref((_Object&)vertex);
 	}
 
 	/*(3.0) Sets the creation state of the vertex array object, only if current state is opposite. Depending of the flag value, calls <genVertexArray> or <deleteVertexArray> functions. Used as a setter of <vertexArray> property
@@ -126,9 +120,10 @@ protected:
 	void _vertices_dup(_Objects& source) {
 		_objects_dup(glDeleteVertexArrays, source);
 	}
-	void _vertices_gen(GLsizei n) {
-		_objects_gen(glGenVertexArrays, glDeleteVertexArrays, n);
+	void _vertices_gen(GLsizei num) {
+		_objects_gen(glGenVertexArrays, glDeleteVertexArrays, num);
 	}
+
 public:
 	/*(3.0) (1) Constructs an empty vertex array multi-object*/
 	VertexArrays() {}
@@ -140,9 +135,9 @@ public:
 	}
 
 	/*(3.0) (3) Constucts an initialized vertex array multi-object*/
-	VertexArrays(GLsizei n)
+	VertexArrays(GLsizei num)
 	{
-		_vertices_gen(n);
+		_vertices_gen(num);
 	}
 
 	/*(3.0) Cleans up the valid vertex array multi-object*/
@@ -151,24 +146,24 @@ public:
 		_vertices_delete();
 	}
 
-	/*(3.0) Deletes valid vertex array multi-object*/
+	/*(3.0) Explicitly deletes valid vertex array multi-object*/
 	void deleteVertexArrays()
 	{
 		_vertices_delete();
 	}
 
-	/*(3.0) Duplicates a vertex array object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
-	@param Specifies the source vertex array object*/
+	/*(3.0) Duplicates a vertex array multi-object. If the source is a single object, it unconditionally becomes a reference object
+	@param Specifies the source vertex array multi-object*/
 	void duplicateVertexArrays(const VertexArrays& vertices)
 	{
 		_vertices_dup((_Objects&)vertices);
 	}
 
-	/*(3.0) Generates one or more vertex array object names in the empty multi-object
+	/*(3.0) Generates one or more vertex array object names in the vertex array multi-object
 	@param Specifies the number of object names to be generated*/
-	void genVertexArrays(GLsizei n)
+	void genVertexArrays(GLsizei num)
 	{
-		_vertices_gen(n);
+		_vertices_gen(num);
 	}
 
 	/*(3.0) Retrieves a reference to the VertexArray object from a valid multi-object
@@ -222,7 +217,7 @@ void VertexArray::setVertexArray(GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_vertex_gen();
+		_vertex_gen(GL_TRUE);
 	}
 }
 

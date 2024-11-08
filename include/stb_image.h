@@ -111,19 +111,19 @@ class StbImage
 private:
 	typedef struct {
 		int ref; // Ref count
-		int byte; // Bytes p/channel
-		int comp; // Channels p/pixel
 		int width; // Image width
 		int height; // Image height
+		short byte; // Bytes p/channel
+		short comp; // Channels p/pixel
 #pragma warning(push)
 #pragma warning(disable : 4200)
 		unsigned char data[0]; // Zero array
 #pragma warning(pop)
 	} _DATA, *_LPDATA;
 	_LPDATA _mpData = nullptr; // Class data
-	void _stbi_delete();
-	void _stbi_dup(const StbImage& source);
-	void _stbi_init(int ref, int byte, int comp, int width, int height);
+	_LPDATA _data() const;
+	void _stbi_init(int width, int height, int byte, int comp);
+	void _stbi_load(unsigned char* result);
 
 public:
 	/*(1) Constructs an empty StbImage object*/
@@ -132,7 +132,7 @@ public:
 	/*(2) Constructs a duplicate of StbImage object*/
 	StbImage(const StbImage& source)
 	{
-		_stbi_dup(source);
+		duplicateImage(source);
 	}
 
 	/*(3) Constructs a copy StbImage object with <copySprite>*/
@@ -168,7 +168,7 @@ public:
 	/*Cleans up the StbImage object*/
 	~StbImage()
 	{
-		_stbi_delete();
+		deleteImage();
 	}
 
 	/*Sets the global flag indicating whether to process iphone images back to canonical format, or pass them through as is
@@ -211,17 +211,11 @@ public:
 	void createImage(int width, int height, StbFormat format, bool init = false);
 
 	/*Unloads the last inctance of a previously loaded image, or decrements its reference count*/
-	void deleteImage()
-	{
-		_stbi_delete();
-	}
+	void deleteImage();
 
 	/*Creates a reference to the source StbImage object, and increments its reference count
 	@param The source StbImage object*/
-	void duplicateImage(const StbImage& source)
-	{
-		_stbi_dup(source);
-	}
+	void duplicateImage(const StbImage& source);
 
 	/*Sets the global image writing direction flag
 	@param True to set writing direction from bottom to top, default false*/
@@ -229,27 +223,45 @@ public:
 
 	/*Gets the number of channels per pixel of loaded image. Possible values are: <Grey>, <GreyAlpha>, <Rgb> or <RgbAlpha>
 	@return The number of channels per pixel*/
-	StbFormat getChannels() const;
+	StbFormat getChannels() const
+	{
+		return (StbFormat)_data()->comp;
+	}
 
 	/*Gets the channel depth of loaded image. Possible values are: <Unsigned8>, <Unsigned16> or <Float32>
 	@return The pixel channel depth*/
-	StbFormat getDepth() const;
+	StbFormat getDepth() const
+	{
+		return (StbFormat)(_data()->byte << 4);
+	}
 
 	/*Gets the number of channels per pixel and the channel depth of loaded image
 	@return The pixel format*/
-	StbFormat getFormat() const;
-
-	/*Gets the height of last loaded or queried image. The multi-image height is multiplied by the number of layers
-	@return The image height in pixels*/
-	int getHeight() const;
-
-	/*Gets a pointer to the pixel array of last loaded image
-	@return Pointer to the image pixel array*/
-	_Ret_notnull_ void* getPixels() const;
+	StbFormat getFormat() const
+	{
+		return (StbFormat)((_data()->byte << 4) | _data()->comp);
+	}
 
 	/*Gets the width of last loaded or queried image
 	@return The image width in pixels*/
-	int getWidth() const;
+	int getWidth() const
+	{
+		return _data()->width;
+	}
+
+	/*Gets the height of last loaded or queried image. The multi-image height is multiplied by the number of layers
+	@return The image height in pixels*/
+	int getHeight() const
+	{
+		return _data()->height;
+	}
+
+	/*Gets a pointer to the pixel array of last loaded image
+	@return Pointer to the image pixel array*/
+	_Ret_notnull_ void* getPixels() const
+	{
+		return _data()->data;
+	}
 
 	/*Sets the global gamma value used in hdr-to-ldr conversion
 	@param New hdr-to-ldr gamma value, default 1/2.2f*/
@@ -293,11 +305,11 @@ public:
 	static bool is16bit(_In_ StbCallbacks const* clbk, _In_ void* user);
 
 	/*Checks if the source object is referencing the same StbImage object
-	@param The source data store object
+	@param The source StbImage object
 	@return True if duplicate object*/
 	bool isDuplicate(const StbImage& source) const
 	{
-		return _mpData == source._mpData;
+		return (_mpData != nullptr) && (_mpData == source._mpData);
 	}
 
 	/*(1) Checks if the binary resource is a 32-bit float image
@@ -478,6 +490,10 @@ public:
 	/*Read-only property for width of last loaded image*/
 	__declspec(property(get = getWidth)) int width;
 #endif // #ifdef YAGLPP_CLASS_PROPERTIES
+
+#ifdef YAGLPP_IMPLEMENTATION
+	static constexpr void* _headerSize() { return (void*)sizeof(_DATA); }
+#endif // #ifdef YAGLPP_IMPLEMENTATION
 }; // class StbImage
 
 #ifdef YAGLPP_IMPLEMENTATION
@@ -486,18 +502,15 @@ public:
 
 #ifdef _DEBUG
 #define STBI_FAILURE_USERMSG
-#define YAGLPP_STBIMAGE_ASSERT if (_mpData == nullptr) { std::cout << "STB IMAGE ERROR: " << stbi_failure_reason() << std::endl; YAGLPP_ASSERT(false); }
 #else // #ifdef _DEBUG
 #define STBI_NO_FAILURE_STRINGS
-#define YAGLPP_STBIMAGE_ASSERT
 #endif // #ifdef _DEBUG
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_ASSERT(e) YAGLPP_ASSERT(e)
-#define YAGLPP_STBI_HEADER (sizeof(int)*5)
-#define STBI_MALLOC(s) _allocate(s,(void*)YAGLPP_STBI_HEADER)
-#define STBI_REALLOC(p,s) _reallocate(p,s,(void*)YAGLPP_STBI_HEADER)
-#define STBI_FREE(p) _deallocate(p,(void*)YAGLPP_STBI_HEADER)
+#define STBI_MALLOC(s) _allocate(s,StbImage::_headerSize())
+#define STBI_REALLOC(p,s) _reallocate(p,s,StbImage::_headerSize())
+#define STBI_FREE(p) _deallocate(p,StbImage::_headerSize())
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 #define STBIR_ASSERT(e) YAGLPP_ASSERT(e)
 #define STBIR_FREE(p,c) ((void)(c), _deallocate(p,nullptr))
@@ -536,7 +549,7 @@ inline void StbImage::hdrToLdrScale(float scale)
 
 inline bool StbImage::is16bit(int rcid)
 {
-	int iLen; return (bool)stbi_is_16_bit_from_memory(_loadResource(rcid, &iLen), iLen);
+	int iLen; return (bool)stbi_is_16_bit_from_memory((stbi_uc*)yaglpp_loadResource(rcid, &iLen), iLen);
 }
 
 inline bool StbImage::is16bit(_In_ StbCallbacks const* clbk, _In_ void* user)
@@ -546,7 +559,7 @@ inline bool StbImage::is16bit(_In_ StbCallbacks const* clbk, _In_ void* user)
 
 inline bool StbImage::isHdr(int rcid)
 {
-	int iLen; return (bool)stbi_is_hdr_from_memory(_loadResource(rcid, &iLen), iLen);
+	int iLen; return (bool)stbi_is_hdr_from_memory((stbi_uc*)yaglpp_loadResource(rcid, &iLen), iLen);
 }
 
 inline bool StbImage::isHdr(_In_ StbCallbacks const* clbk, _In_ void* user)
@@ -658,7 +671,30 @@ STBIDEF float* stbi_loadf_gif_from_memory(stbi_uc const* buffer, int len, int** 
 	return stbi__ldr_to_hdr(result, *x, *y, *comp);
 }
 
-void StbImage::_stbi_delete()
+void StbImage::_stbi_init(int width, int height, int byte, int comp)
+{
+	_mpData->ref = 0;
+	_mpData->width = width;
+	_mpData->height = height;
+	_mpData->byte = (short)byte;
+	_mpData->comp = (short)comp;
+}
+
+void StbImage::_stbi_load(unsigned char* result)
+{
+#ifdef _DEBUG
+	if (result == nullptr)
+	{
+		std::cout << "STB IMAGE ERROR: " << stbi_failure_reason() << std::endl;
+		YAGLPP_ASSERT(false);
+	}
+#endif // #ifdef _DEBUG
+
+	deleteImage();
+	_mpData = (_LPDATA)(result - sizeof(_DATA)); // rewing to header
+}
+
+void StbImage::deleteImage()
 {
 	if (_mpData != nullptr)
 	{
@@ -671,11 +707,11 @@ void StbImage::_stbi_delete()
 	}
 }
 
-void StbImage::_stbi_dup(const StbImage& source)
+void StbImage::duplicateImage(const StbImage& source)
 {
 	if (&source != this)
 	{
-		_stbi_delete();
+		deleteImage();
 		_mpData = source._mpData;
 		if (_mpData != nullptr)
 		{
@@ -684,24 +720,15 @@ void StbImage::_stbi_dup(const StbImage& source)
 	}
 }
 
-void StbImage::_stbi_init(int ref, int byte, int comp, int width, int height)
-{
-	_mpData->ref = ref;
-	_mpData->byte = byte;
-	_mpData->comp = comp;
-	_mpData->width = width;
-	_mpData->height = height;
-}
-
 void StbImage::copyImage(const StbImage& source)
 {
 	if (&source != this)
 	{
-		_stbi_delete();
+		deleteImage();
 		if (source._mpData != nullptr)
 		{
 			int iSize = (source._mpData->width * source._mpData->height *
-				source._mpData->comp * source._mpData->byte) + sizeof(_DATA);
+				(int)source._mpData->comp * (int)source._mpData->byte) + sizeof(_DATA);
 			_mpData = (_LPDATA)_allocate(iSize, nullptr);
 			memcpy(_mpData, source._mpData, iSize);
 			_mpData->ref = 0;
@@ -718,7 +745,7 @@ void StbImage::copyRegion(const StbImage& source, int rleft, int rtop, int rwidt
 		int iWidth = source._mpData->width, iHeight = source._mpData->height;
 		YAGLPP_ASSERT((rwidth + rleft) <= iWidth); // IMAGE SUBREGION IS NOT INBOUND
 		YAGLPP_ASSERT((rheight + rtop) <= iHeight); // IMAGE SUBREGION IS NOT INBOUND
-		int iByte = source._mpData->byte, iComp = source._mpData->comp;
+		int iByte = (int)source._mpData->byte, iComp = (int)source._mpData->comp;
 		int iDstPos = 0,
 			iPixel = iByte * iComp,
 			iDstLine = rwidth * iPixel,
@@ -731,11 +758,11 @@ void StbImage::copyRegion(const StbImage& source, int rleft, int rtop, int rwidt
 			iDstPos += iDstLine;
 			iSrcPos += iSrcLine;
 		}
-		_stbi_delete();
+		deleteImage();
 		_mpData = lpData;
-		_stbi_init(0, iByte, iComp, rwidth, rheight);
+		_stbi_init(rwidth, rheight, iByte, iComp);
 	}
-	else _stbi_delete();
+	else deleteImage();
 }
 
 void StbImage::copySprite(const StbImage& source, int width, int height, int index)
@@ -759,16 +786,16 @@ void StbImage::createImage(int width, int height, StbFormat format, bool init)
 	int iByte = ((int)format & YAGLPP_STBIMAGE_BYTE) >> 4;
 	int iComp = (int)format & YAGLPP_STBIMAGE_COMP;
 	YAGLPP_ASSERT((iByte > 0) && (iComp > 0)); // IMAGE PIXEL FORMAT MUST BE NON-DEFAULT
-	_stbi_delete();
+	deleteImage();
 	int iSize = (width * height * iByte * iComp) + sizeof(_DATA);
 	_mpData = (init) ? (_LPDATA)_callocate(iSize, nullptr) : (_LPDATA)_allocate(iSize, nullptr);
-	_stbi_init(0, iByte, iComp, width, height);
+	_stbi_init(width, height, iByte, iComp);
 }
 
 bool StbImage::info(_Out_ StbInfo* info, int rcid)
 {
 	int iLen;
-	unsigned char* pBuffer = _loadResource(rcid, &iLen);
+	stbi_uc* pBuffer = (stbi_uc*)yaglpp_loadResource(rcid, &iLen);
 	info->byte =
 		(stbi_is_hdr_from_memory(pBuffer, iLen)) ? 4 :
 		(stbi_is_16_bit_from_memory(pBuffer, iLen)) ? 2 : 1;
@@ -820,22 +847,19 @@ void StbImage::load(int rcid, StbFormat format)
 {
 	int iLen, iComp, iByte = ((int)format & YAGLPP_STBIMAGE_BYTE) >> 4;
 	int iWidth, iHeight, iReqComp = (int)format & YAGLPP_STBIMAGE_COMP;
-	unsigned char* pBuffer = _loadResource(rcid, &iLen);
+	stbi_uc* pBuffer = (stbi_uc*)yaglpp_loadResource(rcid, &iLen);
 	if (iByte == 0) // Load original depth
 	{
 		iByte =
 			(stbi_is_hdr_from_memory(pBuffer, iLen)) ? 4 :
 			(stbi_is_16_bit_from_memory(pBuffer, iLen)) ? 2 : 1;
 	}
-	_stbi_delete();
-	_mpData =
-		(iByte == 1) ? (_LPDATA)stbi_load_from_memory(pBuffer, iLen, &iWidth, &iHeight, &iComp, iReqComp) :
-		(iByte == 2) ? (_LPDATA)stbi_load_16_from_memory(pBuffer, iLen, &iWidth, &iHeight, &iComp, iReqComp) :
-		(_LPDATA)stbi_loadf_from_memory(pBuffer, iLen, &iWidth, &iHeight, &iComp, iReqComp);
-	YAGLPP_STBIMAGE_ASSERT; // FAILED TO LOAD IMAGE
-	_mpData -= 1; // rewing to header
+	_stbi_load(
+		(iByte == 1) ? stbi_load_from_memory(pBuffer, iLen, &iWidth, &iHeight, &iComp, iReqComp) :
+		(iByte == 2) ? (stbi_uc*)stbi_load_16_from_memory(pBuffer, iLen, &iWidth, &iHeight, &iComp, iReqComp) :
+		(stbi_uc*)stbi_loadf_from_memory(pBuffer, iLen, &iWidth, &iHeight, &iComp, iReqComp));
 	if (iReqComp > 0) iComp = iReqComp;
-	_stbi_init(0, iByte, iComp, iWidth, iHeight);
+	_stbi_init(iWidth, iHeight, iByte, iComp);
 }
 
 void StbImage::load(_In_z_ const char* file, StbFormat format)
@@ -851,16 +875,13 @@ void StbImage::load(_In_z_ const char* file, StbFormat format)
 			(stbi_is_hdr_from_file(pFile)) ? 4 :
 			(stbi_is_16_bit_from_file(pFile)) ? 2 : 1;
 	}
-	_stbi_delete();
-	_mpData =
-		(iByte == 1) ? (_LPDATA)stbi_load_from_file(pFile, &iWidth, &iHeight, &iComp, iReqComp) :
-		(iByte == 2) ? (_LPDATA)stbi_load_from_file_16(pFile, &iWidth, &iHeight, &iComp, iReqComp) :
-		(_LPDATA)stbi_loadf_from_file(pFile, &iWidth, &iHeight, &iComp, iReqComp);
-	YAGLPP_STBIMAGE_ASSERT; // FAILED TO LOAD IMAGE
-	_mpData -= 1; // rewing to header
+	_stbi_load(
+		(iByte == 1) ? stbi_load_from_file(pFile, &iWidth, &iHeight, &iComp, iReqComp) :
+		(iByte == 2) ? (stbi_uc*)stbi_load_from_file_16(pFile, &iWidth, &iHeight, &iComp, iReqComp) :
+		(stbi_uc*)stbi_loadf_from_file(pFile, &iWidth, &iHeight, &iComp, iReqComp));
 	fclose(pFile);
 	if (iReqComp > 0) iComp = iReqComp;
-	_stbi_init(0, iByte, iComp, iWidth, iHeight);
+	_stbi_init(iWidth, iHeight, iByte, iComp);
 }
 
 void StbImage::load(_In_ StbCallbacks const* clbk, _In_ void* user, StbFormat format)
@@ -873,36 +894,30 @@ void StbImage::load(_In_ StbCallbacks const* clbk, _In_ void* user, StbFormat fo
 			(stbi_is_hdr_from_callbacks((stbi_io_callbacks*)clbk, user)) ? 4 :
 			(stbi_is_16_bit_from_callbacks((stbi_io_callbacks*)clbk, user)) ? 2 : 1;
 	}
-	_stbi_delete();
-	_mpData =
-		(iByte == 1) ? (_LPDATA)stbi_load_from_callbacks((stbi_io_callbacks*)clbk, user, &iWidth, &iHeight, &iComp, iReqComp) :
-		(iByte == 2) ? (_LPDATA)stbi_load_16_from_callbacks((stbi_io_callbacks*)clbk, user, &iWidth, &iHeight, &iComp, iReqComp) :
-		(_LPDATA)stbi_loadf_from_callbacks((stbi_io_callbacks*)clbk, user, &iWidth, &iHeight, &iComp, iReqComp);
-	YAGLPP_STBIMAGE_ASSERT; // FAILED TO LOAD IMAGE
-	_mpData -= 1; // rewing to header
+	_stbi_load(
+		(iByte == 1) ? stbi_load_from_callbacks((stbi_io_callbacks*)clbk, user, &iWidth, &iHeight, &iComp, iReqComp) :
+		(iByte == 2) ? (stbi_uc*)stbi_load_16_from_callbacks((stbi_io_callbacks*)clbk, user, &iWidth, &iHeight, &iComp, iReqComp) :
+		(stbi_uc*)stbi_loadf_from_callbacks((stbi_io_callbacks*)clbk, user, &iWidth, &iHeight, &iComp, iReqComp));
 	if (iReqComp > 0) iComp = iReqComp;
-	_stbi_init(0, iByte, iComp, iWidth, iHeight);
+	_stbi_init(iWidth, iHeight, iByte, iComp);
 }
 
 int StbImage::loadGif(int rcid, _Outptr_opt_ int** delays, StbFormat format)
 {
 	int iLen, iComp, iByte = ((int)format & YAGLPP_STBIMAGE_BYTE) >> 4;
 	int iWidth, iHeight, iLayers, iReqComp = (int)format & YAGLPP_STBIMAGE_COMP;
-	unsigned char* pBuffer = _loadResource(rcid, &iLen);
+	stbi_uc* pBuffer = (stbi_uc*)yaglpp_loadResource(rcid, &iLen);
 	if (iByte == 0)
 	{
 		iByte = 1; // Original depth always 1
 	}
-	_stbi_delete();
-	_mpData =
-		(iByte == 1) ? (_LPDATA)stbi_load_gif_from_memory(pBuffer, iLen, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp) :
-		(iByte == 2) ? (_LPDATA)stbi_load_16_gif_from_memory(pBuffer, iLen, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp) :
-		(_LPDATA)stbi_loadf_gif_from_memory(pBuffer, iLen, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp);
-	YAGLPP_STBIMAGE_ASSERT; // FAILED TO LOAD GIF IMAGE
-	_mpData -= 1; // rewing to header
+	_stbi_load(
+		(iByte == 1) ? stbi_load_gif_from_memory(pBuffer, iLen, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp) :
+		(iByte == 2) ? (stbi_uc*)stbi_load_16_gif_from_memory(pBuffer, iLen, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp) :
+		(stbi_uc*)stbi_loadf_gif_from_memory(pBuffer, iLen, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp));
 	if (iReqComp > 0) iComp = iReqComp;
 	iHeight *= iLayers; // interleaved images
-	_stbi_init(0, iByte, iComp, iWidth, iHeight);
+	_stbi_init(iWidth, iHeight, iByte, iComp);
 	return iLayers;
 }
 
@@ -917,17 +932,14 @@ int StbImage::loadGif(_In_z_ const char* file, _Outptr_opt_ int** delays, StbFor
 	{
 		iByte = 1; // Original depth always 1
 	}
-	_stbi_delete();
-	_mpData =
-		(iByte == 1) ? (_LPDATA)stbi_load_gif_from_file(pFile, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp) :
-		(iByte == 2) ? (_LPDATA)stbi_load_16_gif_from_file(pFile, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp) :
-		(_LPDATA)stbi_loadf_gif_from_file(pFile, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp);
-	YAGLPP_STBIMAGE_ASSERT; // FAILED TO LOAD GIF IMAGE
-	_mpData -= 1; // rewing to header
+	_stbi_load(
+		(iByte == 1) ? stbi_load_gif_from_file(pFile, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp) :
+		(iByte == 2) ? (stbi_uc*)stbi_load_16_gif_from_file(pFile, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp) :
+		(stbi_uc*)stbi_loadf_gif_from_file(pFile, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp));
 	fclose(pFile);
 	if (iReqComp > 0) iComp = iReqComp;
 	iHeight *= iLayers; // interleaved images
-	_stbi_init(0, iByte, iComp, iWidth, iHeight);
+	_stbi_init(iWidth, iHeight, iByte, iComp);
 	return iLayers;
 }
 
@@ -939,16 +951,13 @@ int StbImage::loadGif(_In_ StbCallbacks const* clbk, _In_ void* user, _Outptr_op
 	{
 		iByte = 1; // Original depth always 1
 	}
-	_stbi_delete();
-	_mpData =
-		(iByte == 1) ? (_LPDATA)stbi_load_gif_from_callbacks((stbi_io_callbacks*)clbk, user, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp) :
-		(iByte == 2) ? (_LPDATA)stbi_load_16_gif_from_callbacks((stbi_io_callbacks*)clbk, user, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp) :
-		(_LPDATA)stbi_loadf_gif_from_callbacks((stbi_io_callbacks*)clbk, user, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp);
-	YAGLPP_STBIMAGE_ASSERT; // FAILED TO LOAD GIF IMAGE
-	_mpData -= 1; // rewing to header
+	_stbi_load(
+		(iByte == 1) ? stbi_load_gif_from_callbacks((stbi_io_callbacks*)clbk, user, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp) :
+		(iByte == 2) ? (stbi_uc*)stbi_load_16_gif_from_callbacks((stbi_io_callbacks*)clbk, user, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp) :
+		(stbi_uc*)stbi_loadf_gif_from_callbacks((stbi_io_callbacks*)clbk, user, delays, &iWidth, &iHeight, &iLayers, &iComp, iReqComp));
 	if (iReqComp > 0) iComp = iReqComp;
 	iHeight *= iLayers; // interleaved images
-	_stbi_init(0, iByte, iComp, iWidth, iHeight);
+	_stbi_init(iWidth, iHeight, iByte, iComp);
 	return iLayers;
 }
 
@@ -963,7 +972,7 @@ void StbImage::resizeRegion(const StbImage& source, int width, int height, int r
 		int iWidth = source._mpData->width, iHeight = source._mpData->height;
 		YAGLPP_ASSERT((rwidth + rleft) <= iWidth); // IMAGE SUBREGION IS NOT INBOUND
 		YAGLPP_ASSERT((rheight + rtop) <= iHeight); // IMAGE SUBREGION IS NOT INBOUND
-		int iByte = source._mpData->byte, iComp = source._mpData->comp;
+		int iByte = (int)source._mpData->byte, iComp = (int)source._mpData->comp;
 		stbir_datatype byte =
 			(iByte == 1) ? STBIR_TYPE_UINT8 :
 			(iByte == 2) ? STBIR_TYPE_UINT16 : STBIR_TYPE_FLOAT; // Depth
@@ -982,55 +991,25 @@ void StbImage::resizeRegion(const StbImage& source, int width, int height, int r
 		resize.input_t1 = resize.input_t0 + (double)rheight / iHeight;
 		int iResult = stbir_resize_extended(&resize);
 		YAGLPP_ASSERT(iResult); // FAILED TO RESIZE AN IMAGE
-		_stbi_delete();
+		deleteImage();
 		_mpData = lpData;
-		_stbi_init(0, iByte, iComp, width, height);
+		_stbi_init(width, height, iByte, iComp);
 	}
-	else _stbi_delete();
+	else deleteImage();
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION
 
 #ifdef YAGLPP_DEBUG_IMPLEMENTATION
-StbFormat StbImage::getChannels() const
+StbImage::_LPDATA StbImage::_data() const
 {
 	YAGLPP_ASSERT(isImage()); // STB IMAGE OBJECT IS EMPTY
-	return (StbFormat)_mpData->comp;
-}
-
-StbFormat StbImage::getDepth() const
-{
-	YAGLPP_ASSERT(isImage()); // STB IMAGE OBJECT IS EMPTY
-	return (StbFormat)(_mpData->byte << 4);
-}
-
-StbFormat StbImage::getFormat() const
-{
-	YAGLPP_ASSERT(isImage()); // STB IMAGE OBJECT IS EMPTY
-	return (StbFormat)((_mpData->byte << 4) | _mpData->comp);
-}
-
-int StbImage::getHeight() const
-{
-	YAGLPP_ASSERT(isImage()); // STB IMAGE OBJECT IS EMPTY
-	return _mpData->height;
-}
-
-_Ret_notnull_ void* StbImage::getPixels() const
-{
-	YAGLPP_ASSERT(isImage()); // STB IMAGE OBJECT IS EMPTY
-	return _mpData->data;
-}
-
-int StbImage::getWidth() const
-{
-	YAGLPP_ASSERT(isImage()); // STB IMAGE OBJECT IS EMPTY
-	return _mpData->width;
+	return _mpData;
 }
 
 bool StbImage::writeBmp(_In_z_ const char* filepath)
 {
 	YAGLPP_ASSERT(getDepth() == StbFormat::Unsigned8); // STB IMAGE DATA MUST BE 8-BITS PER CHANNEL
-	return (bool)stbi_write_bmp(filepath, _mpData->width, _mpData->height, _mpData->comp, _mpData->data);
+	return (bool)stbi_write_bmp(filepath, _mpData->width, _mpData->height, (int)_mpData->comp, _mpData->data);
 }
 
 void StbImage::writeForcePngFilter(int filter)
@@ -1042,13 +1021,13 @@ void StbImage::writeForcePngFilter(int filter)
 bool StbImage::writeHdr(_In_z_ const char* filepath)
 {
 	YAGLPP_ASSERT(getDepth() == StbFormat::Float32); // STB IMAGE DATA MUST BE 32F-BITS PER CHANNEL
-	return (bool)stbi_write_hdr(filepath, _mpData->width, _mpData->height, _mpData->comp, (float*)_mpData->data);
+	return (bool)stbi_write_hdr(filepath, _mpData->width, _mpData->height, (int)_mpData->comp, (float*)_mpData->data);
 }
 
 bool StbImage::writeJpg(_In_z_ const char* filepath)
 {
 	YAGLPP_ASSERT(getDepth() == StbFormat::Unsigned8); // STB IMAGE DATA MUST BE 8-BITS PER CHANNEL
-	return (bool)stbi_write_jpg(filepath, _mpData->width, _mpData->height, _mpData->comp, _mpData->data, YAGLPP_STBIMAGE_JPEG);
+	return (bool)stbi_write_jpg(filepath, _mpData->width, _mpData->height, (int)_mpData->comp, _mpData->data, YAGLPP_STBIMAGE_JPEG);
 }
 
 void StbImage::writeJpegQuality(int quality)
@@ -1060,7 +1039,7 @@ void StbImage::writeJpegQuality(int quality)
 bool StbImage::writePng(_In_z_ const char* filepath)
 {
 	YAGLPP_ASSERT(getDepth() == StbFormat::Unsigned8); // STB IMAGE DATA MUST BE 8-BITS PER CHANNEL
-	return (bool)stbi_write_png(filepath, _mpData->width, _mpData->height, _mpData->comp, _mpData->data, _mpData->width * _mpData->comp);
+	return (bool)stbi_write_png(filepath, _mpData->width, _mpData->height, (int)_mpData->comp, _mpData->data, _mpData->width * _mpData->comp);
 }
 
 void StbImage::writePngCompressionLevel(int comp)
@@ -1072,44 +1051,19 @@ void StbImage::writePngCompressionLevel(int comp)
 bool StbImage::writeTga(_In_z_ const char* filepath)
 {
 	YAGLPP_ASSERT(getDepth() == StbFormat::Unsigned8); // STB IMAGE DATA MUST BE 8-BITS PER CHANNEL
-	return (bool)stbi_write_tga(filepath, _mpData->width, _mpData->height, _mpData->comp, _mpData->data);
+	return (bool)stbi_write_tga(filepath, _mpData->width, _mpData->height, (int)_mpData->comp, _mpData->data);
 }
 #endif // YAGLPP_DEBUG_IMPLEMENTATION
 
 #ifdef YAGLPP_INLINE_IMPLEMENTATION
-inline StbFormat StbImage::getChannels() const
+inline StbImage::_LPDATA StbImage::_data() const
 {
-	return (StbFormat)_mpData->comp;
-}
-
-inline StbFormat StbImage::getDepth() const
-{
-	return (StbFormat)(_mpData->byte << 4);
-}
-
-inline StbFormat StbImage::getFormat() const
-{
-	return (StbFormat)((_mpData->byte << 4) | _mpData->comp);
-}
-
-inline int StbImage::getHeight() const
-{
-	return _mpData->height;
-}
-
-inline _Ret_notnull_ void* StbImage::getPixels() const
-{
-	return _mpData->data;
-}
-
-inline int StbImage::getWidth() const
-{
-	return _mpData->width;
+	return _mpData;
 }
 
 inline bool StbImage::writeBmp(_In_z_ const char* filepath)
 {
-	return (bool)stbi_write_bmp(filepath, _mpData->width, _mpData->height, _mpData->comp, _mpData->data);
+	return (bool)stbi_write_bmp(filepath, _mpData->width, _mpData->height, (int)_mpData->comp, _mpData->data);
 }
 
 inline void StbImage::writeForcePngFilter(int filter)
@@ -1119,12 +1073,12 @@ inline void StbImage::writeForcePngFilter(int filter)
 
 inline bool StbImage::writeHdr(_In_z_ const char* filepath)
 {
-	return (bool)stbi_write_hdr(filepath, _mpData->width, _mpData->height, _mpData->comp, (float*)_mpData->data);
+	return (bool)stbi_write_hdr(filepath, _mpData->width, _mpData->height, (int)_mpData->comp, (float*)_mpData->data);
 }
 
 inline bool StbImage::writeJpg(_In_z_ const char* filepath)
 {
-	return (bool)stbi_write_jpg(filepath, _mpData->width, _mpData->height, _mpData->comp, _mpData->data, YAGLPP_STBIMAGE_JPEG);
+	return (bool)stbi_write_jpg(filepath, _mpData->width, _mpData->height, (int)_mpData->comp, _mpData->data, YAGLPP_STBIMAGE_JPEG);
 }
 
 inline void StbImage::writeJpegQuality(int quality)
@@ -1134,7 +1088,7 @@ inline void StbImage::writeJpegQuality(int quality)
 
 inline bool StbImage::writePng(_In_z_ const char* filepath)
 {
-	return (bool)stbi_write_png(filepath, _mpData->width, _mpData->height, _mpData->comp, _mpData->data, _mpData->width * _mpData->comp);
+	return (bool)stbi_write_png(filepath, _mpData->width, _mpData->height, (int)_mpData->comp, _mpData->data, _mpData->width * _mpData->comp);
 }
 
 inline void StbImage::writePngCompressionLevel(int comp)
@@ -1144,6 +1098,6 @@ inline void StbImage::writePngCompressionLevel(int comp)
 
 inline bool StbImage::writeTga(_In_z_ const char* filepath)
 {
-	return (bool)stbi_write_tga(filepath, _mpData->width, _mpData->height, _mpData->comp, _mpData->data);
+	return (bool)stbi_write_tga(filepath, _mpData->width, _mpData->height, (int)_mpData->comp, _mpData->data);
 }
 #endif // YAGLPP_INLINE_IMPLEMENTATION

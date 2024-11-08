@@ -45,10 +45,11 @@ public:
 		_compileShader(GL_FRAGMENT_SHADER);
 	}
 
-	/*Creates a shader object that was previously empty*/
-	void createShader()
+	/*Explicitly creates a shader object
+	@param True to set the object's autodelete flag, default true*/
+	void createShader(GLboolean autodelete = GL_TRUE)
 	{
-		_shader_gen(GL_FRAGMENT_SHADER);
+		_shader_gen(GL_FRAGMENT_SHADER, autodelete);
 	}
 
 	/*Detaches a shader object from a program object to which it is attached
@@ -58,7 +59,7 @@ public:
 		_detachShader(GL_FRAGMENT_SHADER, program);
 	}
 
-	/*Duplicates a shader object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*Duplicates a shader object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source shader object*/
 	void duplicateShader(const FragmentShader& shader)
 	{
@@ -128,13 +129,6 @@ public:
 	ShaderType getShaderType()
 	{
 		return (ShaderType)_getShader(GL_FRAGMENT_SHADER, GL_SHADER_TYPE);
-	}
-
-	/*Makes a reference of a shader object, regardless of the source object's reference flag
-	@param Specifies the source shader object*/
-	void referenceShader(const FragmentShader& shader)
-	{
-		_shader_ref((_Object&)shader);
 	}
 
 	/*Set the accuracy of the derivative calculation for the GL shading language fragment processing built-in functions: dFdx, dFdy, and fwidth

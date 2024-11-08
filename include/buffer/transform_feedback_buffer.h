@@ -79,7 +79,7 @@ public:
 		_bufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, GL_TRANSFORM_FEEDBACK_BUFFER_BINDING, offset, size, data);
 	}
 
-	/*(3.0) Duplicates a buffer object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*(3.0) Duplicates a buffer object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source buffer object*/
 	void duplicateBuffer(const TransformFeedbackBuffer& buffer)
 	{
@@ -205,13 +205,6 @@ public:
 	_Ret_maybenull_ void* mapBufferRange(GLintptr offset, GLsizeiptr length, BufferFlags access)
 	{
 		return _mapBufferRange(GL_TRANSFORM_FEEDBACK_BUFFER, GL_TRANSFORM_FEEDBACK_BUFFER_BINDING, offset, length, (GLbitfield)access);
-	}
-
-	/*(3.0) Makes a reference of a buffer object, regardless of the source object's reference flag
-	@param Specifies the source buffer object*/
-	void referenceBuffer(TransformFeedbackBuffer& buffer)
-	{
-		_buffer_ref((_Object&)buffer);
 	}
 
 	/*(3.0) Sets the binding state of the buffer object, only if current state is opposite. Used as a setter of <bufferBinding> property

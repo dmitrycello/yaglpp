@@ -23,20 +23,20 @@ enum class QueryConditionalRenderMode : GLenum
 class _Query : public _Object
 {
 protected:
+	void _query_clean() {
+		_object_clean(glDeleteQueries);
+	}
 	void _query_delete() {
 		_object_delete(glDeleteQueries);
 	}
 	void _query_dup(_Object& source) {
 		_object_dup(glDeleteQueries, source);
 	}
-	void _query_gen() {
-		_object_gen(glGenQueries, glDeleteQueries, 1);
+	void _query_gen(GLboolean autodelete) {
+		_object_gen(glGenQueries, glDeleteQueries, 1, autodelete);
 	}
 	GLuint _query_id() {
 		return _object_id(glGenQueries, 1);
-	}
-	void _query_ref(_Object& source) {
-		_object_ref(glDeleteQueries, source);
 	}
 	void _beginQuery(GLenum target);
 	static void _endQuery(GLenum target);
@@ -57,19 +57,20 @@ public:
 	/*Cleans up the valid query object*/
 	~_Query()
 	{
-		_query_delete();
+		_query_clean();
 	}
 
-	/*Explicitly deletes previously generated single buffer object*/
+	/*Explicitly deletes previously generated single query object*/
 	void deleteQuery()
 	{
 		_query_delete();
 	}
 
-	/*Explicitly generates single buffer object*/
-	void genQuery()
+	/*Explicitly generates single query object
+	@param True to set the object's autodelete flag, default true*/
+	void genQuery(GLboolean autodelete = GL_TRUE)
 	{
-		_query_gen();
+		_query_gen(autodelete);
 	}
 
 	/*Returns the value of the query object's passed samples counter. Used as a getter of <queryResult> property
@@ -130,8 +131,8 @@ protected:
 	void _queries_dup(_Objects& source) {
 		_objects_dup(glDeleteQueries, source);
 	}
-	void _queries_gen(GLsizei n) {
-		_objects_gen(glGenQueries, glDeleteQueries, n);
+	void _queries_gen(GLsizei num) {
+		_objects_gen(glGenQueries, glDeleteQueries, num);
 	}
 
 public:
@@ -145,9 +146,9 @@ public:
 	}
 
 	/*(3) Constucts an initialized query multi-object*/
-	Queries(GLsizei n)
+	Queries(GLsizei num)
 	{
-		_queries_gen(n);
+		_queries_gen(num);
 	}
 
 	/*Cleans up the valid query multi-object*/
@@ -156,24 +157,24 @@ public:
 		_queries_delete();
 	}
 
-	/*Deletes valid query multi-object*/
+	/*Explicitly deletes valid query multi-object*/
 	void deleteQueries()
 	{
 		_queries_delete();
 	}
 
-	/*Duplicates a query multi-object increasing its reference count
+	/*Duplicates a query multi-object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source query multi-object*/
 	void duplicateQueries(const Queries& queries)
 	{
 		_queries_dup((_Objects&)queries);
 	}
 
-	/*Generates one or more query object names in the empty multi-object
+	/*Generates one or more query object names in the query multi-object
 	@param Specifies the number of object names to be generated*/
-	void genQueries(GLsizei n)
+	void genQueries(GLsizei num)
 	{
-		_queries_gen(n);
+		_queries_gen(num);
 	}
 
 	/*Retrieves a reference to the SamplesPassed object from a valid multi-object
@@ -261,7 +262,7 @@ void _Query::setQuery(GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_query_gen();
+		_query_gen(GL_TRUE);
 	}
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION

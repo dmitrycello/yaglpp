@@ -24,7 +24,7 @@ public:
 		_beginQuery(GL_TIME_ELAPSED);
 	}
 
-	/*(3.3) Duplicates a query object. If the source is a single object, its reference flag become true, while setting the destination as a single object (reference flag transfer)
+	/*(3.3) Duplicates a query object. If the source is a single object, it unconditionally becomes a reference object
 	@param Specifies the source query object*/
 	void duplicateQuery(const TimeElapsed& query)
 	{
@@ -60,13 +60,6 @@ public:
 
 	/*(3.3) Records the GL time into an elapsed time query object after all previous commands have reached the GL server, but have not yet necessarily executed*/
 	void queryCounter();
-
-	/*(3.3) Makes a reference of a query object, regardless of the source object's reference flag
-	@param Specifies the source query object*/
-	void referenceQuery(const TimeElapsed& query)
-	{
-		_query_ref((_Object&)query);
-	}
 
 #ifdef YAGLPP_CLASS_PROPERTIES
 	/*(3.3) Read-only property to determine if the query object is currently an active query*/

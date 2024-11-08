@@ -459,7 +459,7 @@ bool Joystick::loadGamepadMappings(int rcid)
 {
 	int iTemp = 0;
 	YAGLPP_ASSERT(isMainThreadCurrent()); // MUST BE CALLED ONLY FROM THE MAIN THREAD
-	const char* pData = (char*)_loadResource(rcid, &iTemp);
+	const char* pData = (char*)yaglpp_loadResource(rcid, &iTemp);
 	return glfwUpdateGamepadMappings(pData) == GLFW_TRUE;
 }
 

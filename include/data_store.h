@@ -13,8 +13,6 @@ private:
 #pragma warning(pop)
 	} _DATA, *_LPDATA;
 	_LPDATA _mpData = nullptr; // Class data
-	void _data_delete();
-	void _data_dup(const DataStore& source);
 
 public:
 	/*(1) Constructs an empty data store object*/
@@ -23,7 +21,7 @@ public:
 	/*(2) Constructs a duplicate of data store object*/
 	DataStore(const DataStore& source)
 	{
-		_data_dup(source);
+		duplicateData(source);
 	}
 
 	/*(3) Construct data store object with <loadData>*/
@@ -38,22 +36,22 @@ public:
 		loadData(file);
 	}
 
-	/*(5) Construct data store object with <loadSubData>*/
+	/*(5) Construct data store object with <createData>*/
+	DataStore(int size, bool init)
+	{
+		createData(size, init);
+	}
+
+	/*(6) Construct data store object with <loadSubData>*/
 	DataStore(const DataStore& source, int start, int length)
 	{
 		loadSubData(source, start, length);
 	}
 
-	/*(6) Construct data store object with <createDataStore>*/
-	DataStore(int size, bool init)
-	{
-		createDataStore(size, init);
-	}
-
 	/*Cleans up the valid data store object*/
 	~DataStore()
 	{
-		_data_delete();
+		deleteData();
 	}
 
 	/*Copies the whole or a part of the source DataStore object into the whole or a part of valid DataStore object
@@ -66,20 +64,14 @@ public:
 	/*Creates memory block in the empty DataStore object
 	@param The memory block size in bytes
 	@param True to initialize the memory block with zeros, false otherwise (default)*/
-	void createDataStore(int size, bool init = false);
+	void createData(int size, bool init = false);
 
 	/*Deletes the last inctance of a memory block, or decrements its reference count*/
-	void deleteDataStore()
-	{
-		_data_delete();
-	}
+	void deleteData();
 
 	/*Creates a reference to the source memory block, and increments its reference count
 	@param The source data store object*/
-	void duplicateDataStore(const DataStore& source)
-	{
-		_data_dup(source);
-	}
+	void duplicateData(const DataStore& source);
 
 	/*Returns the pointer to memory block
 	@param The requested memory block size in bytes, default 0 means no limit, ignored in release build
@@ -99,9 +91,9 @@ public:
 	@return The memory block size in bytes*/
 	int getSize() const;
 
-	/*Checks if data store object has memory block. Used as a getter of <dataStore> property
+	/*Checks if data store object has memory block. Used as a getter of <data> property
 	@param True if object has memory block, false otherwise*/
-	bool isDataStore() const
+	bool isData() const
 	{
 		return _mpData != nullptr;
 	}
@@ -111,7 +103,7 @@ public:
 	@return True if duplicate object*/
 	bool isDuplicate(const DataStore& source) const
 	{
-		return _mpData == source._mpData;
+		return (_mpData != nullptr) && (_mpData == source._mpData);
 	}
 
 	/*(1) Loads memory block from binary resource into empty DataStore object
@@ -149,7 +141,7 @@ public:
 
 #ifdef YAGLPP_CLASS_PROPERTIES
 	/*Read-only property to check if data store object has memory block*/
-	__declspec(property(get = isDataStore)) bool dataStore;
+	__declspec(property(get = isData)) bool data;
 
 	/*Read-only property for memory block size of the valid data store object*/
 	__declspec(property(get = getSize)) int size;
@@ -157,36 +149,10 @@ public:
 }; // class DataStore
 
 #ifdef YAGLPP_IMPLEMENTATION
-void DataStore::_data_delete()
-{
-	if (_mpData != nullptr)
-	{
-		if (_mpData->ref == 0)
-		{
-			_deallocate(_mpData, nullptr);
-		}
-		else _mpData->ref--;
-		_mpData = nullptr;
-	}
-}
-
-void DataStore::_data_dup(const DataStore& source)
-{
-	if (&source != this)
-	{
-		_data_delete();
-		_mpData = source._mpData;
-		if (_mpData != nullptr)
-		{
-			_mpData->ref++;
-		}
-	}
-}
-
-void DataStore::createDataStore(int size, bool init)
+void DataStore::createData(int size, bool init)
 {
 	YAGLPP_ASSERT(size > 0); // SIZE MUST BE GREATER THAN ZERO
-	_data_delete();
+	deleteData();
 	int iSize = size + sizeof(_DATA);
 	if (init)
 	{
@@ -200,11 +166,37 @@ void DataStore::createDataStore(int size, bool init)
 	_mpData->size = size;
 }
 
+void DataStore::deleteData()
+{
+	if (_mpData != nullptr)
+	{
+		if (_mpData->ref == 0)
+		{
+			_deallocate(_mpData, nullptr);
+		}
+		else _mpData->ref--;
+		_mpData = nullptr;
+	}
+}
+
+void DataStore::duplicateData(const DataStore& source)
+{
+	if (&source != this)
+	{
+		deleteData();
+		_mpData = source._mpData;
+		if (_mpData != nullptr)
+		{
+			_mpData->ref++;
+		}
+	}
+}
+
 void DataStore::loadData(int rcid)
 {
 	int iSize;
-	_data_delete();
-	LPBYTE lpData = _loadResource(rcid, &iSize);
+	deleteData();
+	LPBYTE lpData = (LPBYTE)yaglpp_loadResource(rcid, &iSize);
 	_mpData = (_LPDATA)_allocate(iSize + sizeof(_DATA), nullptr);
 	_mpData->ref = 0;
 	_mpData->size = iSize;
@@ -214,7 +206,7 @@ void DataStore::loadData(int rcid)
 void DataStore::loadData(_In_z_ const char* file)
 {
 	int iSize;
-	_data_delete();
+	deleteData();
 	_mpData = (_LPDATA)_loadFile(file, &iSize, (void*)sizeof(_DATA)) - 1;
 	_mpData->ref = 0;
 	_mpData->size = iSize;
@@ -225,7 +217,7 @@ void DataStore::loadSubData(const DataStore& source, int start, int length)
 	YAGLPP_ASSERT(length > 0); // MEMORY SUB BLOCK SIZE MUST BE GREATER THAN ZERO
 	if (&source != this)
 	{
-		_data_delete();
+		deleteData();
 		_mpData = (_LPDATA)_allocate(length + sizeof(_DATA), nullptr);
 		_mpData->ref = 0;
 		_mpData->size = length;
@@ -249,14 +241,14 @@ void* DataStore::getSubData(int start, int length) const
 
 int DataStore::getSize() const
 {
-	YAGLPP_ASSERT(isDataStore()); // DATA STORE OBJECT IS EMPTY
+	YAGLPP_ASSERT(isData()); // DATA STORE OBJECT IS EMPTY
 	return _mpData->size;
 }
 
 void DataStore::writeSubData(_In_z_ const char* file, int start, int length) const
 {
 	YAGLPP_ASSERT(length > 0); // MEMORY SUB BLOCK SIZE MUST BE GREATER THAN ZERO
-	_writeFile(file, getSubData(start, length), length);
+	yaglpp_writeFile(file, getSubData(start, length), length);
 }
 #endif // #ifdef YAGLPP_DEBUG_IMPLEMENTATION
 
@@ -278,6 +270,6 @@ inline int DataStore::getSize() const
 
 inline void DataStore::writeSubData(_In_z_ const char* file, int start, int length) const
 {
-	_writeFile(file, &_mpData->data[start], length);
+	yaglpp_writeFile(file, &_mpData->data[start], length);
 }
 #endif // #ifdef YAGLPP_INLINE_IMPLEMENTATION
