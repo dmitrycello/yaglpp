@@ -6,7 +6,7 @@
 - [Naming concept](README.md#naming-concept)
 - [IntelliSense](README.md#intellisense)
 - [The main switches](README.md#the-main-switches)
-- [GLAD classess](README.md#glad-classes)
+- [GLAD classes](README.md#glad-classes)
 - [Class tree](README.md#class-tree)
 - [GLFW classes](README.md#glfw-classes)
 - [Helper classes](README.md#helper-classes)
