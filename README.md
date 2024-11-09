@@ -108,7 +108,7 @@ The symbols defined after **`#pragma once`** directive in the [glpp.h](include/g
 ### GLAD classes
 All classes in the _gl::_ namespace are counterparts of the GLAD API. They all have the default constructor creating an empty class object, this allows the class to exist before OpenGL initialization. Every GLAD class have a copy constructor, duplicating the source object, this allows to use it in an assignment statement, as a function parameter, or as a return value. Every class has a unique data member: either the 4-byte integer in _single id_ classes, or a pointer in _multi-object_ classes. All derived classes have the same data size as their parent classes, thus allowing to easily combine them within another stucture or class. Every class object is considered _empty_, if its data member is set to zero, in which case its **`isObject`** function returns false. The lifetime of the OpenGL object is controlled by the class destructor, it does not always destroy OpenGL object, depening on how this object is being created. If the class is created as an _automatic object_, it does destroy an OpenGL object, where as _reference object_ does not.
 
-**_Automatic object_** is a _single id_ class with the _autodelete_ internal flag set to true, while being created automatically via "lasy" creation, or explicitly via **`gen..`** method. The autodelete flag could not be modified during the object lifetime, but may be examined via **`isAutodelete`** method. There could be only one automatic object at the time for each created OpenGL _id_, so when the object is being duplicated, the destinaton autodelete flag is set to false.
+**_Automatic object_** is a _single id_ class with the _autodelete_ internal flag set to true, while being created automatically via "lasy" creation, or explicitly via **`gen..`** method. This flag could not be modified during the object lifetime, but may be examined via **`isAutodelete`** method. It returns true for automatic, and false for reference objects. There could be only one automatic object at the time for each created OpenGL _id_, so when the object is being duplicated, the destinaton autodelete flag is set to false. The automatic object could be also cleaned up explicitly via **`delete..`** method.
 ```
 {
     gl::Texture2D t1, t2;  // Empty objects within a function scope
@@ -118,7 +118,7 @@ All classes in the _gl::_ namespace are counterparts of the GLAD API. They all h
     return;                // t1 and t2 destuctor clean up
 }
 ```
-**_Rreference object_** is another kind of a _single id_ class. It has the same functionality, except it does not clean up its _id_ in the destructor. Its _autodelete_ internal flag could be set while duplicated from another object, or explicitly while being created via **`gen..`** method. In contrary to an automatic object, it is possible to have many objects referencing the same OpenGL _id_ at the time. It is possible to explicitly destroy both automatic or reference object at anytime via **`delete..`** function, invalidating every object referencing its OpenGL _id_. The reference object could be used as temporary asset in a current or another OpenGL context:
+**_Rreference object_** is another kind of a _single id_ class. It has the same functionality, except it does not clean up its _id_ in the destructor. This could be usefull when the object is being copied multiple times, used as parameter or return value. Instead, it sould be explicitly deleted at appropriate moment via **`delete..`** method. The class's _autodelete_ internal flag is set to false while duplicated from another object, or created explicitly via **`gen..`** method. In contrary to an automatic object, it is possible to have many objects referencing the same OpenGL _id_ at the time. The reference object could be used as temporary asset in a current or another OpenGL context:
 ```
 {
     gl::Renderbuffer r1, r2, r3;  // Empty objects within a function scope
@@ -150,7 +150,7 @@ The classes in **`gl::`** namespace are derived mostly from **`gl::_Object`** cl
 ![00-readme-2](docs/00-readme-2a.png)
 
 > [!NOTE]
-> The unsigned integer data member **`_muId`** of the **gl::_Object`** class is using its highest bit as a _reference flag_, allowing to differentiate single and reference objects. The pointers in Win32 application are 4-byte long. So will be the size of the class object using a pointer.
+> The unsigned integer data member **`_muId`** of the **gl::_Object`** class is using its highest bit as an _autodelete_ flag, allowing to differentiate single and reference objects. The pointers in Win32 application are 4-byte long. So will be the size of the class object using a pointer.
 
 > [!CAUTION]
 > The names starting with underscore character stand for the base abstract classes, they have only protected constructors, and therefore could NOT be used.
