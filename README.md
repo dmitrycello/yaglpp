@@ -118,7 +118,7 @@ All classes in the _gl::_ namespace are counterparts of the GLAD API. They all h
     return;                // t1 and t2 destuctor clean up
 }
 ```
-**_Rreference object_** is another kind of a _single id_ class. It has the same functionality, except it does not clean up its _id_ in the destructor. This could be usefull when the object is being copied multiple times, used as parameter or return value. Instead, it sould be explicitly deleted at appropriate moment via **`delete..`** method. The class's _autodelete_ internal flag is set to false while duplicated from another object, or created explicitly via **`gen..`** method. In contrary to an automatic object, it is possible to have many objects referencing the same OpenGL _id_ at the time. The reference object could be used as temporary asset in a current or another OpenGL context:
+**_Rreference object_** is another kind of a _single id_ class. It has the same functionality, except it does not clean up its _id_ in the destructor. This could be usefull when the object is being copied multiple times, used as parameter or return value. Instead, it sould be explicitly cleaned up at appropriate moment via **`delete..`** method. The class's _autodelete_ internal flag is set to false while duplicated from another object, or created explicitly via **`gen..`** method. In contrary to an automatic object, it is possible to have many objects referencing the same OpenGL _id_ at the time. The reference object could be used as temporary asset in a current or another OpenGL context:
 ```
 {
     gl::Renderbuffer r1, r2, r3;  // Empty objects within a function scope
