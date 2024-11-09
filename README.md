@@ -108,39 +108,40 @@ The symbols defined after **`#pragma once`** directive in the [glpp.h](include/g
 ### GLAD classes
 All classes in the _gl::_ namespace are counterparts of the GLAD API. They all have the default constructor creating an empty class object, this allows the class to exist before OpenGL initialization. Every GLAD class have a copy constructor, duplicating the source object, this allows to use it in an assignment statement, as a function parameter, or as a return value. Every class has a unique data member: either the 4-byte integer in _single id_ classes, or a pointer in _multi-object_ classes. All derived classes have the same data size as their parent classes, thus allowing to easily combine them within another stucture or class. Every class object is considered _empty_, if its data member is set to zero, in which case its **`isObject`** function returns false. The lifetime of the OpenGL object is controlled by the class destructor, it does not always destroy OpenGL object, depening on how this object is being created. If the class is created as an _automatic object_, it does destroy an OpenGL object, where as _reference object_ does not.
 
-**_Automatic object_** is a _single id_ class with the _autodelete_ flag set to true while being created automatically via "lasy" creation, or explicitly via **`gen..`** function. There could be only one automatic object at the time for each created OpenGL _id_, so when the object is being duplicated, the destinaton autodelete flag is set to false.
+**_Automatic object_** is a _single id_ class with the _autodelete_ internal flag set to true, while being created automatically via "lasy" creation, or explicitly via **`gen..`** method. The autodelete flag could not be modified during the object lifetime, but may be examined via **`isAutodelete`** method. There could be only one automatic object at the time for each created OpenGL _id_, so when the object is being duplicated, the destinaton autodelete flag is set to false.
+```
 {
     gl::Texture2D t1, t2;  // Empty objects within a function scope
     t1.texImage(image, 1); // Automatic "lasy" creation and binding
-    t2.genRenderbuffer();  // Explicit automatic object
+    t2.genTexture();       // Explicit automatic object
     ...
     return;                // t1 and t2 destuctor clean up
 }
-**_Rreference object_** is another kind of a _single id_ class. It has the same functionality, except it does not clean up its _id_ in the destructor. Its _autodelete_ flag is set to false while being created via **`gen..`** function, or duplicated from another object. In contrary to an automatic object, it is possible to have many objects referencing the same OpenGL _id_ at the time. It is possible to explicitly destroy both automatic or reference object at anytime via **`delete..`** function, invalidating every object referencing its OpenGL _id_. The reference object could be used as temporary asset in a current or another OpenGL context:
+```
+**_Rreference object_** is another kind of a _single id_ class. It has the same functionality, except it does not clean up its _id_ in the destructor. Its _autodelete_ internal flag could be set while duplicated from another object, or explicitly while being created via **`gen..`** method. In contrary to an automatic object, it is possible to have many objects referencing the same OpenGL _id_ at the time. It is possible to explicitly destroy both automatic or reference object at anytime via **`delete..`** function, invalidating every object referencing its OpenGL _id_. The reference object could be used as temporary asset in a current or another OpenGL context:
 ```
 {
-    gl::Texture2D t1, t2;        // Empty objects within a function scope
-    r2.genRenderbuffer();        // Explicit automatic object
-    r3.genRenderbuffer(GL_FALSE) // Explicit reference object
+    gl::Renderbuffer r1, r2, r3;  // Empty objects within a function scope
+    r1.genRenderbuffer();         // Explicit automatic object
+    r2.duplicateRenderbuffer(r1); // Duplicate reference object
+    r3.genRenderbuffer(GL_FALSE); // Explicit reference object
     ...
-    return r3;                   // r3 returned, r1 and r2 cleaned up
+    return r3;                    // r1 clean up, r2 invalid, r3 returned
 }
 ```
-**_Multi-object_** creates and destroys many OpenGL objects at once. It has a reference counter incremented by the copy constructor or **`duplicate..`** method, and decremented by the destructor or **`delete..`** method. The only last instance of the class cleans up its OpenGL objects. has the size of a _pointer_, creating the required array of object _ids_ dynamically in the client memory. When this object is duplicated or deleted, it increases or decreases its reference count. The only final object's _ids_ will be cleared, this is not the case for a single objects: 
+**_Multi-object_** creates and destroys many OpenGL objects at once, creating the required array of object _ids_ dynamically in the client memory. It has a reference counter incremented by the copy constructor or **`duplicate..`** method, and decremented by the destructor or **`delete..`** method. The only last instance of the class cleans up its OpenGL objects. This is not the case for a _single id_ classes: using such algorithm would be too expensive for a single 4-byte value. The multi-object must explicitly generate the object _ids_ via **`gen..`** function, or by the appropriate constructor. It saves as well the object reference counter, the array size, and assigned object types (Debug only). The array size could be retrieved via **`getObjectNum`**, and the reference counter via **`getObjectRef`** methods.
 
-using such algorithm would be too expensive for a single 4-byte value.
-
-The multi-object must explicitly generate the object _ids_ via **`gen..`** function, or by the appropriate constructor. The valid object saves as well the object reference number, the array size, and assigned object types (Debug only). The multi-object could not be used by itself, every object _id_ can be used through a reference obtained via **`get..`** methods. In Debug mode, it checks the object type at every assignment, since the usage of the same object _id_ with a different _target_ is not always safe (e.g. _ArrayBuffer_ should not be later used as _ElementArrayBuffer_):
+The multi-object could not be used by itself, every object _id_ can be used through a reference obtained via **`get..`** methods. In Debug mode, it checks the object type at every assignment, since the usage of the same object _id_ with a different _target_ is not always safe (e.g. _Texture1D_ should not be later used as _Texture2D_):
 ```
-gl::Buffers bs(10);                                         // Generate 10 object names
-gl::ArrayBuffer& b1 = bs.getArrayBuffer(0);                 // Alias to a reference object
-// gl::ElementArrayBuffer b2 = bs.getElementArrayBuffer(0); // Error: different type
-gl::ElementArrayBuffer b2 = bs.getElementArrayBuffer(1);    // Copy of a reference object
+gl::Textures ts(10);                      // Generate 10 object names
+gl::Texture1D& t1 = ts.getTexture1D(0);   // Alias to a reference object
+// gl::Texture2D t2 = ts.getTexture2D(0); // Error: different type with same index
+gl::Texture2D t2 = ts.getTexture2D(1);    // Duplicate reference object
 ```
-To find out whether or not the class has the OpenGL object(s), use the **`isObject()`** method. The single object is automatically created as soon as it undergo a valid OpenGL operation, the reference object must be created from an existing one. To find out whether or not the single object is a reference object, use the **`isReference()`** method. The classes derived from **`gl::_Object`**, are single objects, most of their methods automatically create and bind an OpenGL object when necessary, except the **`is..`** methods, they work exactly as their API counterparts:
+The classes derived from **`gl::_Object`**, are _single id_ classes, most of their methods automatically create and bind an OpenGL object when necessary, except the **`is..`** methods, which work exactly as their API counterparts:
 ```
-GLboolean b1 = rb.isSampler();        // as glIsSampler(id)
-GLboolean b2 = rb.isSamplerBinding(); // as glGetIntegerv(GL_SAMPLER_BINDING..) == id
+GLboolean b1 = rb.isSampler();        // glIsSampler(id)
+GLboolean b2 = rb.isSamplerBinding(); // glGetIntegerv(GL_SAMPLER_BINDING..) == id
 ```
 
 ### Class tree
