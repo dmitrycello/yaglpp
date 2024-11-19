@@ -23,9 +23,6 @@ enum class QueryConditionalRenderMode : GLenum
 class _Query : public _Object
 {
 protected:
-	void _query_close() {
-		_object_close(glDeleteQueries);
-	}
 	void _query_delete() {
 		_object_delete(glDeleteQueries);
 	}
@@ -60,16 +57,10 @@ public:
 	/*Cleans up the valid query object*/
 	~_Query()
 	{
-		_query_close();
+		_query_delete();
 	}
 
-	/*Explicitly close the inctance of OpenGL query object*/
-	void closeQuery()
-	{
-		_query_close();
-	}
-
-	/*Explicitly deletes OpenGL query object, invalidating all its inctances*/
+	/*Closes the inctance of OpenGL query object, decreasing its reference count. The last instance is being deleted, while the reference object is only being voided*/
 	void deleteQuery()
 	{
 		_query_delete();
@@ -133,9 +124,6 @@ public:
 class Queries : public _Objects
 {
 protected:
-	void _queries_close() {
-		_objects_close(glDeleteQueries);
-	}
 	void _queries_delete() {
 		_objects_delete(glDeleteQueries);
 	}
@@ -165,16 +153,10 @@ public:
 	/*Cleans up the query multi-object*/
 	~Queries()
 	{
-		_queries_close();
+		_queries_delete();
 	}
 
-	/*Explicitly close the instance of buffer multi-object*/
-	void closeQueries()
-	{
-		_queries_close();
-	}
-
-	/*Explicitly deletes OpenGL query multi-object, invalidating all its instances*/
+	/*Closes the inctance of OpenGL query multi-object, decreasing its reference count. The last instance is being deleted*/
 	void deleteQueries()
 	{
 		_queries_delete();

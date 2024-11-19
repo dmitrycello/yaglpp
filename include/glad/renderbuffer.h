@@ -9,9 +9,6 @@ private:
 	friend class _Framebuffer;
 	friend class Renderbuffers;
 	Renderbuffer(GLint name) { _object_set(name); }
-	void _renderbuffer_close() {
-		_object_close(glDeleteRenderbuffers);
-	}
 	void _renderbuffer_delete() {
 		_object_delete(glDeleteRenderbuffers);
 	}
@@ -42,19 +39,13 @@ public:
 	/*(3.0) Cleans up the valid renderbuffer object*/
 	~Renderbuffer()
 	{
-		_renderbuffer_close();
+		_renderbuffer_delete();
 	}
 
 	/*(3.0) Explicitly binds renderbuffer object to its target. Does nothing if specified renderbuffer is bound*/
 	void bindRenderbuffer();
 
-	/*(3.0) Explicitly close the inctance of OpenGL renderbuffer object*/
-	void closeRenderbuffer()
-	{
-		_renderbuffer_close();
-	}
-
-	/*(3.0) Explicitly deletes OpenGL renderbuffer object, invalidating all its inctances*/
+	/*(3.0) Closes the inctance of OpenGL renderbuffer object, decreasing its reference count. The last instance is being deleted, while the reference object is only being voided*/
 	void deleteRenderbuffer()
 	{
 		_renderbuffer_delete();
@@ -259,9 +250,6 @@ public:
 class Renderbuffers : public _Objects
 {
 private:
-	void _renderbuffers_close() {
-		_objects_close(glDeleteBuffers);
-	}
 	void _renderbuffers_delete() {
 		_objects_delete(glDeleteRenderbuffers);
 	}
@@ -291,16 +279,10 @@ public:
 	/*(3.0) Cleans up the renderbuffer multi-object*/
 	~Renderbuffers()
 	{
-		_renderbuffers_close();
+		_renderbuffers_delete();
 	}
 
-	/*(3.0) Explicitly close the instance of renderbuffer multi-object*/
-	void closeBuffers()
-	{
-		_renderbuffers_close();
-	}
-
-	/*(3.0) Explicitly deletes OpenGL renderbuffer multi-object, invalidating all its instances*/
+	/*(3.0) Closes the inctance of OpenGL renderbuffer multi-object, decreasing its reference count. The last instance is being deleted*/
 	void deleteRenderbuffers()
 	{
 		_renderbuffers_delete();

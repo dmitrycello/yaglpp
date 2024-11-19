@@ -8,9 +8,6 @@ class Sampler : public _Object
 protected:
 	friend class Samplers;
 	Sampler(GLint name) { _object_set(name); }
-	void _sampler_close() {
-		_object_close(glDeleteSamplers);
-	}
 	void _sampler_delete() {
 		_object_delete(glDeleteSamplers);
 	}
@@ -44,20 +41,14 @@ public:
 	/*(3.3) Cleans up the valid sampler object*/
 	~Sampler()
 	{
-		_sampler_close();
+		_sampler_delete();
 	}
 
 	/*(3.3) Binds a sampler to a texture unit by an index value ranging from 0 to the value returned by <getMaxCombinedTextureImageUnits> minus 1
 	@param Specifies the index of the texture unit to which the sampler is bound*/
 	void bindSampler(TextureUnit index);
 
-	/*(3.3) Explicitly close the inctance of OpenGL sampler object*/
-	void closeBuffer()
-	{
-		_sampler_close();
-	}
-
-	/*(3.3) Explicitly deletes OpenGL sampler object, invalidating all its inctances*/
+	/*(3.3) Closes the inctance of OpenGL sampler object, decreasing its reference count. The last instance is being deleted, while the reference object is only being voided*/
 	void deleteSampler()
 	{
 		_sampler_delete();
@@ -329,9 +320,6 @@ public:
 class Samplers : public _Objects
 {
 protected:
-	void _samplers_close() {
-		_objects_close(glDeleteSamplers);
-	}
 	void _samplers_delete() {
 		_objects_delete(glDeleteSamplers);
 	}
@@ -361,16 +349,10 @@ public:
 	/*(3.3) Cleans up the sampler multi-object*/
 	~Samplers()
 	{
-		_samplers_close();
+		_samplers_delete();
 	}
 
-	/*Explicitly close the instance of sampler multi-object*/
-	void closeSamplers()
-	{
-		_samplers_close();
-	}
-
-	/*(3.3) Explicitly deletes OpenGL sampler multi-object, invalidating all its instances*/
+	/*(3.3) Closes the inctance of OpenGL sampler multi-object, decreasing its reference count. The last instance is being deleted*/
 	void deleteSamplers()
 	{
 		_samplers_delete();

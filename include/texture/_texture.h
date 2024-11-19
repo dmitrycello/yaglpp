@@ -769,9 +769,6 @@ protected:
 	friend _Framebuffer;
 #endif // #ifdef YAGLPP_VERSION_3_0
 
-	void _texture_close() {
-		_object_close(glDeleteTextures);
-	}
 	void _texture_delete() {
 		_object_delete(glDeleteTextures);
 	}
@@ -900,16 +897,10 @@ public:
 	/*Cleans up the valid texture object*/
 	~_Texture()
 	{
-		_texture_close();
+		_texture_delete();
 	}
 
-	/*Explicitly close the inctance of OpenGL texture object*/
-	void closeBuffer()
-	{
-		_texture_close();
-	}
-
-	/*Explicitly deletes OpenGL texture object, invalidating all its inctances*/
+	/*Closes the inctance of OpenGL texture object, decreasing its reference count. The last instance is being deleted, while the reference object is only being voided*/
 	void deleteTexture()
 	{
 		_texture_delete();
@@ -986,9 +977,6 @@ public:
 class Textures : public _Objects
 {
 protected:
-	void _textures_close() {
-		_objects_close(glDeleteTextures);
-	}
 	void _textures_delete() {
 		_objects_delete(glDeleteTextures);
 	}
@@ -1018,16 +1006,10 @@ public:
 	/*Cleans up the texture multi-object*/
 	~Textures()
 	{
-		_textures_close();
+		_textures_delete();
 	}
 
-	/*Explicitly close the instance of texture multi-object*/
-	void closeTextures()
-	{
-		_textures_close();
-	}
-
-	/*Explicitly deletes OpenGL texture multi-object, invalidating all its instances*/
+	/*Closes the inctance of OpenGL texture multi-object, decreasing its reference count. The last instance is being deleted*/
 	void deleteTextures()
 	{
 		_textures_delete();

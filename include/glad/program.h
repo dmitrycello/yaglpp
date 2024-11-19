@@ -77,9 +77,6 @@ private:
 	friend class UniformBlock;
 	friend class VertexAttrib;
 	Program(GLint name) { _object_set(name); }
-	void _program_close() {
-		_object_close(_glDeleteProgram);
-	}
 	void _program_delete() {
 		_object_delete(_glDeleteProgram);
 	}
@@ -118,7 +115,7 @@ public:
 	/*Cleans up the valid program object*/
 	~Program()
 	{
-		_program_close();
+		_program_delete();
 	}
 
 	/*(1) Attaches vertex and fragment shader objects to specified program
@@ -126,19 +123,13 @@ public:
 	@param Fragment shader object*/
 	void attachShaders(VertexShader& vs, FragmentShader& fs);
 
-	/*Explicitly close the inctance of OpenGL program object*/
-	void closeProgram()
-	{
-		_program_close();
-	}
-
 	/*Explicitly creates OpenGL program object*/
 	void createProgram()
 	{
 		_program_gen();
 	}
 
-	/*Deletes the program object that was previously created*/
+	/*Closes the inctance of OpenGL program object, decreasing its reference count. The last instance is being deleted, while the reference object is only being voided*/
 	void deleteProgram()
 	{
 		_program_delete();

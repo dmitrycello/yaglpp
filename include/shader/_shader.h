@@ -20,9 +20,6 @@ enum class ShaderType : GLenum
 class _Shader : public _Object
 {
 protected:
-	void _shader_close() {
-		_object_close(_glDeleteShader);
-	}
 	void _shader_delete() {
 		_object_delete(_glDeleteShader);
 	}
@@ -55,16 +52,10 @@ public:
 	/*Cleans up the valid shader object*/
 	~_Shader()
 	{
-		_shader_close();
+		_shader_delete();
 	}
 
-	/*Explicitly close the inctance of OpenGL shader object*/
-	void closeBuffer()
-	{
-		_shader_close();
-	}
-
-	/*Explicitly deletes OpenGL shader object, invalidating all its inctances*/
+	/*Closes the inctance of OpenGL shader object, decreasing its reference count. The last instance is being deleted, while the reference object is only being voided*/
 	void deleteShader()
 	{
 		_shader_delete();

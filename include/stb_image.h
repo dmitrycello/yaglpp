@@ -168,11 +168,8 @@ public:
 	/*Cleans up the valid stb image object*/
 	~StbImage()
 	{
-		closeImage();
+		deleteImage();
 	}
-
-	/*Closes the inctance of stb image object, decreasing its reference count. The last instance is being freed*/
-	void closeImage();
 
 	/*Sets the global flag indicating whether to process iphone images back to canonical format, or pass them through as is
 	@param True to convert BGR to RGB for PNG files, default false*/
@@ -212,6 +209,9 @@ public:
 	@param The new image format
 	@param True to initialize the memory block with zeros, default false*/
 	void createImage(int width, int height, StbFormat format, bool init = false);
+
+	/*Closes the inctance of stb image object, decreasing its reference count. The last instance is being freed*/
+	void deleteImage();
 
 	/*Creates a reference to the source stb image object, and increments its reference count
 	@param The source stb image object*/
@@ -690,41 +690,15 @@ void StbImage::_stbi_load(unsigned char* result)
 	}
 #endif // #ifdef _DEBUG
 
-	closeImage();
+	deleteImage();
 	_mpData = (_LPDATA)(result - sizeof(_DATA)); // rewing to header
-}
-
-void StbImage::closeImage()
-{
-	if (_mpData != nullptr)
-	{
-		if (_mpData->ref == 0)
-		{
-			_deallocate(_mpData, nullptr);
-		}
-		else _mpData->ref--;
-		_mpData = nullptr;
-	}
-}
-
-void StbImage::duplicateImage(const StbImage& source)
-{
-	if (&source != this)
-	{
-		closeImage();
-		_mpData = source._mpData;
-		if (_mpData != nullptr)
-		{
-			_mpData->ref++;
-		}
-	}
 }
 
 void StbImage::copyImage(const StbImage& source)
 {
 	if (&source != this)
 	{
-		closeImage();
+		deleteImage();
 		if (source._mpData != nullptr)
 		{
 			int iSize = (source._mpData->width * source._mpData->height *
@@ -758,11 +732,11 @@ void StbImage::copyRegion(const StbImage& source, int rleft, int rtop, int rwidt
 			iDstPos += iDstLine;
 			iSrcPos += iSrcLine;
 		}
-		closeImage();
+		deleteImage();
 		_mpData = lpData;
 		_stbi_init(rwidth, rheight, iByte, iComp);
 	}
-	else closeImage();
+	else deleteImage();
 }
 
 void StbImage::copySprite(const StbImage& source, int width, int height, int index)
@@ -786,10 +760,36 @@ void StbImage::createImage(int width, int height, StbFormat format, bool init)
 	int iByte = ((int)format & YAGLPP_STBIMAGE_BYTE) >> 4;
 	int iComp = (int)format & YAGLPP_STBIMAGE_COMP;
 	YAGLPP_ASSERT((iByte > 0) && (iComp > 0)); // IMAGE PIXEL FORMAT MUST BE NON-DEFAULT
-	closeImage();
+	deleteImage();
 	int iSize = (width * height * iByte * iComp) + sizeof(_DATA);
 	_mpData = (init) ? (_LPDATA)_callocate(iSize, nullptr) : (_LPDATA)_allocate(iSize, nullptr);
 	_stbi_init(width, height, iByte, iComp);
+}
+
+void StbImage::deleteImage()
+{
+	if (_mpData != nullptr)
+	{
+		if (_mpData->ref == 0)
+		{
+			_deallocate(_mpData, nullptr);
+		}
+		else _mpData->ref--;
+		_mpData = nullptr;
+	}
+}
+
+void StbImage::duplicateImage(const StbImage& source)
+{
+	if (&source != this)
+	{
+		deleteImage();
+		_mpData = source._mpData;
+		if (_mpData != nullptr)
+		{
+			_mpData->ref++;
+		}
+	}
 }
 
 bool StbImage::info(_Out_ StbInfo* info, int rcid)
@@ -991,11 +991,11 @@ void StbImage::resizeRegion(const StbImage& source, int width, int height, int r
 		resize.input_t1 = resize.input_t0 + (double)rheight / iHeight;
 		int iResult = stbir_resize_extended(&resize);
 		YAGLPP_ASSERT(iResult); // FAILED TO RESIZE AN IMAGE
-		closeImage();
+		deleteImage();
 		_mpData = lpData;
 		_stbi_init(width, height, iByte, iComp);
 	}
-	else closeImage();
+	else deleteImage();
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION
 

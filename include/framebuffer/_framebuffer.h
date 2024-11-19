@@ -172,9 +172,6 @@ constexpr FramebufferAttachment framebufferAttachment(ColorAttachment index)
 class _Framebuffer : public _Object
 {
 protected:
-	void _framebuffer_close() {
-		_object_close(glDeleteFramebuffers);
-	}
 	void _framebuffer_delete() {
 		_object_delete(glDeleteFramebuffers);
 	}
@@ -211,16 +208,10 @@ public:
 	/*(3.0) Cleans up the valid framebuffer object*/
 	~_Framebuffer()
 	{
-		_framebuffer_close();
+		_framebuffer_delete();
 	}
 
-	/*(3.0) Explicitly close the inctance of OpenGL framebuffer object*/
-	void closeBuffer()
-	{
-		_framebuffer_close();
-	}
-
-	/*(3.0) Explicitly deletes OpenGL framebuffer object, invalidating all its inctances*/
+	/*(3.0) Closes the inctance of OpenGL framebuffer object, decreasing its reference count. The last instance is being deleted, while the reference object is only being voided*/
 	void deleteFramebuffer()
 	{
 		_framebuffer_delete();
@@ -279,9 +270,6 @@ public:
 class Framebuffers : public _Objects
 {
 protected:
-	void _framebuffers_close() {
-		_objects_close(glDeleteFramebuffers);
-	}
 	void _framebuffers_delete() {
 		_objects_delete(glDeleteFramebuffers);
 	}
@@ -311,16 +299,10 @@ public:
 	/*(3.0) Cleans up the framebuffer multi-object*/
 	~Framebuffers()
 	{
-		_framebuffers_close();
+		_framebuffers_delete();
 	}
 
-	/*(3.0) Explicitly close the instance of framebuffer multi-object*/
-	void closeBuffers()
-	{
-		_framebuffers_close();
-	}
-
-	/*(3.0) Explicitly deletes OpenGL framebuffer multi-object, invalidating all its instances*/
+	/*(3.0) Closes the inctance of OpenGL framebuffer multi-object, decreasing its reference count. The last instance is being deleted*/
 	void deleteFramebuffers()
 	{
 		_framebuffers_delete();

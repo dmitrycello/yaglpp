@@ -117,9 +117,6 @@ class _Buffer : public _Object
 protected:
 	friend class _Texture;
 	friend class VertexAttrib;
-	void _buffer_close() {
-		_object_close(glDeleteBuffers);
-	}
 	void _buffer_delete() {
 		_object_delete(glDeleteBuffers);
 	}
@@ -177,16 +174,10 @@ public:
 	/*Cleans up the valid buffer object*/
 	~_Buffer()
 	{
-		_buffer_close();
+		_buffer_delete();
 	}
 
-	/*Explicitly close the inctance of OpenGL buffer object*/
-	void closeBuffer()
-	{
-		_buffer_close();
-	}
-
-	/*Explicitly deletes OpenGL buffer object, invalidating all its inctances*/
+	/*Closes the inctance of OpenGL buffer object, decreasing its reference count. The last instance is being deleted, while the reference object is only being voided*/
 	void deleteBuffer()
 	{
 		_buffer_delete();
@@ -268,9 +259,6 @@ public:
 class Buffers : public _Objects
 {
 protected:
-	void _buffers_close() {
-		_objects_close(glDeleteBuffers);
-	}
 	void _buffers_delete() {
 		_objects_delete(glDeleteBuffers);
 	}
@@ -300,16 +288,10 @@ public:
 	/*Cleans up the buffer multi-object*/
 	~Buffers()
 	{
-		_buffers_close();
+		_buffers_delete();
 	}
 
-	/*Explicitly close the instance of buffer multi-object*/
-	void closeBuffers()
-	{
-		_buffers_close();
-	}
-
-	/*Explicitly deletes OpenGL buffer multi-object, invalidating all its instances*/
+	/*Closes the inctance of OpenGL buffer multi-object, decreasing its reference count. The last instance is being deleted*/
 	void deleteBuffers()
 	{
 		_buffers_delete();

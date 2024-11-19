@@ -8,9 +8,6 @@ class VertexArray : public _Object
 protected:
 	friend class VertexArrays;
 	VertexArray(GLint name) { _object_set(name); }
-	void _vertex_close() {
-		_object_close(glDeleteVertexArrays);
-	}
 	void _vertex_delete() {
 		_object_delete(glDeleteVertexArrays);
 	}
@@ -40,19 +37,13 @@ public:
 	/*(3.0) Cleans up the valid vertex array object*/
 	~VertexArray()
 	{
-		_vertex_close();
+		_vertex_delete();
 	}
 
 	/*(3.0) Explicitly binds vertex array object to its target. Does nothing if specified vertex array is bound*/
 	void bindVertexArray();
 
-	/*(3.0) Explicitly close the inctance of OpenGL vertex array object*/
-	void closeBuffer()
-	{
-		_vertex_close();
-	}
-
-	/*(3.0) Explicitly deletes OpenGL vertex array object, invalidating all its inctances*/
+	/*(3.0) Closes the inctance of OpenGL vertex array object, decreasing its reference count. The last instance is being deleted, while the reference object is only being voided*/
 	void deleteVertexArray()
 	{
 		_vertex_delete();
@@ -138,9 +129,6 @@ public:
 class VertexArrays : public _Objects
 {
 protected:
-	void _vertices_close() {
-		_objects_close(glDeleteVertexArrays);
-	}
 	void _vertices_delete() {
 		_objects_delete(glDeleteVertexArrays);
 	}
@@ -170,16 +158,10 @@ public:
 	/*(3.0) Cleans up the valid vertex array multi-object*/
 	~VertexArrays()
 	{
-		_vertices_close();
+		_vertices_delete();
 	}
 
-	/*(3.0) Explicitly close the instance of vertex array multi-object*/
-	void closeBuffers()
-	{
-		_vertices_close();
-	}
-
-	/*(3.0) Explicitly deletes OpenGL vertex array multi-object, invalidating all its instances*/
+	/*(3.0) Closes the inctance of OpenGL vertex array multi-object, decreasing its reference count. The last instance is being deleted*/
 	void deleteVertexArrays()
 	{
 		_vertices_delete();
