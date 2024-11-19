@@ -6,6 +6,7 @@ namespace gl {
 class PrimitivesGenerated : public _Query
 {
 private:
+	friend class Queries;
 	PrimitivesGenerated(GLint name) { _object_set(name); }
 
 public:
@@ -13,9 +14,9 @@ public:
 	PrimitivesGenerated() {}
 
 	/*(3.0) (2) Constructs a copy of query object*/
-	PrimitivesGenerated(const PrimitivesGenerated& query)
+	PrimitivesGenerated(const PrimitivesGenerated& source)
 	{
-		_query_dup((_Object&)query);
+		_query_dup((_Object&)source);
 	}
 
 	/*(3.0) Delimits the starting boundary of a query object*/
@@ -24,11 +25,11 @@ public:
 		_beginQuery(GL_PRIMITIVES_GENERATED);
 	}
 
-	/*(3.0) Duplicates a query object. If the source is a single object, it unconditionally becomes a reference object
+	/*(3.0) Duplicates a query object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source query object*/
-	void duplicateQuery(const PrimitivesGenerated& query)
+	void duplicateQuery(const PrimitivesGenerated& source)
 	{
-		_query_dup((_Object&)query);
+		_query_dup((_Object&)source);
 	}
 
 	/*(3.0) Delimits the ending boundary of a query object*/
@@ -56,6 +57,21 @@ public:
 	GLboolean isCurrentQuery() const
 	{
 		return _isCurrentQuery(GL_PRIMITIVES_GENERATED);
+	}
+
+	/*(3.0) Checks if the source query object is referencing the same OpenGL object
+	@param Specifies the source query object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const PrimitivesGenerated& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
+	/*(3.0) Creates a thread-safe reference object from the source query object
+	@param Specifies the source query object*/
+	void referQuery(const PrimitivesGenerated& source)
+	{
+		_query_refer((_Object&)source);
 	}
 
 #ifdef YAGLPP_CLASS_PROPERTIES

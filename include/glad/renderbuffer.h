@@ -6,10 +6,11 @@ namespace gl {
 class Renderbuffer : public _Object
 {
 private:
-	friend _Framebuffer;
+	friend class _Framebuffer;
+	friend class Renderbuffers;
 	Renderbuffer(GLint name) { _object_set(name); }
-	void _renderbuffer_clean() {
-		_object_clean(glDeleteRenderbuffers);
+	void _renderbuffer_close() {
+		_object_close(glDeleteRenderbuffers);
 	}
 	void _renderbuffer_delete() {
 		_object_delete(glDeleteRenderbuffers);
@@ -17,11 +18,14 @@ private:
 	void _renderbuffer_dup(_Object& source) {
 		_object_dup(glDeleteRenderbuffers, source);
 	}
-	void _renderbuffer_gen(GLboolean autodelete) {
-		_object_gen(glGenRenderbuffers, glDeleteRenderbuffers, 1, autodelete);
+	void _renderbuffer_gen() {
+		_object_gen(glGenRenderbuffers, glDeleteRenderbuffers, 1);
 	}
 	GLuint _renderbuffer_id() {
 		return _object_id(glGenRenderbuffers, 1);
+	}
+	void _renderbuffer_refer(_Object& source) {
+		_object_refer(glDeleteRenderbuffers, source);
 	}
 	GLint _getRenderbufferParameter(GLenum pname);
 
@@ -30,38 +34,43 @@ public:
 	Renderbuffer() {}
 
 	/*(3.0) (2) Constructs a copy of renderbuffer object*/
-	Renderbuffer(const Renderbuffer& renderbuffer)
+	Renderbuffer(const Renderbuffer& source)
 	{
-		_renderbuffer_dup((_Object&)renderbuffer);
+		_renderbuffer_dup((_Object&)source);
 	}
 
 	/*(3.0) Cleans up the valid renderbuffer object*/
 	~Renderbuffer()
 	{
-		_renderbuffer_clean();
+		_renderbuffer_close();
 	}
 
 	/*(3.0) Explicitly binds renderbuffer object to its target. Does nothing if specified renderbuffer is bound*/
 	void bindRenderbuffer();
 
-	/*(3.0) Explicitly deletes previously generated single renderbuffer object*/
+	/*(3.0) Explicitly close the inctance of OpenGL renderbuffer object*/
+	void closeRenderbuffer()
+	{
+		_renderbuffer_close();
+	}
+
+	/*(3.0) Explicitly deletes OpenGL renderbuffer object, invalidating all its inctances*/
 	void deleteRenderbuffer()
 	{
 		_renderbuffer_delete();
 	}
 
-	/*(3.0) Duplicates a renderbuffer object. If the source is a single object, it unconditionally becomes a reference object
+	/*(3.0) Duplicates a renderbuffer object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source renderbuffer object*/
-	void duplicateRenderbuffer(const Renderbuffer& renderbuffer)
+	void duplicateRenderbuffer(const Renderbuffer& source)
 	{
-		_renderbuffer_dup((_Object&)renderbuffer);
+		_renderbuffer_dup((_Object&)source);
 	}
 
-	/*(3.0) Explicitly generates single renderbuffer object
-	@param True to set the object's autodelete flag, default true*/
-	void genRenderbuffer(GLboolean autodelete = GL_TRUE)
+	/*(3.0) Explicitly generates OpenGL renderbuffer object name*/
+	void genRenderbuffer()
 	{
-		_renderbuffer_gen(autodelete);
+		_renderbuffer_gen();
 	}
 
 	/*(3.0) Get the maximum supported size for render-buffers
@@ -148,6 +157,14 @@ public:
 		return _getRenderbufferParameter(GL_RENDERBUFFER_WIDTH);
 	}
 
+	/*(3.0) Checks if the source renderbuffer object is referencing the same OpenGL object
+	@param Specifies the source buffer object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const Renderbuffer& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
 	/*(3.0) Determines if a name corresponds to a renderbuffer object. Used as a getter of <renderbuffer> property
 	@return True if active renderbuffer object, false otherwise*/
 	GLboolean isRenderbuffer() const
@@ -160,6 +177,13 @@ public:
 	GLboolean isRenderbufferBinding() const
 	{
 		return _object_binding(GL_RENDERBUFFER_BINDING);
+	}
+
+	/*(3.0) Creates a thread-safe reference object from the source renderbuffer object
+	@param Specifies the source renderbuffer object*/
+	void referRenderbuffer(const Renderbuffer& source)
+	{
+		_renderbuffer_refer((_Object&)source);
 	}
 
 	/*(3.0) Establishes data storage, format and dimensions of a renderbuffer object's image
@@ -235,6 +259,9 @@ public:
 class Renderbuffers : public _Objects
 {
 private:
+	void _renderbuffers_close() {
+		_objects_close(glDeleteBuffers);
+	}
 	void _renderbuffers_delete() {
 		_objects_delete(glDeleteRenderbuffers);
 	}
@@ -261,19 +288,25 @@ public:
 		_renderbuffers_gen(num);
 	}
 
-	/*(3.0) Cleans up the valid renderbuffer multi-object*/
+	/*(3.0) Cleans up the renderbuffer multi-object*/
 	~Renderbuffers()
 	{
-		_renderbuffers_delete();
+		_renderbuffers_close();
 	}
 
-	/*(3.0) Explicitly deletes valid renderbuffer multi-object*/
+	/*(3.0) Explicitly close the instance of renderbuffer multi-object*/
+	void closeBuffers()
+	{
+		_renderbuffers_close();
+	}
+
+	/*(3.0) Explicitly deletes OpenGL renderbuffer multi-object, invalidating all its instances*/
 	void deleteRenderbuffers()
 	{
 		_renderbuffers_delete();
 	}
 
-	/*(3.0) Duplicates a renderbuffer multi-object. If the source is a single object, it unconditionally becomes a reference object
+	/*(3.0) Duplicates a renderbuffer multi-object, increasing its reference count
 	@param Specifies the source renderbuffer multi-object*/
 	void duplicateRenderbuffers(const Renderbuffers& source)
 	{
@@ -287,14 +320,15 @@ public:
 		_renderbuffers_gen(num);
 	}
 
-	/*(3.0) Retrieves a reference to the Renderbuffer object from a valid multi-object
-	@param Specifies the object name index*/
-	Renderbuffer& getRenderbuffer(GLuint index) const
+	/*(3.0) Retrieves a reference renderbuffer object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference renderbuffer object, or empty object*/
+	Renderbuffer getRenderbuffer(GLuint index) const
 	{
 #ifdef _DEBUG
-		return (Renderbuffer&)_objects_get(index, GL_RENDERBUFFER);
+		return Renderbuffer(_objects_get(index, GL_RENDERBUFFER));
 #else // #ifdef _DEBUG
-		return (Renderbuffer&)_objects_get(index);
+		return Renderbuffer(_objects_get(index));
 #endif // #ifdef _DEBUG
 	}
 
@@ -303,7 +337,7 @@ public:
 	@return True if duplicate multi-object*/
 	GLboolean isDuplicate(const Renderbuffers& source) const
 	{
-		return _objects_is((Renderbuffers&)source);
+		return _objects_is((_Objects&)source);
 	}
 }; // class Renderbuffers : public _Objects
 
@@ -364,7 +398,7 @@ void Renderbuffer::setRenderbuffer(GLboolean gen)
 	}
 	else if (gen == GL_TRUE)
 	{
-		_renderbuffer_gen(GL_TRUE);
+		_renderbuffer_gen();
 	}
 }
 

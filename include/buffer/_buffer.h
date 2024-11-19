@@ -117,8 +117,8 @@ class _Buffer : public _Object
 protected:
 	friend class _Texture;
 	friend class VertexAttrib;
-	void _buffer_clean() {
-		_object_clean(glDeleteBuffers);
+	void _buffer_close() {
+		_object_close(glDeleteBuffers);
 	}
 	void _buffer_delete() {
 		_object_delete(glDeleteBuffers);
@@ -126,11 +126,14 @@ protected:
 	void _buffer_dup(_Object& source) {
 		_object_dup(glDeleteBuffers, source);
 	}
-	void _buffer_gen(GLboolean autodelete) {
-		_object_gen(glGenBuffers, glDeleteBuffers, 1, autodelete);
+	void _buffer_gen() {
+		_object_gen(glGenBuffers, glDeleteBuffers, 1);
 	}
 	GLuint _buffer_id() {
 		return _object_id(glGenBuffers, 1);
+	}
+	void _buffer_refer(_Object& source) {
+		_object_refer(glDeleteBuffers, source);
 	}
 	void _buffer_set(GLenum target, GLenum binding, GLboolean bind) {
 		(bind) ? _bindBuffer(target, binding) : _unbindBuffer(target, binding);
@@ -174,20 +177,25 @@ public:
 	/*Cleans up the valid buffer object*/
 	~_Buffer()
 	{
-		_buffer_clean();
+		_buffer_close();
 	}
 
-	/*Explicitly deletes single buffer object*/
+	/*Explicitly close the inctance of OpenGL buffer object*/
+	void closeBuffer()
+	{
+		_buffer_close();
+	}
+
+	/*Explicitly deletes OpenGL buffer object, invalidating all its inctances*/
 	void deleteBuffer()
 	{
 		_buffer_delete();
 	}
 
-	/*Explicitly generates single buffer object
-	@param True to set the object's autodelete flag, default true*/
-	void genBuffer(GLboolean autodelete = GL_TRUE)
+	/*Explicitly generates OpenGL buffer object name*/
+	void genBuffer()
 	{
-		_buffer_gen(autodelete);
+		_buffer_gen();
 	}
 
 	/*Determines if a name corresponds to a buffer object. Used as a getter of <buffer> property
@@ -260,6 +268,9 @@ public:
 class Buffers : public _Objects
 {
 protected:
+	void _buffers_close() {
+		_objects_close(glDeleteBuffers);
+	}
 	void _buffers_delete() {
 		_objects_delete(glDeleteBuffers);
 	}
@@ -275,9 +286,9 @@ public:
 	Buffers() {}
 
 	/*(2) Constructs a copy of buffer multi-object*/
-	Buffers(const Buffers& buffers)
+	Buffers(const Buffers& source)
 	{
-		_buffers_dup((_Objects&)buffers);
+		_buffers_dup((_Objects&)source);
 	}
 
 	/*(3) Constucts an initialized buffer multi-object*/
@@ -286,23 +297,29 @@ public:
 		_buffers_gen(num);
 	}
 
-	/*Cleans up the valid buffer multi-object*/
+	/*Cleans up the buffer multi-object*/
 	~Buffers()
 	{
-		_buffers_delete();
+		_buffers_close();
 	}
 
-	/*Explicitly deletes valid buffer multi-object*/
+	/*Explicitly close the instance of buffer multi-object*/
+	void closeBuffers()
+	{
+		_buffers_close();
+	}
+
+	/*Explicitly deletes OpenGL buffer multi-object, invalidating all its instances*/
 	void deleteBuffers()
 	{
 		_buffers_delete();
 	}
 
-	/*Duplicates a buffer multi-object. If the source is a single object, it unconditionally becomes a reference object
+	/*Duplicates a buffer multi-object, increasing its reference count
 	@param Specifies the source buffer multi-object*/
-	void duplicateBuffers(const Buffers& buffers)
+	void duplicateBuffers(const Buffers& source)
 	{
-		_buffers_dup((_Objects&)buffers);
+		_buffers_dup((_Objects&)source);
 	}
 
 	/*Generates one or more buffer object names in the buffer multi-object
@@ -312,100 +329,65 @@ public:
 		_buffers_gen(num);
 	}
 
-	/*Retrieves a reference to the ArrayBuffer object from a valid multi-object
-	@param Specifies the object name index*/
-	ArrayBuffer& getArrayBuffer(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (ArrayBuffer&)_objects_get(index, GL_ARRAY_BUFFER);
-#else // #ifdef _DEBUG
-		return (ArrayBuffer&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*Retrieves a reference buffer object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference buffer object, or empty object*/
+	ArrayBuffer getArrayBuffer(GLuint index) const;
 
-	/*Retrieves a reference to the ElementArrayBuffer object from a valid multi-object
-	@param Specifies the object name index*/
-	ElementArrayBuffer& getElementArrayBuffer(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (ElementArrayBuffer&)_objects_get(index, GL_ELEMENT_ARRAY_BUFFER);
-#else // #ifdef _DEBUG
-		return (ElementArrayBuffer&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*Retrieves a reference buffer object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference buffer object, or empty object*/
+	ElementArrayBuffer getElementArrayBuffer(GLuint index) const;
 
 	/*Checks if the source Buffers object is referencing the same multi-object
 	@param The source multi-object
 	@return True if duplicate multi-object*/
 	GLboolean isDuplicate(const Buffers& source) const
 	{
-		return _objects_is((Buffers&)source);
+		return _objects_is((_Objects&)source);
 	}
 
 #ifdef YAGLPP_VERSION_2_1
-	/*(2.1) Retrieves a reference to the PixelPackBuffer object from a valid multi-object
-	@param Specifies the object name index*/
-	PixelPackBuffer& getPixelPackBuffer(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (PixelPackBuffer&)_objects_get(index, GL_PIXEL_PACK_BUFFER);
-#else // #ifdef _DEBUG
-		return (PixelPackBuffer&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(2.1) Retrieves a reference buffer object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference buffer object, or empty object*/
+	PixelPackBuffer getPixelPackBuffer(GLuint index) const;
 
-	/*(2.1) Retrieves a reference to the PixelUnpackBuffer object from a valid multi-object
-	@param Specifies the object name index*/
-	PixelUnpackBuffer& getPixelUnpackBuffer(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (PixelUnpackBuffer&)_objects_get(index, GL_PIXEL_UNPACK_BUFFER);
-#else // #ifdef _DEBUG
-		return (PixelUnpackBuffer&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(2.1) Retrieves a reference buffer object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference buffer object, or empty object*/
+	PixelUnpackBuffer getPixelUnpackBuffer(GLuint index) const;
 #endif // #ifdef YAGLPP_VERSION_2_1
 
 #ifdef YAGLPP_VERSION_3_0
-	/*(3.0) Retrieves a reference to the TransformFeedbackBuffer object from a valid multi-object
-	@param Specifies the object name index*/
-	TransformFeedbackBuffer& getTransformFeedbackBuffer(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (TransformFeedbackBuffer&)_objects_get(index, GL_TRANSFORM_FEEDBACK_BUFFER);
-#else // #ifdef _DEBUG
-		return (TransformFeedbackBuffer&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.0) Retrieves a reference buffer object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference buffer object, or empty object*/
+	TransformFeedbackBuffer getTransformFeedbackBuffer(GLuint index) const;
 #endif // #ifdef YAGLPP_VERSION_3_0
 
 #ifdef YAGLPP_VERSION_3_1
-	/*(3.1) Retrieves a reference to the TextureBuffer object from a valid multi-object
-	@param Specifies the object name index*/
-	TextureBuffer& getTextureBuffer(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (TextureBuffer&)_objects_get(index, GL_TEXTURE_BUFFER);
-#else // #ifdef _DEBUG
-		return (TextureBuffer&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.1) Retrieves a reference buffer object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference buffer object, or empty object*/
+	TextureBuffer getTextureBuffer(GLuint index) const;
 
-	/*(3.1) Retrieves a reference to the UniformBuffer object from a valid multi-object
-	@param Specifies the object name index*/
-	UniformBuffer& getUniformBuffer(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (UniformBuffer&)_objects_get(index, GL_UNIFORM_BUFFER);
-#else // #ifdef _DEBUG
-		return (UniformBuffer&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.1) Retrieves a reference buffer object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference buffer object, or empty object*/
+	UniformBuffer getUniformBuffer(GLuint index) const;
 #endif // #ifdef YAGLPP_VERSION_3_1
 }; // class Buffers : public _Object
 } // namespace gl
 
 #include <yaglpp/data_store.h>
+#include <yaglpp/buffer/array_buffer.h>
+#include <yaglpp/buffer/element_array_buffer.h>
+#include <yaglpp/buffer/pixel_pack_buffer.h>
+#include <yaglpp/buffer/pixel_unpack_buffer.h>
+#include <yaglpp/buffer/texture_buffer.h>
+#include <yaglpp/buffer/transform_feedback_buffer.h>
+#include <yaglpp/buffer/uniform_buffer.h>
 namespace gl {
 inline void _Buffer::_bufferData(GLenum target, GLenum binding, GLenum usage, DataStore& dataStore)
 {
@@ -425,6 +407,24 @@ inline void _Buffer::_bufferSubData(GLenum target, GLenum binding, GLintptr offs
 inline void _Buffer::_getBufferSubData(GLenum target, GLenum binding, GLintptr offset, GLsizeiptr size, DataStore& data)
 {
 	_getBufferSubData(target, binding, offset, size, data.getSubData((int)offset, (int)size));
+}
+
+inline ArrayBuffer Buffers::getArrayBuffer(GLuint index) const
+{
+#ifdef _DEBUG
+	return ArrayBuffer(_objects_get(index, GL_ARRAY_BUFFER));
+#else // #ifdef _DEBUG
+	return ArrayBuffer(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
+inline ElementArrayBuffer Buffers::getElementArrayBuffer(GLuint index) const
+{
+#ifdef _DEBUG
+	return ElementArrayBuffer(_objects_get(index, GL_ELEMENT_ARRAY_BUFFER));
+#else // #ifdef _DEBUG
+	return ElementArrayBuffer(_objects_get(index));
+#endif // #ifdef _DEBUG
 }
 
 #ifdef YAGLPP_IMPLEMENTATION
@@ -528,10 +528,30 @@ void _Buffer::setBuffer(GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_buffer_gen(GL_TRUE);
+		_buffer_gen();
 	}
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION
+
+#ifdef YAGLPP_VERSION_2_1
+inline PixelPackBuffer Buffers::getPixelPackBuffer(GLuint index) const
+{
+#ifdef _DEBUG
+	return PixelPackBuffer(_objects_get(index, GL_PIXEL_PACK_BUFFER));
+#else // #ifdef _DEBUG
+	return PixelPackBuffer(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
+inline PixelUnpackBuffer Buffers::getPixelUnpackBuffer(GLuint index) const
+{
+#ifdef _DEBUG
+	return PixelUnpackBuffer(_objects_get(index, GL_PIXEL_UNPACK_BUFFER));
+#else // #ifdef _DEBUG
+	return PixelUnpackBuffer(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+#endif // #ifdef YAGLPP_VERSION_2_1
 
 #if defined (YAGLPP_VERSION_2_1) && defined (YAGLPP_IMPLEMENTATION)
 void readPixels(PixelPackBuffer& buffer, GLint x, GLint y, GLsizei width, GLsizei height, ReadPixelsFormat format, ReadPixelsType type, GLintptr offset)
@@ -541,6 +561,17 @@ void readPixels(PixelPackBuffer& buffer, GLint x, GLint y, GLsizei width, GLsize
 	YAGLPP_GLAD_ERROR;
 }
 #endif // #if defined (YAGLPP_VERSION_2_1) && defined (YAGLPP_IMPLEMENTATION)
+
+#ifdef YAGLPP_VERSION_3_0
+inline TransformFeedbackBuffer Buffers::getTransformFeedbackBuffer(GLuint index) const
+{
+#ifdef _DEBUG
+	return TransformFeedbackBuffer(_objects_get(index, GL_TRANSFORM_FEEDBACK_BUFFER));
+#else // #ifdef _DEBUG
+	return TransformFeedbackBuffer(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+#endif // #ifdef YAGLPP_VERSION_3_0
 
 #if defined (YAGLPP_VERSION_3_0) && defined (YAGLPP_IMPLEMENTATION)
 void _Buffer::_flushMappedBufferRange(GLenum target, GLenum binding, GLintptr offset, GLsizeiptr length)
@@ -590,6 +621,24 @@ inline void _Buffer::copyWriteBufferData(DataStore& dataStore, BufferUsage usage
 {
 	copyWriteBufferData((GLsizeiptr)dataStore.getSize(), dataStore.getData(0), usage);
 }
+
+inline TextureBuffer Buffers::getTextureBuffer(GLuint index) const
+{
+#ifdef _DEBUG
+	return TextureBuffer(_objects_get(index, GL_TEXTURE_BUFFER));
+#else // #ifdef _DEBUG
+	return TextureBuffer(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
+inline UniformBuffer Buffers::getUniformBuffer(GLuint index) const
+{
+#ifdef _DEBUG
+	return UniformBuffer(_objects_get(index, GL_UNIFORM_BUFFER));
+#else // #ifdef _DEBUG
+	return UniformBuffer(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
 #endif // #ifdef YAGLPP_VERSION_3_1
 
 #if defined (YAGLPP_VERSION_3_1) && defined (YAGLPP_IMPLEMENTATION)
@@ -634,11 +683,3 @@ GLint64 _Buffer::_getBufferParameter64(GLenum target, GLenum binding, GLenum pna
 }
 #endif // #if defined (YAGLPP_VERSION_3_2) && defined (YAGLPP_IMPLEMENTATION)
 } // namespace gl
-
-#include <yaglpp/buffer/array_buffer.h>
-#include <yaglpp/buffer/element_array_buffer.h>
-#include <yaglpp/buffer/pixel_pack_buffer.h>
-#include <yaglpp/buffer/pixel_unpack_buffer.h>
-#include <yaglpp/buffer/texture_buffer.h>
-#include <yaglpp/buffer/transform_feedback_buffer.h>
-#include <yaglpp/buffer/uniform_buffer.h>

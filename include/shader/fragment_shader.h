@@ -9,9 +9,9 @@ public:
 	FragmentShader() {}
 
 	/*(2) Constructs a copy of shader object*/
-	FragmentShader(const FragmentShader& shader)
+	FragmentShader(const FragmentShader& source)
 	{
-		_shader_dup((_Object&)shader);
+		_shader_dup((_Object&)source);
 	}
 
 	/*(3) Constructs shader object from binary resource*/
@@ -45,11 +45,10 @@ public:
 		_compileShader(GL_FRAGMENT_SHADER);
 	}
 
-	/*Explicitly creates a shader object
-	@param True to set the object's autodelete flag, default true*/
-	void createShader(GLboolean autodelete = GL_TRUE)
+	/*Explicitly generates OpenGL shader object*/
+	void createShader()
 	{
-		_shader_gen(GL_FRAGMENT_SHADER, autodelete);
+		_shader_gen(GL_FRAGMENT_SHADER);
 	}
 
 	/*Detaches a shader object from a program object to which it is attached
@@ -59,11 +58,11 @@ public:
 		_detachShader(GL_FRAGMENT_SHADER, program);
 	}
 
-	/*Duplicates a shader object. If the source is a single object, it unconditionally becomes a reference object
+	/*Duplicates a shader object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source shader object*/
-	void duplicateShader(const FragmentShader& shader)
+	void duplicateShader(const FragmentShader& source)
 	{
-		_shader_dup((_Object&)shader);
+		_shader_dup((_Object&)source);
 	}
 
 	/*Gets shader compile status parameter. Used as a getter of <compileStatus> property
@@ -129,6 +128,21 @@ public:
 	ShaderType getShaderType()
 	{
 		return (ShaderType)_getShader(GL_FRAGMENT_SHADER, GL_SHADER_TYPE);
+	}
+
+	/*Checks if the source shader object is referencing the same OpenGL object
+	@param Specifies the source shader object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const FragmentShader& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
+	/*Creates a thread-safe reference object from the source shader object
+	@param Specifies the source shader object*/
+	void referShader(const FragmentShader& source)
+	{
+		_shader_refer((_Object&)source);
 	}
 
 	/*Set the accuracy of the derivative calculation for the GL shading language fragment processing built-in functions: dFdx, dFdy, and fwidth

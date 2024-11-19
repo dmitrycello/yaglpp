@@ -23,8 +23,8 @@ enum class QueryConditionalRenderMode : GLenum
 class _Query : public _Object
 {
 protected:
-	void _query_clean() {
-		_object_clean(glDeleteQueries);
+	void _query_close() {
+		_object_close(glDeleteQueries);
 	}
 	void _query_delete() {
 		_object_delete(glDeleteQueries);
@@ -32,11 +32,14 @@ protected:
 	void _query_dup(_Object& source) {
 		_object_dup(glDeleteQueries, source);
 	}
-	void _query_gen(GLboolean autodelete) {
-		_object_gen(glGenQueries, glDeleteQueries, 1, autodelete);
+	void _query_gen() {
+		_object_gen(glGenQueries, glDeleteQueries, 1);
 	}
 	GLuint _query_id() {
 		return _object_id(glGenQueries, 1);
+	}
+	void _query_refer(_Object& source) {
+		_object_refer(glDeleteQueries, source);
 	}
 	void _beginQuery(GLenum target);
 	static void _endQuery(GLenum target);
@@ -57,20 +60,25 @@ public:
 	/*Cleans up the valid query object*/
 	~_Query()
 	{
-		_query_clean();
+		_query_close();
 	}
 
-	/*Explicitly deletes previously generated single query object*/
+	/*Explicitly close the inctance of OpenGL query object*/
+	void closeQuery()
+	{
+		_query_close();
+	}
+
+	/*Explicitly deletes OpenGL query object, invalidating all its inctances*/
 	void deleteQuery()
 	{
 		_query_delete();
 	}
 
-	/*Explicitly generates single query object
-	@param True to set the object's autodelete flag, default true*/
-	void genQuery(GLboolean autodelete = GL_TRUE)
+	/*Explicitly generates OpenGL query object name*/
+	void genQuery()
 	{
-		_query_gen(autodelete);
+		_query_gen();
 	}
 
 	/*Returns the value of the query object's passed samples counter. Used as a getter of <queryResult> property
@@ -125,6 +133,9 @@ public:
 class Queries : public _Objects
 {
 protected:
+	void _queries_close() {
+		_objects_close(glDeleteQueries);
+	}
 	void _queries_delete() {
 		_objects_delete(glDeleteQueries);
 	}
@@ -140,9 +151,9 @@ public:
 	Queries() {}
 
 	/*(2) Constructs a copy of query multi-object*/
-	Queries(const Queries& queries)
+	Queries(const Queries& source)
 	{
-		_queries_dup((_Objects&)queries);
+		_queries_dup((_Objects&)source);
 	}
 
 	/*(3) Constucts an initialized query multi-object*/
@@ -151,23 +162,29 @@ public:
 		_queries_gen(num);
 	}
 
-	/*Cleans up the valid query multi-object*/
+	/*Cleans up the query multi-object*/
 	~Queries()
 	{
-		_queries_delete();
+		_queries_close();
 	}
 
-	/*Explicitly deletes valid query multi-object*/
+	/*Explicitly close the instance of buffer multi-object*/
+	void closeQueries()
+	{
+		_queries_close();
+	}
+
+	/*Explicitly deletes OpenGL query multi-object, invalidating all its instances*/
 	void deleteQueries()
 	{
 		_queries_delete();
 	}
 
-	/*Duplicates a query multi-object. If the source is a single object, it unconditionally becomes a reference object
+	/*Duplicates a query multi-object, increasing its reference count
 	@param Specifies the source query multi-object*/
-	void duplicateQueries(const Queries& queries)
+	void duplicateQueries(const Queries& source)
 	{
-		_queries_dup((_Objects&)queries);
+		_queries_dup((_Objects&)source);
 	}
 
 	/*Generates one or more query object names in the query multi-object
@@ -177,73 +194,59 @@ public:
 		_queries_gen(num);
 	}
 
-	/*Retrieves a reference to the SamplesPassed object from a valid multi-object
-	@param Specifies the object name index*/
-	SamplesPassed& getSamplesPassed(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (SamplesPassed&)_objects_get(index, GL_SAMPLES_PASSED);
-#else // #ifdef _DEBUG
-		return (SamplesPassed&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*Retrieves a reference query object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference buffer object, or empty object*/
+	SamplesPassed getSamplesPassed(GLuint index) const;
 
 	/*Checks if the source Queries object is referencing the same multi-object
 	@param The source multi-object
 	@return True if duplicate multi-object*/
 	GLboolean isDuplicate(const Queries& source) const
 	{
-		return _objects_is((Queries&)source);
+		return _objects_is((_Objects&)source);
 	}
 
 #ifdef YAGLPP_VERSION_3_0
-	/*(3.0) Retrieves a reference to the PrimitivesGenerated object from a valid multi-object
-	@param Specifies the object name index*/
-	PrimitivesGenerated& getPrimitivesGenerated(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (PrimitivesGenerated&)_objects_get(index, GL_PRIMITIVES_GENERATED);
-#else // #ifdef _DEBUG
-		return (PrimitivesGenerated&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.0) Retrieves a reference query object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference buffer object, or empty object*/
+	PrimitivesGenerated getPrimitivesGenerated(GLuint index) const;
 
-	/*(3.0) Retrieves a reference to the TransformFeedbackPrimitivesWritten object from a valid multi-object
-	@param Specifies the object name index*/
-	TransformFeedbackPrimitivesWritten& getTransformFeedbackPrimitivesWritten(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (TransformFeedbackPrimitivesWritten&)_objects_get(index, GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
-#else // #ifdef _DEBUG
-		return (TransformFeedbackPrimitivesWritten&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.0) Retrieves a reference query object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference buffer object, or empty object*/
+	TransformFeedbackPrimitivesWritten getTransformFeedbackPrimitivesWritten(GLuint index) const;
 #endif // #ifdef YAGLPP_VERSION_3_0
 
 #ifdef YAGLPP_VERSION_3_3
-	/*(3.3) Retrieves a reference to the AnySamplesPassed object from a valid multi-object
-	@param Specifies the object name index*/
-	AnySamplesPassed& getAnySamplesPassed(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (AnySamplesPassed&)_objects_get(index, GL_ANY_SAMPLES_PASSED);
-#else // #ifdef _DEBUG
-		return (AnySamplesPassed&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.3) Retrieves a reference query object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference buffer object, or empty object*/
+	AnySamplesPassed getAnySamplesPassed(GLuint index) const;
 
-	/*(3.3) Retrieves a reference to the TimeElapsed object from a valid multi-object
-	@param Specifies the object name index*/
-	TimeElapsed& getTimeElapsed(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (TimeElapsed&)_objects_get(index, GL_TIME_ELAPSED);
-#else // #ifdef _DEBUG
-		return (TimeElapsed&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.3) Retrieves a reference query object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference buffer object, or empty object*/
+	TimeElapsed getTimeElapsed(GLuint index) const;
 #endif // #ifdef YAGLPP_VERSION_3_3
 }; // class Queries : public _Object
+} // namespace gl
+
+#include <yaglpp/query/samples_passed.h>
+#include <yaglpp/query/primitives_generated.h>
+#include <yaglpp/query/transform_feedback_primitives_written.h>
+#include <yaglpp/query/any_samples_passed.h>
+#include <yaglpp/query/time_elapsed.h>
+namespace gl {
+inline SamplesPassed Queries::getSamplesPassed(GLuint index) const
+{
+#ifdef _DEBUG
+	return SamplesPassed(_objects_get(index, GL_SAMPLES_PASSED));
+#else // #ifdef _DEBUG
+	return SamplesPassed(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
 
 #ifdef YAGLPP_IMPLEMENTATION
 GLboolean _Query::_isCurrentQuery(GLenum target) const
@@ -262,7 +265,7 @@ void _Query::setQuery(GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_query_gen(GL_TRUE);
+		_query_gen();
 	}
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION
@@ -321,6 +324,26 @@ inline GLint _Query::_getQueryObject(GLenum pname)
 }
 #endif // #ifdef YAGLPP_INLINE_IMPLEMENTATION
 
+#ifdef YAGLPP_VERSION_3_0
+inline PrimitivesGenerated Queries::getPrimitivesGenerated(GLuint index) const
+{
+#ifdef _DEBUG
+	return PrimitivesGenerated(_objects_get(index, GL_PRIMITIVES_GENERATED));
+#else // #ifdef _DEBUG
+	return PrimitivesGenerated(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
+inline TransformFeedbackPrimitivesWritten Queries::getTransformFeedbackPrimitivesWritten(GLuint index) const
+{
+#ifdef _DEBUG
+	return TransformFeedbackPrimitivesWritten(_objects_get(index, GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN));
+#else // #ifdef _DEBUG
+	return TransformFeedbackPrimitivesWritten(_objects_get(index, ));
+#endif // #ifdef _DEBUG
+}
+#endif // #ifdef YAGLPP_VERSION_3_0
+
 #if defined (YAGLPP_VERSION_3_0) && defined (YAGLPP_DEBUG_IMPLEMENTATION)
 void _Query::_beginConditionalRender(QueryConditionalRenderMode mode)
 {
@@ -347,6 +370,26 @@ inline void _Query::_endConditionalRender()
 }
 #endif // #if defined (YAGLPP_VERSION_3_0) && defined (YAGLPP_INLINE_IMPLEMENTATION)
 
+#ifdef YAGLPP_VERSION_3_3
+inline AnySamplesPassed Queries::getAnySamplesPassed(GLuint index) const
+{
+#ifdef _DEBUG
+	return AnySamplesPassed(_objects_get(index, GL_ANY_SAMPLES_PASSED));
+#else // #ifdef _DEBUG
+	return AnySamplesPassed(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
+inline TimeElapsed Queries::getTimeElapsed(GLuint index) const
+{
+#ifdef _DEBUG
+	return TimeElapsed(_objects_get(index, GL_TIME_ELAPSED));
+#else // #ifdef _DEBUG
+	return TimeElapsed(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+#endif // #ifdef YAGLPP_VERSION_3_3
+
 #if defined (YAGLPP_VERSION_3_3) && defined (YAGLPP_DEBUG_IMPLEMENTATION)
 GLint64 _Query::getQueryResult64()
 {
@@ -364,9 +407,3 @@ inline GLint64 _Query::getQueryResult64()
 }
 #endif // #if defined (YAGLPP_VERSION_3_3) && defined (YAGLPP_INLINE_IMPLEMENTATION)
 } // namespace gl
-
-#include <yaglpp/query/any_samples_passed.h>
-#include <yaglpp/query/primitives_generated.h>
-#include <yaglpp/query/samples_passed.h>
-#include <yaglpp/query/time_elapsed.h>
-#include <yaglpp/query/transform_feedback_primitives_written.h>

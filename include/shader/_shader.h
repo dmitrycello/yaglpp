@@ -20,8 +20,8 @@ enum class ShaderType : GLenum
 class _Shader : public _Object
 {
 protected:
-	void _shader_clean() {
-		_object_clean(_glDeleteShader);
+	void _shader_close() {
+		_object_close(_glDeleteShader);
 	}
 	void _shader_delete() {
 		_object_delete(_glDeleteShader);
@@ -29,11 +29,14 @@ protected:
 	void _shader_dup(_Object& source) {
 		_object_dup(_glDeleteShader, source);
 	}
-	void _shader_gen(GLenum shaderType, GLboolean autodelete) {
-		_object_gen(_glCreateShader, _glDeleteShader, shaderType, autodelete);
+	void _shader_gen(GLenum shaderType) {
+		_object_gen(_glCreateShader, _glDeleteShader, shaderType);
 	}
 	GLuint _shader_id(GLenum shaderType) {
 		return _object_id(_glCreateShader, shaderType);
+	}
+	void _shader_refer(_Object& source) {
+		_object_refer(_glDeleteShader, source);
 	}
 	void _attachShader(GLenum shaderType, Program& program);
 	void _compileShader(GLenum shaderType);
@@ -52,10 +55,16 @@ public:
 	/*Cleans up the valid shader object*/
 	~_Shader()
 	{
-		_shader_clean();
+		_shader_close();
 	}
 
-	/*Explicitly deletes previously generated shader object*/
+	/*Explicitly close the inctance of OpenGL shader object*/
+	void closeBuffer()
+	{
+		_shader_close();
+	}
+
+	/*Explicitly deletes OpenGL shader object, invalidating all its inctances*/
 	void deleteShader()
 	{
 		_shader_delete();
@@ -96,7 +105,7 @@ void _Shader::_setShader(GLenum type, GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_shader_gen(type, GL_TRUE);
+		_shader_gen(type);
 	}
 }
 

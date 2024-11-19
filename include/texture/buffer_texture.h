@@ -109,6 +109,7 @@ enum class TexBufferInternalformat : GLenum
 class BufferTexture : public _Texture
 {
 private:
+	friend class Textures;
 	BufferTexture(GLint name) { _object_set(name); }
 
 public:
@@ -116,9 +117,9 @@ public:
 	BufferTexture() {}
 
 	/*(3.1) (2) Constructs a copy of texture object*/
-	BufferTexture(const BufferTexture& texture)
+	BufferTexture(const BufferTexture& source)
 	{
-		_texture_dup((_Object&)texture);
+		_texture_dup((_Object&)source);
 	}
 
 	/*(3.1) Select active texture unit by the index value ranging from 0 to the value returned by <getMaxCombinedTextureImageUnits> minus 1. Similar to global <activeTexture>, but also unconditionally binds the texture to its target after selection
@@ -134,11 +135,11 @@ public:
 		_bindTexture(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER);
 	}
 
-	/*(3.1) Duplicates a texture object. If the source is a single object, it unconditionally becomes a reference object
+	/*(3.1) Duplicates a texture object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source texture object*/
-	void duplicateTexture(const BufferTexture& texture)
+	void duplicateTexture(const BufferTexture& source)
 	{
-		_texture_dup((_Object&)texture);
+		_texture_dup((_Object&)source);
 	}
 
 	/*(3.1) Detatch a texture buffer (buffer) object's data store currently attached to buffer texture (texture) object*/
@@ -238,11 +239,26 @@ public:
 		return _getTexLevelParameter(GL_TEXTURE_BUFFER, GL_TEXTURE_BINDING_BUFFER, 0, GL_TEXTURE_WIDTH);
 	}
 
+	/*(3.1) Checks if the source texture object is referencing the same OpenGL object
+	@param Specifies the source texture object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const BufferTexture& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
 	/*(3.1) Determines if the texture object is currently bound to its target. Used as a getter of <textureBinding> property
 	@return True if texture object currently bound to its target, or false otherwise*/
 	GLboolean isTextureBinding() const
 	{
 		return _object_binding(GL_TEXTURE_BINDING_BUFFER);
+	}
+
+	/*(3.1) Creates a thread-safe reference object from the source texture object
+	@param Specifies the source texture object*/
+	void referTexture(const BufferTexture& source)
+	{
+		_texture_refer((_Object&)source);
 	}
 
 	/*(3.1) Sets the binding state of the texture object, only if current state is opposite. Used as a setter of <textureBinding> property

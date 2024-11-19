@@ -77,8 +77,8 @@ private:
 	friend class UniformBlock;
 	friend class VertexAttrib;
 	Program(GLint name) { _object_set(name); }
-	void _program_clean() {
-		_object_clean(_glDeleteProgram);
+	void _program_close() {
+		_object_close(_glDeleteProgram);
 	}
 	void _program_delete() {
 		_object_delete(_glDeleteProgram);
@@ -86,11 +86,14 @@ private:
 	void _program_dup(_Object& source) {
 		_object_dup(_glDeleteProgram, source);
 	}
-	void _program_gen(GLboolean autodelete) {
-		_object_gen(_glCreateProgram, _glDeleteProgram, 1, autodelete);
+	void _program_gen() {
+		_object_gen(_glCreateProgram, _glDeleteProgram, 1);
 	}
 	GLuint _program_id() {
 		return _object_id(&_glCreateProgram, 1);
+	}
+	void _program_refer(_Object& source) {
+		_object_refer(_glDeleteProgram, source);
 	}
 	static void WINAPI _glCreateProgram(GLsizei unused, GLuint* id);
 	static void WINAPI _glDeleteProgram(GLsizei unused, const GLuint* id);
@@ -101,9 +104,9 @@ public:
 	Program() {}
 
 	/*(2) Constructs a copy of program object*/
-	Program(const Program& program)
+	Program(const Program& source)
 	{
-		_program_dup((_Object&)program);
+		_program_dup((_Object&)source);
 	}
 
 	/*(3) Constructs program object with <attachShaders>*/
@@ -115,7 +118,7 @@ public:
 	/*Cleans up the valid program object*/
 	~Program()
 	{
-		_program_clean();
+		_program_close();
 	}
 
 	/*(1) Attaches vertex and fragment shader objects to specified program
@@ -123,11 +126,16 @@ public:
 	@param Fragment shader object*/
 	void attachShaders(VertexShader& vs, FragmentShader& fs);
 
-	/*Explicitly creates a program object
-	@True to set the object's autodelete flag, default true*/
-	void createProgram(GLboolean autodelete = GL_TRUE)
+	/*Explicitly close the inctance of OpenGL program object*/
+	void closeProgram()
 	{
-		_program_gen(autodelete);
+		_program_close();
+	}
+
+	/*Explicitly creates OpenGL program object*/
+	void createProgram()
+	{
+		_program_gen();
 	}
 
 	/*Deletes the program object that was previously created*/
@@ -139,11 +147,11 @@ public:
 	/*Detaches all attached shader objects from specified program*/
 	void detachShaders();
 
-	/*Duplicates a program object. If the source is a single object, it unconditionally becomes a reference object
+	/*Duplicates a program object, increasing its reference count
 	@param Specifies the source program object*/
-	void duplicateProgram(const Program& program)
+	void duplicateProgram(const Program& source)
 	{
-		_program_dup((_Object&)program);
+		_program_dup((_Object&)source);
 	}
 
 	/*Returns information about a currenntly active attribute variable for the specified program object into the <ActiveAttribInfo> structure. The function is used in monitoring purposes
@@ -240,6 +248,14 @@ public:
 	@return True if currently active program object, false otherwise*/
 	GLboolean isCurrentProgram() const;
 
+	/*Checks if the source program object is referencing the same OpenGL object
+	@param The source program object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const Program& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
 	/*Determines if a name corresponds to a program object. Used as a getter of <program> property
 	@return True if valid program object, false otherwise*/
 	GLboolean isProgram() const
@@ -249,6 +265,13 @@ public:
 
 	/*Links a program object. The status of the link operation will be stored as part of the program object's state*/
 	void linkProgram();
+
+	/*Creates a thread-safe reference object from the source program object
+	@param Specifies the source program object*/
+	void referProgram(const Program& source)
+	{
+		_program_refer((_Object&)source);
+	}
 
 	/*Sets the creation state of the program object, only if current state is opposite. Depending of the flag value, calls <createProgram> or <deleteProgram> functions. Used as a setter of <program> property
 	@param True to generate program object name, false to delete program object*/
@@ -528,7 +551,7 @@ void Program::setProgram(GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_program_gen(GL_TRUE);
+		_program_gen();
 	}
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION

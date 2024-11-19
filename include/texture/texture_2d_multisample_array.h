@@ -6,6 +6,7 @@ namespace gl {
 class Texture2DMultisampleArray : public _Texture
 {
 private:
+	friend class Textures;
 	Texture2DMultisampleArray(GLint name) { _object_set(name); }
 
 public:
@@ -13,9 +14,9 @@ public:
 	Texture2DMultisampleArray() {}
 
 	/*(3.2) (2) Constructs a copy of texture object*/
-	Texture2DMultisampleArray(const Texture2DMultisampleArray& texture)
+	Texture2DMultisampleArray(const Texture2DMultisampleArray& source)
 	{
-		_texture_dup((_Object&)texture);
+		_texture_dup((_Object&)source);
 	}
 
 	/*(3.2) Select active texture unit by the index value ranging from 0 to the value returned by <getMaxCombinedTextureImageUnits> minus 1. Similar to global <activeTexture>, but also unconditionally binds the texture to its target after selection
@@ -31,11 +32,11 @@ public:
 		_bindTexture(GL_TEXTURE_2D_MULTISAMPLE_ARRAY, GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY);
 	}
 
-	/*(3.2) Duplicates a texture object. If the source is a single object, it unconditionally becomes a reference object
+	/*(3.2) Duplicates a texture object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source texture object*/
-	void duplicateTexture(const Texture2DMultisampleArray& texture)
+	void duplicateTexture(const Texture2DMultisampleArray& source)
 	{
-		_texture_dup((_Object&)texture);
+		_texture_dup((_Object&)source);
 	}
 
 	/*(3.2) Gets the value that indicates the maximum number of layers allowed in an array texture
@@ -332,11 +333,26 @@ public:
 		return (TextureWrapMode)_getTexParameter(GL_TEXTURE_2D_MULTISAMPLE_ARRAY, GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY, GL_TEXTURE_WRAP_T);
 	}
 
+	/*(3.2) Checks if the source texture object is referencing the same OpenGL object
+	@param Specifies the source texture object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const Texture2DMultisampleArray& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
 	/*(3.2) Determines if the texture object is currently bound to its target. Used as a getter of <textureBinding> property
 	@return True if texture object currently bound to its target, or false otherwise*/
 	GLboolean isTextureBinding() const
 	{
 		return _object_binding(GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY);
+	}
+
+	/*(3.2) Creates a thread-safe reference object from the source texture object
+	@param Specifies the source texture object*/
+	void referTexture(const Texture2DMultisampleArray& source)
+	{
+		_texture_refer((_Object&)source);
 	}
 
 	/*(3.2) Sets the binding state of the texture object, only if current state is opposite. Used as a setter of <textureBinding> property

@@ -6,6 +6,7 @@ namespace gl {
 class TransformFeedbackBuffer : public _Buffer
 {
 private:
+	friend class Buffers;
 	TransformFeedbackBuffer(GLint name) { _object_set(name); }
 
 public:
@@ -13,9 +14,9 @@ public:
 	TransformFeedbackBuffer() {}
 
 	/*(3.0) (2) Constructs a copy of buffer object*/
-	TransformFeedbackBuffer(const TransformFeedbackBuffer& buffer)
+	TransformFeedbackBuffer(const TransformFeedbackBuffer& source)
 	{
-		_buffer_dup((_Object&)buffer);
+		_buffer_dup((_Object&)source);
 	}
 
 	/*(3.0) Explicitly binds buffer object to its target. Does nothing if specified buffer is bound*/
@@ -79,11 +80,11 @@ public:
 		_bufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, GL_TRANSFORM_FEEDBACK_BUFFER_BINDING, offset, size, data);
 	}
 
-	/*(3.0) Duplicates a buffer object. If the source is a single object, it unconditionally becomes a reference object
+	/*(3.0) Duplicates a buffer object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source buffer object*/
-	void duplicateBuffer(const TransformFeedbackBuffer& buffer)
+	void duplicateBuffer(const TransformFeedbackBuffer& source)
 	{
-		_buffer_dup((_Object&)buffer);
+		_buffer_dup((_Object&)source);
 	}
 
 	/*(3.0) Indicates modifications to a range of a mapped buffer
@@ -190,6 +191,14 @@ public:
 		return _object_binding(GL_TRANSFORM_FEEDBACK_BUFFER_BINDING);
 	}
 
+	/*(3.0) Checks if the source buffer object is referencing the same OpenGL object
+	@param Specifies the source buffer object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const TransformFeedbackBuffer& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
 	/*(3.0) Maps all of a buffer object's data store into the client's address space
 	@param Specifies the buffer access policy enumerator
 	@return A pointer to the beginning of the buffer mapped range*/
@@ -205,6 +214,13 @@ public:
 	_Ret_maybenull_ void* mapBufferRange(GLintptr offset, GLsizeiptr length, BufferFlags access)
 	{
 		return _mapBufferRange(GL_TRANSFORM_FEEDBACK_BUFFER, GL_TRANSFORM_FEEDBACK_BUFFER_BINDING, offset, length, (GLbitfield)access);
+	}
+
+	/*(3.0) Creates a thread-safe reference object from the source buffer object
+	@param Specifies the source buffer object*/
+	void referBuffer(const TransformFeedbackBuffer& source)
+	{
+		_buffer_refer((_Object&)source);
 	}
 
 	/*(3.0) Sets the binding state of the buffer object, only if current state is opposite. Used as a setter of <bufferBinding> property

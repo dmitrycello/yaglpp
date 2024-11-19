@@ -1,6 +1,6 @@
 #pragma once
 #include <yaglpp/glfw3pp.h>
-#define YAGLPP_INIT_SIZE 32
+#define YAGLPP_GLFW_SIZE 32
 namespace glfw {
 DWORD WINAPI _threadProc(LPVOID lpParam);
 //extern int main(int argc, char** argv);
@@ -42,6 +42,7 @@ class Thread
 private:
     friend DWORD WINAPI _threadProc(LPVOID lpParam);
     friend class Window;
+
     // Thread object static data structure
     static struct _SDATA {
         int iArgc; // Cmd-line argument count
@@ -454,7 +455,7 @@ bool Thread::_dispatch()
 {
     if ((_m.bBlockMessage == false) && (_m.iCount > 0))
     {
-        return _m._iDispatch++ < YAGLPP_INIT_SIZE;
+        return _m._iDispatch++ < YAGLPP_GLFW_SIZE;
     }
     else return true;
 }
@@ -642,12 +643,12 @@ bool Thread::_SDATA::initialize(Thread* thread)
 #endif // #ifdef _DEBUG
 
     iArgc = 0; // Thread sync data
-    iEventSize = YAGLPP_INIT_SIZE;
+    iEventSize = YAGLPP_GLFW_SIZE;
     iEventCount = 1; // [0] reserved for sync event
     dEventsTimeout = 0.0;
     pMainThread = thread;
-    pLocks = (LONG*)_callocate((YAGLPP_INIT_SIZE >> 5) * sizeof(LONG), nullptr);
-    pEvents = (HANDLE*)_callocate(YAGLPP_INIT_SIZE * sizeof(HANDLE), nullptr);
+    pLocks = (LONG*)_callocate((YAGLPP_GLFW_SIZE >> 5) * sizeof(LONG), nullptr);
+    pEvents = (HANDLE*)_callocate(YAGLPP_GLFW_SIZE * sizeof(HANDLE), nullptr);
     pEvents[0] = CreateEventA(NULL, TRUE, TRUE, NULL); // sync event
     YAGLPP_ASSERT(pEvents[0] != NULL); // FAILED TO CREATE EVENT OBJECT
 
@@ -781,8 +782,8 @@ Thread::Thread()
         Joystick::_s.initialize();
         Monitor::_s.initialize();
     }
-    _m.iSize = YAGLPP_INIT_SIZE;
-    _m.pQueue = (Message*)_allocate(YAGLPP_INIT_SIZE * sizeof(Message), nullptr);
+    _m.iSize = YAGLPP_GLFW_SIZE;
+    _m.pQueue = (Message*)_allocate(YAGLPP_GLFW_SIZE * sizeof(Message), nullptr);
     _m.iRef = syncRef();
 }
 

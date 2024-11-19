@@ -51,8 +51,11 @@ public:
 	/*Cleans up the valid data store object*/
 	~DataStore()
 	{
-		deleteData();
+		closeData();
 	}
+
+	/*Closes the inctance of memory block object, decreasing its reference count. The last instance is being freed*/
+	void closeData();
 
 	/*Copies the whole or a part of the source DataStore object into the whole or a part of valid DataStore object
 	@param [in] Path to the source file
@@ -66,10 +69,7 @@ public:
 	@param True to initialize the memory block with zeros, false otherwise (default)*/
 	void createData(int size, bool init = false);
 
-	/*Deletes the last inctance of a memory block, or decrements its reference count*/
-	void deleteData();
-
-	/*Creates a reference to the source memory block, and increments its reference count
+	/*Duplicates memory block, increasing its reference count
 	@param The source data store object*/
 	void duplicateData(const DataStore& source);
 
@@ -149,10 +149,23 @@ public:
 }; // class DataStore
 
 #ifdef YAGLPP_IMPLEMENTATION
+void DataStore::closeData()
+{
+	if (_mpData != nullptr)
+	{
+		if (_mpData->ref == 0)
+		{
+			_deallocate(_mpData, nullptr);
+		}
+		else _mpData->ref--;
+		_mpData = nullptr;
+	}
+}
+
 void DataStore::createData(int size, bool init)
 {
 	YAGLPP_ASSERT(size > 0); // SIZE MUST BE GREATER THAN ZERO
-	deleteData();
+	closeData();
 	int iSize = size + sizeof(_DATA);
 	if (init)
 	{
@@ -166,24 +179,11 @@ void DataStore::createData(int size, bool init)
 	_mpData->size = size;
 }
 
-void DataStore::deleteData()
-{
-	if (_mpData != nullptr)
-	{
-		if (_mpData->ref == 0)
-		{
-			_deallocate(_mpData, nullptr);
-		}
-		else _mpData->ref--;
-		_mpData = nullptr;
-	}
-}
-
 void DataStore::duplicateData(const DataStore& source)
 {
 	if (&source != this)
 	{
-		deleteData();
+		closeData();
 		_mpData = source._mpData;
 		if (_mpData != nullptr)
 		{
@@ -195,7 +195,7 @@ void DataStore::duplicateData(const DataStore& source)
 void DataStore::loadData(int rcid)
 {
 	int iSize;
-	deleteData();
+	closeData();
 	LPBYTE lpData = (LPBYTE)yaglpp_loadResource(rcid, &iSize);
 	_mpData = (_LPDATA)_allocate(iSize + sizeof(_DATA), nullptr);
 	_mpData->ref = 0;
@@ -206,7 +206,7 @@ void DataStore::loadData(int rcid)
 void DataStore::loadData(_In_z_ const char* file)
 {
 	int iSize;
-	deleteData();
+	closeData();
 	_mpData = (_LPDATA)_loadFile(file, &iSize, (void*)sizeof(_DATA)) - 1;
 	_mpData->ref = 0;
 	_mpData->size = iSize;
@@ -217,7 +217,7 @@ void DataStore::loadSubData(const DataStore& source, int start, int length)
 	YAGLPP_ASSERT(length > 0); // MEMORY SUB BLOCK SIZE MUST BE GREATER THAN ZERO
 	if (&source != this)
 	{
-		deleteData();
+		closeData();
 		_mpData = (_LPDATA)_allocate(length + sizeof(_DATA), nullptr);
 		_mpData->ref = 0;
 		_mpData->size = length;

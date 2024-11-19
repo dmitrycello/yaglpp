@@ -126,57 +126,60 @@ private:
 	void _stbi_load(unsigned char* result);
 
 public:
-	/*(1) Constructs an empty StbImage object*/
+	/*(1) Constructs an empty stb image object*/
 	StbImage() {}
 
-	/*(2) Constructs a duplicate of StbImage object*/
+	/*(2) Constructs a duplicate of stb image object*/
 	StbImage(const StbImage& source)
 	{
 		duplicateImage(source);
 	}
 
-	/*(3) Constructs a copy StbImage object with <copySprite>*/
+	/*(3) Constructs a copy stb image object with <copySprite>*/
 	StbImage(const StbImage& source, int width, int height, int index)
 	{
 		copySprite(source, width, height, index);
 	}
 
-	/*(4) Constructs a copy StbImage object with <copyRegion>*/
+	/*(4) Constructs a copy stb image object with <copyRegion>*/
 	StbImage(const StbImage& source, int rleft, int rtop, int rwidth, int rheight)
 	{
 		copyRegion(source, rleft, rtop, rwidth, rheight);
 	}
 
-	/*(5) Constructs StbImage object with <load>*/
+	/*(5) Constructs stb image object with <load>*/
 	StbImage(int rcid, StbFormat format = StbFormat::Default)
 	{
 		load(rcid, format);
 	}
 
-	/*(6) Constructs StbImage object with <load>*/
+	/*(6) Constructs stb image object with <load>*/
 	StbImage(_In_z_ const char* file, StbFormat format = StbFormat::Default)
 	{
 		load(file, format);
 	}
 
-	/*(7) Constructs StbImage object with <load>*/
+	/*(7) Constructs stb image object with <load>*/
 	StbImage(_In_ StbCallbacks const* clbk, _In_ void* user, StbFormat format = StbFormat::Default)
 	{
 		load(clbk, user, format);
 	}
 
-	/*Cleans up the StbImage object*/
+	/*Cleans up the valid stb image object*/
 	~StbImage()
 	{
-		deleteImage();
+		closeImage();
 	}
+
+	/*Closes the inctance of stb image object, decreasing its reference count. The last instance is being freed*/
+	void closeImage();
 
 	/*Sets the global flag indicating whether to process iphone images back to canonical format, or pass them through as is
 	@param True to convert BGR to RGB for PNG files, default false*/
 	static void convertIphonePngToRgb(bool convert);
 
-	/*Copies the image of source StbImage object
-	@param [in] The source StbImage object*/
+	/*Copies the image of source stb image object
+	@param [in] The source stb image object*/
 	void copyImage(const StbImage& source);
 
 	/*(1) Copies a region of currently loaded image replacing the old image
@@ -189,32 +192,29 @@ public:
 		copyRegion(*this, rleft, rtop, rwidth, rheight);
 	}
 
-	/*(2) Copies a region of the image currently loaded into the source StbImage object
-	@param [in] The source StbImage object
+	/*(2) Copies a region of the image currently loaded into the source stb image object
+	@param [in] The source stb image object
 	@param The region top-left corner x coordinate on the image
 	@param The region top-left corner y coordinate on the image
 	@param The width of the region
 	@param The height of the region*/
 	void copyRegion(const StbImage& source, int rleft, int rtop, int rwidth, int rheight);
 
-	/*Duplicates one of the inbound sprites in the source StbImage object selected by index value. The sprite's dimentions must by multiple of the image's dimentions, and remain the same within the image
+	/*Duplicates one of the inbound sprites in the source stb image object selected by index value. The sprite's dimentions must by multiple of the image's dimentions, and remain the same within the image
 	@param The width of the sprite
 	@param The height of the sprite
 	@param The index of the sprite*/
 	void copySprite(const StbImage& source, int width, int height, int index);
 
-	/*Creates an empty image pixel data array within StbImage object. The object must be empty, and the pixel format has to be determined, which means no default values such as <Rgb> or <Unsigned8> should be used
+	/*Creates an empty image pixel data array within stb image object. The object must be empty, and the pixel format has to be determined, which means no default values such as <Rgb> or <Unsigned8> should be used
 	@param The new image width
 	@param The new image height
 	@param The new image format
 	@param True to initialize the memory block with zeros, default false*/
 	void createImage(int width, int height, StbFormat format, bool init = false);
 
-	/*Unloads the last inctance of a previously loaded image, or decrements its reference count*/
-	void deleteImage();
-
-	/*Creates a reference to the source StbImage object, and increments its reference count
-	@param The source StbImage object*/
+	/*Creates a reference to the source stb image object, and increments its reference count
+	@param The source stb image object*/
 	void duplicateImage(const StbImage& source);
 
 	/*Sets the global image writing direction flag
@@ -304,8 +304,8 @@ public:
 	@return True if file is 16-bit image, false otherwise*/
 	static bool is16bit(_In_ StbCallbacks const* clbk, _In_ void* user);
 
-	/*Checks if the source object is referencing the same StbImage object
-	@param The source StbImage object
+	/*Checks if the source object is referencing the same stb image object
+	@param The source stb image object
 	@return True if duplicate object*/
 	bool isDuplicate(const StbImage& source) const
 	{
@@ -328,7 +328,7 @@ public:
 	@return True if file is 32-bit float image, false otherwise*/
 	static bool isHdr(_In_ StbCallbacks const* clbk, _In_ void* user);
 
-	/*Checks if the StbImage object has loaded image
+	/*Checks if the stb image object has loaded image
 	@return True if the image is loaded, false otherwise*/
 	bool isImage() const
 	{
@@ -389,8 +389,8 @@ public:
 		resizeRegion(width, height, 0, 0, getWidth(), getHeight());
 	}
 
-	/*(2) Resizes an image loaded into the source StbImage object
-	@param [in] The source StbImage object
+	/*(2) Resizes an image loaded into the source stb image object
+	@param [in] The source stb image object
 	@param The width of a new image
 	@param The height of a new image*/
 	void resizeImage(const StbImage& source, int width, int height)
@@ -410,8 +410,8 @@ public:
 		resizeRegion(*this, width, height, rleft, rtop, rwidth, rheight);
 	}
 
-	/*(2) Resizes a region of the image loaded into the source StbImage object
-	@param [in] The source StbImage object
+	/*(2) Resizes a region of the image loaded into the source stb image object
+	@param [in] The source stb image object
 	@param The width of a new image
 	@param The height of a new image
 	@param The region top-left corner x coordinate on the image
@@ -481,7 +481,7 @@ public:
 	/*Read-only property for height of last loaded image*/
 	__declspec(property(get = getHeight)) int height;
 
-	/*Read-only property to check if the StbImage object has loaded image*/
+	/*Read-only property to check if the stb image object has loaded image*/
 	__declspec(property(get = isImage)) bool image;
 
 	/*Read-only property for pointer to the pixel array of last loaded image*/
@@ -690,11 +690,11 @@ void StbImage::_stbi_load(unsigned char* result)
 	}
 #endif // #ifdef _DEBUG
 
-	deleteImage();
+	closeImage();
 	_mpData = (_LPDATA)(result - sizeof(_DATA)); // rewing to header
 }
 
-void StbImage::deleteImage()
+void StbImage::closeImage()
 {
 	if (_mpData != nullptr)
 	{
@@ -711,7 +711,7 @@ void StbImage::duplicateImage(const StbImage& source)
 {
 	if (&source != this)
 	{
-		deleteImage();
+		closeImage();
 		_mpData = source._mpData;
 		if (_mpData != nullptr)
 		{
@@ -724,7 +724,7 @@ void StbImage::copyImage(const StbImage& source)
 {
 	if (&source != this)
 	{
-		deleteImage();
+		closeImage();
 		if (source._mpData != nullptr)
 		{
 			int iSize = (source._mpData->width * source._mpData->height *
@@ -758,11 +758,11 @@ void StbImage::copyRegion(const StbImage& source, int rleft, int rtop, int rwidt
 			iDstPos += iDstLine;
 			iSrcPos += iSrcLine;
 		}
-		deleteImage();
+		closeImage();
 		_mpData = lpData;
 		_stbi_init(rwidth, rheight, iByte, iComp);
 	}
-	else deleteImage();
+	else closeImage();
 }
 
 void StbImage::copySprite(const StbImage& source, int width, int height, int index)
@@ -786,7 +786,7 @@ void StbImage::createImage(int width, int height, StbFormat format, bool init)
 	int iByte = ((int)format & YAGLPP_STBIMAGE_BYTE) >> 4;
 	int iComp = (int)format & YAGLPP_STBIMAGE_COMP;
 	YAGLPP_ASSERT((iByte > 0) && (iComp > 0)); // IMAGE PIXEL FORMAT MUST BE NON-DEFAULT
-	deleteImage();
+	closeImage();
 	int iSize = (width * height * iByte * iComp) + sizeof(_DATA);
 	_mpData = (init) ? (_LPDATA)_callocate(iSize, nullptr) : (_LPDATA)_allocate(iSize, nullptr);
 	_stbi_init(width, height, iByte, iComp);
@@ -991,11 +991,11 @@ void StbImage::resizeRegion(const StbImage& source, int width, int height, int r
 		resize.input_t1 = resize.input_t0 + (double)rheight / iHeight;
 		int iResult = stbir_resize_extended(&resize);
 		YAGLPP_ASSERT(iResult); // FAILED TO RESIZE AN IMAGE
-		deleteImage();
+		closeImage();
 		_mpData = lpData;
 		_stbi_init(width, height, iByte, iComp);
 	}
-	else deleteImage();
+	else closeImage();
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION
 

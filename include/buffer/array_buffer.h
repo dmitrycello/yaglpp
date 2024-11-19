@@ -5,6 +5,7 @@ namespace gl {
 class ArrayBuffer : public _Buffer
 {
 private:
+	friend class Buffers;
 	ArrayBuffer(GLint name) { _object_set(name); }
 
 public:
@@ -12,9 +13,9 @@ public:
 	ArrayBuffer() {}
 
 	/*(2) Constructs a copy of buffer object*/
-	ArrayBuffer(const ArrayBuffer& buffer)
+	ArrayBuffer(const ArrayBuffer& source)
 	{
-		_buffer_dup((_Object&)buffer);
+		_buffer_dup((_Object&)source);
 	}
 
 	/*Explicitly binds buffer object to its target. Does nothing if specified buffer is bound*/
@@ -65,11 +66,11 @@ public:
 		_bufferSubData(GL_ARRAY_BUFFER, GL_ARRAY_BUFFER_BINDING, offset, size, data);
 	}
 
-	/*Duplicates a buffer object. If the source is a single object, it unconditionally becomes a reference object
+	/*Duplicates a buffer object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source buffer object*/
-	void duplicateBuffer(const ArrayBuffer& buffer)
+	void duplicateBuffer(const ArrayBuffer& source)
 	{
-		_buffer_dup((_Object&)buffer);
+		_buffer_dup((_Object&)source);
 	}
 
 	/*Gets the access policy parameter value set while mapping the buffer object, the value of the access parameter enum passed to <MapBuffer>. If the buffer was mapped with <mapBufferRange>, the access policy is determined by translating the bits in that access parameter to one of the supported enums for <mapBuffer> as described in the OpenGL specification. Used as a getter of <bufferAccess> property
@@ -139,12 +140,27 @@ public:
 		return _object_binding(GL_ARRAY_BUFFER_BINDING);
 	}
 
+	/*Checks if the source buffer object is referencing the same OpenGL object
+	@param Specifies the source buffer object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const ArrayBuffer& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
 	/*Maps all of a buffer object's data store into the client's address space
 	@param Specifies the buffer access policy enumerator
 	@return A pointer to the beginning of the buffer mapped range*/
 	_Ret_maybenull_ void* mapBuffer(BufferAccess access)
 	{
 		return _mapBuffer(GL_ARRAY_BUFFER, GL_ARRAY_BUFFER_BINDING, (GLenum)access);
+	}
+
+	/*Creates a thread-safe reference object from the source buffer object
+	@param Specifies the source buffer object*/
+	void referBuffer(const ArrayBuffer& source)
+	{
+		_buffer_refer((_Object&)source);
 	}
 
 	/*Sets the binding state of the buffer object, only if current state is opposite. Used as a setter of <bufferBinding> property

@@ -5,6 +5,7 @@ namespace gl {
 class Texture1D : public _Texture
 {
 private:
+	friend class Textures;
 	Texture1D(GLint name) { _object_set(name); }
 
 public:
@@ -12,9 +13,9 @@ public:
 	Texture1D() {}
 
 	/*(2) Constructs a copy of texture object*/
-	Texture1D(const Texture1D& texture)
+	Texture1D(const Texture1D& source)
 	{
-		_texture_dup((_Object&)texture);
+		_texture_dup((_Object&)source);
 	}
 
 	/*Select active texture unit by the index value ranging from 0 to the value returned by <getMaxCombinedTextureImageUnits> minus 1. Similar to global <activeTexture>, but also unconditionally binds the texture to its target after selection
@@ -85,11 +86,11 @@ public:
 		_copyTexSubImage1D(GL_TEXTURE_1D, GL_TEXTURE_BINDING_1D, level, xoffset, x, y, width);
 	}
 
-	/*Duplicates a texture object. If the source is a single object, it unconditionally becomes a reference object
+	/*Duplicates a texture object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source texture object*/
-	void duplicateTexture(const Texture1D& texture)
+	void duplicateTexture(const Texture1D& source)
 	{
-		_texture_dup((_Object&)texture);
+		_texture_dup((_Object&)source);
 	}
 
 	/*Disable enabled one-dimensional texturing server-side GL capability, initially enabled*/
@@ -399,6 +400,14 @@ public:
 		return (TextureWrapMode)_getTexParameter(GL_TEXTURE_1D, GL_TEXTURE_BINDING_1D, GL_TEXTURE_WRAP_T);
 	}
 
+	/*Checks if the source texture object is referencing the same OpenGL object
+	@param Specifies the source texture object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const Texture1D& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
 	/*Checks if one-dimensional texturing server-side GL capability is enabled, initially disabled
 	@return True if one-dimensional texturing GL capability is enabled, false otherwise*/
 	static GLboolean isTexture1D()
@@ -411,6 +420,13 @@ public:
 	GLboolean isTextureBinding() const
 	{
 		return _object_binding(GL_TEXTURE_BINDING_1D);
+	}
+
+	/*Creates a thread-safe reference object from the source texture object
+	@param Specifies the source texture object*/
+	void referTexture(const Texture1D& source)
+	{
+		_texture_refer((_Object&)source);
 	}
 
 	/*Specifies the index of the lowest defined mipmap level. Used as a setter of <textureBaseLevel> property

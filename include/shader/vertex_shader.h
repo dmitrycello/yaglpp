@@ -9,9 +9,9 @@ public:
 	VertexShader() {}
 
 	/*(2) Constructs a copy of shader object*/
-	VertexShader(const VertexShader& shader)
+	VertexShader(const VertexShader& source)
 	{
-		_shader_dup((_Object&)shader);
+		_shader_dup((_Object&)source);
 	}
 
 	/*(3) Constructs shader object from binary resource*/
@@ -45,11 +45,10 @@ public:
 		_compileShader(GL_VERTEX_SHADER);
 	}
 
-	/*Explicitly creates a shader object
-	@param True to set the object's autodelete flag, default true*/
-	void createShader(GLboolean autodelete = GL_TRUE)
+	/*Explicitly generates OpenGL shader object*/
+	void createShader()
 	{
-		_shader_gen(GL_VERTEX_SHADER, autodelete);
+		_shader_gen(GL_VERTEX_SHADER);
 	}
 
 	/*Detaches a shader object from a program object to which it is attached
@@ -59,11 +58,11 @@ public:
 		_detachShader(GL_VERTEX_SHADER, program);
 	}
 
-	/*Duplicates a shader object. If the source is a single object, it unconditionally becomes a reference object
+	/*Duplicates a shader object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source shader object*/
-	void duplicateShader(const VertexShader& shader)
+	void duplicateShader(const VertexShader& source)
 	{
-		_shader_dup((_Object&)shader);
+		_shader_dup((_Object&)source);
 	}
 
 	/*Gets shader compile status parameter. Used as a getter of <compileStatus> property
@@ -136,6 +135,21 @@ public:
 	ShaderType getShaderType()
 	{
 		return (ShaderType)_getShader(GL_VERTEX_SHADER, GL_SHADER_TYPE);
+	}
+
+	/*Checks if the source shader object is referencing the same OpenGL object
+	@param Specifies the source shader object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const VertexShader& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
+	/*Creates a thread-safe reference object from the source shader object
+	@param Specifies the source shader object*/
+	void referShader(const VertexShader& source)
+	{
+		_shader_refer((_Object&)source);
 	}
 
 	/*(1) Replaces the source code in a shader object from the binary resource

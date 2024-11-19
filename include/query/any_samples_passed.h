@@ -6,6 +6,7 @@ namespace gl {
 class AnySamplesPassed : public _Query
 {
 private:
+	friend class Queries;
 	AnySamplesPassed(GLint name) { _object_set(name); }
 
 public:
@@ -13,9 +14,9 @@ public:
 	AnySamplesPassed() {}
 
 	/*(3.3) (2) Constructs a copy of query object*/
-	AnySamplesPassed(const AnySamplesPassed& query)
+	AnySamplesPassed(const AnySamplesPassed& source)
 	{
-		_query_dup((_Object&)query);
+		_query_dup((_Object&)source);
 	}
 
 	/*(3.3) Starts conditional rendering using an occlusion query
@@ -31,11 +32,11 @@ public:
 		_beginQuery(GL_ANY_SAMPLES_PASSED);
 	}
 
-	/*(3.3) Duplicates a query object. If the source is a single object, it unconditionally becomes a reference object
+	/*(3.3) Duplicates a query object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source query object*/
-	void duplicateQuery(const AnySamplesPassed& query)
+	void duplicateQuery(const AnySamplesPassed& source)
 	{
-		_query_dup((_Object&)query);
+		_query_dup((_Object&)source);
 	}
 
 	/*(3.3) End conditional rendering*/
@@ -69,6 +70,21 @@ public:
 	GLboolean isCurrentQuery() const
 	{
 		return _isCurrentQuery(GL_ANY_SAMPLES_PASSED);
+	}
+
+	/*(3.3) Checks if the source query object is referencing the same OpenGL object
+	@param Specifies the source query object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const AnySamplesPassed& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
+	/*(3.3) Creates a thread-safe reference object from the source query object
+	@param Specifies the source query object*/
+	void referQuery(const AnySamplesPassed& source)
+	{
+		_query_refer((_Object&)source);
 	}
 
 #ifdef YAGLPP_CLASS_PROPERTIES

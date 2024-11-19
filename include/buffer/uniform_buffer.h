@@ -6,6 +6,7 @@ namespace gl {
 class UniformBuffer : public _Buffer
 {
 private:
+	friend class Buffers;
 	UniformBuffer(GLint name) { _object_set(name); }
 
 public:
@@ -13,9 +14,9 @@ public:
 	UniformBuffer() {}
 
 	/*(3.1) (2) Constructs a copy of buffer object*/
-	UniformBuffer(const UniformBuffer& buffer)
+	UniformBuffer(const UniformBuffer& source)
 	{
-		_buffer_dup((_Object&)buffer);
+		_buffer_dup((_Object&)source);
 	}
 
 	/*(3.1) Explicitly binds buffer object to its target. Does nothing if specified buffer is bound*/
@@ -80,13 +81,6 @@ public:
 	void bufferSubData(GLintptr offset, GLsizeiptr size, _Pre_notnull_ const void* data)
 	{
 		_bufferSubData(GL_UNIFORM_BUFFER, GL_UNIFORM_BUFFER_BINDING, offset, size, data);
-	}
-
-	/*(3.1) Duplicates a buffer object. If the source is a single object, it unconditionally becomes a reference object
-	@param Specifies the source buffer object*/
-	void duplicateBuffer(const UniformBuffer& buffer)
-	{
-		_buffer_dup((_Object&)buffer);
 	}
 
 	/*(3.1) (1) Copies all or part of the data store of a buffer object into the data store of another buffer object
@@ -157,6 +151,13 @@ public:
 	void copyBufferSubData(UniformBuffer& writeBuffer, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size)
 	{
 		_copyBufferSubData(GL_UNIFORM_BUFFER, GL_UNIFORM_BUFFER_BINDING, GL_UNIFORM_BUFFER, GL_UNIFORM_BUFFER_BINDING, (_Buffer&)writeBuffer, readOffset, writeOffset, size);
+	}
+
+	/*(3.1) Duplicates a buffer object, increasing its reference count. The reference source object is being copied
+	@param Specifies the source buffer object*/
+	void duplicateBuffer(const UniformBuffer& source)
+	{
+		_buffer_dup((_Object&)source);
 	}
 
 	/*(3.1) Indicates modifications to a range of a mapped buffer
@@ -277,6 +278,14 @@ public:
 		return _object_binding(GL_UNIFORM_BUFFER_BINDING);
 	}
 
+	/*(3.1) Checks if the source buffer object is referencing the same OpenGL object
+	@param Specifies the source buffer object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const UniformBuffer& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
 	/*(3.1) Maps all of a buffer object's data store into the client's address space
 	@param Specifies the buffer access policy enumerator
 	@return A pointer to the beginning of the buffer mapped range*/
@@ -292,6 +301,13 @@ public:
 	_Ret_maybenull_ void* mapBufferRange(GLintptr offset, GLsizeiptr length, BufferFlags access)
 	{
 		return _mapBufferRange(GL_UNIFORM_BUFFER, GL_UNIFORM_BUFFER_BINDING, offset, length, (GLbitfield)access);
+	}
+
+	/*(3.1) Creates a thread-safe reference object from the source buffer object
+	@param Specifies the source buffer object*/
+	void referBuffer(const UniformBuffer& source)
+	{
+		_buffer_refer((_Object&)source);
 	}
 
 	/*(3.1) Sets the binding state of the buffer object, only if current state is opposite. Used as a setter of <bufferBinding> property

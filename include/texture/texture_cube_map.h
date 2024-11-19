@@ -27,6 +27,7 @@ enum class TextureCubeMapPlane : GLenum
 class TextureCubeMap : public _Texture
 {
 private:
+	friend class Textures;
 	TextureCubeMap(GLint name) { _object_set(name); }
 
 public:
@@ -34,9 +35,9 @@ public:
 	TextureCubeMap() {}
 
 	/*(2) Constructs a copy of texture object*/
-	TextureCubeMap(const TextureCubeMap& texture)
+	TextureCubeMap(const TextureCubeMap& source)
 	{
-		_texture_dup((_Object&)texture);
+		_texture_dup((_Object&)source);
 	}
 
 	/*Select active texture unit by the index value ranging from 0 to the value returned by <getMaxCombinedTextureImageUnits> minus 1. Similar to global <activeTexture>, but also unconditionally binds the texture to its target after selection
@@ -124,11 +125,11 @@ public:
 		_disable(GL_TEXTURE_CUBE_MAP);
 	}
 
-	/*Duplicates a texture object. If the source is a single object, it unconditionally becomes a reference object
+	/*Duplicates a texture object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source texture object*/
-	void duplicateTexture(const TextureCubeMap& texture)
+	void duplicateTexture(const TextureCubeMap& source)
 	{
-		_texture_dup((_Object&)texture);
+		_texture_dup((_Object&)source);
 	}
 
 	/*Enable cube map texturing server-side GL capability, initially enabled*/
@@ -467,6 +468,14 @@ public:
 		return (TextureWrapMode)_getTexParameter(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BINDING_CUBE_MAP, GL_TEXTURE_WRAP_T);
 	}
 
+	/*Checks if the source texture object is referencing the same OpenGL object
+	@param Specifies the source texture object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const TextureCubeMap& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
 	/*Checks if cube map texturing server-side GL capability is enabled, initially disabled
 	@return True if cube map texturing GL capability is enabled, false otherwise*/
 	static GLboolean isTextureCubeMap()
@@ -479,6 +488,13 @@ public:
 	GLboolean isTextureBinding() const
 	{
 		return _object_binding(GL_TEXTURE_BINDING_CUBE_MAP);
+	}
+
+	/*Creates a thread-safe reference object from the source texture object
+	@param Specifies the source texture object*/
+	void referTexture(const TextureCubeMap& source)
+	{
+		_texture_refer((_Object&)source);
 	}
 
 	/*Specifies the index of the lowest defined mipmap level. Used as the setter of <textureBaseLevel> property

@@ -1,6 +1,7 @@
 #pragma once
 #include <yaglpp/gladpp.h>
 /*GLAD object autodelete flag*/
+#define YAGLPP_GLAD_SIZE 256
 #define YAGLPP_GLAD_AUTO 0x80000000
 namespace gl {
 /*GLAD pointer to <glGen..> functions*/
@@ -16,40 +17,61 @@ typedef void (WINAPI YAGLPP_GLAD_PFNDELETE)(GLsizei n, const GLuint* ids);
 class _Object
 {
 private:
-	GLuint _muId = 0;
+	friend class _Objects;
+	/*GLAD object data cell structure*/
+	typedef struct {
+		GLuint id; // Object id
+		GLuint ref; // Ref count
+		GLuint free; // Free cell
+	} _CELL, *_LPCELL;
+
+	/*GLAD object static data structure*/
+	static struct _SDATA {
+		GLuint size; // Block size
+		GLuint added; // Next cell to add
+		GLuint removed; // Next cell to remove
+		_LPCELL cells; // Cell block
+		~_SDATA() {
+			_deallocate(cells, nullptr);
+		}
+		GLuint add(GLuint id);
+		GLboolean remove(GLuint index);
+	} _s;
+
+	/*GLAD object member data: cell index + flag | id*/
+	GLuint _m = 0;
 
 protected:
-	GLuint _object_id() const {
-		return _muId & ~YAGLPP_GLAD_AUTO;
+	GLboolean _object_is(_Object& source) const {
+		return (_m != 0) && (_object_id() == source._object_id());
 	}
-	void _object_set(GLint name) {
-		_muId = (GLuint)name;
+	void _object_set(GLuint name) {
+		_m = name;
 	}
 	GLboolean _object_binding(GLenum binding) const;
-	void _object_clean(YAGLPP_GLAD_PFNDELETE pfnDelete);
+	void _object_close(YAGLPP_GLAD_PFNDELETE pfnDelete);
 	void _object_delete(YAGLPP_GLAD_PFNDELETE pfnDelete);
 	void _object_dup(YAGLPP_GLAD_PFNDELETE pfnDelete, _Object& source);
-	void _object_gen(YAGLPP_GLAD_PFNGEN pfnGen, YAGLPP_GLAD_PFNDELETE pfnDelete, GLsizei param, GLboolean autodelete);
+	void _object_gen(YAGLPP_GLAD_PFNGEN pfnGen, YAGLPP_GLAD_PFNDELETE pfnDelete, GLsizei param);
+	GLuint _object_id() const;
 	GLuint _object_id(YAGLPP_GLAD_PFNGEN pfnGen, GLsizei param);
+	void _object_refer(YAGLPP_GLAD_PFNDELETE pfnDelete, _Object& source);
 
 public:
-	/*Checks if the OpenGL object name was generated. Used as a getter of <object> property
-	@return True if generated OpenGL object, false otherwise*/
-	GLboolean isObject() const
-	{
-		return _muId != 0;
-	}
+	/*Retrieves the number of active instances of an OpenGL object, or zero if empty or reference object
+	@return The number of object's active instances, or zero*/
+	GLuint getObjectRef() const;
 
-	/*Checks if the object's automatic cleanup flag is set. Used as a getter of <autodelete> property
-	@return True if autodelete flag is set, false otherwise*/
-	GLboolean isAutodelete() const;
+	/*Checks if the object is not empty, and refers to a generated OpenGL object name, or to zero if another inctance of the object has deleted the OpenGL object name. Used as a getter of <object> property
+	@return True if the object is not empty, false otherwise*/
+	GLboolean isObject() const;
 
 #ifdef YAGLPP_CLASS_PROPERTIES
-	/*Read-only property to check if the object if autodelete flag is set*/
-	__declspec(property(get = isAutodelete)) GLboolean autodelete;
-
-	/*Read-only property to check if the OpenGL object name was generated*/
+	/*Read-only property to check if the object is not empty*/
 	__declspec(property(get = isObject)) GLboolean object;
+
+	/*Read-only property for number of object's active instances*/
+	__declspec(property(get = getObjectRef)) GLuint objectRef;
 #endif // #ifdef YAGLPP_CLASS_PROPERTIES
 }; // class _Object
 
@@ -57,26 +79,30 @@ public:
 class _Objects
 {
 private:
+	/*GLAD multi-object data structure*/
 	typedef struct {
-		int ref; // Ref count
+		GLuint ref; // Ref count
 		GLuint num; // Object count
 #pragma warning(push)
 #pragma warning(disable : 4200)
 		GLuint ids[0]; // Zero array
 #pragma warning(pop)
 	} _DATA, *_LPDATA;
-	_LPDATA _mpData = nullptr; // Class data
+
+	/*GLAD multi-object member data: pointer to allocated structure*/
+	_LPDATA _m = nullptr;
 
 protected:
+	void _objects_close(YAGLPP_GLAD_PFNDELETE pfnDelete);
 	void _objects_delete(YAGLPP_GLAD_PFNDELETE pfnDelete);
 	void _objects_dup(YAGLPP_GLAD_PFNDELETE pfnDelete, _Objects& source);
 	void _objects_gen(YAGLPP_GLAD_PFNGEN pfnGen, YAGLPP_GLAD_PFNDELETE pfnDelete, GLuint num);
-	GLboolean _objects_is(_Objects& source) const { return (_mpData != nullptr) && (_mpData == source._mpData); }
+	GLboolean _objects_is(_Objects& source) const { return (_m != nullptr) && (_m == source._m); }
 
 #ifdef _DEBUG
-	_Object& _objects_get(GLuint index, GLenum target) const;
+	GLuint _objects_get(GLuint index, GLenum target) const;
 #else // #ifdef _DEBUG
-	_Object& _objects_get(GLuint index) const;
+	GLuint _objects_get(GLuint index) const;
 #endif // #ifdef _DEBUG
 
 public:
@@ -84,11 +110,15 @@ public:
 	@return The number of elements in the multi-object*/
 	GLuint getObjectNum() const;
 
+	/*Retrieves the number of active instances of an OpenGL multi-object
+	@return The number of object's active instances*/
+	GLuint getObjectRef() const;
+
 	/*Checks if valid OpenGL multi-object. Used as a getter of <object> property
 	@return True if not an empty OpenGL multi-object, false otherwise*/
 	GLboolean isObject() const
 	{
-		return _mpData != nullptr;
+		return _m != nullptr;
 	}
 
 #ifdef YAGLPP_CLASS_PROPERTIES
@@ -97,10 +127,50 @@ public:
 
 	/*Read-only property for number of allocated OpenGL names in the multi-object*/
 	__declspec(property(get = getObjectNum)) GLuint objectNum;
+
+	/*Read-only property for number of multi-object's active instances*/
+	__declspec(property(get = getObjectRef)) GLuint objectRef;
 #endif // #ifdef YAGLPP_CLASS_PROPERTIES
 }; // class _Objects
 
 #ifdef YAGLPP_IMPLEMENTATION
+_Object::_SDATA _Object::_s;
+GLuint _Object::_SDATA::add(GLuint id)
+{
+	GLuint uIndex;
+	if (removed == 0)
+	{
+		if (added == size)
+		{
+			size = (size << 1) + YAGLPP_GLAD_SIZE;
+			cells = (_LPCELL)_reallocate(cells, size * sizeof(_CELL), nullptr);
+		}
+		uIndex = added;
+		added++; // post-inc
+	}
+	else
+	{
+		--removed; // pre-dec
+		uIndex = cells[removed].free;
+	}
+	YAGLPP_ASSERT(cells != nullptr); // SAL REQUIREMENT
+	cells[uIndex].id = id;
+	cells[uIndex].ref = 0;
+	return uIndex | YAGLPP_GLAD_AUTO;
+}
+
+GLboolean _Object::_SDATA::remove(GLuint index)
+{
+	if (cells[index].ref == 0)
+	{
+		cells[removed].free = index;
+		removed++; // post-inc
+		return GL_TRUE;
+	}
+	cells[index].ref--;
+	return GL_FALSE;
+}
+
 GLboolean _Object::_object_binding(GLenum binding) const
 {
 	GLuint uBound;
@@ -109,39 +179,72 @@ GLboolean _Object::_object_binding(GLenum binding) const
 	return (uBound > 0) && (uBound == _object_id());
 }
 
-void _Object::_object_clean(YAGLPP_GLAD_PFNDELETE pfnDelete)
+void _Object::_object_close(YAGLPP_GLAD_PFNDELETE pfnDelete)
 {
-	if (_muId & YAGLPP_GLAD_AUTO)
+	if (_m & YAGLPP_GLAD_AUTO)
 	{
-		_muId &= ~YAGLPP_GLAD_AUTO;
-		pfnDelete(1, &_muId); // glDelete..
-		YAGLPP_GLAD_ERROR;
+		GLuint uIndex = _m & ~YAGLPP_GLAD_AUTO;
+		if (_s.remove(uIndex))
+		{
+			GLuint& rId = _s.cells[uIndex].id;
+			if (rId != 0)
+			{
+				pfnDelete(1, &rId); // glDelete..
+				YAGLPP_GLAD_ERROR;
+				rId = 0;
+			}
+		}
 	}
+	_m = 0;
 }
 
 void _Object::_object_delete(YAGLPP_GLAD_PFNDELETE pfnDelete)
 {
-	_muId &= ~YAGLPP_GLAD_AUTO;
-	pfnDelete(1, &_muId); // glDelete..
-	YAGLPP_GLAD_ERROR;
-	_muId = 0;
+	if (_m & YAGLPP_GLAD_AUTO)
+	{
+		GLuint uIndex = _m & ~YAGLPP_GLAD_AUTO;
+		GLuint& rId = _s.cells[uIndex].id;
+		if (rId != 0)
+		{
+			pfnDelete(1, &rId); // glDelete..
+			YAGLPP_GLAD_ERROR;
+			rId = 0;
+		}
+		_s.remove(uIndex);
+	}
+	_m = 0;
 }
 
 void _Object::_object_dup(YAGLPP_GLAD_PFNDELETE pfnDelete, _Object& source)
 {
-	_object_clean(pfnDelete);
-	_muId = source._muId & ~YAGLPP_GLAD_AUTO; // ref copy
+	if (&source != this)
+	{
+		_object_close(pfnDelete);
+		_m = source._m;
+		if (_m & YAGLPP_GLAD_AUTO)
+		{
+			GLuint uIndex = _m & ~YAGLPP_GLAD_AUTO;
+			_s.cells[uIndex].ref++;
+		}
+	}
 }
 
-void _Object::_object_gen(YAGLPP_GLAD_PFNGEN pfnGen, YAGLPP_GLAD_PFNDELETE pfnDelete, GLsizei param, GLboolean autodelete)
+void _Object::_object_gen(YAGLPP_GLAD_PFNGEN pfnGen, YAGLPP_GLAD_PFNDELETE pfnDelete, GLsizei param)
 {
-	_object_clean(pfnDelete);
-	pfnGen(param, &_muId); // glGen..
+	_object_close(pfnDelete);
+	pfnGen(param, &_m); // glGen..
 	YAGLPP_GLAD_ERROR;
-	if (autodelete == GL_TRUE)
+	_m = _s.add(_m);
+}
+
+GLuint _Object::_object_id() const
+{
+	if (_m & YAGLPP_GLAD_AUTO)
 	{
-		_muId |= YAGLPP_GLAD_AUTO;
+		GLuint uIndex = _m & ~YAGLPP_GLAD_AUTO;
+		return _s.cells[uIndex].id;
 	}
+	else return _m;
 }
 
 GLuint _Object::_object_id(YAGLPP_GLAD_PFNGEN pfnGen, GLsizei param)
@@ -151,23 +254,54 @@ GLuint _Object::_object_id(YAGLPP_GLAD_PFNGEN pfnGen, GLsizei param)
 	{
 		pfnGen(param, &uId); // glGen..
 		YAGLPP_GLAD_ERROR;
-		_muId = uId | YAGLPP_GLAD_AUTO;
+		_m = _s.add(uId);
 	}
 	return uId;
 }
 
+void _Object::_object_refer(YAGLPP_GLAD_PFNDELETE pfnDelete, _Object& source)
+{
+	if (&source != this)
+	{
+		_object_close(pfnDelete);
+		_m = source._object_id();
+	}
+}
+
+void _Objects::_objects_close(YAGLPP_GLAD_PFNDELETE pfnDelete)
+{
+	if (_m != nullptr)
+	{
+		if (_m->ref == 0)
+		{
+			if (_m->ids[0] != 0)
+			{
+				pfnDelete((GLsizei)_m->num, _m->ids); // glDelete..
+				YAGLPP_GLAD_ERROR;
+			}
+			_deallocate(_m, nullptr);
+		}
+		else _m->ref--;
+		_m = nullptr;
+	}
+}
+
 void _Objects::_objects_delete(YAGLPP_GLAD_PFNDELETE pfnDelete)
 {
-	if (_mpData != nullptr)
+	if (_m != nullptr)
 	{
-		if (_mpData->ref == 0)
+		if (_m->ids[0] != 0)
 		{
-			pfnDelete((GLsizei)_mpData->num, _mpData->ids); // glDelete..
+			pfnDelete((GLsizei)_m->num, _m->ids); // glDelete..
 			YAGLPP_GLAD_ERROR;
-			_deallocate(_mpData, nullptr);
+			memset(_m->ids, 0, _m->num * sizeof(GLuint));
 		}
-		else _mpData->ref--;
-		_mpData = nullptr;
+		if (_m->ref == 0)
+		{
+			_deallocate(_m, nullptr);
+		}
+		else _m->ref--;
+		_m = nullptr;
 	}
 }
 
@@ -175,74 +309,94 @@ void _Objects::_objects_dup(YAGLPP_GLAD_PFNDELETE pfnDelete, _Objects& source)
 {
 	if (&source != this)
 	{
-		_objects_delete(pfnDelete);
-		_mpData = source._mpData;
-		if (_mpData != nullptr)
+		_objects_close(pfnDelete);
+		_m = source._m;
+		if (_m != nullptr)
 		{
-			_mpData->ref++;
+			_m->ref++;
 		}
 	}
 }
 
 void _Objects::_objects_gen(YAGLPP_GLAD_PFNGEN pfnGen, YAGLPP_GLAD_PFNDELETE pfnDelete, GLuint num)
 {
-	_objects_delete(pfnDelete);
+	_objects_close(pfnDelete);
 
 #ifdef _DEBUG
-	_mpData = (_LPDATA)_callocate(sizeof(_DATA) + num * sizeof(GLuint) * 2, nullptr);
+	_m = (_LPDATA)_callocate(sizeof(_DATA) + num * sizeof(GLuint) * 2, nullptr);
 #else // #ifdef _DEBUG
-	_mpData = (_LPDATA)_allocate(sizeof(_DATA) + num * sizeof(GLuint), nullptr);
-	_mpData->ref = 0;
+	_m = (_LPDATA)_allocate(sizeof(_DATA) + num * sizeof(GLuint), nullptr);
+	_m->ref = 0;
 #endif // #ifdef _DEBUG
 
-	_mpData->num = num | YAGLPP_GLAD_AUTO;
-	pfnGen((GLsizei)num, _mpData->ids); // glGen..
+	_m->num = num;
+	pfnGen((GLsizei)num, _m->ids); // glGen..
 	YAGLPP_GLAD_ERROR;
+}
+
+GLuint _Object::getObjectRef() const
+{
+	if (_m & YAGLPP_GLAD_AUTO)
+	{
+		GLuint uIndex = _m & ~YAGLPP_GLAD_AUTO;
+		return _s.cells[uIndex].ref + 1;
+	}
+	else return 0;
+}
+
+GLboolean _Object::isObject() const
+{
+	if (_m & YAGLPP_GLAD_AUTO)
+	{
+		GLuint uIndex = _m & ~YAGLPP_GLAD_AUTO;
+		return _s.cells[uIndex].id != 0;
+	}
+	else return _m != 0;
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION
 
 #ifdef YAGLPP_DEBUG_IMPLEMENTATION
-GLboolean _Object::isAutodelete() const
-{
-	YAGLPP_ASSERT(isObject()); // OPENGL OBJECT IS EMPTY
-	return (GLboolean)(_muId & YAGLPP_GLAD_AUTO);
-}
-
-_Object& _Objects::_objects_get(GLuint index, GLenum target) const
+GLuint _Objects::_objects_get(GLuint index, GLenum target) const
 {
 	GLuint uNum = getObjectNum();
 	YAGLPP_ASSERT(index < uNum); // OPENGL MULTI-OBJECT INVALID INDEX
 	GLuint uTindex = index + uNum;
-	GLenum eTarget = _mpData->ids[uTindex];
+	GLenum eTarget = _m->ids[uTindex];
 	if (eTarget == 0)
 	{
-		_mpData->ids[uTindex] = target;
+		_m->ids[uTindex] = target;
 	}
 	else YAGLPP_ASSERT(eTarget == target); // OPENGL MULTI-OBJECT INVALID TARGET
-	return (_Object&)_mpData->ids[index];
+	return _m->ids[index];
 }
 
 GLuint _Objects::getObjectNum() const
 {
 	YAGLPP_ASSERT(isObject()); // OPENGL MULTI-OBJECT IS EMPTY
-	return _mpData->num;
+	return _m->num;
+}
+
+GLuint _Objects::getObjectRef() const
+{
+	YAGLPP_ASSERT(isObject()); // OPENGL MULTI-OBJECT IS EMPTY
+	return _m->ref + 1;
 }
 #endif // #ifdef YAGLPP_DEBUG_IMPLEMENTATION
 
 #ifdef YAGLPP_INLINE_IMPLEMENTATION
-inline GLboolean _Object::isAutodelete() const
+inline GLuint _Objects::_objects_get(GLuint index) const
 {
-	return (GLboolean)(_muId & YAGLPP_GLAD_AUTO);
-}
-
-inline _Object& _Objects::_objects_get(GLuint index) const
-{
-	return (_Object&)_mpData->ids[index];
+	return _m->ids[index];
 }
 
 inline GLuint _Objects::getObjectNum() const
 {
-	return _mpData->num;
+	return _m->num;
+}
+
+inline GLuint _Objects::getObjectRef() const
+{
+	return _m->ref + 1;
 }
 #endif // #ifdef YAGLPP_INLINE_IMPLEMENTATION
 } // namespace gl

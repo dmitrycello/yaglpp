@@ -48,11 +48,11 @@ public:
 	/*(3.1) Cleans up the valid uniform block object*/
 	~UniformBlock()
 	{
-		deleteUniformBlock();
+		closeUniformBlock();
 	}
 
-	/*(3.1) Unloads the last inctance of uniform block object, or decrements its reference count*/
-	void deleteUniformBlock();
+	/*(3.1) Closes the inctance of uniform block object, decreasing its reference count. The last instance is being freed*/
+	void closeUniformBlock();
 
 	/*(3.1) Creates a reference to the source uniform block object, and increments its reference count
 	@param The source uniform block object*/
@@ -298,7 +298,7 @@ inline void UniformBlock::uniformBlockOffsetMap(_Out_ void* offsetMap, _In_ cons
 }
 
 #ifdef YAGLPP_IMPLEMENTATION
-void UniformBlock::deleteUniformBlock()
+void UniformBlock::closeUniformBlock()
 {
 	if (_mpData != nullptr)
 	{
@@ -315,7 +315,7 @@ void UniformBlock::duplicateUniformBlock(const UniformBlock& source)
 {
 	if (&source != this)
 	{
-		deleteUniformBlock();
+		closeUniformBlock();
 		_mpData = source._mpData;
 		if (_mpData != nullptr)
 		{

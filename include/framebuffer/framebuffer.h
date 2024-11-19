@@ -6,6 +6,7 @@ namespace gl {
 class Framebuffer : public _Framebuffer
 {
 private:
+	friend class Framebuffers;
 	Framebuffer(GLint name) { _object_set(name); }
 
 public:
@@ -13,9 +14,9 @@ public:
 	Framebuffer() {}
 
 	/*(3.0) (2) Constructs a copy of framebuffer object*/
-	Framebuffer(const Framebuffer& framebuffer)
+	Framebuffer(const Framebuffer& source)
 	{
-		_framebuffer_dup((_Object&)framebuffer);
+		_framebuffer_dup((_Object&)source);
 	}
 
 	/*(3.0) Explicitly binds framebuffer object to its target, this also unbinds read and draw framebuffers binding. Does nothing if specified buffer is bound*/
@@ -48,11 +49,11 @@ public:
 		_framebufferRenderbuffer(GL_FRAMEBUFFER, GL_FRAMEBUFFER_BINDING, (GLenum)attachment, nullptr);
 	}
 
-	/*(3.0) Duplicates a framebuffer object. If the source is a single object, it unconditionally becomes a reference object
+	/*(3.0) Duplicates a framebuffer object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source framebuffer object*/
-	void duplicateFramebuffer(const Framebuffer& framebuffer)
+	void duplicateFramebuffer(const Framebuffer& source)
 	{
-		_framebuffer_dup((_Object&)framebuffer);
+		_framebuffer_dup((_Object&)source);
 	}
 
 	/*(3.0) Attaches a renderbuffer as a logical buffer of a framebuffer object
@@ -157,6 +158,21 @@ public:
 	GLboolean isFramebufferBinding() const
 	{
 		return _isFramebufferBinding(GL_FRAMEBUFFER_BINDING);
+	}
+
+	/*(3.0) Checks if the source framebuffer object is referencing the same OpenGL object
+	@param Specifies the source framebuffer object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const Framebuffer& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
+	/*(3.0) Creates a thread-safe reference object from the source framebuffer object
+	@param Specifies the source framebuffer object*/
+	void referFramebuffer(const Framebuffer& source)
+	{
+		_framebuffer_refer((_Object&)source);
 	}
 
 	/*(3.0) Sets the binding state of the framebuffer object, only if current state is opposite. Used as a setter of <framebufferBinding> property

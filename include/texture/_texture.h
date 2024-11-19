@@ -769,8 +769,8 @@ protected:
 	friend _Framebuffer;
 #endif // #ifdef YAGLPP_VERSION_3_0
 
-	void _texture_clean() {
-		_object_clean(glDeleteTextures);
+	void _texture_close() {
+		_object_close(glDeleteTextures);
 	}
 	void _texture_delete() {
 		_object_delete(glDeleteTextures);
@@ -778,11 +778,14 @@ protected:
 	void _texture_dup(_Object& source) {
 		_object_dup(glDeleteTextures, source);
 	}
-	void _texture_gen(GLboolean autodelete) {
-		_object_gen(glGenTextures, glDeleteTextures, 1, autodelete);
+	void _texture_gen() {
+		_object_gen(glGenTextures, glDeleteTextures, 1);
 	}
 	GLuint _texture_id() {
 		return _object_id(glGenTextures, 1);
+	}
+	void _texture_refer(_Object& source) {
+		_object_refer(glDeleteTextures, source);
 	}
 	void _texture_set(GLenum target, GLenum binding, GLboolean bind) {
 		(bind) ? _bindTexture(target, binding) : _unbindTexture(target, binding);
@@ -897,20 +900,25 @@ public:
 	/*Cleans up the valid texture object*/
 	~_Texture()
 	{
-		_texture_clean();
+		_texture_close();
 	}
 
-	/*Explicitly deletes previously generated single texture object name*/
+	/*Explicitly close the inctance of OpenGL texture object*/
+	void closeBuffer()
+	{
+		_texture_close();
+	}
+
+	/*Explicitly deletes OpenGL texture object, invalidating all its inctances*/
 	void deleteTexture()
 	{
 		_texture_delete();
 	}
 
-	/*Explicitly generates single texture object
-	@param True to set the object's autodelete flag, default true*/
-	void genTexture(GLboolean autodelete = GL_TRUE)
+	/*Explicitly generates OpenGL texture object name*/
+	void genTexture()
 	{
-		_texture_gen(autodelete);
+		_texture_gen();
 	}
 
 	/*Returns the index value of an active multitexture unit ranging from 0 to the value returned by <getMaxCombinedTextureImageUnits> minus 1
@@ -978,6 +986,9 @@ public:
 class Textures : public _Objects
 {
 protected:
+	void _textures_close() {
+		_objects_close(glDeleteTextures);
+	}
 	void _textures_delete() {
 		_objects_delete(glDeleteTextures);
 	}
@@ -993,9 +1004,9 @@ public:
 	Textures() {}
 
 	/*(2) Constructs a copy of texture multi-object*/
-	Textures(const Textures& textures)
+	Textures(const Textures& source)
 	{
-		_textures_dup((_Objects&)textures);
+		_textures_dup((_Objects&)source);
 	}
 
 	/*(3) Constucts an initialized texture multi-object*/
@@ -1004,23 +1015,29 @@ public:
 		_textures_gen(num);
 	}
 
-	/*Cleans up the valid texture multi-object*/
+	/*Cleans up the texture multi-object*/
 	~Textures()
 	{
-		_textures_delete();
+		_textures_close();
 	}
 
-	/*Explicitly deletes valid texture multi-object*/
+	/*Explicitly close the instance of texture multi-object*/
+	void closeTextures()
+	{
+		_textures_close();
+	}
+
+	/*Explicitly deletes OpenGL texture multi-object, invalidating all its instances*/
 	void deleteTextures()
 	{
 		_textures_delete();
 	}
 
-	/*Duplicates a texture multi-object. If the source is a single object, it unconditionally becomes a reference object
+	/*Duplicates a texture multi-object, increasing its reference count
 	@param Specifies the source texture multi-object*/
-	void duplicateTextures(const Textures& textures)
+	void duplicateTextures(const Textures& source)
 	{
-		_textures_dup((_Objects&)textures);
+		_textures_dup((_Objects&)source);
 	}
 
 	/*Generates one or more texture object names in the texture multi-object
@@ -1030,134 +1047,82 @@ public:
 		_textures_gen(num);
 	}
 
-	/*Retrieves a reference to the Texture1D object from a valid multi-object
-	@param Specifies the object name index*/
-	Texture1D& getTexture1D(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (Texture1D&)_objects_get(index, GL_TEXTURE_1D);
-#else // #ifdef _DEBUG
-		return (Texture1D&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*Retrieves a reference texture object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference texture object, or empty object*/
+	Texture1D getTexture1D(GLuint index) const;
 
-	/*Retrieves a reference to the Texture2D object from a valid multi-object
-	@param Specifies the object name index*/
-	Texture2D& getTexture2D(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (Texture2D&)_objects_get(index, GL_TEXTURE_2D);
-#else // #ifdef _DEBUG
-		return (Texture2D&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*Retrieves a reference texture object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference texture object, or empty object*/
+	Texture2D getTexture2D(GLuint index) const;
 
-	/*Retrieves a reference to the Texture3D object from a valid multi-object
-	@param Specifies the object name index*/
-	Texture3D& getTexture3D(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (Texture3D&)_objects_get(index, GL_TEXTURE_3D);
-#else // #ifdef _DEBUG
-		return (Texture3D&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*Retrieves a reference texture object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference texture object, or empty object*/
+	Texture3D getTexture3D(GLuint index) const;
 
-	/*Retrieves a reference to the TextureCubeMap object from a valid multi-object
-	@param Specifies the object name index*/
-	TextureCubeMap& getTextureCubeMap(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (TextureCubeMap&)_objects_get(index, GL_TEXTURE_CUBE_MAP);
-#else // #ifdef _DEBUG
-		return (TextureCubeMap&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*Retrieves a reference texture object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference texture object, or empty object*/
+	TextureCubeMap getTextureCubeMap(GLuint index) const;
 
-	/*Checks if the source Textures object is referencing the same multi-object
+	/*Checks if the source texture multi-object is referencing the same object
 	@param The source multi-object
 	@return True if duplicate multi-object*/
 	GLboolean isDuplicate(const Textures& source) const
 	{
-		return _objects_is((Textures&)source);
+		return _objects_is((_Objects&)source);
 	}
 
 #ifdef YAGLPP_VERSION_3_0
-	/*(3.0) Retrieves a reference to the Texture1DArray object from a valid multi-object
-	@param Specifies the object name index*/
-	Texture1DArray& getTexture1DArray(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (Texture1DArray&)_objects_get(index, GL_TEXTURE_1D_ARRAY);
-#else // #ifdef _DEBUG
-		return (Texture1DArray&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.0) Retrieves a reference texture object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference texture object, or empty object*/
+	Texture1DArray getTexture1DArray(GLuint index) const;
 
-	/*(3.0) Retrieves a reference to the Texture2DArray object from a valid multi-object
-	@param Specifies the object name index*/
-	Texture2DArray& getTexture2DArray(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (Texture2DArray&)_objects_get(index, GL_TEXTURE_2D_ARRAY);
-#else // #ifdef _DEBUG
-		return (Texture2DArray&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.0) Retrieves a reference texture object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference texture object, or empty object*/
+	Texture2DArray getTexture2DArray(GLuint index) const;
 #endif // #ifdef YAGLPP_VERSION_3_0
 
 #ifdef YAGLPP_VERSION_3_1
-	/*(3.1) Retrieves a reference to the BufferTexture object from a valid multi-object
-	@param Specifies the object name index*/
-	BufferTexture& getBufferTexture(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (BufferTexture&)_objects_get(index, GL_TEXTURE_BUFFER);
-#else // #ifdef _DEBUG
-		return (BufferTexture&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.1) Retrieves a reference texture object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference texture object, or empty object*/
+	BufferTexture getBufferTexture(GLuint index) const;
 
-	/*(3.1) Retrieves a reference to the TextureRectangle object from a valid multi-object
-	@param Specifies the object name index*/
-	TextureRectangle& getTextureRectangle(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (TextureRectangle&)_objects_get(index, GL_TEXTURE_RECTANGLE);
-#else // #ifdef _DEBUG
-		return (TextureRectangle&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.1) Retrieves a reference texture object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference texture object, or empty object*/
+	TextureRectangle getTextureRectangle(GLuint index) const;
 #endif // #ifdef YAGLPP_VERSION_3_1
 
 #ifdef YAGLPP_VERSION_3_2
 	/*(3.2) Retrieves a reference to the Texture2DMultisample object from a valid multi-object
 	@param Specifies the object name index*/
-	Texture2DMultisample& getTexture2DMultisample(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (Texture2DMultisample&)_objects_get(index, GL_TEXTURE_2D_MULTISAMPLE);
-#else // #ifdef _DEBUG
-		return (Texture2DMultisample&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	Texture2DMultisample getTexture2DMultisample(GLuint index) const;
 
 	/*(3.2) Retrieves a reference to the Texture2DMultisampleArray object from a valid multi-object
 	@param Specifies the object name index*/
-	Texture2DMultisampleArray& getTexture2DMultisampleArray(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (Texture2DMultisampleArray&)_objects_get(index, GL_TEXTURE_2D_MULTISAMPLE_ARRAY);
-#else // #ifdef _DEBUG
-		return (Texture2DMultisampleArray&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	Texture2DMultisampleArray getTexture2DMultisampleArray(GLuint index) const;
 #endif // #ifdef YAGLPP_VERSION_3_2
 }; // class Textures : public _Objects
 } // namespace gl
 
-#include <yaglpp/buffer/_buffer.h>
 #include <yaglpp/stb_image.h>
+#include <yaglpp/buffer/_buffer.h>
+#include <yaglpp/texture/texture_1d.h>
+#include <yaglpp/texture/texture_2d.h>
+#include <yaglpp/texture/texture_3d.h>
+#include <yaglpp/texture/texture_cube_map.h>
+#include <yaglpp/texture/texture_1d_array.h>
+#include <yaglpp/texture/texture_2d_array.h>
+#include <yaglpp/texture/buffer_texture.h>
+#include <yaglpp/texture/texture_rectangle.h>
+#include <yaglpp/texture/texture_2d_multisample.h>
+#include <yaglpp/texture/texture_2d_multisample_array.h>
 namespace gl {
 inline void _Texture::_compressedTexImage2D(GLenum target, GLenum binding, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei imageSize, const void* data)
 {
@@ -1242,6 +1207,42 @@ inline void _Texture::_texSubImage2D(GLenum target, GLenum binding, GLint level,
 inline void _Texture::_texSubImage3D(GLenum target, GLenum binding, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei layers, StbImage& image)
 {
 	_texSubImage3D(target, binding, level, xoffset, yoffset, zoffset, image.getWidth(), image.getHeight() / layers, layers, _stbGetChannels(image), _stbGetDepth(image), image.getPixels());
+}
+
+inline Texture1D Textures::getTexture1D(GLuint index) const
+{
+#ifdef _DEBUG
+	return Texture1D(_objects_get(index, GL_TEXTURE_1D));
+#else // #ifdef _DEBUG
+	return Texture1D(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
+inline Texture2D Textures::getTexture2D(GLuint index) const
+{
+#ifdef _DEBUG
+	return Texture2D(_objects_get(index, GL_TEXTURE_2D));
+#else // #ifdef _DEBUG
+	return Texture2D(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
+inline Texture3D Textures::getTexture3D(GLuint index) const
+{
+#ifdef _DEBUG
+	return Texture3D(_objects_get(index, GL_TEXTURE_3D));
+#else // #ifdef _DEBUG
+	return Texture3D(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
+inline TextureCubeMap Textures::getTextureCubeMap(GLuint index) const
+{
+#ifdef _DEBUG
+	return TextureCubeMap(_objects_get(index, GL_TEXTURE_CUBE_MAP));
+#else // #ifdef _DEBUG
+	return TextureCubeMap(_objects_get(index));
+#endif // #ifdef _DEBUG
 }
 
 #ifdef YAGLPP_IMPLEMENTATION
@@ -1631,7 +1632,7 @@ void _Texture::setTexture(GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_texture_gen(GL_TRUE);
+		_texture_gen();
 	}
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION
@@ -1953,6 +1954,26 @@ void _Texture::_texSubImage3D(GLenum target, GLenum binding, GLint level, GLint 
 }
 #endif // #if defined (YAGLPP_VERSION_2_1) && defined (YAGLPP_IMPLEMENTATION)
 
+#ifdef YAGLPP_VERSION_3_0
+inline Texture1DArray Textures::getTexture1DArray(GLuint index) const
+{
+#ifdef _DEBUG
+	return Texture1DArray(_objects_get(index, GL_TEXTURE_1D_ARRAY));
+#else // #ifdef _DEBUG
+	return Texture1DArray(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
+inline Texture2DArray Textures::getTexture2DArray(GLuint index) const
+{
+#ifdef _DEBUG
+	return Texture2DArray(_objects_get(index, GL_TEXTURE_2D_ARRAY));
+#else // #ifdef _DEBUG
+	return Texture2DArray(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+#endif // #ifdef YAGLPP_VERSION_3_0
+
 #if defined (YAGLPP_VERSION_3_0) && defined (YAGLPP_IMPLEMENTATION)
 void _Texture::_generateMipmap(GLenum target, GLenum binding)
 {
@@ -1961,6 +1982,26 @@ void _Texture::_generateMipmap(GLenum target, GLenum binding)
 	YAGLPP_GLAD_ERROR;
 }
 #endif // #if defined (YAGLPP_VERSION_3_0) && defined (YAGLPP_IMPLEMENTATION)
+
+#ifdef YAGLPP_VERSION_3_1
+inline BufferTexture Textures::getBufferTexture(GLuint index) const
+{
+#ifdef _DEBUG
+	return BufferTexture(_objects_get(index, GL_TEXTURE_BUFFER));
+#else // #ifdef _DEBUG
+	return BufferTexture(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
+inline TextureRectangle Textures::getTextureRectangle(GLuint index) const
+{
+#ifdef _DEBUG
+	return TextureRectangle(_objects_get(index, GL_TEXTURE_RECTANGLE));
+#else // #ifdef _DEBUG
+	return TextureRectangle(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+#endif // #ifdef YAGLPP_VERSION_3_1
 
 #if defined (YAGLPP_VERSION_3_1) && defined (YAGLPP_IMPLEMENTATION)
 void _Texture::_texBuffer(GLenum internalformat, _Buffer* buffer)
@@ -1971,6 +2012,26 @@ void _Texture::_texBuffer(GLenum internalformat, _Buffer* buffer)
 	YAGLPP_GLAD_ERROR;
 }
 #endif // #if defined (YAGLPP_VERSION_3_1) && defined (YAGLPP_IMPLEMENTATION)
+
+#ifdef YAGLPP_VERSION_3_2
+inline Texture2DMultisample Textures::getTexture2DMultisample(GLuint index) const
+{
+#ifdef _DEBUG
+	return Texture2DMultisample(_objects_get(index, GL_TEXTURE_2D_MULTISAMPLE));
+#else // #ifdef _DEBUG
+	return Texture2DMultisample(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
+inline Texture2DMultisampleArray Textures::getTexture2DMultisampleArray(GLuint index) const
+{
+#ifdef _DEBUG
+	return Texture2DMultisampleArray(_objects_get(index, GL_TEXTURE_2D_MULTISAMPLE_ARRAY));
+#else // #ifdef _DEBUG
+	return Texture2DMultisampleArray(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+#endif // #ifdef YAGLPP_VERSION_3_2
 
 #if defined (YAGLPP_VERSION_3_2) && defined (YAGLPP_IMPLEMENTATION)
 void _Texture::_texImage2DMultisample(GLenum target, GLenum binding, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations)
@@ -2014,14 +2075,3 @@ inline void _Texture::_texImage3DMultisample(GLenum target, GLsizei samples, GLe
 }
 #endif // #if defined (YAGLPP_VERSION_3_2) && defined (YAGLPP_INLINE_IMPLEMENTATION)
 } // namespace gl
-
-#include <yaglpp/texture/texture_1d.h>
-#include <yaglpp/texture/texture_2d.h>
-#include <yaglpp/texture/texture_3d.h>
-#include <yaglpp/texture/texture_cube_map.h>
-#include <yaglpp/texture/texture_1d_array.h>
-#include <yaglpp/texture/texture_2d_array.h>
-#include <yaglpp/texture/buffer_texture.h>
-#include <yaglpp/texture/texture_rectangle.h>
-#include <yaglpp/texture/texture_2d_multisample.h>
-#include <yaglpp/texture/texture_2d_multisample_array.h>

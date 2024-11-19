@@ -6,6 +6,7 @@ namespace gl {
 class TimeElapsed : public _Query
 {
 private:
+	friend class Queries;
 	TimeElapsed(GLint name) { _object_set(name); }
 
 public:
@@ -13,9 +14,9 @@ public:
 	TimeElapsed() {}
 
 	/*(3.3) (2) Constructs a copy of query object*/
-	TimeElapsed(const TimeElapsed& query)
+	TimeElapsed(const TimeElapsed& source)
 	{
-		_query_dup((_Object&)query);
+		_query_dup((_Object&)source);
 	}
 
 	/*(3.3) Delimits the starting boundary of a query object*/
@@ -24,11 +25,11 @@ public:
 		_beginQuery(GL_TIME_ELAPSED);
 	}
 
-	/*(3.3) Duplicates a query object. If the source is a single object, it unconditionally becomes a reference object
+	/*(3.3) Duplicates a query object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source query object*/
-	void duplicateQuery(const TimeElapsed& query)
+	void duplicateQuery(const TimeElapsed& source)
 	{
-		_query_dup((_Object&)query);
+		_query_dup((_Object&)source);
 	}
 
 	/*(3.3) Returns a reference query object of currently active query
@@ -56,6 +57,21 @@ public:
 	GLboolean isCurrentQuery() const
 	{
 		return _isCurrentQuery(GL_TIME_ELAPSED);
+	}
+
+	/*(3.0) Checks if the source query object is referencing the same OpenGL object
+	@param Specifies the source query object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const TimeElapsed& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
+	/*(3.3) reates a thread-safe reference object from the source query object
+	@param Specifies the source query object*/
+	void referQuery(const TimeElapsed& source)
+	{
+		_query_refer((_Object&)source);
 	}
 
 	/*(3.3) Records the GL time into an elapsed time query object after all previous commands have reached the GL server, but have not yet necessarily executed*/

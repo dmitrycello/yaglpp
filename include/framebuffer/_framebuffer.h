@@ -172,8 +172,8 @@ constexpr FramebufferAttachment framebufferAttachment(ColorAttachment index)
 class _Framebuffer : public _Object
 {
 protected:
-	void _framebuffer_clean() {
-		_object_clean(glDeleteFramebuffers);
+	void _framebuffer_close() {
+		_object_close(glDeleteFramebuffers);
 	}
 	void _framebuffer_delete() {
 		_object_delete(glDeleteFramebuffers);
@@ -181,11 +181,14 @@ protected:
 	void _framebuffer_dup(_Object& source) {
 		_object_dup(glDeleteFramebuffers, source);
 	}
-	void _framebuffer_gen(GLboolean autodelete) {
-		_object_gen(glGenFramebuffers, glDeleteFramebuffers, 1, autodelete);
+	void _framebuffer_gen() {
+		_object_gen(glGenFramebuffers, glDeleteFramebuffers, 1);
 	}
 	GLuint _framebuffer_id() {
 		return _object_id(glGenFramebuffers, 1);
+	}
+	void _framebuffer_refer(_Object& source) {
+		_object_refer(glDeleteFramebuffers, source);
 	}
 	void _framebuffer_set(GLenum target, GLenum binding, GLboolean bind) {
 		(bind) ? _bindFramebuffer(target, binding) : _unbindFramebuffer(target, binding);
@@ -208,10 +211,16 @@ public:
 	/*(3.0) Cleans up the valid framebuffer object*/
 	~_Framebuffer()
 	{
-		_framebuffer_clean();
+		_framebuffer_close();
 	}
 
-	/*(3.0) Explicitly deletes previously generated single framebuffer object*/
+	/*(3.0) Explicitly close the inctance of OpenGL framebuffer object*/
+	void closeBuffer()
+	{
+		_framebuffer_close();
+	}
+
+	/*(3.0) Explicitly deletes OpenGL framebuffer object, invalidating all its inctances*/
 	void deleteFramebuffer()
 	{
 		_framebuffer_delete();
@@ -229,11 +238,10 @@ public:
 		_enable(GL_FRAMEBUFFER_SRGB);
 	}
 
-	/*(3.0) Explicitly generates single framebuffer object
-	@param True to set the object's autodelete flag, default true*/
-	void genFramebuffer(GLboolean autodelete = GL_TRUE)
+	/*(3.0) Explicitly generates OpenGL framebuffer object name*/
+	void genFramebuffer()
 	{
-		_framebuffer_gen(autodelete);
+		_framebuffer_gen();
 	}
 
 	/*(3.0) Gets the maximum number of the color attachment units of the framebuffer. The value must be at least 8
@@ -271,6 +279,9 @@ public:
 class Framebuffers : public _Objects
 {
 protected:
+	void _framebuffers_close() {
+		_objects_close(glDeleteFramebuffers);
+	}
 	void _framebuffers_delete() {
 		_objects_delete(glDeleteFramebuffers);
 	}
@@ -286,9 +297,9 @@ public:
 	Framebuffers() {}
 
 	/*(3.0) (2) Constructs a copy of framebuffer multi-object*/
-	Framebuffers(const Framebuffers& framebuffers)
+	Framebuffers(const Framebuffers& source)
 	{
-		_framebuffers_dup((_Objects&)framebuffers);
+		_framebuffers_dup((_Objects&)source);
 	}
 
 	/*(3.0) (3) Constucts an initialized framebuffer multi-object*/
@@ -297,23 +308,29 @@ public:
 		_framebuffers_gen(num);
 	}
 
-	/*(3.0) Cleans up the valid framebuffer multi-object*/
+	/*(3.0) Cleans up the framebuffer multi-object*/
 	~Framebuffers()
 	{
-		_framebuffers_delete();
+		_framebuffers_close();
 	}
 
-	/*(3.0) Duplicates a framebuffer multi-object. If the source is a single object, it unconditionally becomes a reference object
-	@param Specifies the source framebuffer multi-object*/
-	void duplicateFramebuffers(const Framebuffers& framebuffers)
+	/*(3.0) Explicitly close the instance of framebuffer multi-object*/
+	void closeBuffers()
 	{
-		_framebuffers_dup((_Objects&)framebuffers);
+		_framebuffers_close();
 	}
 
-	/*(3.0) Explicitly deletes valid framebuffer multi-object*/
+	/*(3.0) Explicitly deletes OpenGL framebuffer multi-object, invalidating all its instances*/
 	void deleteFramebuffers()
 	{
 		_framebuffers_delete();
+	}
+
+	/*(3.0) Duplicates a framebuffer multi-object, increasing its reference count
+	@param Specifies the source framebuffer multi-object*/
+	void duplicateFramebuffers(const Framebuffers& source)
+	{
+		_framebuffers_dup((_Objects&)source);
 	}
 
 	/*(3.0) Generates one or more framebuffer object names in the framebuffer multi-object
@@ -323,52 +340,64 @@ public:
 		_framebuffers_gen(num);
 	}
 
-	/*(3.0) Retrieves a reference to the Framebuffer object from a valid multi-object
-	@param Specifies the object name index*/
-	Framebuffer& getFramebuffer(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (Framebuffer&)_objects_get(index, GL_FRAMEBUFFER);
-#else // #ifdef _DEBUG
-		return (Framebuffer&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.0) Retrieves a reference framebuffer object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference framebuffer object, or empty object*/
+	Framebuffer getFramebuffer(GLuint index) const;
 
-	/*(3.0) Retrieves a reference to the ReadFramebuffer object from a valid multi-object
-	@param Specifies the object name index*/
-	ReadFramebuffer& getReadFramebuffer(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (ReadFramebuffer&)_objects_get(index, GL_READ_FRAMEBUFFER);
-#else // #ifdef _DEBUG
-		return (ReadFramebuffer&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.0) Retrieves a reference framebuffer object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference framebuffer object, or empty object*/
+	ReadFramebuffer getReadFramebuffer(GLuint index) const;
 
-	/*(3.0) Retrieves a reference to the DrawFramebuffer object from a valid multi-object
-	@param Specifies the object name index*/
-	DrawFramebuffer& getDrawFramebuffer(GLuint index) const
-	{
-#ifdef _DEBUG
-		return (DrawFramebuffer&)_objects_get(index, GL_DRAW_FRAMEBUFFER);
-#else // #ifdef _DEBUG
-		return (DrawFramebuffer&)_objects_get(index);
-#endif // #ifdef _DEBUG
-	}
+	/*(3.0) Retrieves a reference framebuffer object from a valid multi-object
+	@param Specifies the object name index
+	@return The reference framebuffer object, or empty object*/
+	DrawFramebuffer getDrawFramebuffer(GLuint index) const;
 
 	/*(3.0) Checks if the source Framebuffers object is referencing the same multi-object
 	@param The source multi-object
 	@return True if duplicate multi-object*/
 	GLboolean isDuplicate(const Framebuffers& source) const
 	{
-		return _objects_is((Framebuffers&)source);
+		return _objects_is((_Objects&)source);
 	}
 }; // class Framebuffers : public _Objects
 } // namespace gl
 
 #include <yaglpp/texture/_texture.h>
 #include <yaglpp/glad/renderbuffer.h>
+#include <yaglpp/framebuffer/draw_framebuffer.h>
+#include <yaglpp/framebuffer/framebuffer.h>
+#include <yaglpp/framebuffer/read_framebuffer.h>
 namespace gl {
+inline Framebuffer Framebuffers::getFramebuffer(GLuint index) const
+{
+#ifdef _DEBUG
+	return Framebuffer(_objects_get(index, GL_FRAMEBUFFER));
+#else // #ifdef _DEBUG
+	return Framebuffer(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
+inline ReadFramebuffer Framebuffers::getReadFramebuffer(GLuint index) const
+{
+#ifdef _DEBUG
+	return ReadFramebuffer(_objects_get(index, GL_READ_FRAMEBUFFER));
+#else // #ifdef _DEBUG
+	return ReadFramebuffer(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
+inline DrawFramebuffer Framebuffers::getDrawFramebuffer(GLuint index) const
+{
+#ifdef _DEBUG
+	return DrawFramebuffer(_objects_get(index, GL_DRAW_FRAMEBUFFER));
+#else // #ifdef _DEBUG
+	return DrawFramebuffer(_objects_get(index));
+#endif // #ifdef _DEBUG
+}
+
 #ifdef YAGLPP_IMPLEMENTATION
 void _Framebuffer::_bindFramebuffer(GLenum target, GLenum binding)
 {
@@ -489,13 +518,9 @@ void _Framebuffer::setFramebuffer(GLboolean gen)
 	}
 	else if (!isObject())
 	{
-		_framebuffer_gen(GL_TRUE);
+		_framebuffer_gen();
 	}
 }
 #endif // #ifdef YAGLPP_IMPLEMENTATION
 } // namespace gl
 #endif // #ifdef YAGLPP_VERSION_3_0
-
-#include <yaglpp/framebuffer/draw_framebuffer.h>
-#include <yaglpp/framebuffer/framebuffer.h>
-#include <yaglpp/framebuffer/read_framebuffer.h>

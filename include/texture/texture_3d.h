@@ -5,6 +5,7 @@ namespace gl {
 class Texture3D : public _Texture
 {
 private:
+	friend class Textures;
 	Texture3D(GLint name) { _object_set(name); }
 
 public:
@@ -12,9 +13,9 @@ public:
 	Texture3D() {}
 
 	/*(2) Constructs a copy of texture object*/
-	Texture3D(const Texture3D& texture)
+	Texture3D(const Texture3D& source)
 	{
-		_texture_dup((_Object&)texture);
+		_texture_dup((_Object&)source);
 	}
 
 	/*Select active texture unit by the index value ranging from 0 to the value returned by <getMaxCombinedTextureImageUnits> minus 1. Similar to global <activeTexture>, but also unconditionally binds the texture to its target after selection
@@ -91,11 +92,11 @@ public:
 		_disable(GL_TEXTURE_3D);
 	}
 
-	/*Duplicates a texture object. If the source is a single object, it unconditionally becomes a reference object
+	/*Duplicates a texture object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source texture object*/
-	void duplicateTexture(const Texture3D& texture)
+	void duplicateTexture(const Texture3D& source)
 	{
-		_texture_dup((_Object&)texture);
+		_texture_dup((_Object&)source);
 	}
 
 	/*Enable three-dimensional texturing server-side GL capability, initially enabled*/
@@ -438,6 +439,14 @@ public:
 		return (TextureWrapMode)_getTexParameter(GL_TEXTURE_3D, GL_TEXTURE_BINDING_3D, GL_TEXTURE_WRAP_T);
 	}
 
+	/*Checks if the source texture object is referencing the same OpenGL object
+	@param Specifies the source texture object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const Texture3D& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
 	/*Checks if three-dimensional texturing server-side GL capability is enabled, initially disabled
 	@return True if three-dimensional texturing GL capability is enabled, false otherwise*/
 	static GLboolean isTexture3D()
@@ -450,6 +459,13 @@ public:
 	GLboolean isTextureBinding() const
 	{
 		return _object_binding(GL_TEXTURE_BINDING_3D);
+	}
+
+	/*Creates a thread-safe reference object from the source texture object
+	@param Specifies the source texture object*/
+	void referTexture(const Texture3D& source)
+	{
+		_texture_refer((_Object&)source);
 	}
 
 	/*Specifies the index of the lowest defined mipmap level. Used as the setter of <textureBaseLevel> property

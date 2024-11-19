@@ -10,9 +10,9 @@ public:
 	GeometryShader() {}
 
 	/*(3.2) (2) Constructs a copy of shader object*/
-	GeometryShader(const GeometryShader& shader)
+	GeometryShader(const GeometryShader& source)
 	{
-		_shader_dup((_Object&)shader);
+		_shader_dup((_Object&)source);
 	}
 
 	/*(3.2) (3) Constructs shader object from binary resource*/
@@ -46,11 +46,10 @@ public:
 		_compileShader(GL_GEOMETRY_SHADER);
 	}
 
-	/*(3.2) Explicitly creates a shader object
-	@param True to set the object's autodelete flag, default true*/
-	void createShader(GLboolean autodelete = GL_TRUE)
+	/*(3.2) Explicitly generates OpenGL shader object*/
+	void createShader()
 	{
-		_shader_gen(GL_GEOMETRY_SHADER, autodelete);
+		_shader_gen(GL_GEOMETRY_SHADER);
 	}
 
 	/*(3.2) Detaches a shader object from a program object to which it is attached
@@ -60,11 +59,11 @@ public:
 		_detachShader(GL_GEOMETRY_SHADER, program);
 	}
 
-	/*(3.2) Duplicates a shader object. If the source is a single object, it unconditionally becomes a reference object
+	/*(3.2) Duplicates a shader object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source shader object*/
-	void duplicateShader(const GeometryShader& buffer)
+	void duplicateShader(const GeometryShader& source)
 	{
-		_shader_dup((_Object&)buffer);
+		_shader_dup((_Object&)source);
 	}
 
 	/*(3.2) Gets shader compile status parameter. Used as a getter of <compileStatus> property
@@ -151,6 +150,21 @@ public:
 	ShaderType getShaderType()
 	{
 		return (ShaderType)_getShader(GL_GEOMETRY_SHADER, GL_SHADER_TYPE);
+	}
+
+	/*(3.2) Checks if the source shader object is referencing the same OpenGL object
+	@param Specifies the source shader object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const GeometryShader& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
+	/*(3.2) Creates a thread-safe reference object from the source shader object
+	@param Specifies the source shader object*/
+	void referShader(const GeometryShader& source)
+	{
+		_shader_refer((_Object&)source);
 	}
 
 	/*(3.2) (1) Replaces the source code in a shader object from the binary resource

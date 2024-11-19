@@ -6,6 +6,7 @@ namespace gl {
 class Texture1DArray : public _Texture
 {
 private:
+	friend class Textures;
 	Texture1DArray(GLint name) { _object_set(name); }
 
 public:
@@ -13,9 +14,9 @@ public:
 	Texture1DArray() {}
 
 	/*(3.0) (2) Constructs a copy of texture object*/
-	Texture1DArray(const Texture1DArray& texture)
+	Texture1DArray(const Texture1DArray& source)
 	{
-		_texture_dup((_Object&)texture);
+		_texture_dup((_Object&)source);
 	}
 
 	/*(3.0) Select active texture unit by the index value ranging from 0 to the value returned by <getMaxCombinedTextureImageUnits> minus 1. Similar to global <activeTexture>, but also unconditionally binds the texture to its target after selection
@@ -109,11 +110,11 @@ public:
 		_copyTexSubImage2D(GL_TEXTURE_1D_ARRAY, GL_TEXTURE_BINDING_1D_ARRAY, level, xoffset, yoffset, x, y, width, height);
 	}
 
-	/*(3.0) Duplicates a texture object. If the source is a single object, it unconditionally becomes a reference object
+	/*(3.0) Duplicates a texture object, increasing its reference count. The reference source object is being copied
 	@param Specifies the source texture object*/
-	void duplicateTexture(const Texture1DArray& texture)
+	void duplicateTexture(const Texture1DArray& source)
 	{
-		_texture_dup((_Object&)texture);
+		_texture_dup((_Object&)source);
 	}
 
 	/*(3.0) Generates mipmaps for specified texture target*/
@@ -563,11 +564,26 @@ public:
 		return (TextureWrapMode)_getTexParameter(GL_TEXTURE_1D_ARRAY, GL_TEXTURE_BINDING_1D_ARRAY, GL_TEXTURE_WRAP_T);
 	}
 
+	/*(3.0) Checks if the source texture object is referencing the same OpenGL object
+	@param Specifies the source texture object
+	@return True if duplicate object*/
+	GLboolean isDuplicate(const Texture1DArray& source) const
+	{
+		return _object_is((_Object&)source);
+	}
+
 	/*(3.0) Determines if the texture object is currently bound to its target. Used as a getter of <textureBinding> property
 	@return True if texture object currently bound to its target, or false otherwise*/
 	GLboolean isTextureBinding() const
 	{
 		return _object_binding(GL_TEXTURE_BINDING_1D_ARRAY);
+	}
+
+	/*(3.0) Creates a thread-safe reference object from the source texture object
+	@param Specifies the source texture object*/
+	void referTexture(const Texture1DArray& source)
+	{
+		_texture_refer((_Object&)source);
 	}
 
 	/*(3.0) Specifies the index of the lowest defined mipmap level. Used as the setter of <textureBaseLevel> property
