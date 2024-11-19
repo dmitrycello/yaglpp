@@ -40,12 +40,12 @@
 
 /*(1) The GLAD loader to be ported into another library with an extern declaration. Prefered version for SFML and GLEW
 @return True if GLAD sucessfully loaded, false otherwise*/
-bool loadGL();
+bool yaglpp_loadGL();
 
 /*(2) The GLAD loader to be ported into another library with an extern declaration. Prefered version for GLFW
 @param GLAD proc address returned by <glfwGetProcAddress> function
 @return True if GLAD sucessfully loaded, false otherwise*/
-bool loadGL(void* proc);
+bool yaglpp_loadGL(void* proc);
 
 #ifdef YAGLPP_IMPLEMENTATION
 #pragma comment(lib, "opengl32.lib")
@@ -54,12 +54,12 @@ bool loadGL(void* proc);
 #pragma message ("YAGL++: Compiling with OpenGL " YAGLPP__XSTR(YAGLPP_CONTEXT_VERSION_MAJOR) "." YAGLPP__XSTR(YAGLPP_CONTEXT_VERSION_MINOR) " context version support...")
 #undef YAGLPP__STR
 #undef YAGLPP__XSTR
-bool loadGL()
+bool yaglpp_loadGL()
 {
 	return gladLoadGL() != 0;
 }
 
-bool loadGL(void* proc)
+bool yaglpp_loadGL(void* proc)
 {
 	return gladLoadGLLoader((GLADloadproc)proc) != 0;
 }

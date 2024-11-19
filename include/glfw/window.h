@@ -1880,7 +1880,7 @@ void Window::makeContextCurrent()
 	glfwMakeContextCurrent(_window());
 	if (bLoaded == false)
 	{
-		bLoaded = loadGL(glfwGetProcAddress);
+		bLoaded = yaglpp_loadGL(glfwGetProcAddress);
 		YAGLPP_ASSERT(bLoaded); // FAILED TO LOAD OPENGL CONTEXT
 	}
 }
