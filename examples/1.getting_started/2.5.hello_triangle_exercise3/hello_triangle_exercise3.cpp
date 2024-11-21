@@ -33,8 +33,8 @@ int main()
     };
     gl::VertexArrays VAOs(2); // we can also generate multiple VAOs or buffers at the same time
     gl::Buffers VBOs(2);
-    gl::VertexArray& VAO_0 = VAOs.getVertexArray(0), & VAO_1 = VAOs.getVertexArray(1); // reference VAO objects
-    gl::ArrayBuffer& VBO_0 = VBOs.getArrayBuffer(0), & VBO_1 = VBOs.getArrayBuffer(1); // reference VBO objects
+    gl::VertexArray VAO_0 = VAOs.getVertexArray(0), VAO_1 = VAOs.getVertexArray(1); // reference VAO objects
+    gl::ArrayBuffer VBO_0 = VBOs.getArrayBuffer(0), VBO_1 = VBOs.getArrayBuffer(1); // reference VBO objects
     gl::VertexAttrib aPos(0);
     VAO_0.bindVertexArray(); // first triangle setup
     VBO_0.bufferData(sizeof(firstTriangle), firstTriangle, gl::BufferUsage::StaticDraw);
