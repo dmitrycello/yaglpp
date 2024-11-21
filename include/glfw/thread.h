@@ -67,7 +67,7 @@ private:
         int iSize; // Queue buffer size
         int iCount; // Queue message count
         int iIndex; // Queue dispatch position
-        bool bAutoDetele; // Delete window flag
+        bool bAutoDetele; // Auto-delete window flag
         bool bBlockMessage; // Block message flag
         DWORD nExitcode; // The thread exit code
         DWORD nThreadId; // Thread ID
@@ -342,16 +342,16 @@ public:
     void wakeThread();
 
 #ifdef YAGLPP_CLASS_PROPERTIES
-    /*Read-writ property for block message flag of the specified thread*/
+    /*Read-write property for block message flag of the specified thread*/
     __declspec(property(get = getBlockMessage, put = setBlockMessage)) bool blockMessage;
 
     /*Read-write property for window object currently associated with specified thread. Could be set only once*/
     __declspec(property(get = getContext, put = setContext)) Window* context;
 
-    /*Read-write property to check if the window context has been made current on the specified thread*/
+    /*Read-only property to check if the window context has been made current on the specified thread*/
     __declspec(property(get = isContextCurrent)) bool contextCurrent;
 
-    /*Read-write property to check if the thread object is currently calling thread*/
+    /*Read-only property to check if the thread object is currently calling thread*/
     __declspec(property(get = isCurrentThread)) bool currentThread;
 
     /*Read-write property for wait events timeout interval value. Could be set only once*/
@@ -360,13 +360,13 @@ public:
     /*Read-write property for specified thread's exit code value. Could be set only once*/
     __declspec(property(get = getExitcode, put = setExitcode)) DWORD exitcode;
 
-    /*Read-write property to check if the thread object is main thread*/
+    /*Read-only property to check if the thread object is main thread*/
     __declspec(property(get = isMainThread)) bool mainThread;
 
-    /*Read-write property to check if the thread did not exit*/
+    /*Read-only property to check if the thread did not exit*/
     __declspec(property(get = isStillAlive)) bool stillAlive;
 
-    /*Read-write property to check if valid thread object*/
+    /*Read-only property to check if valid thread object*/
     __declspec(property(get = isThread)) bool thread;
 
     /*Read-write property for id of currently running thread*/

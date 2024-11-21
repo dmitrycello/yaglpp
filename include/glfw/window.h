@@ -883,7 +883,7 @@ public:
 		return (bool)_m.iWindowVisible;
 	}
 
-	/*This function makes the OpenGL or OpenGL ES context of the specified window current on the main thread. A context must only be made current on a single thread at a time and each thread can have only a single current context at a time. Associates the window with the calling thread, at the first call initializes OpenGL*/
+	/*This function makes the OpenGL or OpenGL ES context of the specified window current on the calling thread. A context must only be made current on a single thread at a time and each thread can have only a single current context at a time. Associates the window object with the calling thread, at the first call initializes OpenGL*/
 	void makeContextCurrent();
 
 	/*This function makes the OpenGL or OpenGL ES context non-current on the calling thread. Detaches the current context from the calling thread without making a new one current*/
