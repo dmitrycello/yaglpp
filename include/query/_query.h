@@ -321,7 +321,7 @@ inline TransformFeedbackPrimitivesWritten Queries::getTransformFeedbackPrimitive
 #ifdef _DEBUG
 	return TransformFeedbackPrimitivesWritten(_objects_get(index, GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN));
 #else // #ifdef _DEBUG
-	return TransformFeedbackPrimitivesWritten(_objects_get(index, ));
+	return TransformFeedbackPrimitivesWritten(_objects_get(index));
 #endif // #ifdef _DEBUG
 }
 #endif // #ifdef YAGLPP_VERSION_3_0
