@@ -146,7 +146,7 @@ The classes in **`gl::`** namespace are derived mostly from **`gl::_Object`** cl
 > The unsigned integer data member **`_muId`** of the **gl::_Object** class is using its highest bit as an _autodelete_ flag, allowing to differentiate single and reference objects. The pointers in Win32 application are 4-byte long. So will be the size of the class object using a pointer.
 
 > [!CAUTION]
-> The names starting with underscore character stand for the base abstract classes, they have only protected constructors, and therefore could NOT be used.
+> The names starting with underscore character stand for the base abstract classes, they have only protected constructors, and therefore could NOT be used directly.
 
 The ***Uniform*** and ***VertexAttrib*** classes have no destructors, they operate the location index value of a [Uniform](https://www.khronos.org/opengl/wiki/Uniform_(GLSL)) and a [Vertex Attribute](https://www.khronos.org/opengl/wiki/Vertex_Specification) respectively, which remains valid as long as the [Program](https://www.khronos.org/opengl/wiki/GLSL_Object#Program_objects) object remains linked. They have a default constructor creating an _empty_ object, as well as a copy constructor copying the location value. Since the location value must be set, they cannot be created automatically. The **`getUniformLocation`** and **`getAttribLocation`** methods aquire the location index using a program object and the uniform or attribute name. If the location index is known, it could be set directly with **`setUniformLocation`** and **`setAttribLocation`** methods. The appropriate constructors exist as well. To find out if the location value was set successfully, use **`isUniform`** and **`isVertexAttrib`** methods.
 
