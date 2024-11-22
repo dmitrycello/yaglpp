@@ -110,7 +110,7 @@ All classes in the _gl::_ namespace are counterparts of the GLAD API. They all h
 ```
 GLboolean b1 = s.isSampler();            // glIsSampler(id)
 GLboolean b2 = s.isSamplerBinding();     // glGetIntegerv(GL_SAMPLER_BINDING..) == id
-gl::Sampler s = gl::getSamplerBinding(); // id = glGetIntegerv(GL_SAMPLER_BINDING..
+gl::Sampler s = gl::getSamplerBinding(); // id = glGetIntegerv(GL_SAMPLER_BINDING..)
 ```
 The lifetime of the OpenGL object is controlled implicitly by the class destructor, or explicitly by **`delete..`** method. They do not always destroy OpenGL object, depening on how this object is being created. If the class is created as an _automatic object_, it does destroy an OpenGL object, where as _reference object_ does not.
 
