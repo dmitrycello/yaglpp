@@ -108,8 +108,9 @@ The symbols defined after **`#pragma once`** directive in the [glpp.h](include/g
 ### GLAD classes
 All classes in the _gl::_ namespace are counterparts of the GLAD API. They all have the default constructor creating an empty class object, this allows the class to exist before OpenGL initialization. Every GLAD class have a copy constructor, duplicating the source object, this allows to use it in an assignment statement, as a function parameter, or as a return value. Every class has a unique data member: either the unsigned 4-byte integer in _single id_ classes, signed 4-byte integer in _location_ classes, or a pointer in _multi-object_ classes. All derived classes have the same data size as their parent classes, thus allowing to easily combine them within another stucture or class. Every class object is considered _empty_, if its data member is set to zero, in which case its **`isObject`** function returns false. The _single id_ classes are derived from **`gl::_Object`**, most of their methods automatically create and bind an OpenGL object when necessary, except the **`is..`** methods, which work exactly as their API counterparts:
 ```
-GLboolean b1 = s.isSampler();        // glIsSampler(id)
-GLboolean b2 = s.isSamplerBinding(); // glGetIntegerv(GL_SAMPLER_BINDING..) == id
+GLboolean b1 = s.isSampler();            // glIsSampler(id)
+GLboolean b2 = s.isSamplerBinding();     // glGetIntegerv(GL_SAMPLER_BINDING..) == id
+gl::Sampler s = gl::getSamplerBinding(); // id = glGetIntegerv(GL_SAMPLER_BINDING..
 ```
 The lifetime of the OpenGL object is controlled implicitly by the class destructor, or explicitly by **`delete..`** method. They do not always destroy OpenGL object, depening on how this object is being created. If the class is created as an _automatic object_, it does destroy an OpenGL object, where as _reference object_ does not.
 
