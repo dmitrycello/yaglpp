@@ -1,3 +1,6 @@
+UNDER RECONSTRUCTION
+TODO: CROSS PLATFORM IMPLEMENTATION (STD::LIBRARY)
+
 ![00-readme-1.png](docs/00-readme-1.png)
 # Yet Another GL++ library
 [INSTALLATION &rarr;](docs/INSTALLATION.md)<br>
