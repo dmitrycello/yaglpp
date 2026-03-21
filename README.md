@@ -15,29 +15,29 @@ YAGL++ is _"yet another"_ attempt to develop a C++ gear for the OpenGL API, merg
 
 The library consists of the _header files_ only, and requires the C++ 11 compiler or later, so the basic knowledge of [C++ programming language](https://learn.microsoft.com/en-us/cpp/cpp/cpp-language-reference?view=msvc-170) is required to  reading through the following section. The library uses standard library functions in its code, thus being cross-platform. However, it was initially designed to be used with MS Visual Studio under OS Windows. Therefore, the following features may be unavailable under different environment:
 
-- It impliments the [SAL](https://learn.microsoft.com/en-us/cpp/code-quality/using-sal-annotations-to-reduce-c-cpp-code-defects) concept (Microsoft Source Code Annotation Language), making the usage of the library less error-prone. The SAL macros are just ignored while being in non-MSVC environment
-- It can access application binary resources. The appropriate **`..FromResource`** functions are hidden while being in non-MSVC environment. Nonetheless, it is still possible to load it with **`..FromMemory`** functions, while adding resources via header files created with [xxd utility](https://packages.guix.gnu.org/packages/xxd/)
+- It impliments the [SAL concept](https://learn.microsoft.com/en-us/cpp/code-quality/using-sal-annotations-to-reduce-c-cpp-code-defects) (Microsoft Source Code Annotation Language), making the usage of the library less error-prone. The SAL macros are silently ignored while being in non-MSVC environment
+- It can access [Windows Binary Resources](https://learn.microsoft.com/en-us/windows/win32/menurc/resources) of **`RCDATA`** type. The appropriate **`...FromResource`** functions are hidden while being in non-MSVC environment. Nonetheless, it is still possible to load it with **`...FromMemory`** functions, while adding resources via header files created with [xxd utility](https://packages.guix.gnu.org/packages/xxd/)
 
 The code of the library can be viewed in the repository's [include](include) directory. To properly install and use the library, follow the instructions in the [INSTALLATION](docs/INSTALLATION.md) and [USAGE](docs/USAGE.md) documents. The library is extremely easy to start working with, it requires only one _#include_ statement for each compilation unit, while the _#define_ statement should be used only once per application:
 ```
 #define YAGLPP_IMPLEMENTATION
 #include <yaglpp/glpp.h>
 ```
-The library works with OpenGL context versions 2.0 to 3.3, and [GLFW](https://www.glfw.org/) version 3.4+. It is also integated with the [STB](https://github.com/nothings/stb) image library as one of its direct dependencies. The [Assimp](https://github.com/assimp/assimp) and [GLM](https://github.com/g-truc/glm) libraries, are silently included in the main header file [glpp.h](include/glpp.h). Since they are both written in C++, there is no any workaround. It is possible to select the required OpenGL context version by altering the **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** main switches in the [glpp.h](include/glpp.h) header file. The used context version affects the build, making available only the supported API assets.
+The library works with [GLFW](https://www.glfw.org/) version 3.4+. It is also integated with the [STB](https://github.com/nothings/stb) image library as one of its direct dependencies. The [Assimp](https://github.com/assimp/assimp) and [GLM](https://github.com/g-truc/glm) libraries are both written in C++, so there is no any workaround. It is possible to select the required OpenGL context version by altering the **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** main switches (default 3.3) in the [glpp.h](include/glpp.h) header file. The used context version affects the build, making available only the supported API assets.
 
-The library uses two ways of data input: the _file_ and the _binary resource_, which has to be of **`RCDATA`** type. Every call to the API function in the library is provided with the appropriate error checking, which has an effect only in Debug mode. On the contrary, under the Release build, the library attempts to impliment the inline calls, depending on the compiler setting. Here is the average YAGL++ member function implementation under the Debug mode:
+Every call to the API function in the library is provided with the appropriate error checking, which has an effect only in Debug mode. On the contrary, under the Release build, the library attempts to impliment the inline calls minimizing the overhead. Here is the average YAGL++ member function implementation under the Debug mode:
 ```
-void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value)
+void Uniform::Set(GLsizei count, _In_reads_(count) const glm::vec3* value)
 {
-	glUniform3fv(_location(), count, (GLfloat*)value); // GLAD API call
-	YAGLPP_GLAD_ERROR;                                 // Error checking macro
+	glUniform3fv(get_location(), count, (GLfloat*)value);
+	YAGLPP_GLAD_ERROR;
 }
 ```
 Where as under Release mode it compiles as:
 ```
-inline void Uniform::uniform(GLsizei count, _In_reads_(count) const glm::vec3* value)
+inline void Uniform::Set(GLsizei count, _In_reads_(count) const glm::vec3* value)
 {
-	glUniform3fv(_miLocation, count, (GLfloat*)value);
+	glUniform3fv(m_Location, count, (GLfloat*)value);
 }
 ```
 The most valuable feature of the library is the **_"lasy" creation and binding concept_**, where the OpenGL object is automatically created and binded _only when required_. The creation of a class object does not mean the OpenGL object immediate creation or binding. This allows the YAGL++ objects to exist before the creation of OpenGL context. The library performs a background check before any valid operation with OpenGL object. Thus, the functions for creation and bindind are not required, but still preserved to allow the programmer to call them when needed, for example, to explicitly create an object at specific point of the code, or to bind an object to its target in another OpenGL context.
