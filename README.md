@@ -16,6 +16,7 @@ YAGL++ is _"yet another"_ attempt to develop a C++ gear for the OpenGL API, merg
 The library consists of the _header files_ only, and requires the C++ 11 compiler or later, so the basic knowledge of [C++ programming language](https://learn.microsoft.com/en-us/cpp/cpp/cpp-language-reference?view=msvc-170) is required to  reading through the following section. The library uses standard library functions in its code, thus being cross-platform. However, it was initially designed to be used with MS Visual Studio under OS Windows. Therefore, the following features may be unavailable under different environment:
 
 - It impliments the [SAL concept](https://learn.microsoft.com/en-us/cpp/code-quality/using-sal-annotations-to-reduce-c-cpp-code-defects) (Microsoft Source Code Annotation Language), making the usage of the library less error-prone. The SAL macros are silently ignored while being in non-MSVC environment
+- It can use [Class Proprieties](https://learn.microsoft.com/en-us/cpp/cpp/property-cpp/). They are unavailable while being in non-MSVC environment
 - It can access [Windows Binary Resources](https://learn.microsoft.com/en-us/windows/win32/menurc/resources) of **`RCDATA`** type. The appropriate **`...FromResource`** functions are hidden while being in non-MSVC environment. Nonetheless, it is still possible to load it with **`...FromMemory`** functions, while adding resources via header files created with [xxd utility](https://packages.guix.gnu.org/packages/xxd/)
 
 The code of the library can be viewed in the repository's [include](include) directory. To properly install and use the library, follow the instructions in the [INSTALLATION](docs/INSTALLATION.md) and [USAGE](docs/USAGE.md) documents. The library is extremely easy to start working with, it requires only one _#include_ statement for each compilation unit, while the _#define_ statement should be used only once per application:
@@ -23,9 +24,7 @@ The code of the library can be viewed in the repository's [include](include) dir
 #define YAGLPP_IMPLEMENTATION
 #include <yaglpp/glpp.h>
 ```
-The library works with [GLFW](https://www.glfw.org/) version 3.4+. It is also integated with the [STB](https://github.com/nothings/stb) image library as one of its direct dependencies. The [Assimp](https://github.com/assimp/assimp) and [GLM](https://github.com/g-truc/glm) libraries are both written in C++, so there is no any workaround. It is possible to select the required OpenGL context version by altering the **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** main switches (default 3.3) in the [glpp.h](include/glpp.h) header file. The used context version affects the build, making available only the supported API assets.
-
-Every call to the API function in the library is provided with the appropriate error checking, which has an effect only in Debug mode. On the contrary, under the Release build, the library attempts to impliment the inline calls minimizing the overhead. Here is the average YAGL++ member function implementation under the Debug mode:
+The library works with [GLFW](https://www.glfw.org/) version 3.4+. It is also integated with the [STB](https://github.com/nothings/stb) image library as one of its direct dependencies. The [Assimp](https://github.com/assimp/assimp) and [GLM](https://github.com/g-truc/glm) libraries are both written in C++, so there is no any workaround. It is possible to select the required OpenGL context version by altering the **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** main switches (default 3.3) in the [glpp.h](include/glpp.h) header file. The used context version affects the build, making available only the supported API assets. Every call to the API function in the library is provided with the appropriate error checking, which has an effect only in Debug mode. On the contrary, under the Release build, the library attempts to impliment the inline calls minimizing the overhead. Here is the average YAGL++ member function implementation under the Debug mode:
 ```
 void Uniform::Set(GLsizei count, _In_reads_(count) const glm::vec3* value)
 {
@@ -33,24 +32,20 @@ void Uniform::Set(GLsizei count, _In_reads_(count) const glm::vec3* value)
 	YAGLPP_GLAD_ERROR;
 }
 ```
-Where as under Release mode it compiles as:
+Where as under Release mode it is exposed as:
 ```
 inline void Uniform::Set(GLsizei count, _In_reads_(count) const glm::vec3* value)
 {
 	glUniform3fv(m_Location, count, (GLfloat*)value);
 }
 ```
-The most valuable feature of the library is the **_"lasy" creation and binding concept_**, where the OpenGL object is automatically created and binded _only when required_. The creation of a class object does not mean the OpenGL object immediate creation or binding. This allows the YAGL++ objects to exist before the creation of OpenGL context. The library performs a background check before any valid operation with OpenGL object. Thus, the functions for creation and bindind are not required, but still preserved to allow the programmer to call them when needed, for example, to explicitly create an object at specific point of the code, or to bind an object to its target in another OpenGL context.
-
-> [!NOTE]
-> Some of YAGL++ objects do not follow this rule. The **`gl::VertexArray`** object must be _bound_ explicitly at a certain point of the code, the **`gl::Sampler`** object must be _bound_ with a parameter, the **`gl::Sync`** object must be _created_ explicitly with **`fenceSync`** method, where as _multi-objects_ and all **`glfw::`** objects have to be _created_ with specific parameters.
 
 ### Naming concept
-For the sake of _transparency_, the original API names are carefully preserved. The most of the class names are based on the OpenGL _targets_, e.g., **`Texture2D`** class name is based on **`GL_TEXTURE_2D`** target. But some changes could be applied in rare conflicting cases. For example, the **`GL_TEXTURE_BUFFER`** target is being used by buffer and texture objects, therefore the **`TextureBuffer`** class is a buffer, while the **`BufferTexture`** is a texture. As the API functions are grouped around the classes, the API constants are grouped around the enum classes. This approach makes the library less error-prone, since the usage of a wrong enumerator type or value simply won't compile.
+The YAGL++ library assets are defined within **`gl::`** and **`glfw::`** namespaces for GLAD and GLFW APIs respectively. The two helper classes, **`DataStore`** and **`StbImage`**, reside in the global namespace. You may bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them while managing large projects. For the sake of _transparency_, the original API names are mostly preserved. The names in YAGL++ library are obtained by stripping _gl_, _glfw_ or _stbi_ prefixes of the original API names, and applying the Pascal-case rule for the rest, for example: **`glDrawRangeElements`** in YAGL++ library becomes **`gl::DrawRangeElements`**.
 
-The library assets are defined within **`gl::`** and **`glfw::`** namespaces for GLAD and GLFW APIs respectively. The two helper classes, **`DataStore`** and **`StbImage`**, reside in the global namespace. You may bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them at least while learning the OpenGL API. The prefixes will also prevent name conflict while managing large projects. 
+Many of the class names are based on the OpenGL _targets_, e.g., **`Texture2D`** class name is based on **`GL_TEXTURE_2D`** target. But some changes could be applied in rare conflicting cases. For example, the **`GL_TEXTURE_BUFFER`** target is being used by both buffer and texture objects, therefore the **`TextureBuffer`** class is a buffer, while the **`BufferTexture`** is a texture. As the API functions are grouped around the classes, the API constants are grouped around the enum classes. This approach makes the library less error-prone, since the usage of a wrong enumerator type or value simply won't compile. The class member names are stripped of their object names to avoid redundancy, for example: the original **`glBindTexture`** with **`GL_TEXTURE_2D`** target in YAGL++ library becomes **`gl::Texture2D::Bind`**.
 
-The names in YAGL++ library are obtained by stripping _gl_ or _glfw_ prefixes of the original API names, and applying the camil-case rule for the rest. The class member names of the **`StbImage`** class, are obtaining by stripping _stbi_ prefix of the original STB image function names. For the constant names, every underscore symbol is used as a word delimiter. Such an approach ensures the library's _transparency_: while learning the original API symbols, it allows the relatively easy switch to OpenGL C programming in the future. Some of the API functions such as **`glDisable`**, **`glEnable`**, **`glGet`**, **`glIsEnabled`**, and **`glPixelStore`** are used with the names of their constant values. For example:
+Some of the API functions such as **`glDisable`**, **`glEnable`**, **`glGet`**, **`glIsEnabled`**, and **`glPixelStore`** are used with the names of their constant values. For example:
 ```
 glDisable(GL_SAMPLE_COVERAGE)
 glEnable(GL_SCISSOR_TEST)
@@ -111,6 +106,10 @@ The symbols defined after **`#pragma once`** directive in the [glpp.h](include/g
 > It is possible to override the main swithes, placing them inside a project. To do that, first define a symbol **`YAGLPP_CONFIG`**, then all the above switches, prior to include the main [glpp.h](include/glpp.h) header file.
 
 ### GLAD classes
+
+The most important libary concept, is the way the objects are treated. The YAGL++ class object only cares about its lifetime. If it goes out of scope for some reason, it only cleans up itself, without managing the real OpenGL object. Almost every class object consist of a single data member: id, location or
+
+
 All classes in the _gl::_ namespace are counterparts of the GLAD API. They all have the default constructor creating an empty class object, this allows the class to exist before OpenGL initialization. Every GLAD class have a copy constructor, duplicating the source object, this allows to use it in an assignment statement, as a function parameter, or as a return value. Every class has a unique data member: either the unsigned 4-byte integer in _single id_ classes, signed 4-byte integer in _location_ classes, or a pointer in _multi-object_ classes. All derived classes have the same data size as their parent classes, thus allowing to easily combine them within another stucture or class. Every class object is considered _empty_, if its data member is set to zero, in which case its **`isObject`** function returns false. The _single id_ classes are derived from **`gl::_Object`**, most of their methods automatically create and bind an OpenGL object when necessary, except the **`is..`** methods, which work exactly as their API counterparts:
 ```
 GLboolean b1 = s.isSampler();            // glIsSampler(id)
