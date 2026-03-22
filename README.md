@@ -11,7 +11,7 @@
 - [GLFW classes](README.md#glfw-classes)
 - [Helper classes](README.md#helper-classes)
 
-YAGL++ is _"yet another"_ attempt to develop a C++ gear for the OpenGL API, merging its assets into the C++ objects. There are plenty of similar projects on the GitHub. So, why another one? The present library aims to fill the gap as a _thoughtful_, _transparent_ and _complete_ library, which includes every single API asset documented by [Khronos Reference Pages](https://registry.khronos.org/OpenGL-Refpages/gl4/). Primarily, YAGL++ was designed as a tool to help [learning OpenGL API](https://learnopengl.com/), but after a while it turned out to be quite efficient. It takes care of the routine work, allowing to develop the application in less complicated manner, and without substantial overhead. The C++ features make the OpenGL programming more intuitive, clear and stable. For example, using the [overloaded functions](https://learn.microsoft.com/en-us/cpp/cpp/function-overloading) is much more convenient than to recall the every exact API name, such as **`glUniform3fv`**. Instead, it is possible to just call **`Uniform::Set`** class method with the appropriate parameters.
+YAGL++ is _"yet another"_ attempt to develop a C++ gear for the OpenGL API, merging its assets into the C++ objects. There are plenty of similar projects on the GitHub. So, why another one? The present library aims to fill the gap as a _thoughtful_, _transparent_ and _complete_ library, which includes every single API asset documented by [Khronos Reference Pages](https://registry.khronos.org/OpenGL-Refpages/gl4/). Primarily, YAGL++ was designed as a tool to help [Learning OpenGL API](https://learnopengl.com/), but after a while it turned out to be quite efficient. It takes care of the routine work, allowing to develop the application in less complicated manner, and without substantial overhead. The C++ features make the OpenGL programming more intuitive, clear and stable. For example, using the [overloaded functions](https://learn.microsoft.com/en-us/cpp/cpp/function-overloading) is much more convenient than to recall the every exact API name, such as **`glUniform3fv`**. Instead, it is possible to just call **`Uniform::Set`** class method with the appropriate parameters.
 
 The library consists of the _header files_ only, and requires the C++ 11 compiler or later, so the basic knowledge of [C++ programming language](https://learn.microsoft.com/en-us/cpp/cpp/cpp-language-reference?view=msvc-170) is required to  reading through the following section. The library uses standard library functions in its code, thus being cross-platform. However, it was initially designed to be used with MS Visual Studio under OS Windows. Therefore, the following features may be unavailable under different environment:
 
@@ -24,7 +24,7 @@ The code of the library can be viewed in the repository's [include](include) dir
 #define YAGLPP_IMPLEMENTATION
 #include <yaglpp/glpp.h>
 ```
-The library works with [GLFW](https://www.glfw.org/) version 3.4+. It is also integated with the [STB](https://github.com/nothings/stb) image library as one of its direct dependencies. The [Assimp](https://github.com/assimp/assimp) and [GLM](https://github.com/g-truc/glm) libraries are both written in C++, so there is no any workaround. It is possible to select the required OpenGL context version by altering the **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** main switches (default 3.3) in the [glpp.h](include/glpp.h) header file. The used context version affects the build, making available only the supported API assets. Every call to the API function in the library is provided with the appropriate error checking, which has an effect only in Debug mode. On the contrary, under the Release build, the library attempts to impliment the inline calls minimizing the overhead. Here is the average YAGL++ member function implementation under the Debug mode:
+The library works with OpenGL context version 2.0 to 3.3, the higher versions are yet to come, and [GLFW](https://www.glfw.org/) version 3.4+. It is also integated with the [STB](https://github.com/nothings/stb) image library as one of its direct dependencies. The included [Assimp](https://github.com/assimp/assimp) and [GLM](https://github.com/g-truc/glm) libraries are both written in C++, so there is no any workaround. It is possible to select the required OpenGL context version by altering the **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** main switches (default 3.3) in the [glpp.h](include/glpp.h) header file. The used context version affects the build, making available only the supported API assets. Every call to the API function in the library is provided with the appropriate error checking, which has an effect only in Debug mode. On the contrary, under the Release build, the library attempts to impliment the inline calls minimizing the overhead. Here is the average YAGL++ member function implementation under the Debug mode:
 ```
 void Uniform::Set(GLsizei count, _In_reads_(count) const glm::vec3* value)
 {
@@ -39,11 +39,10 @@ inline void Uniform::Set(GLsizei count, _In_reads_(count) const glm::vec3* value
 	glUniform3fv(m_Location, count, (GLfloat*)value);
 }
 ```
-
 ### Naming concept
-The YAGL++ library assets are defined within **`gl::`** and **`glfw::`** namespaces for GLAD and GLFW APIs respectively. The two helper classes, **`DataStore`** and **`StbImage`**, reside in the global namespace. You may bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them while managing large projects. For the sake of _transparency_, the original API names are mostly preserved. The names in YAGL++ library are obtained by stripping _gl_, _glfw_ or _stbi_ prefixes of the original API names, and applying the Pascal-case rule for the rest, for example: **`glDrawRangeElements`** in YAGL++ library becomes **`gl::DrawRangeElements`**.
+The YAGL++ library assets are defined within **`gl::`** and **`glfw::`** namespaces for GLAD and GLFW APIs respectively. The two helper classes, **`DataStore`** and **`StbImage`**, reside in the global namespace. You may bypass the **`gl::`** and **`glfw::`** prefixes with **`using namespace`** directives, but it is advised to keep them while managing large projects. For the sake of _transparency_, the original API names are mostly preserved. The names in YAGL++ library are obtained by stripping _gl_, _glfw_ or _stbi_ prefixes of the original API names, and applying the Pascal-case rule for the rest, e.g., **`glDrawRangeElements`** in YAGL++ library becomes **`gl::DrawRangeElements`**.
 
-Many of the class names are based on the OpenGL _targets_, e.g., **`Texture2D`** class name is based on **`GL_TEXTURE_2D`** target. But some changes could be applied in rare conflicting cases. For example, the **`GL_TEXTURE_BUFFER`** target is being used by both buffer and texture objects, therefore the **`TextureBuffer`** class is a buffer, while the **`BufferTexture`** is a texture. As the API functions are grouped around the classes, the API constants are grouped around the enum classes. This approach makes the library less error-prone, since the usage of a wrong enumerator type or value simply won't compile. The class member names are stripped of their object names to avoid redundancy, for example: the original **`glBindTexture`** with **`GL_TEXTURE_2D`** target in YAGL++ library becomes **`gl::Texture2D::Bind`**.
+Many of the class names are based on the OpenGL _targets_, e.g., **`Texture2D`** class name is based on **`GL_TEXTURE_2D`** target. But some changes could be applied in rare conflicting cases. For example, the **`GL_TEXTURE_BUFFER`** target is being used by both buffer and texture objects, therefore the **`TextureBuffer`** class is a _buffer_, while the **`BufferTexture`** is a _texture_. As the API functions are grouped around the classes, the API constants are grouped around the enum classes. This approach makes the library less error-prone, since the usage of a wrong enumerator type or value simply won't compile. The class member names are stripped of their object names since they are redundant, e.g., the original **`glBindTexture`** with **`GL_TEXTURE_2D`** target in YAGL++ library becomes **`gl::Texture2D::Bind`**.
 
 Some of the API functions such as **`glDisable`**, **`glEnable`**, **`glGet`**, **`glIsEnabled`**, and **`glPixelStore`** are used with the names of their constant values. For example:
 ```
@@ -56,38 +55,15 @@ glfwWindowHint(GLFW_VISIBLE, visible)
 ```
 in YAGL++ library become:
 ```
-gl::disableSampleCoverage()
-gl::enableScissorTest()
-gl::getColorClearValue(color)
-gl::isPolygonSmooth()
-gl::setUnpackRowLength(length)
-glfw::setVisible(visible)
+gl::DisableSampleCoverage()
+gl::EnableScissorTest()
+gl::GgetColorClearValue(color)
+gl::IsPolygonSmooth()
+gl::SetUnpackRowLength(length)
+glfw::SetVisible(visible)
 ```
-Some global library's functions are duplicated as a static members of a class, it helps to find them on the context basis, e.g. the two following functions are doing the same:
-```
-GLfloat gl::getMaxTextureLodBias();            // Global function
-GLfloat gl::Texture2D::getMaxTextureLodBias(); // Static member function
-```
-To handle the object parameters and states, along with the classical setters and getters, the YAGL++ classes are supplied with the [Class Properties](https://learn.microsoft.com/en-us/cpp/cpp/property-cpp?view=msvc-170), which are well known as the _C++ syntactical sugar_, at some degree simplifiying the readability of the code. In case if this feature is not supported by the compiler, or if the YAGL++ library is used as a part of another library, the **`YAGLPP_CLASS_PROPERTIES`** main switch in the [glpp.h](include/glpp.h) file should be commented. The property name is obtained by stripping the appropriate _set_, _get_ or _is_ function prefix. These prefixes may also be selectively added to an original name, to avoid name conflict with a property name. For example, the original name **`glUniformBlockBinding`** is used by a class member **`setUniformBlockBinding`**, which is used as a setter of the **`uniformBlockBinding`** read-write property. The following function calls:
-```
-texture2D.setTextureBaseLevel(0);
-GLfloat f = texture2D.getTextureMaxLod();
-GLboolean b = texture2D.isTexture();
-```
-could be also invoked via property fields:
-```
-texture2D.textureBaseLevel = 0;
-GLfloat f = texture2D.textureMaxLod;
-GLboolean b = texture2D.texture;
-```
-
-> [!CAUTION]
-> The underscore at the beginning of a name means a private assignment, it should NOT be used directly. The global symbols starting with **`YAGLPP_`** are also preserved by the library.
-
 ### IntelliSense
-Every class, function or enum member in the library is provided with a comment shown in Visual Studio by the [IntelliSense](https://learn.microsoft.com/en-us/visualstudio/ide/using-intellisense) with the description, parameter list and return value. This is a nice opportunity to briefly recap what the function does while typing the code, instead of going online time after time. All information in such comments is taken from [Khronos website](https://registry.khronos.org/OpenGL-Refpages/gl4/).
-
-If the description starts with the number in parentheses, it means either the supported OpenGL context version (as floating point number), or the number of overloaded function (as integer number). If the version number is missing, OpenGL 2.0 support is assumed. For example, the description of a function starting with **`(3.0) (18)`** means the support of OpenGL version 3.0 and above, plus it specifies that this is the 18's overloaded function. The description of the GLFW object function may start with **`(M)`** or **`(S)`** symbols meaning that the function can be called only from the _main_ or _secondary_ threads.
+Every class, function or enum member in the library is provided with a comment shown in Visual Studio by the [IntelliSense](https://learn.microsoft.com/en-us/visualstudio/ide/using-intellisense) with the description, parameter list and return value. This is a nice opportunity to briefly recap what the function does while typing the code, instead of having recourse to the manual time after time. All information in such comments is taken from [Khronos website](https://registry.khronos.org/OpenGL-Refpages/gl4/). If the description starts with the number in parentheses, it means either the supported OpenGL context version (as floating point number), or the number of overloaded function (as integer number). If the version number is missing, OpenGL 2.0 support is assumed. For example, the description of a function starting with **`(3.0) (18)`** means the support of OpenGL version 3.0 and above, plus it specifies that this is the 18's overloaded function. The description of the GLFW object function may start with **`(M)`** or **`(S)`** symbols meaning that the function can be called only from the _main_ or _secondary_ threads.
 
 > [!IMPORTANT]
 > The provided comments are brief, and if the function looks unfamiliar, it is recommended to consult its official documentation.
