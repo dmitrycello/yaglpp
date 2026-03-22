@@ -69,7 +69,7 @@ Every class, function or enum member in the library is provided with a comment s
 > The provided comments are brief, and if the function looks unfamiliar, it is recommended to consult its official documentation.
 
 ### The main switches
-The symbols defined after **`#pragma once`** directive in the [glpp.h](include/glpp.h) file are the main switches, they affect the library setup. All switches except the last two could be commented to unset the flag. The last **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** switches must be always present and should never be commented:
+The symbols defined after **`#ifndef YAGLPP_CONFIG`** statement in the [glpp.h](include/glpp.h) file are the main switches, they affect the library setup. All switches except the last two could be commented to unset the flag. The last **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** switches must be always present:
 
 - Commenting the **`YAGLPP_ASSIMP`** or **`YAGLPP_GLFW`** switches will exclude the corresponding library from the build;
 - Switches **`YAGLPP_COCOA_CHDIR_RESOURCES`**, **`YAGLPP_COCOA_MENUBAR`** and **`YAGLPP_JOYSTICK_HAT_BUTTONS`** are the GLFW hints set before the initialization, they are on by default;
