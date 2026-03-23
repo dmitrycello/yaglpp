@@ -7,7 +7,7 @@
 - [IntelliSense](README.md#intellisense)
 - [The main switches](README.md#the-main-switches)
 - [GLAD classes](README.md#glad-classes)
-- [Class tree](README.md#class-tree)
+- [GLAD class tree](README.md#glad-class-tree)
 - [GLFW classes](README.md#glfw-classes)
 - [Helper classes](README.md#helper-classes)
 
@@ -104,10 +104,16 @@ GLboolean b2 = sampler.IsBinding();
 gl::VertexAttrib attr(program, "aPos");
     // attr.location = glGetAttribLocation(program, "aPos");
 ```
-### Class tree
-The classes derived from **`gl::Objects`** control the OpenGL [Buffer](https://www.khronos.org/opengl/wiki/Buffer_Object), [Texture](https://www.khronos.org/opengl/wiki/Texture), [Framebuffer](https://www.khronos.org/opengl/wiki/Framebuffer_Object), [Renderbuffer](https://www.khronos.org/opengl/wiki/Renderbuffer_Object), [Query](https://www.khronos.org/opengl/wiki/Query_Object), [Sampler](https://www.khronos.org/opengl/wiki/Sampler_Object) and [Vertex Array](https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object) objects. Their dynamic allocation operators _new_, _new[]_, _delete_ and _delete[]_ are prevented. Instead, an array of objects must be generated with **`Alloc`** and cleared with **`Dealloc`** static member funtions. Another options is to use **`GenMap`** and **`DeleteMap`**, which sets up and clears the user-defined stucture with the classes of the same subtype (e.g., derived from **`gl::Buffers`**), but possibly of different types (e.g., **`gl::ArrayBuffer`**, **`gl::UniformBuffer`**, etc). Each class on the right uses its target
+### GLAD class tree
+The following figure shows the structure of the GLAD class tree. The **`gl::Objects`** class is the only one having the red frame, meaning that it is an abstract class and cannot be used directly.
 
-The following figure shows the structure of the GLAD classes tree. The **`gl::Objects`** class is the only one having the red frame, meaning that it is abstract and cannot be used directly. The **`gl::Buffers`**, **`gl::Framebuffers`**, **`gl::Queries`**, **`gl::Buffers`**, **`gl::Shaders`** and **`gl::Textures`** are subtype classes, which can be directly created, but without being useful. They can be used as the temporary asset before being casted to one of its child class, when the resulting type is unknown. The precaution should be taken, since the usage of the same object with different targets may result in OpenGL error. The OpenGL [Program](https://www.khronos.org/opengl/wiki/GLSL_Object#Program_objects) and [Shader](https://www.khronos.org/opengl/wiki/Shader) do not have dynamic allocation or clearing functions. The Program object must to be explicitly _linked_, where as the Shader object must be explicitly _compiled_, the appropriate constructors exist as well:
+The classes derived from **`gl::Objects`** control the OpenGL [Buffer](https://www.khronos.org/opengl/wiki/Buffer_Object), [Framebuffer](https://www.khronos.org/opengl/wiki/Framebuffer_Object), [Query](https://www.khronos.org/opengl/wiki/Query_Object), [Renderbuffer](https://www.khronos.org/opengl/wiki/Renderbuffer_Object), [Sampler](https://www.khronos.org/opengl/wiki/Sampler_Object), [Texture](https://www.khronos.org/opengl/wiki/Texture), and [Vertex Array](https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object) objects.
+
+The first five classes directly derived from **`gl::Objects`**, are subtype classes, which can be directly created, but without being useful. They can be used as the temporary asset before being casted to one of its child class, when the resulting type is unknown. The precaution should be taken, since the usage of the same object with different targets may result in OpenGL error. 
+
+Their dynamic allocation operators _new_, _new[]_, _delete_ and _delete[]_ of these classes are prevented. Instead, an array of objects must be generated with **`Alloc`** and cleared with **`Dealloc`** static member funtions. Another options is to use **`GenMap`** and **`DeleteMap`**, which sets up and clears the user-defined stucture with the classes of the same subtype (e.g., derived from **`gl::Buffers`**), but possibly of different types (e.g., **`gl::ArrayBuffer`**, **`gl::UniformBuffer`**, etc). Each class on the right side of the figure is the uses its target
+
+The OpenGL [Program](https://www.khronos.org/opengl/wiki/GLSL_Object#Program_objects) and [Shader](https://www.khronos.org/opengl/wiki/Shader) do not have dynamic allocation or clearing functions. The Program object must to be explicitly _linked_, where as the Shader object must be explicitly _compiled_, the appropriate constructors exist as well:
 
 ![00-readme-2](docs/00-readme-2c.png)
 
