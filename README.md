@@ -7,7 +7,7 @@
 - [IntelliSense](README.md#intellisense)
 - [The main switches](README.md#the-main-switches)
 - [GLAD classes](README.md#glad-classes)
-- [GLAD class tree](README.md#glad-tree)
+- [GLAD tree](README.md#glad-tree)
 - [GLFW classes](README.md#glfw-classes)
 - [Helper classes](README.md#helper-classes)
 
