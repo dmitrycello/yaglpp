@@ -7,7 +7,7 @@
 - [IntelliSense](README.md#intellisense)
 - [The main switches](README.md#the-main-switches)
 - [GLAD classes](README.md#glad-classes)
-- [GLAD class tree](README.md#glad-class-tree)
+- [GLAD class tree](README.md#glad-tree)
 - [GLFW classes](README.md#glfw-classes)
 - [Helper classes](README.md#helper-classes)
 
@@ -104,7 +104,7 @@ GLboolean b2 = sampler.IsBinding();
 gl::VertexAttrib attr(program, "aPos");
     // attr.location = glGetAttribLocation(program, "aPos");
 ```
-### GLAD class tree
+### GLAD tree
 The following figure shows the structure of the GLAD class tree. The **`gl::Objects`** class is the only one having the red frame, meaning that it is an abstract class and cannot be used directly.
 
 The classes derived from **`gl::Objects`** control the OpenGL [Buffer](https://www.khronos.org/opengl/wiki/Buffer_Object), [Framebuffer](https://www.khronos.org/opengl/wiki/Framebuffer_Object), [Query](https://www.khronos.org/opengl/wiki/Query_Object), [Renderbuffer](https://www.khronos.org/opengl/wiki/Renderbuffer_Object), [Sampler](https://www.khronos.org/opengl/wiki/Sampler_Object), [Texture](https://www.khronos.org/opengl/wiki/Texture), and [Vertex Array](https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object) objects.
