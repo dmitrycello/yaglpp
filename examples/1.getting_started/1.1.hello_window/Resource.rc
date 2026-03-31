@@ -1,3 +1,0 @@
-// Resource.rc
-#include "resource.h"
-GLFW_ICON ICON "icons/gpu.ico"
