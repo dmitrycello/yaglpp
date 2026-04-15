@@ -8,8 +8,8 @@
 	- [a. Set four proprieties for all platform configurations](USAGE.md#a-set-four-proprieties-for-all-platform-configurations)
 	- [b. Set two linker proprieties for all Debug platform configurations](USAGE.md#b-set-two-linker-proprieties-for-all-debug-platform-configurations)
 	- [c. Set two linker proprieties for all Release platform configurations](USAGE.md#c-set-two-linker-proprieties-for-all-release-platform-configurations)
-	- [d. Set one library propriety for all x64 platform configurations](USAGE.md#d-set-one-library-propriety-for-all-x64-platform-configurations)
-	- [e. Set one library propriety for all Win32 platform configurations](USAGE.md#e-set-one-library-propriety-for-all-Win32-platform-configurations)
+	- [d. Set library path propriety for all x64 platform configurations](USAGE.md#d-set-library-path-propriety-for-all-x64-platform-configurations)
+	- [e. Set library path propriety for all Win32 platform configurations](USAGE.md#e-set-library-path-propriety-for-all-Win32-platform-configurations)
 - [6. Setup precompiled headers](USAGE.md#6-setup-the-precompiled-header)
 - [7. Type the code](USAGE.md#7-type-the-code)
 - [8. Create YAGL++ project template](USAGE.md#8-create-yagl-project-template)
@@ -160,7 +160,7 @@ Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 The application project may be used in one of the four (4) platform configurations. The Debug x64 or Win32 application work with the output console window, where as the Release x64 or Win32 application has no console. First, let's set the four common properties for all configurations. In the _Project1_ Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurations`** and **`All Platforms`**:
 
-![10-project-properties-2](10-project-properties-2a.png)
+![10-project-properties-2](10-project-properties-2b.png)
 
 #### a. Set four proprieties for all platform configurations
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
@@ -170,7 +170,7 @@ The application project may be used in one of the four (4) platform configuratio
 
 Next, set **`Configuration`** to **`Debug`** and keep **`Platform`** as **`All Platforms`**:
 
-![10-project-properties-2](10-project-properties-2a.png)
+![10-project-properties-3](10-project-properties-3b.png)
 
 #### b. Set two linker proprieties for all Debug platform configurations
 - Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
@@ -178,7 +178,7 @@ Next, set **`Configuration`** to **`Debug`** and keep **`Platform`** as **`All P
 
 Then, set **`Configuration`** to **`Release`** and keep **`Platform`** as **`All Platforms`**:
 
-![10-project-properties-2](10-project-properties-2a.png)
+![10-project-properties-4](10-project-properties-4b.png)
 
 #### c. Set two linker proprieties for all Release platform configurations
 - Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
@@ -186,16 +186,16 @@ Then, set **`Configuration`** to **`Release`** and keep **`Platform`** as **`All
 
 Finally, set **`Configuration`** to **`All Configurations`** and **`Platform`** to **`x64`**:
 
-![10-project-properties-2](10-project-properties-2a.png)
+![10-project-properties-5](10-project-properties-5b.png)
 
-#### d. Set one library propriety for all x64 platform configurations
+#### d. Set library path propriety for all x64 platform configurations
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
 
 Then keep **`Configuration`** as **`All Configurations`** and set **`Platform`** to **`Win32`**:
 
-![10-project-properties-2](10-project-properties-2a.png)
+![10-project-properties-6](10-project-properties-6b.png)
 
-#### e. Set one library propriety for all Win32 platform configurations
+#### e. Set library path propriety for all Win32 platform configurations
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
 
 Among the properties, the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the _Release_ version of external libraries is being used.
@@ -213,11 +213,11 @@ In the previous step, the precompiled header project options was set. And from n
 
 Under the project's _Source Files_ filter icon, right-click the **`glad.c`** file, and press **`Proprties (Alt+Enter)`**:
 
-![10-project-properties-5](10-project-properties-5a.png)
+![10-project-properties-5](10-project-properties-7a.png)
 
 In the _glad.c_ Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurations`** and **`All Platforms`**, since it is necessary to apply the setting to each project configurations. Under **`C/C++`** &rarr; **`Precompiled Headers`**, select the **`Precompiled Header`** file property, and set its drop-down menu to **`Not Using Precompiled Headers`**:
 
-![10-project-properties-6](10-project-properties-6a.png)
+![10-project-properties-6](10-project-properties-8a.png)
 
 Repeat these steps to set the **`Precompiled Header`** file property of the **`yaglpp.cpp`** file to **`Not Using Precompiled Headers`** (as well), where as for the **`stdafx.cpp`** file, set it to **`Create (/Yc)`**. Make sure that the **`Precompiled Header File`** file property remains set to **`stdafx.h`**.
 
