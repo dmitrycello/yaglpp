@@ -158,10 +158,9 @@ Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![10-project-properties-1](10-project-properties-1a.png)
 
-The application project may be used in one of the four (4) platform configurations. The Debug x64 or Win32 application work with the output console window, where as the Release x64 or Win32 application has no console.
+The application project may be used in one of the four (4) platform configurations. The Debug x64 or Win32 application work with the output console window, where as the Release x64 or Win32 application has no console. First, let's set the four common properties for all configurations. Next, set two linker option for all Debug and all Release configurations. Finally, set library path propriety for all x64 and all Win32 configurations.
 
 #### a. Set four proprieties for all platform configurations
-First, let's set the four common properties for all configurations. In the _Project1_ Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurations`** and **`All Platforms`**:
 
 ![10-project-properties-2](10-project-properties-2b.png)
 
@@ -171,7 +170,6 @@ First, let's set the four common properties for all configurations. In the _Proj
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
 #### b. Set two linker proprieties for all Debug platform configurations
-Next, set **`Configuration`** to **`Debug`** and keep **`Platform`** as **`All Platforms`**:
 
 ![10-project-properties-3](10-project-properties-3b.png)
 
@@ -179,7 +177,6 @@ Next, set **`Configuration`** to **`Debug`** and keep **`Platform`** as **`All P
 - Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
 
 #### c. Set two linker proprieties for all Release platform configurations
-Then, set **`Configuration`** to **`Release`** and keep **`Platform`** as **`All Platforms`**:
 
 ![10-project-properties-4](10-project-properties-4b.png)
 
@@ -187,14 +184,12 @@ Then, set **`Configuration`** to **`Release`** and keep **`Platform`** as **`All
 - Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
 
 #### d. Set library path propriety for all x64 platform configurations
-Finally, set **`Configuration`** to **`All Configurations`** and **`Platform`** to **`x64`**:
 
 ![10-project-properties-5](10-project-properties-5b.png)
 
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
 
 #### e. Set library path propriety for all Win32 platform configurations
-Then keep **`Configuration`** as **`All Configurations`** and set **`Platform`** to **`Win32`**:
 
 ![10-project-properties-6](10-project-properties-6b.png)
 
