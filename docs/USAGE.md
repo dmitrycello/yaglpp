@@ -259,7 +259,7 @@ Rebuild started...
 ```
 
 > [!NOTE]
-> The YAGL++ library headers were compiled twice: the first time it was compiled by the precompiled header source file **`stdafx.cpp`**, and the second time by the **`stdimp.cpp`** with the implementation flag being defined. Since these files are rarely modified, starting from the next build the IDE will only compile the **`main.cpp`** file.
+> The YAGL++ library headers were compiled twice: the first time it was compiled by the precompiled header source file **`stdafx.cpp`**, and the second time by the **`stdimp.cpp`** with the implementation flag being defined. These files are only recompiled when **`stdafx.h`** or **`config.h`** headers are modified, therefore at the next build the IDE will only recompile the **`main.cpp`** file.
 
 Now hit **`F5`** to run the application:
 
