@@ -161,7 +161,7 @@ Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 The application project may be used in one of the four (4) platform configurations. The Debug x64 or Win32 application work with the output console window, where as the Release x64 or Win32 application has no console. First, let's set the four common properties for all configurations (a). Next, set two linker option for all Debug and all Release configurations (b, c). Finally, set library path propriety for all x64 and all Win32 configurations (d, e).
 
 > [!IMPORTANT]
-> In the above subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
+> In the following subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 #### a. Set four proprieties for all platform configurations
 
