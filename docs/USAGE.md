@@ -58,7 +58,7 @@ Open the two newly created flies in the editor window, and replace their content
 ```
 
 > [!NOTE]
-> For simplicity, each code exemple in the present tutorial begins with its commented file name.
+> For the sake of convenience, each code exemple in the present tutorial begins with its commented file name.
 
 ### 3. Add source files to the application project
 In the _Solution Explorer_, right-click the project's _Source Files_ filter icon. Click **`Add`** &rarr; **`New Item... (Ctrl+Shift+A)`**:
@@ -98,7 +98,7 @@ Select **`Code`** &rarr; **`Header File (.h)`**, type the file name **`config.h`
 
 ![09-config-file-2](09-config-file-2.png)
 
-The default main switches could be copied from [glpp.h](../include/glpp.h) file, between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. The entire content of the configuration file should be as follows:
+The default main switches could be copied from [glpp.h](../include/yaglpp/glpp.h) file, between _MAIN SWITCHES BEGIN_ and _MAIN SWITCHES END_ labels. The entire content of the configuration file should be as follows:
 ```
 // config.h
 #pragma once
@@ -207,20 +207,20 @@ First, let's set the four (4) common properties for all configurations (a). Next
 ### 6. Setup the precompiled header
 The [Precompiled header files](https://learn.microsoft.com/en-us/cpp/build/creating-precompiled-header-files?view=msvc-170) feature allows the faster compilation, which is critical for large projects. The modern IDEs are using **`pch.h`** as precompiled header name. In fact, it is possible to use any name, as long as it is set in the project properties. In the present setup the default name **`stdafx.h`** is left unchanged.
 
-In the previous step, the precompiled header project options was set. And from now on, the every new source file added to the project will automatically use the precompiled header. It is only required to include the **`stdafx.h`** file at the beginning. Lastly, there are three (3) particular files to be adjusted individually:
+In the previous steps, the precompiled header project options was set. And from now on, all existing source files and every new one added to the project will use the precompiled header by default. It is only required to include the **`stdafx.h`** at the beginning of the file. Lastly, there are three (3) particular files to be manually adjusted:
 - **`glad.c`** - does not need any includes, and should not use precompiled header;
-- **`stdimp.cpp`** - is built with the YAGL++ implementation flag, and should not use precompiled header;
-- **`stdafx.cpp`** - is used by the precompiled header, and should be set to create the precompiled header.
+- **`stdafx.cpp`** - is used by the precompiled header, and should be set to create the precompiled header;
+- **`stdimp.cpp`** - is built with the YAGL++ implementation flag, and should not use precompiled header.
 
 Under the project's _Source Files_ filter icon, right-click the **`glad.c`** file, and press **`Proprties (Alt+Enter)`**:
 
-![10-project-properties-5](10-project-properties-7a.png)
+![10-project-properties-7](10-project-properties-7b.png)
 
 In the _glad.c_ Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurations`** and **`All Platforms`**, since it is necessary to apply the setting to each project configurations. Under **`C/C++`** &rarr; **`Precompiled Headers`**, select the **`Precompiled Header`** file property, and set its drop-down menu to **`Not Using Precompiled Headers`**:
 
-![10-project-properties-6](10-project-properties-8a.png)
+![10-project-properties-8](10-project-properties-8a.png)
 
-Repeat these steps to set the **`Precompiled Header`** file property of the **`yaglpp.cpp`** file to **`Not Using Precompiled Headers`** (as well), where as for the **`stdafx.cpp`** file, set it to **`Create (/Yc)`**. Make sure that the **`Precompiled Header File`** file property remains set to **`stdafx.h`**.
+Repeat these steps to set the **`Precompiled Header`** file property of the **`stdimp.cpp`** file to **`Not Using Precompiled Headers`** (as well), where as for the **`stdafx.cpp`** file, set it to **`Create (/Yc)`**. Make sure that the **`Precompiled Header File`** file property remains set to **`stdafx.h`**.
 
 ### 7. Type the code
 Open the project's **`main.cpp`** file. In the editor window type the minimal YAGL++ application code:
@@ -230,24 +230,20 @@ Open the project's **`main.cpp`** file. In the editor window type the minimal YA
 int main(int argc, char** argv)
 {
 	glfw::Window window(800, 600, "YAGL++ Application");
-	window.makeContextCurrent();
-	while (!window.windowShouldClose)
+	window.MakeContextCurrent();
+	while (!window.shouldClose)
 	{
-		gl::clearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		gl::clear(gl::BufferBitMask::ColorBufferBit);
-		window.swapBuffers();
-		glfw::pollEvents();
+        gl::ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        gl::Clear(gl::BufferBit::Color);
+		window.SwapBuffers();
+		glfw::PollEvents();
 	}
 	return 0;
 }
 ```
-
-> [!WARNING]
-> The original API assets are still available in the source file, but the combination of thoses with the YAGL++ objects in some cases may affect the proper functionality of the library, since some of its routine work is performed on the background.
-
 Now the IntelliSense shows the description of every library member:
 
-![11-type-code-1](11-type-code-1a.png)
+![11-type-code-1](11-type-code-1b.png)
 
 Rebuild the project under the **`Debug x64`** platform configuration. It would be wise to build it under every platform configuration, to check if there were no errors in the setting. The output should look like this:
 ```
@@ -256,14 +252,14 @@ Rebuild started...
 1>stdafx.cpp
 1>glad.c
 1>hello_window.cpp
-1>yaglpp.cpp
+1>stdimp.cpp
 1>YAGL++: Compiling with OpenGL 3.3 context version support...
 1>Project1.vcxproj -> D:\Path_to_solution\OpenGL\x64\Debug\Project1.exe
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ```
 
 > [!NOTE]
-> The YAGL++ library headers were compiled twice: the first time it was compiled by the precompiled header source file **`stdafx.cpp`**, and the second time by the **`yaglpp.cpp`** with the implementation flag being defined. Since these files are rarely modified, starting from the next build the IDE will only compile the **`hello_window.cpp`** file.
+> The YAGL++ library headers were compiled twice: the first time it was compiled by the precompiled header source file **`stdafx.cpp`**, and the second time by the **`stdimp.cpp`** with the implementation flag being defined. Since these files are rarely modified, starting from the next build the IDE will only compile the **`main.cpp`** file.
 
 Now hit **`F5`** to run the application:
 
@@ -276,9 +272,9 @@ To overload window events, use the new window class derived from **`glfw::Window
 class GLWindow : public glfw::Window
 {
 	using Window::Window;                         // Base constructors
-	void onFramebufferSize(int width, int height) // Framebuffer size callback
+	void OnFramebufferSize(int width, int height) // Framebuffer size callback
 	{
-		gl::viewport(0, 0, width, height);
+		gl::Viewport(0, 0, width, height);
 	}
 };
 
@@ -293,19 +289,19 @@ Finally, here is the example of the library usage in _AFX-alike layout_. In orde
 #include "stdafx.h"
 class : public glfw::Thread
 {
-	void onInit()   // Create window
+	void OnInit()   // Create window
 	{
-		context = new glfw::Window(800, 600, "AFX-alike Mode Application");
-		context->makeContextCurrent();
+		glfw::Window context = new glfw::Window(800, 600, "AFX-alike Mode Application");
+		context->MakeContextCurrent();
 	}
 	void onRender() // Rendering loop
 	{
-		gl::clearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		gl::clear(gl::BufferBitMask::ColorBufferBit);
+		gl::ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		gl::Clear(gl::BufferBit::Color);
 	}
 } application;
 ```
-AFX-alike layout is rather experimental, and at the moment can be used only with a single class. But it could become a promising trend in future development.
+AFX-alike layout is rather experimental, and at the moment can be used with a single **`glfw::Thread`** class. But it could become a promising trend in future development.
 
 ### 8. Create YAGL++ project template
 At this point, it would be wise to save all performed work by creating a Visual Studio project template from the current project. Later, it would be possible to create a new project, without the need to set all required parameters. The template will work with the similar solution path layout. Download the [template icon](template.png), or use any other with transparent background. The source code could be reduced to the following:
