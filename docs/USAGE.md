@@ -75,13 +75,13 @@ Next, it is necessary to add the GLAD source file to the project. Copy the **`gl
 
 In the opened project directory select the **`glad.c`** file, and hit **`Add`** button.
 
-Finally there are two more files, **`stdafx.cpp`** and **`yaglpp.cpp`**, to be added via the _Source Files_ filter icon. The first file is being used by the precompiled header, and the second one is the YAGL++ implementation source. Both files will always remain unchanged and rarely compiled. Create them the same way as **`main.cpp`**, open in the editor and type or copy-paste the following code:
+Finally there are two more files, **`stdafx.cpp`** and **`stdimp.cpp`**, to be added via the _Source Files_ filter icon. The first file is being used by the precompiled header, and the second one is the YAGL++ implementation source. Both files will always remain unchanged and rarely compiled. Create them the same way as **`main.cpp`**, open in the editor and type or copy-paste the following code:
 ```
 // stdafx.cpp
 #include "stdafx.h"
 ```
 ```
-// yaglpp.cpp
+// stdimp.cpp
 #define YAGLPP_IMPLEMENTATION
 #include "config.h"
 #include <yaglpp/glpp.h>
@@ -105,6 +105,9 @@ The default main switches could be copied from [glpp.h](../include/glpp.h) file,
 /*Custom config override*/
 #define YAGLPP_CONFIG
 
+/*Include Assimp library headers, comment to exclude Assimp*/
+#define YAGLPP_ASSIMP
+
 /*Define <CocoaChdirResources> pre-initialize GLFW hint*/
 #define YAGLPP_COCOA_CHDIR_RESOURCES
 
@@ -117,8 +120,14 @@ The default main switches could be copied from [glpp.h](../include/glpp.h) file,
 /*Include the class properties along with existing getters and setters*/
 #define YAGLPP_CLASS_PROPERTIES
 
+/*Include GLFW library headers, comment to exclude GLFW*/
+#define YAGLPP_GLFW
+
 /*Include all GLM library headers, slightly affects the compilation time*/
 #define YAGLPP_GLM_HEADERS
+
+/*Override the global new and delete operators, using the library allocator*/
+#define YAGLPP_GLOBAL_ALLOCATOR
 
 /*Do not include main entry point into YAGL++ library*/
 #define YAGLPP_NO_AFX_LAYOUT
@@ -126,17 +135,14 @@ The default main switches could be copied from [glpp.h](../include/glpp.h) file,
 /*Compile with the most recent GLFW nonlegacy library*/
 #define YAGLPP_NO_GLFW_LEGACY
 
+/*Non-strict OpenGL loading of the higher context version supported by hardware*/
+#define YAGLPP_COMPATIBLE_CONTEXT
+
 /*Define the minimum supported OpenGL context major version value, do not comment*/
 #define YAGLPP_CONTEXT_VERSION_MAJOR 3
 
 /*Define the minimum supported OpenGL context minor version value, do not comment*/
 #define YAGLPP_CONTEXT_VERSION_MINOR 3
-
-/*Define Assimp library file name, comment to exclude Assimp*/
-#define YAGLPP_ASSIMP "assimp-vc142-mt.lib"
-
-/*Define GLFW library file name, comment to exclude GLFW*/
-#define YAGLPP_GLFW "glfw3.lib"
 ```
 
 The last file to be added via the _Header Files_ filter icon is **`stdafx.h`**, the project precompiled header. Create it the same way as **`config.h`**, open in the editor and type or copy-paste the following code:
@@ -154,11 +160,11 @@ The last file to be added via the _Header Files_ filter icon is **`stdafx.h`**, 
 ```
 
 ### 5. Set the application project properties
-Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
+The application project may be used in one of the four (4) platform configurations. The _Debug x64_ and _Debug Win32_ applications work with the output console window, where as the _Release x64_ and _Release Win32_ applications have no console window. The Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the _Release_ version of external libraries is being used, where as the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol). Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
-![10-project-properties-1](10-project-properties-1a.png)
+![10-project-properties-1](10-project-properties-1b.png)
 
-The application project may be used in one of the four (4) platform configurations. The Debug x64 or Win32 application work with the output console window, where as the Release x64 or Win32 application has no console. First, let's set the four common properties for all configurations (a). Next, set two linker option for all Debug and all Release configurations (b, c). Finally, set library path propriety for all x64 and all Win32 configurations (d, e).
+First, let's set the four (4) common properties for all configurations (a). Next, two (2) linker option for all _Debug_ and all _Release_ configurations (b, c). Finally, one (1) library path propriety for all _x64_ and all _Win32_ configurations (d, e).
 
 > [!IMPORTANT]
 > In the following subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
@@ -197,8 +203,6 @@ The application project may be used in one of the four (4) platform configuratio
 ![10-project-properties-6](10-project-properties-6b.png)
 
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
-
-Among the properties, the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the _Release_ version of external libraries is being used.
 
 ### 6. Setup the precompiled header
 The [Precompiled header files](https://learn.microsoft.com/en-us/cpp/build/creating-precompiled-header-files?view=msvc-170) feature allows the faster compilation, which is critical for large projects. The modern IDEs are using **`pch.h`** as precompiled header name. In fact, it is possible to use any name, as long as it is set in the project properties. In the present setup the default name **`stdafx.h`** is left unchanged.
