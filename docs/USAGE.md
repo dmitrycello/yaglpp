@@ -163,42 +163,42 @@ The application project may be used in one of the four (4) platform configuratio
 #### a. Set four proprieties for all platform configurations
 First, let's set the four common properties for all configurations. In the _Project1_ Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurations`** and **`All Platforms`**:
 
+![10-project-properties-2](10-project-properties-2b.png)
+
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
-![10-project-properties-2](10-project-properties-2b.png)
-
 #### b. Set two linker proprieties for all Debug platform configurations
 Next, set **`Configuration`** to **`Debug`** and keep **`Platform`** as **`All Platforms`**:
+
+![10-project-properties-3](10-project-properties-3b.png)
 
 - Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
 - Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
 
-![10-project-properties-3](10-project-properties-3b.png)
-
 #### c. Set two linker proprieties for all Release platform configurations
 Then, set **`Configuration`** to **`Release`** and keep **`Platform`** as **`All Platforms`**:
+
+![10-project-properties-4](10-project-properties-4b.png)
 
 - Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
 - Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
 
-![10-project-properties-4](10-project-properties-4b.png)
-
 #### d. Set library path propriety for all x64 platform configurations
 Finally, set **`Configuration`** to **`All Configurations`** and **`Platform`** to **`x64`**:
 
-- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
-
 ![10-project-properties-5](10-project-properties-5b.png)
+
+- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
 
 #### e. Set library path propriety for all Win32 platform configurations
 Then keep **`Configuration`** as **`All Configurations`** and set **`Platform`** to **`Win32`**:
 
-- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
-
 ![10-project-properties-6](10-project-properties-6b.png)
+
+- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
 
 Among the properties, the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the _Release_ version of external libraries is being used.
 
