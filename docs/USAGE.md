@@ -269,7 +269,7 @@ To overload window events, use the new window class derived from **`glfw::Window
 ```
 // main.cpp
 #include "stdafx.h"
-class GLWindow : public glfw::Window
+class MyWindow : public glfw::Window
 {
 	using Window::Window;                         // Base constructors
 	void OnFramebufferSize(int width, int height) // Framebuffer size callback
@@ -280,7 +280,7 @@ class GLWindow : public glfw::Window
 
 int main(int argc, char** argv)
 {
-	GLWindow window(800, 600, "Overloaded Event Application");
+	MyWindow window(800, 600, "Overloaded Event Application");
 	//...
 ```
 Finally, here is the example of the library usage in _AFX-alike layout_. In order to use it, comment the **`GLPP_NO_AFX_LAYOUT`** switch in the configuration file prior to build the project. The global application variable is defined as an anonymous class derived from **`glfw::Thread`**:
