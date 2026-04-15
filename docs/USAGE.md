@@ -160,6 +160,9 @@ Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 The application project may be used in one of the four (4) platform configurations. The Debug x64 or Win32 application work with the output console window, where as the Release x64 or Win32 application has no console. First, let's set the four common properties for all configurations (a). Next, set two linker option for all Debug and all Release configurations (b, c). Finally, set library path propriety for all x64 and all Win32 configurations (d, e).
 
+> [!IMPORTANT]
+> In the above subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
+
 #### a. Set four proprieties for all platform configurations
 
 ![10-project-properties-2](10-project-properties-2b.png)
@@ -196,9 +199,6 @@ The application project may be used in one of the four (4) platform configuratio
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
 
 Among the properties, the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the _Release_ version of external libraries is being used.
-
-> [!IMPORTANT]
-> In the above subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 ### 6. Setup the precompiled header
 The [Precompiled header files](https://learn.microsoft.com/en-us/cpp/build/creating-precompiled-header-files?view=msvc-170) feature allows the faster compilation, which is critical for large projects. The modern IDEs are using **`pch.h`** as precompiled header name. In fact, it is possible to use any name, as long as it is set in the project properties. In the present setup the default name **`stdafx.h`** is left unchanged.
