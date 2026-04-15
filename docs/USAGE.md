@@ -5,10 +5,11 @@
 - [3. Add source files to the application project](USAGE.md#3-add-source-files-to-the-application-project)
 - [4. Add header files to the application project](USAGE.md#4-add-header-files-to-the-application-project)
 - [5. Set the application project properties](USAGE.md#5-set-the-application-project-properties)
-	- [Debug x64 (EXE) configuration properties](USAGE.md#debug-x64-exe-configuration-properties)
-	- [Release x64 (EXE) configuration properties](USAGE.md#release-x64-exe-configuration-properties)
-	- [Debug Win32 (EXE) configuration properties](USAGE.md#debug-win32-exe-configuration-properties)
-	- [Release Win32 (EXE) configuration properties](USAGE.md#release-win32-exe-configuration-properties)
+	- [Set four proprieties for all platform configurations](USAGE.md#set-four-proprieties-for-all-platform-configurations)
+	- [Set two linker proprieties for all Debug platform configurations](USAGE.md#set-two-linker-proprieties-for-all-debug-platform-configurations)
+	- [Set two linker proprieties for all Release platform configurations](USAGE.md#set-two-linker-proprieties-for-all-release-platform-configurations)
+	- [Set one library propriety for all x64 platform configurations](USAGE.md#set-one-library-propriety-for-all-x64-platform-configurations)
+	- [Set one library propriety for all Win32 platform configurations](USAGE.md#set-one-library-propriety-for-all-Win32-platform-configurations)
 - [6. Setup precompiled headers](USAGE.md#6-setup-the-precompiled-header)
 - [7. Type the code](USAGE.md#7-type-the-code)
 - [8. Create YAGL++ project template](USAGE.md#8-create-yagl-project-template)
@@ -157,68 +158,58 @@ Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![10-project-properties-1](10-project-properties-1a.png)
 
-In the _Project1_ Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`Debug`** and **`x64`**. It is going to be the first platform configuration to set up:
+The application project may be used in one of the four (4) platform configurations. The Debug x64 or Win32 application work with the output console window, where as the Release x64 or Win32 application has no console. First, let's set the four common properties for all configurations. In the _Project1_ Property Pages window set **`Configuration`** and **`Platform`** drop-down menus to **`All Configurations`** and **`All Platforms`**:
 
 ![10-project-properties-2](10-project-properties-2a.png)
 
-The application project may be used in one of the four (4) platform configurations. It is necessary to set the eight (8) project properties under each configuration. Among the other properties, the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the _Release_ version of external libraries is being used. To set up a property, select it, press the rightmost drop-down control, and hit **`<Edit...>`**:
+#### Set four proprieties for all platform configurations
+- VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
+- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
+- Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
-![10-project-properties-3](10-project-properties-3a.png)
+Next, set **`Configuration`** to **`Debug`** and keep **`Platform`** as **`All Platforms`**:
 
-In the appeared window, type the string value into the first field, check how it expands in the second field, make sure to keep the **`Inherit from parent or project defaults`** flag set, then hit **`OK`**. Note that some property editor windows may look differently:
+![10-project-properties-2](10-project-properties-2a.png)
 
-![10-project-properties-4](10-project-properties-4.png)
+#### Set two linker proprieties for all Debug platform configurations
+- Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
+- Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
+
+Then, set **`Configuration`** to **`Release`** and keep **`Platform`** as **`All Platforms`**:
+
+![10-project-properties-2](10-project-properties-2a.png)
+
+#### Set two linker proprieties for all Release platform configurations
+- Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
+- Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
+
+Finally, set **`Configuration`** to **`All Configurations`** and **`Platform`** to **`x64`**:
+
+![10-project-properties-2](10-project-properties-2a.png)
+
+#### Set one library propriety for all x64 platform configurations
+- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
+
+Then keep **`Configuration`** as **`All Configurations`** and set **`Platform`** to **`Win32`**:
+
+![10-project-properties-2](10-project-properties-2a.png)
+
+#### Set one library propriety for all Win32 platform configurations
+- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
+
+Among the properties, the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the _Release_ version of external libraries is being used.
 
 > [!IMPORTANT]
-> In the next four subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window, as explained in the above section. Make sure to hit the **`Apply`** button after setting up each platform configuration.
-
-#### Debug x64 (EXE) configuration properties
-- Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\;```
-- VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
-- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
-- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
-- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
-- Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
-- Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
-- Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
-
-#### Release x64 (EXE) configuration properties
-- Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\;```
-- VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
-- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
-- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
-- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
-- Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
-- Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
-- Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
-
-#### Debug Win32 (EXE) configuration properties
-- Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\Win32\;```
-- VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
-- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
-- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
-- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
-- Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
-- Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
-- Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
-
-#### Release Win32 (EXE) configuration properties
-- Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\Win32\;```
-- VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
-- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
-- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
-- C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
-- Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
-- Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
-- Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
+> In the above subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
 ### 6. Setup the precompiled header
 The [Precompiled header files](https://learn.microsoft.com/en-us/cpp/build/creating-precompiled-header-files?view=msvc-170) feature allows the faster compilation, which is critical for large projects. The modern IDEs are using **`pch.h`** as precompiled header name. In fact, it is possible to use any name, as long as it is set in the project properties. In the present setup the default name **`stdafx.h`** is left unchanged.
 
 In the previous step, the precompiled header project options was set. And from now on, the every new source file added to the project will automatically use the precompiled header. It is only required to include the **`stdafx.h`** file at the beginning. Lastly, there are three (3) particular files to be adjusted individually:
-- **`glad.c`** - it does not need any includes, and should not use precompiled header;
-- **`yaglpp.cpp`** - it is built with the YAGL++ implementation flag, and should not use precompiled header;
-- **`stdafx.cpp`** - it is used by the precompiled header, and should be set to create the precompiled header.
+- **`glad.c`** - does not need any includes, and should not use precompiled header;
+- **`stdimp.cpp`** - is built with the YAGL++ implementation flag, and should not use precompiled header;
+- **`stdafx.cpp`** - is used by the precompiled header, and should be set to create the precompiled header.
 
 Under the project's _Source Files_ filter icon, right-click the **`glad.c`** file, and press **`Proprties (Alt+Enter)`**:
 
