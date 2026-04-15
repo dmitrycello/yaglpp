@@ -5,11 +5,11 @@
 - [3. Add source files to the application project](USAGE.md#3-add-source-files-to-the-application-project)
 - [4. Add header files to the application project](USAGE.md#4-add-header-files-to-the-application-project)
 - [5. Set the application project properties](USAGE.md#5-set-the-application-project-properties)
-	- [Set four proprieties for all platform configurations](USAGE.md#set-four-proprieties-for-all-platform-configurations)
-	- [Set two linker proprieties for all Debug platform configurations](USAGE.md#set-two-linker-proprieties-for-all-debug-platform-configurations)
-	- [Set two linker proprieties for all Release platform configurations](USAGE.md#set-two-linker-proprieties-for-all-release-platform-configurations)
-	- [Set one library propriety for all x64 platform configurations](USAGE.md#set-one-library-propriety-for-all-x64-platform-configurations)
-	- [Set one library propriety for all Win32 platform configurations](USAGE.md#set-one-library-propriety-for-all-Win32-platform-configurations)
+	- [a. Set four proprieties for all platform configurations](USAGE.md#a-set-four-proprieties-for-all-platform-configurations)
+	- [b. Set two linker proprieties for all Debug platform configurations](USAGE.md#b-set-two-linker-proprieties-for-all-debug-platform-configurations)
+	- [c. Set two linker proprieties for all Release platform configurations](USAGE.md#c-set-two-linker-proprieties-for-all-release-platform-configurations)
+	- [d. Set one library propriety for all x64 platform configurations](USAGE.md#d-set-one-library-propriety-for-all-x64-platform-configurations)
+	- [e. Set one library propriety for all Win32 platform configurations](USAGE.md#e-set-one-library-propriety-for-all-Win32-platform-configurations)
 - [6. Setup precompiled headers](USAGE.md#6-setup-the-precompiled-header)
 - [7. Type the code](USAGE.md#7-type-the-code)
 - [8. Create YAGL++ project template](USAGE.md#8-create-yagl-project-template)
@@ -162,7 +162,7 @@ The application project may be used in one of the four (4) platform configuratio
 
 ![10-project-properties-2](10-project-properties-2a.png)
 
-#### Set four proprieties for all platform configurations
+#### a. Set four proprieties for all platform configurations
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
@@ -172,7 +172,7 @@ Next, set **`Configuration`** to **`Debug`** and keep **`Platform`** as **`All P
 
 ![10-project-properties-2](10-project-properties-2a.png)
 
-#### Set two linker proprieties for all Debug platform configurations
+#### b. Set two linker proprieties for all Debug platform configurations
 - Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
 - Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
 
@@ -180,7 +180,7 @@ Then, set **`Configuration`** to **`Release`** and keep **`Platform`** as **`All
 
 ![10-project-properties-2](10-project-properties-2a.png)
 
-#### Set two linker proprieties for all Release platform configurations
+#### c. Set two linker proprieties for all Release platform configurations
 - Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
 - Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
 
@@ -188,14 +188,14 @@ Finally, set **`Configuration`** to **`All Configurations`** and **`Platform`** 
 
 ![10-project-properties-2](10-project-properties-2a.png)
 
-#### Set one library propriety for all x64 platform configurations
+#### d. Set one library propriety for all x64 platform configurations
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
 
 Then keep **`Configuration`** as **`All Configurations`** and set **`Platform`** to **`Win32`**:
 
 ![10-project-properties-2](10-project-properties-2a.png)
 
-#### Set one library propriety for all Win32 platform configurations
+#### e. Set one library propriety for all Win32 platform configurations
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
 
 Among the properties, the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol), where as the Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the _Release_ version of external libraries is being used.
