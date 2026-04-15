@@ -243,7 +243,7 @@ int main(int argc, char** argv)
 ```
 Now the IntelliSense shows the description of every library member:
 
-![11-type-code-1](11-type-code-1b.png)
+![11-type-code-1](11-type-code-1c.png)
 
 Rebuild the project under the **`Debug x64`** platform configuration. It would be wise to build it under every platform configuration, to check if there were no errors in the setting. The output should look like this:
 ```
