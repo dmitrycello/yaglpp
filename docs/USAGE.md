@@ -5,7 +5,7 @@
 - [3. Add source files to the application project](USAGE.md#3-add-source-files-to-the-application-project)
 - [4. Add header files to the application project](USAGE.md#4-add-header-files-to-the-application-project)
 - [5. Set the application project properties](USAGE.md#5-set-the-application-project-properties)
-	- [a. Set four proprieties for all platform configurations](USAGE.md#a-set-four-proprieties-for-all-platform-configurations)
+	- [a. Set five proprieties for all platform configurations](USAGE.md#a-set-five-proprieties-for-all-platform-configurations)
 	- [b. Set two linker proprieties for all Debug platform configurations](USAGE.md#b-set-two-linker-proprieties-for-all-debug-platform-configurations)
 	- [c. Set two linker proprieties for all Release platform configurations](USAGE.md#c-set-two-linker-proprieties-for-all-release-platform-configurations)
 	- [d. Set two proprieties for all x64 platform configurations](USAGE.md#d-set-two-proprieties-for-all-x64-platform-configurations)
@@ -170,13 +170,14 @@ First, let's set the four (4) common properties for all configurations (a). Next
 > [!IMPORTANT]
 > In the following subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
-#### a. Set four proprieties for all platform configurations
+#### a. Set five proprieties for all platform configurations
 
 ![10-project-properties-2](10-project-properties-2b.png)
 
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
+- Linker &rarr; Input &rarr; Additional Dependencies:```opengl32.lib;glfw3.lib;assimp-vc142-mt```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
 #### b. Set two proprieties for all Debug platform configurations
