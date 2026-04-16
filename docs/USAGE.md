@@ -83,7 +83,6 @@ Finally there are two more files, **`stdafx.cpp`** and **`stdimp.cpp`**, to be a
 ```
 // stdimp.cpp
 #define YAGLPP_IMPLEMENTATION
-#include "config.h"
 #include <yaglpp/glpp.h>
 ```
 
