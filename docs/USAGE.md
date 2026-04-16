@@ -177,7 +177,7 @@ First, let's set the four (4) common properties for all configurations (a). Next
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
-- Linker &rarr; Input &rarr; Additional Dependencies:```opengl32.lib;glfw3.lib;assimp-vc142-mt```
+- Linker &rarr; Input &rarr; Additional Dependencies:```opengl32.lib;glfw3.lib;assimp-vc142-mt.lib```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
 #### b. Set two proprieties for all Debug platform configurations
