@@ -308,6 +308,8 @@ At this point, it would be wise to save all performed work by creating a Visual 
 ```
 // main.cpp
 #include "stdafx.h"
+#include "resource.h"
+
 int main(int argc, char** argv)
 {
 	return 0;
