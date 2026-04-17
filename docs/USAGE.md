@@ -185,7 +185,8 @@ First, let's set the four (4) common properties for all configurations (a). Next
 ![10-project-properties-3](10-project-properties-3b.png)
 
 - Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
-- Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:msvcrt.lib```
+- Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:libcmt.lib```
+  (for CRT linked as dll with /MD flag: ```/NODEFAULTLIB:msvcrt.lib```)
 
 #### c. Set two proprieties for all Release platform configurations
 
