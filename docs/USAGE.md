@@ -188,7 +188,7 @@ First, let's set the four (4) common properties for all configurations (a). Next
 - Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:libcmt.lib```
 
 > [!NOTE]
-> When linking application with dll CRT using /MD flag, use ```/NODEFAULTLIB:msvcrt.lib``` option.
+> When building application with dynamically linked library CRT (/MD flag), use ```/NODEFAULTLIB:msvcrt.lib``` option.
 
 #### c. Set two proprieties for all Release platform configurations
 
