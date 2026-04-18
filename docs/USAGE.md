@@ -174,10 +174,10 @@ First, let's set the four (4) common properties for all configurations (a). Next
 
 ![10-project-properties-2](10-project-properties-2b.png)
 
-- VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;```
+- VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;$(IncludePath)```
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
-- Linker &rarr; Input &rarr; Additional Dependencies:```opengl32.lib;glfw3.lib;assimp-vc142-mt.lib```
+- Linker &rarr; Input &rarr; Additional Dependencies:```opengl32.lib;glfw3.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
 #### b. Set two proprieties for all Debug platform configurations
@@ -202,14 +202,14 @@ First, let's set the four (4) common properties for all configurations (a). Next
 ![10-project-properties-5](10-project-properties-5b.png)
 
 - Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\;```
-- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;```
+- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;$(LibraryPath)```
 
 #### e. Set two proprieties for all Win32 platform configurations
 
 ![10-project-properties-6](10-project-properties-6b.png)
 
 - Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\Win32\;```
-- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;```
+- VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;$(LibraryPath)```
 
 ### 6. Setup the precompiled header
 The [Precompiled header files](https://learn.microsoft.com/en-us/cpp/build/creating-precompiled-header-files?view=msvc-170) feature allows the faster compilation, which is critical for large projects. The modern IDEs are using **`pch.h`** as precompiled header name. In fact, it is possible to use any name, as long as it is set in the project properties. In the present setup the default name **`stdafx.h`** is left unchanged.
