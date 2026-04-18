@@ -212,7 +212,7 @@ First, let's set the four (4) common properties for all configurations (a). Next
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\Win32\;$(LibraryPath);```
 
 ### 6. Setup the precompiled header
-The [Precompiled header files](https://learn.microsoft.com/en-us/cpp/build/creating-precompiled-header-files?view=msvc-170) feature allows the faster compilation, which is critical for large projects. The modern IDEs are using **`pch.h`** as precompiled header name. In fact, it is possible to use any name, as long as it is set in the project properties. In the present setup the default name **`stdafx.h`** is left unchanged.
+The [Precompiled header files](https://learn.microsoft.com/en-us/cpp/build/creating-precompiled-header-files?view=msvc-170) feature allows the faster compilation, which is critical for large projects. The modern IDEs are using **`pch.h`** as precompiled header name. In fact, it is possible to use any name, as long as it is set in the project properties. In the present setup the default **`stdafx.h`** file name is left unchanged.
 
 In the previous steps, the precompiled header project options was set. And from now on, all existing source files and every new one added to the project will use the precompiled header by default. It is only required to include the **`stdafx.h`** at the beginning of the file. Lastly, there are three (3) particular files to be manually adjusted:
 - **`glad.c`** - does not need any includes, and should not use precompiled header;
