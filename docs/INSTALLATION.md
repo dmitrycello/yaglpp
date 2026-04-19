@@ -101,11 +101,16 @@ pause >nul
 Running that file from its directory will create _build32_ and _build64_ subfolders with Visual Studio solutions to build the Win32 and x64 GLFW libraries. When the console shows **`Done. Press any key to exit...`**, close it and proceed to next step.
 
 ### 6. Build the GLFW library
-The GLFW project files for _x64_ and _Win32_ platforms are now in **`build`** and **`build32`** folders. To start the build, navigate to **`build`** folder, and double-click the **`GLFW.sln`** solution file:
+The GLFW project files for _x64_ and _Win32_ platforms are now in **`build64`** and **`build32`** folders. To start the build, navigate first to **`build64`** folder, and double-click the **`GLFW.sln`** solution file:
 
 ![05-glfw-build-1](05-glfw-build-1.png)
 
-In the opened IDE, select _Release x64_ configuration. In the _Solution Explorer_, right-click the Solution bar, then click the **`Rebuild Solution`** command:
+In the opened IDE, make sure _Debug x64_ configuration is set. Then right-click the _glfw_ project and select _Properties_: 
+
+
+
+
+In the _Solution Explorer_, right-click the Solution bar, then click the **`Rebuild Solution`** command:
 
 ![05-glfw-build-2](05-glfw-build-2b.png)
 
