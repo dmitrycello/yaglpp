@@ -30,7 +30,7 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 > [!TIP]
 > For the quick testing, all the following steps of the installation may be skipped, while using the Google Drive [Common.7z](https://drive.google.com/file/d/1-Pu9Yx7ddXe1IBFABiKkT3jX-GcCxiwx/view?usp=drive_link) archive (46.9mb). In this case, download it and extract into **`Common`** folder within the newly created solution directory. However, it is still recommended to populate the folder by following all steps, at least for the first time, not just to feel the process, but to understand how it works. This is also the way the most programmers do, to ensure that each component fits to computer's environment and is up to date.
 
-- [GLAD](https://glad.dav1d.de) archive generated with _Specification_ set to **`OpenGL`**. _Profile_ set to **`Core`**, _API gl_ set to **`Version 4.6`**. Keep _API gles1, gles2, glsc2_ as **`None`**. Do not select any extension;
+- [GLAD](https://glad.dav1d.de) archive generated with _Specification_ set to **`OpenGL`**, _Profile_ set to **`Core`**, _API gl_ set to **`Version 4.6`**. Keep _API gles1, gles2, glsc2_ as **`None`**. Do not select any extension;
 - [GLFW](https://www.glfw.org/download) Source package archive v3.4 or later. Older versions could be found [here](https://github.com/glfw/glfw/releases);
 - [GLM](https://github.com/g-truc/glm/releases) pack v1.0.1 or later;
 - [Assimp](https://github.com/assimp/assimp/releases) release v5.4.3 or later;
