@@ -98,30 +98,7 @@ echo.
 echo Done. Press any key to exit...
 pause >nul
 ```
-Running that file from its directory will create _build32_ and _build64_ subfolders with Visual Studio solutions to build the Win32 and x64 GLFW libraries. When the console shows **`Done. Press any key to exit...`**, press any key and proceed to next step.
-
-
-Hit **`Browse Source...`** and navigate to the directory with the extracted source package, select the **`glfw-3.4`** package folder. Create an empty **`build`** folder anywhere on the hard drive. Hit **`Browse Build...`**, navigate to and select the created **`build`** folder to set the destination for library files. Then hit **`Configure`**:
-
-![04-glfw-1](04-glfw-1.png)
-
-Choose the appropriate IDE, and select the **`x64`** platform. Then hit **`Finish`**:
-
-![04-glfw-2](04-glfw-2.png)
-
-Ignore the red background, and click again **`Configure`** to let errors dissipate. Then hit **`Generate`**:
-
-![04-glfw-3](04-glfw-3.png)
-
-Make sure that the generating is done, do not close the window yet:
-
-![04-glfw-4](04-glfw-4.png)
-
-Now repeat these steps for Win32 platform. Create another empty **`build32`** folder anywhere on the hard drive, once again hit **`Browse Build...`**, navigate to and select the created **`build32`** folder, hit **`Configure`**, keep the same IDE, but select the **`Win32`** platform instead. Then click **`Finish`**:
-
-![04-glfw-5](04-glfw-5.png)
-
-As before, don't mind the red background, once again hit **`Configure`** and **`Generate`**. Make sure that the generating is done, and at this point close the window:
+Running that file from its directory will create _build32_ and _build64_ subfolders with Visual Studio solutions to build the Win32 and x64 GLFW libraries. When the console shows **`Done. Press any key to exit...`**, close it and proceed to next step.
 
 ### 6. Build the GLFW library
 The GLFW project files for _x64_ and _Win32_ platforms are now in **`build`** and **`build32`** folders. To start the build, navigate to **`build`** folder, and double-click the **`GLFW.sln`** solution file:
