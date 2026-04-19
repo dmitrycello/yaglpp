@@ -87,7 +87,7 @@ After installation is complete, hit **`Finish`** to exit the wizard:
 ### 5. Build GLFW project files
 To build the project with the static runtime libaries, it is mandatory to create the library _.lib_ file for each project configuration. The GLFW source package can be extracted anywhere on the hard drive. In order to save disk space, the offered installation will optionally strip off the PDB files under Debug mode. However, it is possible to keep them, and preserve the ability to Debug the library at the expense of the space on the hard drive. The YAGL++ respects four (4) platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. Before building from the GLFW Source package, it is necessary to generate its project files with CMake.
 
-The static runtime project is tricky to set up. In order to go through it without disappointing errors, it is advised to use command line solutions, instead of CMake GUI. To do so, create the _CMakeGLFW.bat_ file within the extracted root directory (along with the _CMakeLists.txt_ file) with the following content:
+The static runtime project is tricky to set up. In order to avoid the disappointing errors, it is advised to use command line solutions, instead of CMake GUI. To do so, create the _CMakeGLFW.bat_ file within the extracted root directory (along with the _CMakeLists.txt_ file), and copy-paste into it the following content:
 ```
 @echo off
 rem CMakeGLFW.bat
@@ -101,7 +101,7 @@ echo.
 echo Done. Press any key to exit...
 pause >nul
 ```
-Runnimg that file from that directory will create two subfolder with Visual Studio solutions to build the GLFW library.
+Running that file from its directory will create two subfolders with Visual Studio solutions to build the GLFW library.
 
 
 Hit **`Browse Source...`** and navigate to the directory with the extracted source package, select the **`glfw-3.4`** package folder. Create an empty **`build`** folder anywhere on the hard drive. Hit **`Browse Build...`**, navigate to and select the created **`build`** folder to set the destination for library files. Then hit **`Configure`**:
