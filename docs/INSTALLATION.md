@@ -55,7 +55,6 @@ Common/include/KHR/    <- KHR header file (khrplatform.h) from GLAD archive
 Common/include/stb/    <- Three (3) header files from stb_image library
 Common/include/yaglpp/ <- YAGL++ header files from repository include folder
 ```
-
 > [!NOTE]
 > The library works with OpenGL versions 2.0 to 3.3. However, it is still possible to set the context version up to 4.6 using the **`GLPP_CONTEXT_VERSION_MAJOR`** and **`GLPP_CONTEXT_VERSION_MINOR`** main switches. For the time being, the library only includes the assets up to the OpenGL 3.3 (Core Profile) standard. On the contrary, if the graphic card does not support the default version (3.3), it is possible to try an earlier one. Note that prior to version 3.2 the _OpenGL Core Profile_ is unavailable, and the _Any Profile_ (default) or _Compat Profile_ will be used instead.
 
@@ -101,7 +100,7 @@ echo.
 echo Done. Press any key to exit...
 pause >nul
 ```
-Running that file from its directory will create two subfolders with Visual Studio solutions to build the GLFW library.
+Running that file from its directory will create _build32_ and _build64_ subfolders with Visual Studio solutions to build the Win32 and x64 GLFW libraries. When the console shows **`Done. Press any key to exit...`**, press any key and proceed to next step.
 
 
 Hit **`Browse Source...`** and navigate to the directory with the extracted source package, select the **`glfw-3.4`** package folder. Create an empty **`build`** folder anywhere on the hard drive. Hit **`Browse Build...`**, navigate to and select the created **`build`** folder to set the destination for library files. Then hit **`Configure`**:
