@@ -4,7 +4,7 @@
 - [2. Download the OpenGL components](INSTALLATION.md#2-download-the-opengl-components)
 - [3. Prepare the components's folder](INSTALLATION.md#3-prepare-the-componentss-folder)
 - [4. Install CMake](INSTALLATION.md#4-install-cmake)
-- [5. Generate GLFW project files](INSTALLATION.md#5-generate-glfw-project-files)
+- [5. Build GLFW project files](INSTALLATION.md#5-build-glfw-project-files)
 - [6. Build the GLFW library](INSTALLATION.md#6-build-the-glfw-library)
 - [7. Build the Assimp library](INSTALLATION.md#7-build-the-assimp-library)
 
@@ -84,8 +84,25 @@ After installation is complete, hit **`Finish`** to exit the wizard:
 
 ![03-cmake-6](03-cmake-6.png)
 
-### 5. Generate GLFW project files
-The GLFW source package has to be extracted anywhere on the hard drive. In order to save disk space, the offered installation is using only _Release_ version of its dependencies, this requires to set the _/NODEFAULTLIB_ linker option in Debug mode, to remove the [Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170). The YAGL++ respects four (4) platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. So, the GLFW library should be built only for two of them. Before building from the GLFW Source package, it is necessary to generate its project files with CMake, so let's lunch it first.
+### 5. Build GLFW project files
+To build the project with the static runtime libaries, it is mandatory to create the library _.lib_ file for each project configuration. The GLFW source package can be extracted anywhere on the hard drive. In order to save disk space, the offered installation will optionally strip off the PDB files under Debug mode. However, it is possible to keep them, and preserve the ability to Debug the library at the expense of the space on the hard drive. The YAGL++ respects four (4) platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. Before building from the GLFW Source package, it is necessary to generate its project files with CMake.
+
+The static runtime project is tricky to set up. In order to go through it without disappointing errors, it is advised to use command line solutions, instead of CMake GUI. To do so, create the _CMakeGLFW.bat_ file within the extracted root directory (along with the _CMakeLists.txt_ file) with the following content:
+```
+@echo off
+rem CMakeGLFW.bat
+rem =============
+
+mkdir build32
+cmake -A Win32 -DUSE_MSVC_RUNTIME_LIBRARY_DLL=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -DCMAKE_DEBUG_POSTFIX=d -S . -B build32
+mkdir build64
+cmake -A x64 -DUSE_MSVC_RUNTIME_LIBRARY_DLL=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -DCMAKE_DEBUG_POSTFIX=d -S . -B build64
+echo.
+echo Done. Press any key to exit...
+pause >nul
+```
+Runnimg that file from that directory will create two subfolder with Visual Studio solutions to build the GLFW library.
+
 
 Hit **`Browse Source...`** and navigate to the directory with the extracted source package, select the **`glfw-3.4`** package folder. Create an empty **`build`** folder anywhere on the hard drive. Hit **`Browse Build...`**, navigate to and select the created **`build`** folder to set the destination for library files. Then hit **`Configure`**:
 
