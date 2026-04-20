@@ -160,7 +160,7 @@ echo.
 echo Done. Press any key to exit...
 pause >nul
 ```
-The projects to set the PDB file generation off, are _zlibstatic_ and _assimp_ within the **`zlib`** and **`assimp`** solutions. After all builds are completed, follow these steps:
+To set the PDB file generation off, use the _zlibstatic_ and _assimp_ projects within the **`zlib`** and **`assimp`** solutions. After all builds are completed, follow these steps:
 
 - Copy the entire **`glfw-3.4/include/GLFW`** subfolder from the source package into **`Common/include`** subfolder.
 - Copy the entire **`assimp-5.4.3/include/assimp`** subfolder from the source package into **`Common/include`** subfolder.
