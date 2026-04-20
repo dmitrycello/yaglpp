@@ -105,7 +105,7 @@ To start the build, navigate first to **`build64`** folder, and double-click the
 
 ![05-glfw-build-1](05-glfw-build-1a.png)
 
-In the opened IDE, make sure _Debug x64_ configuration is set. Then right-click the _glfw_ project and select _Properties_: 
+In the opened IDE right-click the _glfw_ project and select _Properties_: 
 
 ![05-glfw-build-2](05-glfw-build-2c.png)
 
@@ -113,7 +113,7 @@ Make sure the _Debug_ configuration is set, under ```C/C++ &rarr; General``` cli
 
 ![05-glfw-build-3](05-glfw-build-3.png)
 
-This prevents PDB files generation under _Debug_ configuration, and thus saves space. In the _Solution Explorer_, right-click the Solution bar, then click the **`Rebuild Solution`** command:
+This prevents PDB files generation under _Debug_ configuration, and thus saves space. In the _Solution Explorer_, make sure the _Debug_ configuration is set, right-click the Solution bar, then click the **`Rebuild Solution`** command:
 
 ![05-glfw-build-4](05-glfw-build-4.png)
 
@@ -127,7 +127,7 @@ Rebuild started...
 37>Project not selected to build for this solution configuration 
 ========== Rebuild All: 34 succeeded, 0 failed, 3 skipped ==========
 ```
-Now select _Release_ configuration, build GLFW again under this configuration, wait until the build is complete, and close the IDE. Repeat all these steps for Win32 platform configuration using files in **`build32`** folder.
+Now change the configuration to _Release_, run the build of GLFW again under that configuration, wait until the process is complete, and close the IDE. Repeat all these steps for Win32 platform configuration using files in **`build32`** folder.
 
 > [!NOTE]
 > Pressing the **`Build Solution (Ctrl+Shift+B)`** command should do the same, but the **`Rebuild Solution`** ensures to process the every source file from scratch.
