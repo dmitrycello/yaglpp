@@ -14,7 +14,7 @@ The installation of YAGL++ library is basically a collection of the original Ope
 > Before the installation, make sure your graphics card supports OpenGL 3.3+. Download [GLview](https://www.realtech-vr.com/glview-download/), install it, and run the test. If OpenGL 3.3 in not supported, try to update the graphics card driver.
 
 ### 1. Create a new solution
-It is possible to create a large number of projects under the same solution, so the future reinstallation of the library is not required. To create the solution for the YAGL++ projects, under the Visual Studio click **File &rarr;** **New** &rarr; **Project... (Ctrl+Shift+N)**:
+It is possible to create a large number of projects under the same solution, so the future reinstallation of the library is not required. To create the solution for the YAGL++ projects, under the Visual Studio click **File &rarr; New &rarr; Project... (Ctrl+Shift+N)**:
 
 ![01-new-solution-1](01-new-solution-1.png)
 
