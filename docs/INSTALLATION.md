@@ -165,7 +165,10 @@ To set the PDB file generation off, use the _zlibstatic_ and _assimp_ projects w
 - Copy the entire **`glfw-3.4/include/GLFW`** subfolder from the source package into **`Common/include`** subfolder.
 - Copy the entire **`assimp-5.4.3/include/assimp`** subfolder from the source package into **`Common/include`** subfolder.
 - Copy the two (2) configuration header files from the **`build64/include/assimp`** subfolder into the **`Common/include`** subfolder. These files were generated during the build, they are identical in every build folder;
-- Copy all resulting **`*.lib`** files (12) from every **`build64`** folder into **`Common/lib`** subfolder, and from every  **`build32`** folder into **`Common/lib/Win32`** subfolder, for _x64_ and _Win32_ configurations respectively. The resulting files are located in **`glfw-3.4/build<64|32>/src/<Debug|Release>`**, in **`zlib-1.3.2/build<64|32>/<Debug|Release>`**, in **`build<64|32>/<Debug|Release>`**, and in **`assimp-6.0.4/build<64|32>/lib/<Debug|Release>`** subfolders;
+- Copy all resulting **`*.lib`** files (12) from every **`build64`** folder into **`Common/lib`** subfolder, and from every  **`build32`** folder into **`Common/lib/Win32`** subfolder, for _x64_ and _Win32_ configurations respectively. The resulting files are in following package subfolders:
+	+ **`glfw-3.4/build<64|32>/src/<Debug|Release>`**;
+	+ **`zlib-1.3.2/build<64|32>/<Debug|Release>`**;
+	+ **`assimp-6.0.4/build<64|32>/lib/<Debug|Release>`**;
 - Permanently delete every source package folder.
 
 > [!TIP]
