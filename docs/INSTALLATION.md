@@ -6,7 +6,7 @@
 - [4. Install CMake](INSTALLATION.md#4-install-cmake)
 - [5. Build GLFW project files](INSTALLATION.md#5-build-glfw-project-files)
 - [6. Build the GLFW library](INSTALLATION.md#6-build-the-glfw-library)
-- [7. Build the Assimp library](INSTALLATION.md#7-build-the-assimp-library)
+- [7. Build the zLib and Assimp libraries](INSTALLATION.md#7-build-the-zlib-and-assimp-libraries)
 
 The installation of YAGL++ library is basically a collection of the original OpenGL API components. The offered setup allows to build an application with a static runtime libraries, which is the preferred way in the game developper world. This makes the application file slightly bigger, but in return improves the component loading speed along with the better compatibility. To be honest, this way is harder to achieve, since many components are using DLL runtime by default. It also takes significant space on the hard drive (around 700mb), but the the game is worth the candle. Anyways, it is always possible to revert to dynamic runtime scheme, and thus save the space. The path layout can be different, but it is strongly recommended to use the suggested way, at least for the first time. The setup supports _x64_ and _Win32_ platforms under Microsoft Visual Studio 2019 or later, producing the console application in Debug mode, and Windows application in Release mode.
 
@@ -67,9 +67,9 @@ Accept the License Agreement, and hit **`Next`**:
 
 ![03-cmake-2](03-cmake-2.png)
 
-Leave the default setting, and hit **`Next`**:
+Make sure the option **Add CMake to the system PATH for all users** is selected, and hit **`Next`**:
 
-![03-cmake-3](03-cmake-3.png)
+![03-cmake-3](03-cmake-3a.png)
 
 Leave the default destination folder, and hit **`Next`**:
 
@@ -84,7 +84,7 @@ After installation is complete, hit **`Finish`** to exit the wizard:
 ![03-cmake-6](03-cmake-6.png)
 
 ### 5. Build GLFW project files
-To build the project with the static runtime libaries, it is mandatory to create the library _.lib_ file for each project configuration. The GLFW source package can be extracted anywhere on the hard drive. In order to save disk space, the offered installation will optionally strip off the PDB files under Debug mode. However, it is possible to keep them, and preserve the ability to Debug the library at the expense of the space on the hard drive. The YAGL++ respects four (4) platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. Before building from the GLFW Source package, it is necessary to generate its project files with CMake. The static runtime project is tricky to set up. In order to avoid the disappointing errors, it is advised to use command line solutions, instead of CMake GUI. To do so, create the _CMakeGLFW.bat_ file within the extracted root directory (along with the _CMakeLists.txt_ file), and copy-paste into it the following content:
+To build the project with the static runtime libaries, it is mandatory to create the library _.lib_ file for each project configuration. The GLFW source package can be extracted anywhere on the hard drive. In order to save disk space, the offered installation will optionally strip off the PDB files under Debug mode. However, it is possible to keep them, and preserve the ability to Debug the library at the expense of the space on the hard drive. The YAGL++ respects four (4) platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. Before building from the GLFW Source package, it is necessary to generate its project files with CMake. The static runtime project is tricky to set up. In order to avoid the disappointing errors, it is advised to use command line script, instead of CMake GUI. To do so, create the _CMakeGLFW.bat_ file within the extracted root directory (along with the _CMakeLists.txt_ file), and copy-paste into it the following content:
 ```
 @echo off
 rem CMakeGLFW.bat
@@ -103,74 +103,72 @@ Running that file from its directory will create _build32_ and _build64_ subfold
 ### 6. Build the GLFW library
 The GLFW project files for _x64_ and _Win32_ platforms are now in **`build64`** and **`build32`** folders. To start the build, navigate first to **`build64`** folder, and double-click the **`GLFW.sln`** solution file:
 
-![05-glfw-build-1](05-glfw-build-1.png)
+![05-glfw-build-1](05-glfw-build-1a.png)
 
 In the opened IDE, make sure _Debug x64_ configuration is set. Then right-click the _glfw_ project and select _Properties_: 
 
+![05-glfw-build-2](05-glfw-build-2c.png)
 
+Make sure the _Debug_ configuration is set, under ```C/C++ &rarr; General``` click drop-down menu against **`Debug Information Format`** option, and select **`None`**. Hit **`Apply`** and close the window.
 
+![05-glfw-build-3](05-glfw-build-3.png)
 
-In the _Solution Explorer_, right-click the Solution bar, then click the **`Rebuild Solution`** command:
+This prevents PDB files generation under _Debug_ configuration, and thus saves space. In the _Solution Explorer_, right-click the Solution bar, then click the **`Rebuild Solution`** command:
 
-![05-glfw-build-2](05-glfw-build-2b.png)
+![05-glfw-build-4](05-glfw-build-4.png)
 
 The output should be as follows:
 ```
 Rebuild started...
-1>------ Rebuild All started: Project: ZERO_CHECK, Configuration: Release x64 ------
+1>------ Rebuild All started: Project: ZERO_CHECK, Configuration: Debug x64 ------
 1>1>Checking Build System
-2>------ Rebuild All started: Project: glfw, Configuration: Release x64 ------
-2>Building Custom Rule D:/Path_to_solution/OpenGL/Common/build/src/CMakeLists.txt
+2>------ Rebuild All started: Project: glfw, Configuration: Debug x64 ------
 ...
-2>glfw.vcxproj -> D:\Path_to_solution\OpenGL\Common\build\src\Debug\glfw3.lib
-========== Rebuild All: 2 succeeded, 0 failed, 0 skipped ==========
+37>Project not selected to build for this solution configuration 
+========== Rebuild All: 34 succeeded, 0 failed, 3 skipped ==========
 ```
-Close the IDE. Open the **`build`** folder, navigate to **`build/src/Release`** subfolder, copy the resulting **`glfw3.lib`** file into **`Common/lib`** subfolder.
+Now select _Release_ configuration, build GLFW again under this configuration, wait until the build is complete, and close the IDE. Repeat all these steps for Win32 platform configuration using files in **`build32`** folder.
 
 > [!NOTE]
 > Pressing the **`Build Solution (Ctrl+Shift+B)`** command should do the same, but the **`Rebuild Solution`** ensures to process the every source file from scratch.
 
-Next, repeat these steps for Win32 platform using files in **`build32`** folder. Make sure to select _Release x86_ configuration. Copy the resulting **`glfw3.lib`** file into **`Common/lib/Win32`** subfolder, and close the IDE. Now it is possible to permanently delete **`build`**, **`build32`**, and the whole extracted **`glfw-3.4`** source package folders.
+### 7. Build the zLib and Assimp libraries
+The process for the zLib and Assimp libraries is identical to the described above. Extract the source packages anywhere on the hard drive. Use the two following scripts for each library, placing them into **`zlib-1.3.2`** and **`assimp-6.0.4`** folders respectively:
+```
+@echo off
+rem CMakeZlib.bat
+rem =============
 
-### 7. Build the Assimp library
-The process for the Assimp library is identical to the described above. The Assimp source package has to be extracted anywhere on the hard drive. The project files have to be generated by CMake into **`build`** and **`build32`** folders for _x64_ and _Win32_ platforms. Then the library must be built from each folder using **`Assimp.sln`** solution file, under the _Release x64_ and _Release x86_ configurations accordingly. The Assimp library header files are generated in the process, they could be used only after the build is done. The process takes quite a while, please be patient! The output should be as follows:
+mkdir build32
+cmake -A Win32 -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded$<$<CONFIG:Debug>:Debug>" -DZLIB_BUILD_SHARED=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -S . -B build32
+mkdir build64
+cmake -A x64 -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded$<$<CONFIG:Debug>:Debug>" -DZLIB_BUILD_SHARED=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -S . -B build64
+echo.
+echo Done. Press any key to exit...
+pause >nul
 ```
-Rebuild started...
-1>------ Rebuild All started: Project: ZERO_CHECK, Configuration: Release x64 ------
-1>1>Checking Build System
-2>------ Rebuild All started: Project: zlibstatic, Configuration: Release x64 ------
-3>------ Skipped Rebuild All: Project: UpdateAssimpLibsDebugSymbolsAndDLLs, Configuration: Release x64 ------
-3>Project not selected to build for this solution configuration 
-4>------ Skipped Rebuild All: Project: uninstall, Configuration: Release x64 ------
-4>Project not selected to build for this solution configuration 
-2>Building Custom Rule D:/Path_to_solution/OpenGL/Common/assimp-5.4.3/contrib/zlib/CMakeLists.txt
-...
-2>zlibstatic.vcxproj -> D:\Path_to_solution\OpenGL\Common\build\contrib\zlib\Release\zlibstatic.lib
-5>------ Rebuild All started: Project: assimp, Configuration: Release x64 ------
-5>Building Custom Rule D:/Path_to_solution/OpenGL/Common/assimp-5.4.3/code/CMakeLists.txt
-...
-5>Creating library D:/Path_to_solution/OpenGL/Common/build/lib/Release/assimp-vc142-mt.lib and object D:/Path_to_solution/OpenGL/Common/build/lib/Release/assimp-vc142-mt.exp
-5>assimp.vcxproj -> D:\Path_to_solution\OpenGL\Common\build\bin\Release\assimp-vc142-mt.dll
-6>------ Rebuild All started: Project: unit, Configuration: Release x64 ------
-6>Building Custom Rule D:/Path_to_solution/OpenGL/Common/assimp-5.4.3/test/CMakeLists.txt
-...
-6>unit.vcxproj -> D:\Path_to_solution\OpenGL\Common\build\bin\Release\unit.exe
-7>------ Rebuild All started: Project: ALL_BUILD, Configuration: Release x64 ------
-7>Building Custom Rule D:/Path_to_solution/OpenGL/Common/assimp-5.4.3/CMakeLists.txt
-8>------ Skipped Rebuild All: Project: INSTALL, Configuration: Release x64 ------
-8>Project not selected to build for this solution configuration 
-========== Rebuild All: 5 succeeded, 0 failed, 3 skipped ==========
 ```
-After both builds are completed, follow the following steps: 
-- Copy the entire **`assimp-5.4.3/include/assimp`** subfolder from the source package into **`Common/include`** subfolder. These files was generated during the build;
-- Copy the two (2) configuration header files from the **`build/include/assimp`** subfolder into the **`Common/include/assimp`** subfolder. The header files are identical in both build folders;
-- Copy the two (2) resulting **`*.lib`** and **`*.exp`** files from the **`build/lib/Release`** subfolder into the **`Common/lib`** subfolder;
-- Copy the two (2) resulting **`*.lib`** and **`*.exp`** files from the **`build32/lib/Release`** subfolder into the **`Common/lib/Win32`** subfolder;
-- Copy the single resulting **`*.dll`** file from the **`build/bin/Release`** subfolder into the **`Common/bin`** subfolder;
-- Copy the single resulting **`*.dll`** file from the **`build32/bin/Release`** subfolder into the **`Common/bin/Win32`** subfolder;
-- Permanently delete **`build`**, **`build32`**, and the whole extracted **`assimp-5.4.3`** source package folders.
+@echo off
+rem CMakeAssimp.bat
+rem ===============
+
+mkdir build32
+cmake -A Win32 -DUSE_STATIC_CRT=ON -DASSIMP_INSTALL_PDB=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -DCMAKE_DEBUG_POSTFIX=d -S . -B build32
+mkdir build64
+cmake -A x64 -DUSE_STATIC_CRT=ON -DASSIMP_INSTALL_PDB=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -DCMAKE_DEBUG_POSTFIX=d -S . -B build64
+echo.
+echo Done. Press any key to exit...
+pause >nul
+```
+After all builds are completed, follow these steps:
+
+- Copy the entire **`glfw-3.4/include/GLFW`** subfolder from the source package into **`Common/include`** subfolder.
+- Copy the entire **`assimp-5.4.3/include/assimp`** subfolder from the source package into **`Common/include`** subfolder.
+- Copy the two (2) configuration header files from the **`build64/include/assimp`** subfolder into the **`Common/include`** subfolder. These files were generated during the build, they are identical in every build folder;
+- Copy all resulting **`*.lib`** files (12) from every **`build64`** folder into **`Common/lib`** subfolder, and from every  **`build32`** folder into **`Common/lib/Win32`** subfolder, for _x64_ and _Win32_ configurations respectively. The resulting files are located in **`glfw-3.4/build<64|32>/src/<Debug|Release>`**, in **`zlib-1.3.2/build<64|32>/<Debug|Release>`**, in **`build<64|32>/<Debug|Release>`**, and in **`assimp-6.0.4/build<64|32>/lib/<Debug|Release>`** subfolders;
+- Permanently delete every source package folder.
 
 > [!TIP]
-> If you are unsure about the path layout explained in this document, download the **`Common.7z`** archive from the [repository page](https://github.com/dmitrycello/glpp/tree/main), and check its directories.
+> If you are unsure about the path layout explained in this document, download the [Common.7z](https://drive.google.com/file/d/1-Pu9Yx7ddXe1IBFABiKkT3jX-GcCxiwx/view?usp=drive_link) archive, and check its directories. Keeping the PDB files option at its default setting allows to Debug through the library source, in this case the **`*.pdb`** files should be used along with their **`*.lib`** counterpart. This also requires to keep the source files in their location.
 
 [&uarr; TOP](INSTALLATION.md#installation) [USAGE &rarr;](USAGE.md)
