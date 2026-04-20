@@ -187,6 +187,6 @@ To set the PDB file generation off, use the _zlibstatic_, _glm_ and _assimp_ pro
 - Permanently delete every source package folder.
 
 > [!TIP]
-> If you are unsure about the path layout explained in this document, download the [Common.7z](https://drive.google.com/file/d/1-Pu9Yx7ddXe1IBFABiKkT3jX-GcCxiwx/view?usp=drive_link) archive, and check its directories. Keeping the PDB files option at its default setting allows to Debug through the library source, in this case the **`*.pdb`** files should be used along with their **`*.lib`** counterpart. This also requires to keep the source files in their location.
+> If you are unsure about the path layout explained in this document, download the [Common.7z](https://drive.google.com/file/d/1-Pu9Yx7ddXe1IBFABiKkT3jX-GcCxiwx/view?usp=drive_link) archive, and check its directories. Keeping the PDB files option at its default setting allows to Debug through the library source, in this case the **`*.pdb`** files should be used along with their **`*.lib`** counterparts. This also requires to keep the source files in their package folders.
 
 [&uarr; TOP](INSTALLATION.md#installation) [USAGE &rarr;](USAGE.md)
