@@ -133,7 +133,7 @@ Now change the configuration to _Release_, run the build of GLFW again under tha
 > Pressing the **`Build Solution (Ctrl+Shift+B)`** command should do the same, but the **`Rebuild Solution`** ensures to process the every source file from scratch.
 
 ### 7. Build the zlib, glm and Assimp libraries
-The process for _zlib_, _glm_ and _Assimp_ libraries is identical to the described above. Despite the _glm_ library can be used as header only component, here it will be installed as static library to optimize the compile time and output file size. Extract the source packages anywhere on the hard drive. Create three **`CMakeZlib.bat`**, **`CMakeGlm.bat`** and **`CMakeAssimp.bat`** script files within the **`zlib-1.3.2`**, **`glm`** and **`assimp-6.0.4`** package root folders along with _CMakeLists.txt_ files, and copy-paste into them the following content:
+The process for _zlib_, _glm_ and _Assimp_ libraries is identical to the described above. Despite the _glm_ library can be used as header only component, here it will be installed as static library to optimize it for large projects. Extract the source packages anywhere on the hard drive. Create three **`CMakeZlib.bat`**, **`CMakeGlm.bat`** and **`CMakeAssimp.bat`** script files within the **`zlib-1.3.2`**, **`glm`** and **`assimp-6.0.4`** package root folders along with _CMakeLists.txt_ files, and copy-paste into them the following content:
 ```
 @echo off
 echo CMakeZlib.bat
