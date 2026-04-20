@@ -6,7 +6,7 @@
 - [4. Install CMake](INSTALLATION.md#4-install-cmake)
 - [5. Build GLFW project files](INSTALLATION.md#5-build-glfw-project-files)
 - [6. Build the GLFW library](INSTALLATION.md#6-build-the-glfw-library)
-- [7. Build the zLib and Assimp libraries](INSTALLATION.md#7-build-the-zlib-and-assimp-libraries)
+- [7. Build the zlib, glm and Assimp libraries](INSTALLATION.md#7-build-the-zlib-glm-and-assimp-libraries)
 
 The installation of YAGL++ library is basically a collection of the original OpenGL API components. The offered setup allows to build an application with a static runtime libraries, which is the preferred way in the game developper world. This makes the application file slightly bigger, but in return it improves the component loading speed along with the better compatibility. To be honest, this way is harder to achieve, since many components are using DLL runtime by default. It also takes significant space on the hard drive (around 700mb), but the the game is worth the candle. Anyways, it is always possible to revert to dynamic runtime scheme, and thus save the space. The path layout can be different, but it is strongly recommended to use the suggested way, at least for the first time. The setup supports _x64_ and _Win32_ platforms under Microsoft Visual Studio 2019 or later, producing the console application in Debug mode, and Windows application in Release mode.
 
@@ -31,8 +31,8 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 > For the quick testing, all the following steps of the installation may be skipped, while using the Google Drive [Common.7z](https://drive.google.com/file/d/1-Pu9Yx7ddXe1IBFABiKkT3jX-GcCxiwx/view?usp=drive_link) archive (46.9mb). In this case, download it and extract into **`Common`** folder within the newly created solution directory. However, it is still recommended to populate the folder by following all steps, at least for the first time, not just to feel the process, but to understand how it works. This is also the way the most programmers do, to ensure that each component fits to computer's environment and is up to date.
 
 - [GLAD](https://glad.dav1d.de) archive generated with _Specification_ set to **`OpenGL`**, _Profile_ set to **`Core`**, _API gl_ set to **`Version 4.6`**. Keep _API gles1, gles2, glsc2_ as **`None`**. Do not select any extension;
-- [GLFW](https://www.glfw.org/download) source package archive v3.4 or later. Older versions could be found [here](https://github.com/glfw/glfw/releases);
-- [GLM](https://github.com/g-truc/glm/releases) pack v1.0.3 or later;
+- [GLFW](https://www.glfw.org/download) source package v3.4 or later. Older versions could be found [here](https://github.com/glfw/glfw/releases);
+- [glm](https://github.com/g-truc/glm/releases) source package v1.0.3 or later;
 - [Assimp](https://github.com/assimp/assimp/releases) source package v6.0.4 or later;
 - [zlib](https://github.com/madler/zlib/releases) source package v1.3.2 or later. This component is required to link Assimp as static build;
 - [stb_image](https://github.com/nothings/stb/tree/master) library. It is important to use the file versions tested with the current release. Every newer version of the header file may require additional testings. If there is no such version, try using newer version (it usually works), or get the preserved ones from the **`Common.7z`** archive. The required files are:
@@ -87,9 +87,9 @@ After installation is complete, hit **`Finish`** to exit the wizard:
 The GLFW source package can be extracted anywhere on the hard drive. In order to save disk space, the offered installation will optionally strip off the PDB files under Debug mode. However, it is possible to keep them, and preserve the ability to Debug the library at the expense of an extra space on the hard drive. The YAGL++ respects four (4) platform configurations: _Debug x64_, _Release x64_, _Debug Win32_, and _Release Win32_. To build the project with the static runtime libaries, it is mandatory to create the library **`*.lib`** file for each project configuration. Before building from the GLFW Source package, it is necessary to generate its project files with CMake. The statically linked projects are quite tricky to set up. In order to avoid the disappointing errors, it is advised to use command line script, instead of CMake GUI. To do so, create the _CMakeGLFW.bat_ file within the extracted root directory (along with the _CMakeLists.txt_ file), and copy-paste into it the following content:
 ```
 @echo off
-rem CMakeGLFW.bat
-rem =============
-
+echo CMakeGLFW.bat
+echo =============
+echo.
 mkdir build32
 cmake -A Win32 -DUSE_MSVC_RUNTIME_LIBRARY_DLL=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -DCMAKE_DEBUG_POSTFIX=d -S . -B build32
 mkdir build64
@@ -132,13 +132,13 @@ Now change the configuration to _Release_, run the build of GLFW again under tha
 > [!NOTE]
 > Pressing the **`Build Solution (Ctrl+Shift+B)`** command should do the same, but the **`Rebuild Solution`** ensures to process the every source file from scratch.
 
-### 7. Build the zLib and Assimp libraries
-The process for the zLib and Assimp libraries is identical to the described above. Extract the source packages anywhere on the hard drive. Create two **`CMakeZlib.bat`** and **`CMakeAssimp.bat`** script files within the **`zlib-1.3.2`** and **`assimp-6.0.4`** package folders respectively. Copy-paste into them the following content:
+### 7. Build the zlib, glm and Assimp libraries
+The process for the zlib, glm and Assimp libraries is identical to the described above. Despite the _glm_ library can be used as header only component, here it will be installed as static library to optimize the compile time and output file size. Extract the source packages anywhere on the hard drive. Create three **`CMakeZlib.bat`**, **`CMakeGlm.bat`** and **`CMakeAssimp.bat`** script files within the **`zlib-1.3.2`**, **`glm`** and **`assimp-6.0.4`** package folders respectively. The files must be placed in the same root directory with _CMakeLists.txt_ files. Copy-paste into the script files the following content:
 ```
 @echo off
-rem CMakeZlib.bat
-rem =============
-
+echo CMakeZlib.bat
+echo =============
+echo.
 mkdir build32
 cmake -A Win32 -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded$<$<CONFIG:Debug>:Debug>" -DZLIB_BUILD_SHARED=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -S . -B build32
 mkdir build64
@@ -149,25 +149,40 @@ pause >nul
 ```
 ```
 @echo off
-rem CMakeAssimp.bat
-rem ===============
-
+echo CMakeGlm.bat
+echo ============
+echo.
 mkdir build32
-cmake -A Win32 -DUSE_STATIC_CRT=ON -DASSIMP_INSTALL_PDB=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -DCMAKE_DEBUG_POSTFIX=d -S . -B build32
+cmake -A Win32 -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded$<$<CONFIG:Debug>:Debug>" -DBUILD_SHARED_LIBS=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -DCMAKE_DEBUG_POSTFIX=d -S . -B build32
 mkdir build64
-cmake -A x64 -DUSE_STATIC_CRT=ON -DASSIMP_INSTALL_PDB=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -DCMAKE_DEBUG_POSTFIX=d -S . -B build64
+cmake -A x64 -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded$<$<CONFIG:Debug>:Debug>" -DBUILD_SHARED_LIBS=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -DCMAKE_DEBUG_POSTFIX=d -S . -B build64
 echo.
 echo Done. Press any key to exit...
 pause >nul
 ```
-To set the PDB file generation off, use the _zlibstatic_ and _assimp_ projects within the **`zlib`** and **`assimp`** solutions. After all builds are completed, follow these steps:
+```
+@echo off
+echo CMakeAssimp.bat
+echo ===============
+echo.
+mkdir build32
+cmake -A Win32 -DUSE_STATIC_CRT=ON -DASSIMP_INSTALL_PDB=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -S . -B build32
+mkdir build64
+cmake -A x64 -DUSE_STATIC_CRT=ON -DASSIMP_INSTALL_PDB=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_CONFIGURATION_TYPES=Debug;Release -S . -B build64
+echo.
+echo Done. Press any key to exit...
+pause >nul
+```
+To set the PDB file generation off, use the _zlibstatic_, _glm_ and _assimp_ projects within the **`zlib`**, **`glm`** and **`assimp`** solutions. After all builds are completed, follow these steps:
 
-- Copy the entire **`glfw-3.4/include/GLFW`** subfolder from the source package into **`Common/include`** subfolder.
-- Copy the entire **`assimp-5.4.3/include/assimp`** subfolder from the source package into **`Common/include`** subfolder.
+- Copy the entire **`glfw-3.4/include/GLFW`** subfolder from the source package into **`Common/include`** subfolder;
+- Copy the entire **`glm/glm`** subfolder from the source package into **`Common/include`** subfolder;
+- Copy the entire **`assimp-5.4.3/include/assimp`** subfolder from the source package into **`Common/include`** subfolder;
 - Copy the two (2) configuration header files from the **`build64/include/assimp`** subfolder into the **`Common/include`** subfolder. These files were generated during the build, they are identical in every build folder;
-- Copy all resulting **`*.lib`** files (12) from every **`build64`** folder into **`Common/lib`** subfolder, and from every  **`build32`** folder into **`Common/lib/Win32`** subfolder, for _x64_ and _Win32_ configurations respectively. The resulting files are in following package subfolders:
+- Copy all resulting **`*.lib`** files (16) from every **`build64`** folder into **`Common/lib`** subfolder, and from every  **`build32`** folder into **`Common/lib/Win32`** subfolder, for _x64_ and _Win32_ configurations respectively. The resulting **`*.lib`** files can be found in following package subfolders:
 	+ **`glfw-3.4/build<64|32>/src/<Debug|Release>`**;
 	+ **`zlib-1.3.2/build<64|32>/<Debug|Release>`**;
+	+ **`glm/build<64|32>/glm/<Debug|Release>`**;
 	+ **`assimp-6.0.4/build<64|32>/lib/<Debug|Release>`**;
 - Permanently delete every source package folder.
 
