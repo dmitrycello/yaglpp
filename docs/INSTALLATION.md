@@ -67,7 +67,7 @@ Accept the License Agreement, and hit **`Next`**:
 
 ![03-cmake-2](03-cmake-2.png)
 
-Make sure the option **Add CMake to the system PATH for all users** is selected, and hit **`Next`**:
+Make sure the option **`Add CMake to the system PATH for all users`** is selected, and hit **`Next`**:
 
 ![03-cmake-3](03-cmake-3a.png)
 
