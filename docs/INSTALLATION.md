@@ -42,7 +42,7 @@ Choose any name and path to solution, e.g. _OpenGL_ on the appropriate drive, hi
 - [Latest YAGL++ archive](https://github.com/dmitrycello/yaglpp/archive/refs/heads/main.zip)
 
 ### 3. Prepare the components's folder
-Create the new folder under the name **`Common`** within the newly created solution directory. In that folder create four (4) subfolders: **`bin`**, **`include`**, **`lib`**, and **`res`**. Create two subfolders **`Win32`** within **`Common/bin`** and **`Common/lib`** directories. The last **`Common/res`** directory contains the common project resources of different kinds. To follow the [Learn OpenGL tutorial](https://learnopengl.com/), download the resources from [here](https://github.com/JoeyDeVries/LearnOpenGL/tree/master/resources), and move them into this subfolder. At the moment it could be left empty. The folder tree should be as following:
+Create the new folder under the name **`Common`** within the newly created solution directory. In that folder create four (4) subfolders: **`bin`**, **`include`**, **`lib`**, and **`res`**. Create two subfolders **`Win32`** within **`Common/bin`** and **`Common/lib`** directories. The **`Common/bin`** and **`Common/bin/Win32`** directories contain the common binaries for _x64_ and _Win32_ projects. The **`Common/res`** directory contains the common resources of different kinds. To follow the [Learn OpenGL tutorial](https://learnopengl.com/), download the resources from [here](https://github.com/JoeyDeVries/LearnOpenGL/tree/master/resources), and move them into this subfolder. At the moment they all could be left empty. The folder tree should be as following:
 
 ![02-common-dirs-1](02-common-dirs-1.png)
 
