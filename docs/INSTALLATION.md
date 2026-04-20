@@ -98,10 +98,10 @@ echo.
 echo Done. Press any key to exit...
 pause >nul
 ```
-Running that file from its directory will create _build32_ and _build64_ subfolders with Visual Studio solutions to build the Win32 and x64 GLFW libraries. When the console shows **`Done. Press any key to exit...`**, close it and proceed to next step.
+Running that file from its directory will create **`build64`** and **`build32`** subfolders with Visual Studio solutions to build the _Win32_ and _x64_ GLFW libraries. When the console shows **`Done. Press any key to exit...`**, close it and proceed to next step.
 
 ### 6. Build the GLFW library
-The GLFW project files for _x64_ and _Win32_ platforms are now in **`build64`** and **`build32`** folders. To start the build, navigate first to **`build64`** folder, and double-click the **`GLFW.sln`** solution file:
+To start the build, navigate first to **`build64`** folder, and double-click the **`GLFW.sln`** solution file:
 
 ![05-glfw-build-1](05-glfw-build-1a.png)
 
