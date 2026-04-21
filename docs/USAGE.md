@@ -5,11 +5,11 @@
 - [3. Add source files to the application project](USAGE.md#3-add-source-files-to-the-application-project)
 - [4. Add header files to the application project](USAGE.md#4-add-header-files-to-the-application-project)
 - [5. Set the application project properties](USAGE.md#5-set-the-application-project-properties)
-	- [a. Set five proprieties for all platform configurations](USAGE.md#a-set-five-proprieties-for-all-platform-configurations)
-	- [b. Set two linker proprieties for all Debug platform configurations](USAGE.md#b-set-two-proprieties-for-all-debug-platform-configurations)
-	- [c. Set two linker proprieties for all Release platform configurations](USAGE.md#c-set-two-proprieties-for-all-release-platform-configurations)
-	- [d. Set two proprieties for all x64 platform configurations](USAGE.md#d-set-two-proprieties-for-all-x64-platform-configurations)
-	- [e. Set two proprieties for all Win32 platform configurations](USAGE.md#e-set-two-proprieties-for-all-win32-platform-configurations)
+	- [a. Set proprieties for all platform configurations](USAGE.md#a-set-proprieties-for-all-platform-configurations)
+	- [b. Set proprieties for all Debug platform configurations](USAGE.md#b-set-proprieties-for-all-debug-platform-configurations)
+	- [c. Set proprieties for all Release platform configurations](USAGE.md#c-set-proprieties-for-all-release-platform-configurations)
+	- [d. Set proprieties for all x64 platform configurations](USAGE.md#d-set-proprieties-for-all-x64-platform-configurations)
+	- [e. Set proprieties for all Win32 platform configurations](USAGE.md#e-set-proprieties-for-all-win32-platform-configurations)
 - [6. Setup precompiled headers](USAGE.md#6-setup-the-precompiled-header)
 - [7. Type the code](USAGE.md#7-type-the-code)
 - [8. Create YAGL++ project template](USAGE.md#8-create-yagl-project-template)
@@ -170,41 +170,38 @@ First, let's set the four (4) common properties for all configurations (a). Next
 > [!IMPORTANT]
 > In the following subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
 
-#### a. Set five proprieties for all platform configurations
+#### a. Set proprieties for all platform configurations
 
 ![10-project-properties-2](10-project-properties-2b.png)
 
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;$(IncludePath);```
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header File: keep ```stdafx.h```
-- Linker &rarr; Input &rarr; Additional Dependencies:```opengl32.lib;glfw3.lib;assimp-vc142-mt.lib;%(AdditionalDependencies);```
 - Resources &rarr; Additional Include Directories:```$(SolutionDir)Common\res\;```
 
-#### b. Set two proprieties for all Debug platform configurations
+#### b. Set proprieties for all Debug platform configurations
 
 ![10-project-properties-3](10-project-properties-3b.png)
 
+- Linker &rarr; Input &rarr; Additional Dependencies:```opengl32.lib;glfw3d.lib;assimp-vc142-mtd.lib;zsd.lib;glmd.lib;%(AdditionalDependencies);```
 - Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
-- Linker &rarr; Command Line &rarr; Additional Options:```/NODEFAULTLIB:libcmt.lib```
 
-> [!NOTE]
-> When building application with dynamically linked library CRT (/MD flag), use ```/NODEFAULTLIB:msvcrt.lib``` option.
-
-#### c. Set two proprieties for all Release platform configurations
+#### c. Set proprieties for all Release platform configurations
 
 ![10-project-properties-4](10-project-properties-4b.png)
 
+- Linker &rarr; Input &rarr; Additional Dependencies:```opengl32.lib;glfw3.lib;assimp-vc142-mt.lib;zs.lib;glm.lib;%(AdditionalDependencies);```
 - Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
 - Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
 
-#### d. Set two proprieties for all x64 platform configurations
+#### d. Set proprieties for all x64 platform configurations
 
 ![10-project-properties-5](10-project-properties-5b.png)
 
 - Debugging &rarr; Environment:```path=%path%;$(SolutionDir)Common\bin\;```
 - VC++ Directories &rarr; Library Directories:```$(SolutionDir)Common\lib\;$(LibraryPath);```
 
-#### e. Set two proprieties for all Win32 platform configurations
+#### e. Set proprieties for all Win32 platform configurations
 
 ![10-project-properties-6](10-project-properties-6b.png)
 
