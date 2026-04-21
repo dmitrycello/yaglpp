@@ -159,9 +159,7 @@ The last file to be added via the _Header Files_ filter icon is **`stdafx.h`**, 
 ```
 
 ### 5. Set the application project properties
-The application project may be used in one of the four (4) platform configurations. The _Debug x64_ and _Debug Win32_ applications work with the output console window (Console Application), where as the _Release x64_ and _Release Win32_ applications have no console window (Window Application). The Debug platform configuration is using _NODEFAULTLIB_ linker option, to remove the [Linker Tools Warning LNK4098](https://learn.microsoft.com/en-us/cpp/error-messages/tool-errors/linker-tools-warning-lnk4098?view=msvc-170), appearing since only the _Release_ version of external libraries is being used, where as the Release platform configuration requires to set the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol). The project is also set up to have access to common _Common/res_ resource folder, as well as to common _Common/bin_ and _Common/bin/Win32_ binary folders.
-
-Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
+The application project may be used in one of the four (4) platform configurations. The _Debug x64_ and _Debug Win32_ applications work with the output console window (Console Application), where as the _Release x64_ and _Release Win32_ applications have no console window (Window Application). In order to lonk properly, the _Release_ platform configurations require to set up the [entry point](https://learn.microsoft.com/en-us/cpp/build/reference/entry-entry-point-symbol). Each project configuration has to set up an access to common _Headers_, _Libraries_, _Binaries_ and _Resources_. Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![10-project-properties-1](10-project-properties-1b.png)
 
