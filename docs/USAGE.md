@@ -165,7 +165,7 @@ Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![10-project-properties-1](10-project-properties-1b.png)
 
-First, let's set the four (4) common properties for all configurations (a). Next, two (2) linker option for all _Debug_ and all _Release_ configurations (b, c). Finally, one (1) library path propriety for all _x64_ and all _Win32_ configurations (d, e).
+To set up project proprerties for all platform configuration at once, it would be easier first to set the properties for _all_ configurations (a). Next, the linker options for _all Debug_ and _all Release_ configurations (b, c). Finally, the path properties for _all x64_ and _all Win32_ configurations (d, e).
 
 > [!IMPORTANT]
 > In the following subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
