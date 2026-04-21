@@ -172,7 +172,7 @@ First, let's set the four (4) common properties for all configurations (a). Next
 
 #### a. Set proprieties for all platform configurations
 
-![10-project-properties-2](10-project-properties-2b.png)
+![10-project-properties-2](10-project-properties-2c.png)
 
 - VC++ Directories &rarr; Include Directories:```$(SolutionDir)Common\include\;$(IncludePath);```
 - C/C++ &rarr; Precompiled Headers &rarr; Precompiled Header: select _Use (/Yu)_ option
