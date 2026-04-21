@@ -183,8 +183,7 @@ First, let's set the four (4) common properties for all configurations (a). Next
 
 ![10-project-properties-3](10-project-properties-3b.png)
 
-- Linker &rarr; Input &rarr; Additional Dependencies:
-
+- Linker &rarr; Input &rarr; Additional Dependencies:<br>
 ```opengl32.lib;glfw3d.lib;assimp-vc142-mtd.lib;zsd.lib;glmd.lib;%(AdditionalDependencies);```
 - Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
 
@@ -192,7 +191,8 @@ First, let's set the four (4) common properties for all configurations (a). Next
 
 ![10-project-properties-4](10-project-properties-4b.png)
 
-- Linker &rarr; Input &rarr; Additional Dependencies:```opengl32.lib;glfw3.lib;assimp-vc142-mt.lib;zs.lib;glm.lib;%(AdditionalDependencies);```
+- Linker &rarr; Input &rarr; Additional Dependencies:<br>
+```opengl32.lib;glfw3.lib;assimp-vc142-mt.lib;zs.lib;glm.lib;%(AdditionalDependencies);```
 - Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
 - Linker &rarr; Advanced &rarr; Entry Point:```mainCRTStartup```
 
