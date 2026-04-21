@@ -183,7 +183,9 @@ First, let's set the four (4) common properties for all configurations (a). Next
 
 ![10-project-properties-3](10-project-properties-3b.png)
 
-- Linker &rarr; Input &rarr; Additional Dependencies:```opengl32.lib;glfw3d.lib;assimp-vc142-mtd.lib;zsd.lib;glmd.lib;%(AdditionalDependencies);```
+- Linker &rarr; Input &rarr; Additional Dependencies:
+
+```opengl32.lib;glfw3d.lib;assimp-vc142-mtd.lib;zsd.lib;glmd.lib;%(AdditionalDependencies);```
 - Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
 
 #### c. Set proprieties for all Release platform configurations
