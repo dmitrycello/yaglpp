@@ -19,7 +19,7 @@ The library is fully interchangeable with the original API assets, it consists o
 - Using the [Class Proprieties](https://learn.microsoft.com/en-us/cpp/cpp/property-cpp/). They are unavailable in non-MSVC environment;
 - Accessing the [Windows Resources](https://learn.microsoft.com/en-us/windows/win32/menurc/resources) of **`RCDATA`** type. The appropriate **`...FromResource`** functions are hidden in non-MSVC environment. Nonetheless, it is still possible to load resources with **`...FromMemory`** functions, while adding them via header files created with [xxd](https://packages.guix.gnu.org/packages/xxd/) utility.
 
-The code of the library can be viewed in the repository's [include](include/yaglpp) directory. To properly install and use the library, follow the instructions in the [INSTALLATION](docs/INSTALLATION.md) and [USAGE](docs/USAGE.md) documents. The library is extremely easy to start working with, it requires only one _#include_ statement for each compilation unit, while the _#define_ statement should be used only once per application:
+The code of the library can be viewed in the repository's [include](include/yaglpp) directory. To properly install and use the library, follow the instructions in the [INSTALLATION](docs/INSTALLATION.md) and [USAGE](docs/USAGE.md) documents. The library is extremely easy to start working with, it requires only one _#include..._ statement for each compilation unit, while the _#define..._ statement should be used only once per application:
 ```
 #define YAGLPP_IMPLEMENTATION
 #include <yaglpp/glpp.h>
