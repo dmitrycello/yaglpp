@@ -76,6 +76,7 @@ The symbols defined after **`#ifndef YAGLPP_CONFIG`** statement at the beginning
 - Commenting the **`YAGLPP_GLOBAL_ALLOCATOR`** switch will prevent the use of the library's _new_, _new[]_, _delete_ and _delete[]_ operators, the library's allocator allows detecting memory leak;
 - Commenting the **`YAGLPP_NO_AFX_LAYOUT`** switch will transform the YAGL++ into the AFX-alike environment, without the **`main`** function. Instead, the code must contain the global variable of a class derived from **`glfw::Thread`**. Otherwise, classical layout with the **`main`** function is expected;
 - Commenting the **`YAGLPP_NO_GLFW_LEGACY`** switch allows to build YAGL++ with GLFW v3.3.10, the latest version supporting Windows XP. In this case, the recent GLFW features become unavailable;
+- Commenting the **`YAGLPP_COMPATIBLE_CONTEXT`** switch will load the OpenGL set by the **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** switches. Otherwise YAGL++ will load the highest available version. It is possible to eximine the loaded version by using **`IsContextVersion(major,minor)`** macro;
 - Finally, the **`YAGLPP_CONTEXT_VERSION_MAJOR`** and **`YAGLPP_CONTEXT_VERSION_MINOR`** switches indicate the OpenGL context version supported by the library. Accepted combination of these values are: 2/0, 2/1, 3/0, 3/1, 3/2 and 3/3 to represent the supported versions 2.0 to 3.3 respectively;
 
 > [!TIP]
