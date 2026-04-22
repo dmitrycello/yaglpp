@@ -32,7 +32,7 @@ void Uniform::Set(GLsizei count, _In_reads_(count) const glm::vec3* value)
 	YAGLPP_GLAD_ERROR;
 }
 ```
-Under Release mode it is exposed as:
+Under Release build it is exposed as:
 ```
 inline void Uniform::Set(GLsizei count, _In_reads_(count) const glm::vec3* value)
 {
