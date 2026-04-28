@@ -168,7 +168,7 @@ Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 To set up project proprerties for all platform configuration at once, it would be easier first to set the properties for _all_ configurations (a). Next, the options for _all Debug_ and _all Release_ configurations (b, c). Finally, the path properties for _all x64_ and _all Win32_ configurations (d, e).
 
 > [!IMPORTANT]
-> In the following subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
+> In the following subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window. Make sure to hit the **`Apply`** after setting up each platform configuration.
 
 #### a. Set proprieties for all platform configurations
 
