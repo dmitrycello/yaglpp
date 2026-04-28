@@ -165,7 +165,7 @@ Right-click application project name bar and press **`Proprties (Alt+Enter)`**:
 
 ![10-project-properties-1](10-project-properties-1b.png)
 
-To set up project proprerties for all platform configuration at once, it would be easier first to set the properties for _all_ configurations (a). Next, the linker options for _all Debug_ and _all Release_ configurations (b, c). Finally, the path properties for _all x64_ and _all Win32_ configurations (d, e).
+To set up project proprerties for all platform configuration at once, it would be easier first to set the properties for _all_ configurations (a). Next, the options for _all Debug_ and _all Release_ configurations (b, c). Finally, the path properties for _all x64_ and _all Win32_ configurations (d, e).
 
 > [!IMPORTANT]
 > In the following subsections, copy the property string value into the appropriate field, or select an appropriate option in the _Property Pages_ window. Make sure to hit the **`Apply`** button after setting up each platform configuration.
@@ -183,6 +183,7 @@ To set up project proprerties for all platform configuration at once, it would b
 
 ![10-project-properties-3](10-project-properties-3b.png)
 
+- C/C++ &rarr; Code Generation &rarr; Runtime Library: select _Multi-threaded Debug (/MTd)_ option
 - Linker &rarr; Input &rarr; Additional Dependencies:<br>
 ```opengl32.lib;glfw3d.lib;assimp-vc142-mtd.lib;zsd.lib;glmd.lib;%(AdditionalDependencies);```
 - Linker &rarr; System &rarr; SubSystem: select _Console (/SUBSYSTEM:CONSOLE)_ option
@@ -191,6 +192,7 @@ To set up project proprerties for all platform configuration at once, it would b
 
 ![10-project-properties-4](10-project-properties-4b.png)
 
+- C/C++ &rarr; Code Generation &rarr; Runtime Library: select _Multi-threaded (/MT)_ option
 - Linker &rarr; Input &rarr; Additional Dependencies:<br>
 ```opengl32.lib;glfw3.lib;assimp-vc142-mt.lib;zs.lib;glm.lib;%(AdditionalDependencies);```
 - Linker &rarr; System &rarr; SubSystem: select _Windows (/SUBSYSTEM:WINDOWS)_ option
