@@ -16,7 +16,7 @@ The installation of the YAGL++ library is basically a collection of the original
 ### 1. Create a new solution
 It is possible to create a large number of projects under the same solution, so the future reinstallation of the library is not required. To create the solution for the YAGL++ projects, under the Visual Studio click **File &rarr; New &rarr; Project... (Ctrl+Shift+N)**:
 
-![01-new-solution-1](01-new-solution-1a.png)
+![01-new-solution-1](01-new-solution-1.png)
 
 Select **`Blanc Solution`**, hit **`Next`**:
 
