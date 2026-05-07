@@ -1,5 +1,6 @@
 ## INSTALLATION
 [under revision]
+
 [&nwarr; README](../README.md)<br>
 - [1. Create a new solution](INSTALLATION.md#1-create-a-new-solution)
 - [2. Download the OpenGL components](INSTALLATION.md#2-download-the-opengl-components)
